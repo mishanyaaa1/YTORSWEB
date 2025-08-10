@@ -15,7 +15,7 @@
 }
 
 .popular-products .promotion-card:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(0, 255, 136, 0.1);
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(0, 255, 136, 0.2);
@@ -55,7 +55,7 @@
 }
 
 .popular-products .promo-link {
-  color: #00ff88;
+  color: #e6a34a;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;

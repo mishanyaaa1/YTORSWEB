@@ -15,7 +15,7 @@
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -82,7 +82,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000;
   display: flex;
   align-items: center;
@@ -109,7 +109,7 @@
 
 .delivery-methods h3,
 .payment-section h3 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -174,7 +174,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -198,13 +198,13 @@
 }
 
 .advantage-card:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .advantage-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -241,13 +241,13 @@
 }
 
 .feature-item:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(0, 255, 136, 0.05);
 }
 
 .feature-item .feature-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: #e6a34a;
   flex-shrink: 0;
   margin-top: 0.5rem;
 }
@@ -285,7 +285,7 @@
 }
 
 .team-card:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
@@ -299,7 +299,7 @@
   justify-content: center;
   font-size: 3rem;
   margin: 0 auto 1.5rem;
-  border: 3px solid #00ff88;
+  border: 3px solid #e6a34a;
 }
 
 .team-card h3 {
@@ -310,7 +310,7 @@
 }
 
 .member-position {
-  color: #00ff88;
+  color: #e6a34a;
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
@@ -351,7 +351,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .story-text p {
@@ -378,7 +378,7 @@
 
 .story-placeholder svg {
   font-size: 4rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -405,13 +405,13 @@
 }
 
 .contact-card:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .contact-icon {
   font-size: 2.5rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -423,7 +423,7 @@
 }
 
 .contact-link {
-  color: #00ff88;
+  color: #e6a34a;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -449,7 +449,7 @@
 
 .map-placeholder svg {
   font-size: 4rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -545,7 +545,7 @@
 }
 
 .milestones h3 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -575,7 +575,7 @@
 }
 
 .milestone-year {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
   padding: 0.75rem 1rem;
   border-radius: 10px;

@@ -35,7 +35,7 @@ function SimpleAdminDashboard() {
           <Link 
             to="/" 
             style={{ 
-              color: '#00ff88', 
+              color: '#e6a34a', 
               textDecoration: 'none', 
               marginRight: '20px' 
             }}
@@ -90,7 +90,7 @@ function SimpleAdminDashboard() {
               <Link 
                 to="/admin/advanced"
                 style={{
-                  background: '#00ff88',
+                  background: '#e6a34a',
                   color: 'black',
                   border: 'none',
                   padding: '10px',
@@ -131,7 +131,7 @@ function SimpleAdminDashboard() {
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1023 - Гусеницы для вездехода</span>
-              <span style={{ color: '#00ff88' }}>45,000 ₽</span>
+              <span style={{ color: '#e6a34a' }}>45,000 ₽</span>
             </div>
             <div style={{ 
               padding: '10px', 
@@ -140,7 +140,7 @@ function SimpleAdminDashboard() {
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1022 - Двигатель 2.0L</span>
-              <span style={{ color: '#00ff88' }}>180,000 ₽</span>
+              <span style={{ color: '#e6a34a' }}>180,000 ₽</span>
             </div>
             <div style={{ 
               padding: '10px',
@@ -148,7 +148,7 @@ function SimpleAdminDashboard() {
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1021 - Подвеска</span>
-              <span style={{ color: '#00ff88' }}>65,000 ₽</span>
+              <span style={{ color: '#e6a34a' }}>65,000 ₽</span>
             </div>
           </div>
         </div>

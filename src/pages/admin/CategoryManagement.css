@@ -47,7 +47,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #00ff88;
+  color: #e6a34a;
   font-size: 1.3rem;
   margin-bottom: 20px;
   font-weight: 600;
@@ -101,7 +101,7 @@
 }
 
 .add-category-form input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
@@ -110,7 +110,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: #00ff88;
+  background: #e6a34a;
   color: #000;
   border: none;
   border-radius: 8px;
@@ -163,7 +163,7 @@
 }
 
 .subcategory-count {
-  color: #00ff88;
+  color: #e6a34a;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -208,7 +208,7 @@
 }
 
 .save-btn {
-  background: #00ff88;
+  background: #e6a34a;
   color: #000;
 }
 
@@ -268,7 +268,7 @@
 }
 
 .edit-form input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
 }
 
 /* Add Subcategory Form */
@@ -291,7 +291,7 @@
 }
 
 .add-subcategory-form select:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
@@ -308,7 +308,7 @@
 }
 
 .add-subcategory-form input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 

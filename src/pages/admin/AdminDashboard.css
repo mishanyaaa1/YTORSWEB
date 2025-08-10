@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  color: #00ff88;
+  color: #e6a34a;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
@@ -90,8 +90,8 @@
 
 .nav-item.active {
   background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
-  border-left-color: #00ff88;
+  color: #e6a34a;
+  border-left-color: #e6a34a;
 }
 
 .nav-item svg {
@@ -179,7 +179,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #00ff88;
+  color: #e6a34a;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;

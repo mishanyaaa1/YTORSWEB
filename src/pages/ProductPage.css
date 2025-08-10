@@ -22,8 +22,8 @@
 
 .back-button:hover {
   background: rgba(0, 255, 136, 0.1);
-  border-color: #00ff88;
-  color: #00ff88;
+  border-color: #e6a34a;
+  color: #e6a34a;
 }
 
 .product-content {
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: center;
   font-size: 6rem;
-  color: #00ff88;
+  color: #e6a34a;
   cursor: pointer;
 }
 
@@ -76,12 +76,12 @@
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .thumbnail:hover,
 .thumbnail.active {
-  border-color: #00ff88;
+  border-color: #e6a34a;
 }
 
 /* Новые стили для галереи */
@@ -193,7 +193,7 @@
 
 .brand {
   background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  color: #e6a34a;
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
   font-size: 0.9rem;
@@ -217,7 +217,7 @@
 }
 
 .availability.in-stock {
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .availability.out-of-stock {
@@ -231,7 +231,7 @@
 .current-price {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .original-price {
@@ -257,7 +257,7 @@
 }
 
 .product-features h3 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
   font-size: 1.3rem;
 }
@@ -278,7 +278,7 @@
   content: "✓";
   position: absolute;
   left: 0;
-  color: #00ff88;
+  color: #e6a34a;
   font-weight: bold;
 }
 
@@ -321,7 +321,7 @@
 
 .quantity-controls button:hover:not(:disabled) {
   background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .quantity-controls button:disabled {
@@ -378,17 +378,17 @@
 
 .add-to-cart-btn {
   background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
-  border: 2px solid #00ff88;
+  color: #e6a34a;
+  border: 2px solid #e6a34a;
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
-  background: #00ff88;
+  background: #e6a34a;
   color: #000000;
 }
 
 .buy-now-btn {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
 }
 
@@ -411,7 +411,7 @@
 }
 
 .product-specifications h3 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;

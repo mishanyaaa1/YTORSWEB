@@ -45,7 +45,7 @@
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -102,7 +102,7 @@
 }
 
 .input-wrapper input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(0, 255, 136, 0.05);
   box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
 }
@@ -138,7 +138,7 @@
 }
 
 .login-btn {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
   border: none;
   padding: 1.2rem;
@@ -176,7 +176,7 @@
 }
 
 .login-info p:first-child {
-  color: #00ff88;
+  color: #e6a34a;
   font-weight: 600;
   margin-bottom: 0.8rem;
 }

@@ -22,7 +22,7 @@
 
 .sidebar-header h2 {
   margin: 0 0 5px 0;
-  color: #00ff88;
+  color: #e6a34a;
   font-size: 18px;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .nav-item.active {
-  background: #00ff88;
+  background: #e6a34a;
   color: black;
   font-weight: 500;
 }

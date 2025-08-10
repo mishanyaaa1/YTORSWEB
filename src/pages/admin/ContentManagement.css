@@ -39,8 +39,8 @@
 }
 
 .tab.active {
-  color: #00ff88;
-  border-bottom-color: #00ff88;
+  color: #e6a34a;
+  border-bottom-color: #e6a34a;
   background: rgba(0, 255, 136, 0.1);
 }
 
@@ -98,7 +98,7 @@
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
 }
@@ -127,9 +127,9 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: rgba(0, 255, 136, 0.1);
-  border: 1px solid #00ff88;
+  border: 1px solid #e6a34a;
   border-radius: 8px;
-  color: #00ff88;
+  color: #e6a34a;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
@@ -159,7 +159,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   border: none;
   border-radius: 25px;
   color: #000000;
@@ -212,7 +212,7 @@
 .member-header span,
 .milestone-header span {
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 /* Загрузка фото */
@@ -250,7 +250,7 @@
 
 .upload-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: #00ff88;
+  border-color: #e6a34a;
 }
 
 /* Действия формы */
@@ -280,7 +280,7 @@
 
 .footer-subsection h4,
 .footer-subsection h5 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
   border-bottom: 1px solid rgba(0, 255, 136, 0.2);
   padding-bottom: 0.5rem;
@@ -309,7 +309,7 @@
 
 .link-header span {
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 /* Адаптивность */

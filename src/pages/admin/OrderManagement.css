@@ -12,7 +12,7 @@
 .management-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #e6a34a;
   margin: 0;
 }
 
@@ -58,7 +58,7 @@
 .stat-number {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 0.25rem;
 }
 
@@ -104,7 +104,7 @@
 }
 
 .search-box input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -140,7 +140,7 @@
 }
 
 .filter-box select:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -164,7 +164,7 @@
   padding: 1rem 1.5rem;
   background: rgba(0, 255, 136, 0.1);
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -184,7 +184,7 @@
 
 .order-number {
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .customer-info {
@@ -256,8 +256,8 @@
 
 .view-btn:hover {
   background: rgba(0, 255, 136, 0.2);
-  border-color: #00ff88;
-  color: #00ff88;
+  border-color: #e6a34a;
+  color: #e6a34a;
 }
 
 .delete-btn:hover {
@@ -279,7 +279,7 @@
 }
 
 .status-select:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
 }
 
 .status-select option {
@@ -348,7 +348,7 @@
 .modal-header h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
   margin: 0;
 }
 
@@ -383,7 +383,7 @@
 .details-section h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -437,7 +437,7 @@
 
 .item-price {
   font-weight: 600;
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .order-total-details {
@@ -462,7 +462,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-weight: 600;
   font-size: 1.1rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-top: 0.5rem;
   padding-top: 1rem;
 }
@@ -507,7 +507,7 @@
 }
 
 .add-note input:focus {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -516,7 +516,7 @@
 }
 
 .add-note-btn {
-  background: #00ff88;
+  background: #e6a34a;
   border: none;
   color: #0a0a0a;
   padding: 0.8rem;
@@ -530,7 +530,7 @@
 }
 
 .add-note-btn:hover {
-  background: #00cc6a;
+  background: #c97c1a;
 }
 
 .add-note-btn:disabled {

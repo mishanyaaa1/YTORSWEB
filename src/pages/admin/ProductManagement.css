@@ -116,7 +116,7 @@
 }
 
 .btn-success {
-  background: #28a745;
+  background: #e6a34a;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -130,7 +130,7 @@
 }
 
 .btn-success:hover {
-  background: #218838;
+  background: #c97c1a;
 }
 
 .btn-secondary {
@@ -207,7 +207,7 @@
 }
 
 .status-available {
-  color: #28a745;
+  color: #e6a34a;
   font-weight: 500;
 }
 

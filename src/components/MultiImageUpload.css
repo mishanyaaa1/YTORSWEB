@@ -19,7 +19,7 @@
 }
 
 .image-item.main-image {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
 }
 
@@ -81,7 +81,7 @@
   position: absolute;
   bottom: 5px;
   left: 5px;
-  background: linear-gradient(45deg, #00ff88, #00cc6a);
+  background: linear-gradient(45deg, #e6a34a, #c97c1a);
   color: #000;
   padding: 3px 8px;
   border-radius: 12px;
@@ -105,7 +105,7 @@
 }
 
 .upload-slot:hover {
-  border-color: #00ff88;
+  border-color: #e6a34a;
   background: rgba(0, 255, 136, 0.1);
 }
 
@@ -125,7 +125,7 @@
   background: #f8f9fa;
   padding: 12px;
   border-radius: 8px;
-  border-left: 4px solid #00ff88;
+  border-left: 4px solid #e6a34a;
 }
 
 .upload-info p {
@@ -140,13 +140,13 @@
 }
 
 .main-info {
-  color: #00ff88;
+  color: #e6a34a;
   font-weight: 500;
   margin-left: 10px;
 }
 
 .star-icon {
-  color: #00ff88;
+  color: #e6a34a;
   font-size: 12px;
 }
 

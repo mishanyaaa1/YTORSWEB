@@ -63,7 +63,7 @@ html {
 .logo {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #e6a34a;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -85,7 +85,7 @@ html {
 
 .nav-link:hover,
 .nav-link.active {
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .header-actions {
@@ -107,7 +107,7 @@ html {
 
 .icon-button:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .mobile-menu-button {
@@ -166,7 +166,7 @@ html {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -180,7 +180,7 @@ html {
 }
 
 .cta-button {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
   border: none;
   padding: 1rem 2rem;
@@ -218,7 +218,7 @@ html {
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -251,7 +251,7 @@ html {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -276,13 +276,13 @@ html {
 
 .feature-card:hover {
   transform: translateY(-5px);
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .feature-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
@@ -323,7 +323,7 @@ html {
 
 .product-card:hover {
   transform: translateY(-5px);
-  border-color: #00ff88;
+  border-color: #e6a34a;
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
@@ -334,7 +334,7 @@ html {
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  color: #00ff88;
+  color: #e6a34a;
   position: relative;
 }
 
@@ -365,12 +365,12 @@ html {
 .product-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
 }
 
 .product-button {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
   border: none;
   padding: 0.8rem 1.5rem;
@@ -404,7 +404,7 @@ html {
 }
 
 .footer-section h3 {
-  color: #00ff88;
+  color: #e6a34a;
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
@@ -419,7 +419,7 @@ html {
 }
 
 .footer-section a:hover {
-  color: #00ff88;
+  color: #e6a34a;
 }
 
 .footer-bottom {

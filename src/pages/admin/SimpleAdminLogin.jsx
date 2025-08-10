@@ -91,7 +91,7 @@ function SimpleAdminLogin() {
             style={{
               width: '100%',
               padding: '12px',
-              background: '#00ff88',
+              background: '#e6a34a',
               border: 'none',
               borderRadius: '5px',
               color: 'black',

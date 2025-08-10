@@ -100,7 +100,7 @@
 }
 
 .btn-success {
-  background: #28a745;
+  background: #e6a34a;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -114,7 +114,7 @@
 }
 
 .btn-success:hover {
-  background: #218838;
+  background: #c97c1a;
 }
 
 .btn-secondary {
@@ -208,7 +208,7 @@
 }
 
 .btn-toggle.active {
-  color: #28a745;
+  color: #e6a34a;
 }
 
 .btn-toggle.inactive {
@@ -284,7 +284,7 @@
 }
 
 .discount-value {
-  background: #28a745;
+  background: #e6a34a;
   color: white;
   padding: 3px 8px;
   border-radius: 12px;
@@ -369,7 +369,7 @@
 }
 
 .min-purchase-value {
-  color: #28a745;
+  color: #e6a34a;
   font-weight: 600;
 }
 
