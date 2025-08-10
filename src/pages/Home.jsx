@@ -1,35 +1,92 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaTruck, FaTools, FaShieldAlt } from 'react-icons/fa';
+import { 
+  FaTruck, 
+  FaTools, 
+  FaShieldAlt, 
+  FaArrowRight,
+  FaStar
+} from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
-import { getMainImage } from '../utils/imageHelpers';
+// wishlist removed
+import { getMainImage, isImageUrl } from '../utils/imageHelpers';
 import HeroVisual from '../components/HeroVisual';
 import './Home.css';
 
 function Home() {
+  const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds } = useAdminData();
-
+  
+  // wishlist removed
+  
   const features = [
     {
       icon: <FaTruck />,
       title: "Быстрая доставка",
-      text: "Доставляем запчасти по всей России в кратчайшие сроки."
+      text: "Доставляем запчасти по всей России в кратчайшие сроки"
     },
     {
       icon: <FaTools />,
       title: "Качественные детали",
-      text: "Только оригинальные и сертифицированные запчасти от проверенных производителей."
+      text: "Только оригинальные и сертифицированные запчасти"
     },
     {
       icon: <FaShieldAlt />,
       title: "Гарантия качества",
-      text: "Предоставляем полную гарантию на все товары и оказываем профессиональную поддержку."
+      text: "Полная гарантия на все товары и профессиональная поддержка"
     }
   ];
 
+  // Получаем популярные товары из контекста по ID
   const popularProducts = popularProductIds
     .map(id => products.find(product => product.id === id))
-    .filter(Boolean);
+    .filter(product => product) // Убираем undefined если товар не найден
+    .map(product => ({
+      id: product.id,
+      title: product.title,
+      price: `${product.price.toLocaleString()} ₽`,
+      icon: getMainImage(product)?.data || '📦'
+    }));
+
+  // Оригинальный массив для справки:
+  const _originalPopularProducts = [
+    {
+      id: 11,
+      title: "Гусеницы для вездехода",
+      price: "45,000 ₽",
+      icon: "🔗"
+    },
+    {
+      id: 1,
+      title: "Двигатель 2.0L дизельный",
+      price: "180,000 ₽",
+      icon: "⚙️"
+    },
+    {
+      id: 8,
+      title: "Коробка передач механическая",
+      price: "95,000 ₽",
+      icon: "🔧"
+    },
+    {
+      id: 12,
+      title: "Амортизатор передний",
+      price: "12,000 ₽",
+      icon: "🛠️"
+    },
+    {
+      id: 15,
+      title: "Аккумулятор 12V 100Ah",
+      price: "15,000 ₽",
+      icon: "🔋"
+    },
+    {
+      id: 17,
+      title: "Сиденье водителя",
+      price: "25,000 ₽",
+      icon: "🪑"
+    }
+  ];
 
   return (
     <div>
@@ -37,23 +94,27 @@ function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>Надежные запчасти для вашего вездехода</h1>
+              <h1>Запчасти для вездеходов</h1>
               <p>
-                Мы предлагаем широкий ассортимент качественных запчастей для всех типов вездеходов. 
-                Быстрая доставка, гарантия и профессиональный подбор.
+                Качественные запчасти для всех типов вездеходов. 
+                Быстрая доставка по всей России. Гарантия качества на все товары.
               </p>
               <Link to="/catalog" className="cta-button">
                 Перейти в каталог
+                <FaArrowRight />
               </Link>
             </div>
-            <div className="hero-visual-wrapper">
-              <HeroVisual />
+            <div className="hero-image">
+              <div className="hero-placeholder">
+                <HeroVisual />
+              </div>
+              <p>Надёжные запчасти для вашего вездехода</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section">
+      <section className="features">
         <div className="container">
           <h2 className="section-title">Почему выбирают нас</h2>
           <div className="features-grid">
@@ -68,39 +129,76 @@ function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="products popular-products">
         <div className="container">
           <h2 className="section-title">Популярные товары</h2>
-          {popularProducts.length > 0 ? (
-            <div className="products-grid">
+
+          {popularProducts.length === 0 ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '2rem',
+                borderRadius: '16px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                textAlign: 'center'
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '2.2rem', color: '#ffd166', marginBottom: '0.5rem' }}>
+                  <FaStar style={{ verticalAlign: 'middle' }} />
+                </div>
+                <h3 style={{ margin: '0 0 0.5rem' }}>Популярные товары скоро появятся</h3>
+                <p style={{ opacity: 0.85, margin: '0 0 1rem' }}>
+                  Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
+                </p>
+                <Link to="/catalog" className="cta-button">
+                  Перейти в каталог <FaArrowRight />
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="promotions-grid">
               {popularProducts.map((product) => (
-                <Link to={`/product/${product.id}`} key={product.id} className="product-card-link">
-                  <div className="product-card">
-                    <div className="product-image">
-                      <img 
-                        src={getMainImage(product)?.data || './placeholder.png'} 
-                        alt={product.title}
-                        className="product-image-img"
-                      />
+                <Link to={`/product/${product.id}`} key={product.id} className="promotion-card">
+                  <div className="promo-header">
+                    <div className="promo-image-small">
+                      {(() => {
+                        const productData = products.find(p => p.id === product.id);
+                        if (!productData) return <span className="promo-icon">{product.icon}</span>;
+                        const mainImage = getMainImage(productData);
+                        if (mainImage?.data) {
+                          if (
+                            typeof mainImage.data === 'string' &&
+                            (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))
+                          ) {
+                            return (
+                              <img
+                                src={mainImage.data}
+                                alt={product.title}
+                                className="product-image-img"
+                                style={{ borderRadius: '8px' }}
+                              />
+                            );
+                          }
+                          return <span className="promo-icon">{mainImage.data}</span>;
+                        }
+                        return <span className="promo-icon">{product.icon}</span>;
+                      })()}
                     </div>
-                    <div className="product-info">
-                      <h3 className="product-title">{product.title}</h3>
-                      <p className="product-price">{product.price.toLocaleString()} ₽</p>
-                      <span className="product-button">
-                        Подробнее
-                      </span>
+                  </div>
+                  <div className="promo-info">
+                    <h3>{product.title}</h3>
+                    <div className="min-purchase">Цена: {product.price}</div>
+                    <div className="promo-link">
+                      Подробнее <FaArrowRight />
                     </div>
                   </div>
                 </Link>
               ))}
-            </div>
-          ) : (
-            <div className="placeholder-message">
-              <h3>Популярные товары скоро появятся</h3>
-              <p>Мы анализируем спрос, чтобы предложить вам лучшее. А пока загляните в наш каталог.</p>
-              <Link to="/catalog" className="cta-button">
-                Весь каталог
-              </Link>
             </div>
           )}
         </div>

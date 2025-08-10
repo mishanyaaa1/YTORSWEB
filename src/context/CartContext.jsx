@@ -12,7 +12,6 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [notifications, setNotifications] = useState([]);
 
   // Загрузка корзины из localStorage при инициализации
   useEffect(() => {
@@ -56,20 +55,6 @@ export const CartProvider = ({ children }) => {
         return [...prevItems, cartItem];
       }
     });
-
-    // Добавляем уведомление
-    const notificationId = Date.now();
-    const notification = {
-      id: notificationId,
-      productTitle: product.title
-    };
-    
-    setNotifications(prev => [...prev, notification]);
-    
-    // Автоматически удаляем уведомление через 3 секунды
-    setTimeout(() => {
-      removeNotification(notificationId);
-    }, 3000);
   };
 
   const removeFromCart = (productId) => {
@@ -95,10 +80,6 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
-  const removeNotification = (notificationId) => {
-    setNotifications(prev => prev.filter(n => n.id !== notificationId));
-  };
-
   const getCartTotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
@@ -114,9 +95,7 @@ export const CartProvider = ({ children }) => {
     updateQuantity,
     clearCart,
     getCartTotal,
-    getCartItemsCount,
-    notifications,
-    removeNotification
+    getCartItemsCount
   };
 
   return (

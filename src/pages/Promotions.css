@@ -1,28 +1,30 @@
 /* UPDATED: Fixing promotion cards background - FORCED UPDATE */
 .promotions-page {
   padding-top: 80px;
-  background: #2a2a2a;
+  background: #0a0a0a;
   color: #ffffff;
 }
 
 /* Hero секция */
 .promotions-hero {
   padding: 4rem 0;
-  background: linear-gradient(135deg, #3a3a3a 0%, #404040 50%, #3a3a3a 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
   text-align: center;
 }
 
 .promotions-hero h1 {
   font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1.8rem;
-  color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .promotions-hero p {
-  font-size: 1.3rem;
-  color: #d8d8d8;
+  font-size: 1.2rem;
+  color: #cccccc;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
@@ -36,15 +38,15 @@
 }
 
 .featured-promotions {
-  background: #353535;
+  background: #111111;
 }
 
 .all-promotions {
-  background: #2a2a2a;
+  background: #0a0a0a;
 }
 
 .how-to-use {
-  background: #353535;
+  background: #111111;
 }
 
 .section-title {
