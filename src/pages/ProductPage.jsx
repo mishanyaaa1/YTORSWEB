@@ -176,7 +176,7 @@ function ProductPage() {
   if (!product) {
     return (
       <div className="product-not-found">
-        <h2>Позиция не найдена</h2>
+        <h2>Товар не найден</h2>
         <button onClick={() => navigate('/catalog')} className="back-button">
           Вернуться в каталог
         </button>
@@ -203,7 +203,7 @@ function ProductPage() {
       }, 100);
     } catch (error) {
       console.error('Error in handleBuyNow:', error);
-      alert('Ошибка при приобретении позиции');
+      alert('Ошибка при покупке товара');
     }
   };
 
@@ -307,7 +307,7 @@ function ProductPage() {
               <span className="category">{product.category}</span>
               <span className={`availability ${product.available ? 'in-stock' : 'out-of-stock'}`}>
                 {product.available ? <FaCheckCircle /> : <FaTimesCircle />}
-                {product.available ? `Доступно: ${product.quantity || 0} ед.` : 'Отсутствует'}
+                {product.available ? `В наличии: ${product.quantity || 0} шт` : 'Нет в наличии'}
               </span>
             </div>
 
@@ -324,7 +324,7 @@ function ProductPage() {
 
             {product.features && product.features.length > 0 && (
               <div className="product-features">
-                <h3>Ключевые преимущества:</h3>
+                <h3>Преимущества:</h3>
                 <ul>
                   {product.features.map((feature, index) => (
                     <li key={index}>{feature}</li>
@@ -385,7 +385,7 @@ function ProductPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <FaShoppingCart /> Добавить в корзину
+                  <FaShoppingCart /> В корзину
                 </motion.button>
 
                 <motion.button 
@@ -395,7 +395,7 @@ function ProductPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Приобрести сейчас
+                  Купить сейчас
                 </motion.button>
               </div>
             </div>
@@ -404,7 +404,7 @@ function ProductPage() {
 
         {specsArray.length > 0 && (
           <div className="product-specifications">
-            <h3>Технические параметры</h3>
+            <h3>Технические характеристики</h3>
             <div className="specs-grid">
               {specsArray.map((spec, idx) => (
                 <div key={idx} className="spec-item">

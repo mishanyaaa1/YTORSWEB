@@ -1,16 +1,16 @@
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Sidebar */
 .admin-sidebar {
   width: 280px;
-  background: #161b22;
-  border-right: 1px solid #30363d;
+  background: #1a1a1a;
+  border-right: 1px solid rgba(0, 255, 136, 0.2);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -27,7 +27,7 @@
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,32 +37,32 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  color: #58a6ff;
+  color: #00ff88;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1rem;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .brand-link:hover {
-  color: #79c0ff;
+  color: #ffffff;
 }
 
 .sidebar-close {
   background: none;
   border: none;
-  color: #8b949e;
+  color: #cccccc;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: none;
 }
 
 .sidebar-close:hover {
-  background: #21262d;
-  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .sidebar-nav {
@@ -76,22 +76,22 @@
   align-items: center;
   gap: 0.8rem;
   padding: 1rem 1.5rem;
-  color: #8b949e;
+  color: #cccccc;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border-left: 3px solid transparent;
 }
 
 .nav-item:hover {
-  background: #21262d;
-  color: #c9d1d9;
-  border-left-color: #58a6ff;
+  background: rgba(0, 255, 136, 0.05);
+  color: #ffffff;
+  border-left-color: rgba(0, 255, 136, 0.3);
 }
 
 .nav-item.active {
-  background: #1f6feb1a;
-  color: #58a6ff;
-  border-left-color: #58a6ff;
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  border-left-color: #00ff88;
 }
 
 .nav-item svg {
@@ -101,7 +101,7 @@
 
 .sidebar-footer {
   padding: 1.5rem;
-  border-top: 1px solid #21262d;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logout-btn {
@@ -110,18 +110,18 @@
   gap: 0.8rem;
   width: 100%;
   padding: 1rem;
-  background: #21262d;
-  border: 1px solid #30363d;
-  color: #f85149;
-  border-radius: 6px;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .logout-btn:hover {
-  background: #f8514926;
-  border-color: #f85149;
+  background: rgba(255, 71, 87, 0.2);
+  border-color: #ff4757;
 }
 
 /* Main Content */
@@ -134,8 +134,8 @@
 }
 
 .admin-header {
-  background: #161b22;
-  border-bottom: 1px solid #21262d;
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -148,24 +148,24 @@
 .sidebar-toggle {
   background: none;
   border: none;
-  color: #8b949e;
+  color: #cccccc;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: none;
 }
 
 .sidebar-toggle:hover {
-  background: #21262d;
-  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .admin-header h1 {
   font-size: 1.5rem;
-  font-weight: 500;
-  color: #c9d1d9;
+  font-weight: 600;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -179,33 +179,33 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #58a6ff;
+  color: #00ff88;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
-  transition: all 0.2s ease;
-  font-weight: 400;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .site-link:hover {
-  background: #1f6feb1a;
-  color: #79c0ff;
+  background: rgba(0, 255, 136, 0.1);
+  color: #ffffff;
 }
 
 .logout-btn-header {
-  background: #21262d;
-  border: 1px solid #30363d;
-  color: #f85149;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757;
   padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .logout-btn-header:hover {
-  background: #f8514926;
-  border-color: #f85149;
+  background: rgba(255, 71, 87, 0.2);
+  border-color: #ff4757;
 }
 
 .admin-content {
@@ -220,7 +220,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(13, 17, 23, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: none;
 }

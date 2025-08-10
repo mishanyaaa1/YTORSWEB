@@ -1,22 +1,22 @@
 /* UPDATED: Fixing promotion cards background - FORCED UPDATE */
 .promotions-page {
   padding-top: 80px;
-  background: #0d1117;
-  color: #c9d1d9;
+  background: #0a0a0a;
+  color: #ffffff;
 }
 
 /* Hero секция */
 .promotions-hero {
   padding: 4rem 0;
-  background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
   text-align: center;
 }
 
 .promotions-hero h1 {
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #c9d1d9 0%, #58a6ff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -24,7 +24,7 @@
 
 .promotions-hero p {
   font-size: 1.2rem;
-  color: #8b949e;
+  color: #cccccc;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
@@ -38,23 +38,23 @@
 }
 
 .featured-promotions {
-  background: #161b22;
+  background: #111111;
 }
 
 .all-promotions {
-  background: #0d1117;
+  background: #0a0a0a;
 }
 
 .how-to-use {
-  background: #161b22;
+  background: #111111;
 }
 
 .section-title {
   text-align: center;
   font-size: 2.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, #c9d1d9 0%, #58a6ff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -70,21 +70,22 @@
 }
 
 .featured-card {
-  background: linear-gradient(135deg, rgba(248, 81, 73, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
-  border: 1px solid #f85149;
-  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+  border: 2px solid #ff5722;
+  border-radius: 16px;
   padding: 1.5rem;
   position: relative;
   overflow: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
+  /* allow full height so content is not cut */
   max-height: none;
 }
 
 .featured-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(248, 81, 73, 0.2);
-  border-color: #f85149;
+  box-shadow: 0 25px 50px rgba(255, 87, 34, 0.2);
+  border-color: #ff9800;
 }
 
 .featured-card::before {
@@ -94,7 +95,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #f85149, #f85149);
+  background: linear-gradient(90deg, #ff5722, #ff9800, #ffc107);
   animation: shimmer 2s infinite;
 }
 
@@ -107,11 +108,11 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: linear-gradient(45deg, #f85149, #f85149);
-  color: #0d1117;
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  color: #ffffff;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 20px;
+  font-weight: 600;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -143,28 +144,28 @@
 
 .promo-content h3 {
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 0.8rem;
-  color: #c9d1d9;
+  color: #ffffff;
 }
 
 .promo-content p {
-  color: #8b949e;
+  color: #cccccc;
   line-height: 1.5;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
 .discount-badge {
-  background: linear-gradient(45deg, #f85149, #f85149);
-  color: #0d1117;
+  background: linear-gradient(45deg, #ff1744, #ff5722);
+  color: #ffffff;
   padding: 0.8rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 50px;
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 800;
   display: inline-block;
   margin-bottom: 1.5rem;
-  box-shadow: 0 5px 15px rgba(248, 81, 73, 0.3);
+  box-shadow: 0 5px 15px rgba(255, 23, 68, 0.3);
 }
 
 .promo-details {
@@ -182,38 +183,38 @@
 }
 
 .promo-code {
-  color: #58a6ff;
-  font-weight: 500;
+  color: #00ff88;
+  font-weight: 600;
 }
 
 .promo-expires {
-  color: #8b949e;
+  color: #cccccc;
 }
 
 .days-left {
-  color: #f85149;
-  font-weight: 500;
+  color: #ff9800;
+  font-weight: 600;
 }
 
 .promo-button {
-  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-  color: #0d1117;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000000;
   text-decoration: none;
   padding: 0.8rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 20px;
+  font-weight: 600;
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   width: 100%;
   justify-content: center;
 }
 
 .promo-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 15px 30px rgba(0, 255, 136, 0.3);
 }
 
 /* Фильтры категорий */
@@ -226,24 +227,24 @@
 }
 
 .filter-btn {
-  background: #161b22;
-  border: 1px solid #30363d;
-  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   padding: 0.8rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .filter-btn:hover,
 .filter-btn.active {
-  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-  color: #0d1117;
-  border-color: #58a6ff;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000000;
+  border-color: #00ff88;
 }
 
 /* Все акции */
@@ -254,19 +255,19 @@
 }
 
 .promotions-page .promotion-card {
-  background: #161b22 !important;
-  border: 1px solid #30363d !important;
-  border-radius: 6px;
+  background: rgba(40, 40, 40, 0.8) !important;
+  border: 1px solid rgba(0, 255, 136, 0.3) !important;
+  border-radius: 15px;
   padding: 1.5rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .promotions-page .promotion-card:hover {
-  border-color: #58a6ff !important;
-  background: #1f6feb1a !important;
+  border-color: #00ff88 !important;
+  background: rgba(0, 255, 136, 0.1) !important;
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.2);
 }
 
 .promotions-page .promo-header {
@@ -279,33 +280,33 @@
 .promotions-page .promo-image-small {
   width: 60px;
   height: 60px;
-  background: #0d1117 !important;
-  border-radius: 6px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%) !important;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
-  border: 1px solid #30363d;
+  border: 2px solid rgba(0, 255, 136, 0.3);
 }
 
 .discount-badge-small {
-  background: linear-gradient(45deg, #f85149, #f85149);
-  color: #0d1117;
+  background: linear-gradient(45deg, #ff1744, #ff5722);
+  color: #ffffff;
   padding: 0.4rem 0.8rem;
-  border-radius: 6px;
+  border-radius: 15px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .promotions-page .promo-info h3 {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.8rem;
-  color: #c9d1d9 !important;
+  color: #ffffff !important;
 }
 
 .promotions-page .promo-info p {
-  color: #8b949e !important;
+  color: #cccccc !important;
   line-height: 1.5;
   margin-bottom: 1rem;
   font-size: 0.95rem;
@@ -328,32 +329,32 @@
 }
 
 .promo-code-small {
-  color: #58a6ff;
-  font-weight: 500;
+  color: #00ff88;
+  font-weight: 600;
 }
 
 .promo-expires-small {
-  color: #f85149;
+  color: #ff9800;
 }
 
 .min-purchase {
-  color: #8b949e;
+  color: #cccccc;
   font-size: 0.85rem;
   margin-bottom: 1rem;
 }
 
 .promo-link {
-  color: #58a6ff;
+  color: #00ff88;
   text-decoration: none;
-  font-weight: 400;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .promo-link:hover {
-  color: #79c0ff;
+  color: #ffffff;
 }
 
 /* Как воспользоваться */
@@ -366,42 +367,42 @@
 }
 
 .step-card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
   padding: 2rem;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .step-card:hover {
-  border-color: #58a6ff;
-  background: #1f6feb1a;
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.05);
 }
 
 .step-number {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-  color: #0d1117;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000000;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0 auto 1rem;
 }
 
 .step-card h3 {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 1rem;
-  color: #c9d1d9;
+  color: #ffffff;
 }
 
 .step-card p {
-  color: #8b949e;
+  color: #cccccc;
   line-height: 1.6;
 }
 
@@ -410,22 +411,22 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 60px 40px;
-  background: #161b22 !important;
-  border-radius: 6px;
-  border: 1px dashed #30363d;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+  border-radius: 20px;
+  border: 2px dashed rgba(0, 255, 136, 0.3);
   margin: 20px 0;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .promotions-page .no-promotions.featured-empty {
-  background: #161b22 !important;
-  border-color: #f85149;
+  background: linear-gradient(135deg, rgba(255, 100, 0, 0.15), rgba(255, 140, 0, 0.05)) !important;
+  border-color: rgba(255, 100, 0, 0.4);
 }
 
 .promotions-page .no-promotions.category-empty {
-  background: #161b22 !important;
-  border-color: #58a6ff;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 200, 100, 0.05)) !important;
+  border-color: rgba(0, 255, 136, 0.4);
 }
 
 .empty-content {
@@ -441,43 +442,43 @@
 }
 
 .no-promotions h3 {
-  color: #c9d1d9 !important;
+  color: #ffffff !important;
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0 0 1rem 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .no-promotions p {
-  color: #8b949e !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   font-size: 1.1rem;
   margin: 0 0 1rem 0;
   line-height: 1.5;
 }
 
 .no-promotions small {
-  color: #6e7681 !important;
+  color: rgba(255, 255, 255, 0.7) !important;
   font-size: 0.9rem;
   font-style: italic;
 }
 
 .view-all-btn {
-  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-  color: #0d1117;
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  color: #000000;
   border: none;
   padding: 12px 24px;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
   margin-top: 1.5rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(88, 166, 255, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
 }
 
 .view-all-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(88, 166, 255, 0.3);
-  background: linear-gradient(135deg, #79c0ff 0%, #58a6ff 100%);
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+  background: linear-gradient(135deg, #00cc6a, #00aa55);
 }
 
 @keyframes float {
@@ -486,24 +487,24 @@
 }
 
 .no-promotions strong {
-  color: #58a6ff;
+  color: #00ff88;
 }
 
 .no-promotions button {
   margin-top: 20px;
-  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-  color: #0d1117;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000;
   border: none;
   padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 500;
+  border-radius: 25px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .no-promotions button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
 }
 
 /* Адаптивность */

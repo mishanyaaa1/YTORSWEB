@@ -22,18 +22,18 @@ function Home() {
   const features = [
     {
       icon: <FaTruck />,
-      title: "Оперативная логистика",
-      text: "Доставка компонентов по всей территории РФ в минимальные сроки"
+      title: "Быстрая доставка",
+      text: "Доставляем запчасти по всей России в кратчайшие сроки"
     },
     {
       icon: <FaTools />,
-      title: "Премиум компоненты",
-      text: "Исключительно оригинальные и сертифицированные запчасти от проверенных поставщиков"
+      title: "Качественные детали",
+      text: "Только оригинальные и сертифицированные запчасти"
     },
     {
       icon: <FaShieldAlt />,
-      title: "Гарантийное обслуживание",
-      text: "Комплексная гарантия на всю продукцию с профессиональной поддержкой"
+      title: "Гарантия качества",
+      text: "Полная гарантия на все товары и профессиональная поддержка"
     }
   ];
 
@@ -94,13 +94,13 @@ function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>B2B поставки запчастей для вездеходов</h1>
+              <h1>Запчасти для вездеходов</h1>
               <p>
-                Профессиональные решения для бизнеса: качественные компоненты для всех типов вездеходов. 
-                Оптимизированная логистика по РФ. Полная гарантия и поддержка.
+                Качественные запчасти для всех типов вездеходов. 
+                Быстрая доставка по всей России. Гарантия качества на все товары.
               </p>
               <Link to="/catalog" className="cta-button">
-                Просмотреть каталог
+                Перейти в каталог
                 <FaArrowRight />
               </Link>
             </div>
@@ -108,7 +108,7 @@ function Home() {
               <div className="hero-placeholder">
                 <HeroVisual />
               </div>
-              <p>Надежные компоненты для вашего бизнеса</p>
+              <p>Надёжные запчасти для вашего вездехода</p>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ function Home() {
 
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Преимущества сотрудничества</h2>
+          <h2 className="section-title">Почему выбирают нас</h2>
           <div className="features-grid">
             {features.map((feature, index) => (
               <div key={index} className="feature-card">
@@ -131,7 +131,7 @@ function Home() {
 
       <section className="products popular-products">
         <div className="container">
-          <h2 className="section-title">Популярные позиции</h2>
+          <h2 className="section-title">Популярные товары</h2>
 
           {popularProducts.length === 0 ? (
             <div
@@ -141,19 +141,19 @@ function Home() {
                 justifyContent: 'center',
                 padding: '2rem',
                 borderRadius: '16px',
-                border: '1px solid rgba(224,224,224,0.1)',
-                background: 'linear-gradient(180deg, rgba(224,224,224,0.04), rgba(224,224,224,0.02))',
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
                 textAlign: 'center'
               }}
             >
               <div>
-                <div style={{ fontSize: '2.2rem', color: '#1e88e5', marginBottom: '0.5rem' }}>
+                <div style={{ fontSize: '2.2rem', color: '#ffd166', marginBottom: '0.5rem' }}>
                   <FaStar style={{ verticalAlign: 'middle' }} />
                 </div>
-                <h3 style={{ margin: '0 0 0.5rem' }}>Популярные позиции в разработке</h3>
+                <h3 style={{ margin: '0 0 0.5rem' }}>Популярные товары скоро появятся</h3>
                 <p style={{ opacity: 0.85, margin: '0 0 1rem' }}>
-                  Мы анализируем спрос. В каталоге доступны профессиональные решения.
+                  Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
                 </p>
                 <Link to="/catalog" className="cta-button">
                   Перейти в каталог <FaArrowRight />
@@ -192,9 +192,9 @@ function Home() {
                   </div>
                   <div className="promo-info">
                     <h3>{product.title}</h3>
-                    <div className="min-purchase">Стоимость: {product.price}</div>
+                    <div className="min-purchase">Цена: {product.price}</div>
                     <div className="promo-link">
-                      Детали <FaArrowRight />
+                      Подробнее <FaArrowRight />
                     </div>
                   </div>
                 </Link>
