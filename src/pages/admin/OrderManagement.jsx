@@ -117,9 +117,7 @@ function OrderManagement() {
 
   return (
     <div className="order-management">
-      <div className="management-header">
-        <h2>Управление заказами</h2>
-      </div>
+      <div className="management-header" />
 
       {/* Статистика */}
       <div className="stats-grid">

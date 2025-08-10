@@ -111,9 +111,6 @@ function AdminOverviewAdvanced() {
   return (
     <div className="admin-overview-advanced">
       <div className="overview-header">
-        <h2>
-          <FaChartLine /> Обзор системы
-        </h2>
         <p>Добро пожаловать в панель управления сайтом ВездеходЗапчасти</p>
       </div>
 

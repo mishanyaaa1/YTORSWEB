@@ -142,7 +142,6 @@ export default function ProductManagement() {
   return (
     <div className="product-management">
       <div className="management-header">
-        <h2>Управление товарами</h2>
         <button onClick={startCreating} className="btn-primary">
           <FaPlus /> Добавить товар
         </button>

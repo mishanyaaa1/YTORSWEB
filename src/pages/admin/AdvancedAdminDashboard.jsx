@@ -40,7 +40,7 @@ function AdvancedAdminDashboard() {
 
   const renderOverview = () => (
     <div className="overview-section">
-      <h2>Обзор системы</h2>
+      {/* Заголовок секции скрыт, используется общий заголовок сверху */}
       
       <div className="stats-grid">
         <div className="stat-card">

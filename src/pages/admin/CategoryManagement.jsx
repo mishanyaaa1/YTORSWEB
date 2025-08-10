@@ -124,9 +124,6 @@ function CategoryManagement() {
   return (
     <div className="category-management">
       <div className="page-header">
-        <h2>
-          <FaTags /> Управление категориями
-        </h2>
         <p>Добавляйте, редактируйте и удаляйте категории и подкатегории товаров</p>
       </div>
 

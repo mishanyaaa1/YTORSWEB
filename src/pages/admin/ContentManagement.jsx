@@ -292,7 +292,7 @@ export default function ContentManagement() {
 
   return (
     <div className="content-management">
-      <h2>Управление контентом</h2>
+      {/* Заголовок убран, используется общий заголовок в лейауте */}
       
       <div className="tabs">
         {tabs.map(tab => (
@@ -309,7 +309,7 @@ export default function ContentManagement() {
       <div className="tab-content">
         {activeTab === 'basic' && (
           <div className="basic-info">
-            <h3>Основная информация</h3>
+          <h3>Основная информация</h3>
             <div className="form-group">
               <label>Заголовок:</label>
               <input

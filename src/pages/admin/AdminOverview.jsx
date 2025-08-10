@@ -95,7 +95,6 @@ function AdminOverview() {
   return (
     <div className="admin-overview">
       <div className="overview-header">
-        <h2>Обзор системы</h2>
         <p>Добро пожаловать в панель управления сайтом</p>
       </div>
 

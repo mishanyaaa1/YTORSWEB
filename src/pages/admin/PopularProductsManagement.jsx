@@ -45,7 +45,6 @@ export default function PopularProductsManagement() {
   return (
     <div className="popular-products-management">
       <div className="management-header">
-        <h2>Управление популярными товарами</h2>
         <button onClick={handleSave} className="btn-primary">
           <FaSave /> Сохранить изменения
         </button>

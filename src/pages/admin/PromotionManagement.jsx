@@ -110,7 +110,6 @@ export default function PromotionManagement() {
   return (
     <div className="promotion-management">
       <div className="management-header">
-        <h2>Управление акциями</h2>
         <button onClick={startCreating} className="btn-primary">
           <FaPlus /> Добавить акцию
         </button>
