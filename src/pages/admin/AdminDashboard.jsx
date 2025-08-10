@@ -35,18 +35,18 @@ function AdminDashboard() {
     {
       path: '/admin/dashboard',
       icon: <FaChartLine />,
-      label: 'Обзор',
+      label: 'Аналитика',
       exact: true
     },
     {
       path: '/admin/dashboard/products',
       icon: <FaBox />,
-      label: 'Товары'
+      label: 'Позиции'
     },
     {
       path: '/admin/dashboard/promotions',
       icon: <FaPercent />,
-      label: 'Акции'
+      label: 'Предложения'
     },
     {
       path: '/admin/dashboard/content',
@@ -74,7 +74,7 @@ function AdminDashboard() {
         <div className="sidebar-header">
           <Link to="/" className="brand-link">
             <FaHome />
-            <span>На сайт</span>
+            <span>На основной сайт</span>
           </Link>
           <button 
             className="sidebar-close"
@@ -101,7 +101,7 @@ function AdminDashboard() {
         <div className="sidebar-footer">
           <button className="logout-btn" onClick={handleLogout}>
             <FaSignOutAlt />
-            <span>Выйти</span>
+            <span>Выход</span>
           </button>
         </div>
       </div>
@@ -116,7 +116,7 @@ function AdminDashboard() {
             <FaBars />
           </button>
           
-          <h1>Панель администратора</h1>
+          <h1>Панель управления</h1>
           
           <div className="header-actions">
             <Link to="/" className="site-link">

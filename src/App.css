@@ -6,9 +6,9 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #0a0a0a;
-  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
   line-height: 1.6;
   overflow-x: hidden;
   width: 100%;
@@ -33,23 +33,23 @@ html {
 
 /* Контейнер */
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   width: 100%;
 }
 
 /* Хедер */
 .header {
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(13, 17, 23, 0.95);
+  backdrop-filter: blur(12px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #21262d;
 }
 
 .header-content {
@@ -62,8 +62,8 @@ html {
 
 .logo {
   font-size: 1.8rem;
-  font-weight: 700;
-  color: #00ff88;
+  font-weight: 600;
+  color: #58a6ff;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -71,21 +71,21 @@ html {
 
 .nav {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
 }
 
 .nav-link {
-  color: #ffffff;
+  color: #c9d1d9;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  font-weight: 400;
+  transition: color 0.2s ease;
   cursor: pointer;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: #00ff88;
+  color: #79c0ff;
 }
 
 .header-actions {
@@ -97,17 +97,17 @@ html {
 .icon-button {
   background: none;
   border: none;
-  color: #ffffff;
+  color: #c9d1d9;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .icon-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #00ff88;
+  background: #21262d;
+  color: #58a6ff;
 }
 
 .mobile-menu-button {
@@ -180,24 +180,17 @@ html {
 }
 
 .cta-button {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
-  border: none;
+  background: #21262d;
+  color: #58a6ff;
+  border: 1px solid #58a6ff;
   padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  background: #58a6ff;
+  color: #0d1117;
 }
 
 .hero-image {

@@ -42,13 +42,13 @@ function Promotions() {
   const promotions = activePromotions.map(promo => ({
     ...promo,
     image: getCategoryIcon(promo.category),
-    code: promo.code || `SALE${promo.discount || ''}`,
-    minPurchase: promo.minPurchase || 15000,
+    code: promo.code || `PROMO${promo.discount || ''}`,
+    minPurchase: promo.minPurchase || 20000,
     validUntil: promo.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   }));
 
   const categories = [
-    { value: 'all', label: 'Все акции', icon: <FaGift /> },
+    { value: 'all', label: 'Все предложения', icon: <FaGift /> },
     ...Object.keys(adminCategories).map(cat => ({
       value: cat,
       label: cat,
@@ -99,10 +99,10 @@ function Promotions() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1>Акции и специальные предложения</h1>
+            <h1>Специальные предложения для бизнеса</h1>
             <p>
-              Выгодные предложения на качественные запчасти для вездеходов. 
-              Не упустите возможность сэкономить!
+              Оптимизированные акции на компоненты для вездеходов. 
+              Максимальная выгода для корпоративных клиентов.
             </p>
           </motion.div>
         </div>
@@ -118,65 +118,65 @@ function Promotions() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            🔥 Горячие предложения
+            🔥 Эксклюзивные предложения
           </motion.h2>
           
           <div className="featured-grid">
             {featuredPromotions.length === 0 ? (
               <div className="no-promotions featured-empty">
                 <div className="empty-icon">🔥</div>
-                <h3>Пока нет горячих предложений</h3>
-                <p>Но мы готовим для вас отличные акции!</p>
+                <h3>Эксклюзивы в разработке</h3>
+                <p>Подготавливаем персонализированные предложения</p>
                 <small>Следите за обновлениями</small>
               </div>
             ) : (
               featuredPromotions.map((promo, index) => (
-              <motion.div 
-                key={promo.id}
-                className="featured-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="featured-badge">
-                  <FaFire /> ХИТ
-                </div>
-                
-                <div className="promo-image">
-                  <span className="promo-icon">{promo.image}</span>
-                </div>
-                
-                <div className="promo-content">
-                  <h3>{promo.title}</h3>
-                  <p>{promo.description}</p>
-                  
-                  {promo.discount && (
-                    <div className="discount-badge">
-                      -{promo.discount}%
-                    </div>
-                  )}
-                  
-                  <div className="promo-details">
-                    <div className="promo-code">
-                      <FaTag /> Код: <strong>{promo.code}</strong>
-                    </div>
-                    
-                    <div className="promo-expires">
-                      <FaCalendarAlt /> До {formatDate(promo.validUntil)}
-                    </div>
-                    
-                    <div className="days-left">
-                      Осталось: {getDaysLeft(promo.validUntil)} дней
-                    </div>
+                <motion.div 
+                  key={promo.id}
+                  className="featured-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="featured-badge">
+                    <FaFire /> VIP
                   </div>
                   
-                  <Link to="/catalog" className="promo-button">
-                    Воспользоваться <FaArrowRight />
-                  </Link>
-                </div>
-              </motion.div>
+                  <div className="promo-image">
+                    <span className="promo-icon">{promo.image}</span>
+                  </div>
+                  
+                  <div className="promo-content">
+                    <h3>{promo.title}</h3>
+                    <p>{promo.description}</p>
+                    
+                    {promo.discount && (
+                      <div className="discount-badge">
+                        -{promo.discount}%
+                      </div>
+                    )}
+                    
+                    <div className="promo-details">
+                      <div className="promo-code">
+                        <FaTag /> Код: <strong>{promo.code}</strong>
+                      </div>
+                      
+                      <div className="promo-expires">
+                        <FaCalendarAlt /> До {formatDate(promo.validUntil)}
+                      </div>
+                      
+                      <div className="days-left">
+                        Срок: {getDaysLeft(promo.validUntil)} дней
+                      </div>
+                    </div>
+                    
+                    <Link to="/catalog" className="promo-button">
+                      Применить <FaArrowRight />
+                    </Link>
+                  </div>
+                </motion.div>
               ))
             )}
           </div>
@@ -193,7 +193,7 @@ function Promotions() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Все актуальные акции
+            Актуальные предложения
           </motion.h2>
           
           <div className="category-filters">
@@ -223,69 +223,69 @@ function Promotions() {
                   {selectedCategory === 'all' ? (
                     <div className="empty-content">
                       <div className="empty-icon">🎁</div>
-                      <h3>Акций пока нет</h3>
-                      <p>В данный момент нет активных акций</p>
-                      <small>Но мы готовим отличные предложения для вас!</small>
+                      <h3>Предложений нет</h3>
+                      <p>В данный момент активных предложений нет</p>
+                      <small>Мы разрабатываем новые</small>
                     </div>
                   ) : (
                     <div className="empty-content">
                       <div className="empty-icon">📦</div>
-                      <h3>Пусто в категории</h3>
-                      <p>В категории <strong>"{categories.find(c => c.value === selectedCategory)?.label}"</strong> пока нет активных акций</p>
+                      <h3>Пусто в разделе</h3>
+                      <p>В разделе <strong>"{categories.find(c => c.value === selectedCategory)?.label}"</strong> нет активных предложений</p>
                       <button 
                         className="view-all-btn" 
                         onClick={() => setSelectedCategory('all')}
                       >
-                        Посмотреть все акции
+                        Все предложения
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
                 filteredPromotions.map((promo, index) => (
-                <motion.div 
-                  key={promo.id}
-                  className="promotion-card"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -3 }}
-                >
-                  <div className="promo-header">
-                    <div className="promo-image-small">
-                      <span className="promo-icon">{promo.image}</span>
-                    </div>
-                    
-                    {promo.discount && (
-                      <div className="discount-badge-small">
-                        -{promo.discount}%
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="promo-info">
-                    <h3>{promo.title}</h3>
-                    <p>{promo.description}</p>
-                    
-                    <div className="promo-meta">
-                      <div className="promo-code-small">
-                        <FaTag /> {promo.code}
+                  <motion.div 
+                    key={promo.id}
+                    className="promotion-card"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    whileHover={{ y: -3 }}
+                  >
+                    <div className="promo-header">
+                      <div className="promo-image-small">
+                        <span className="promo-icon">{promo.image}</span>
                       </div>
                       
-                      <div className="promo-expires-small">
-                        <FaClock /> {getDaysLeft(promo.validUntil)} дней
+                      {promo.discount && (
+                        <div className="discount-badge-small">
+                          -{promo.discount}%
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="promo-info">
+                      <h3>{promo.title}</h3>
+                      <p>{promo.description}</p>
+                      
+                      <div className="promo-meta">
+                        <div className="promo-code-small">
+                          <FaTag /> {promo.code}
+                        </div>
+                        
+                        <div className="promo-expires-small">
+                          <FaClock /> {getDaysLeft(promo.validUntil)} дней
+                        </div>
                       </div>
+                      
+                      <div className="min-purchase">
+                        Мин. сумма: {promo.minPurchase.toLocaleString()} ₽
+                      </div>
+                      
+                      <Link to="/catalog" className="promo-link">
+                        Применить <FaArrowRight />
+                      </Link>
                     </div>
-                    
-                    <div className="min-purchase">
-                      Минимальная сумма: {promo.minPurchase.toLocaleString()} ₽
-                    </div>
-                    
-                    <Link to="/catalog" className="promo-link">
-                      Перейти в каталог <FaArrowRight />
-                    </Link>
-                  </div>
-                </motion.div>
+                  </motion.div>
                 ))
               )}
             </motion.div>
@@ -303,7 +303,7 @@ function Promotions() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Как воспользоваться акцией
+            Как активировать предложение
           </motion.h2>
           
           <div className="steps-grid">
@@ -315,8 +315,8 @@ function Promotions() {
               viewport={{ once: true }}
             >
               <div className="step-number">1</div>
-              <h3>Выберите товары</h3>
-              <p>Добавьте нужные запчасти в корзину</p>
+              <h3>Выберите позиции</h3>
+              <p>Добавьте необходимые компоненты в корзину</p>
             </motion.div>
             
             <motion.div 
@@ -327,8 +327,8 @@ function Promotions() {
               viewport={{ once: true }}
             >
               <div className="step-number">2</div>
-              <h3>Введите промокод</h3>
-              <p>Укажите код акции при оформлении заказа</p>
+              <h3>Введите код</h3>
+              <p>Укажите промокод при оформлении</p>
             </motion.div>
             
             <motion.div 
@@ -339,7 +339,7 @@ function Promotions() {
               viewport={{ once: true }}
             >
               <div className="step-number">3</div>
-              <h3>Получите скидку</h3>
+              <h3>Получите выгоду</h3>
               <p>Скидка применится автоматически</p>
             </motion.div>
           </div>

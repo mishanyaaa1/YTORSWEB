@@ -148,10 +148,10 @@ function Cart() {
         <div className="container">
           <div className="empty-cart">
             <FaShoppingCart className="empty-cart-icon" />
-            <h2>Ваша корзина пуста</h2>
-            <p>Добавьте товары из каталога, чтобы оформить заказ</p>
+            <h2>Корзина пуста</h2>
+            <p>Добавьте позиции из каталога для оформления заказа</p>
             <Link to="/catalog" className="continue-shopping-btn">
-              Перейти в каталог
+              Просмотреть каталог
             </Link>
           </div>
         </div>
@@ -166,9 +166,9 @@ function Cart() {
           <button onClick={() => navigate(-1)} className="back-button">
             <FaArrowLeft /> Назад
           </button>
-          <h1>Корзина товаров</h1>
+          <h1>Корзина</h1>
           <button onClick={clearCart} className="clear-cart-btn">
-            Очистить корзину
+            Очистить
           </button>
         </div>
 
@@ -206,7 +206,7 @@ function Cart() {
                   <div className="item-info">
                     <h3>{item.title}</h3>
                     <p className="item-brand">{item.brand}</p>
-                    <p className="item-price">{item.price.toLocaleString()} ₽</p>
+                    <p className="item-price">{item.price.toLocaleString()} ₽ / ед.</p>
                   </div>
                   
                   <div className="item-controls">
@@ -223,18 +223,13 @@ function Cart() {
                         value={item.quantity} 
                         onChange={(e) => {
                           const inputValue = e.target.value.replace(/[^0-9]/g, '');
-                          // Разрешаем пустое поле
-                          if (inputValue === '') {
-                            // Временно не обновляем состояние
-                            return;
-                          }
+                          if (inputValue === '') return;
                           const value = parseInt(inputValue);
                           if (!isNaN(value) && value >= 1) {
                             handleQuantityChange(item.id, value);
                           }
                         }}
                         onBlur={(e) => {
-                          // При потере фокуса, если поле пустое, ставим 1
                           const cleanValue = e.target.value.replace(/[^0-9]/g, '');
                           if (cleanValue === '' || parseInt(cleanValue) < 1) {
                             handleQuantityChange(item.id, 1);
@@ -253,7 +248,7 @@ function Cart() {
                     </div>
                     
                     <div className="item-total">
-                      {(item.price * item.quantity).toLocaleString()} ₽
+                      Итого: {(item.price * item.quantity).toLocaleString()} ₽
                     </div>
                     
                     <button
@@ -270,9 +265,9 @@ function Cart() {
 
           <div className="cart-summary">
             <div className="summary-card">
-              <h3>Итого</h3>
+              <h3>Итоговая сумма</h3>
               <div className="summary-line">
-                <span>Товары ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} шт):</span>
+                <span>Позиции ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} ед.):</span>
                 <span>{priceCalculation.subtotal.toLocaleString()} ₽</span>
               </div>
               
@@ -280,7 +275,7 @@ function Cart() {
                 <div className="summary-line discount-line">
                   <span>
                     <FaPercent className="discount-icon" />
-                    Скидка "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
+                    Акция "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
                   </span>
                   <span className="discount-amount">
                     -{priceCalculation.discountAmount.toLocaleString()} ₽
@@ -289,7 +284,7 @@ function Cart() {
               )}
               
               <div className="summary-line">
-                <span>Доставка:</span>
+                <span>Логистика:</span>
                 <span>Бесплатно</span>
               </div>
               
@@ -301,7 +296,7 @@ function Cart() {
               {applicableDiscounts.length > 0 && (
                 <div className="promotions-info">
                   <FaTags className="promo-icon" />
-                  <span>Применены активные акции!</span>
+                  <span>Применены акции</span>
                 </div>
               )}
               
@@ -311,7 +306,7 @@ function Cart() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Оформить заказ
+                Оформить
               </motion.button>
             </div>
           </div>
@@ -347,7 +342,7 @@ function Cart() {
                   </div>
                   
                   <div className="form-group">
-                    <label htmlFor="phone">Телефон *</label>
+                    <label htmlFor="phone">Контактный телефон *</label>
                     <input
                       type="tel"
                       id="phone"
@@ -359,7 +354,7 @@ function Cart() {
                   </div>
                   
                   <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">Email для уведомлений</label>
                     <input
                       type="email"
                       id="email"
@@ -370,7 +365,7 @@ function Cart() {
                   </div>
                   
                   <div className="form-group">
-                    <label htmlFor="deliveryMethod">Способ получения *</label>
+                    <label htmlFor="deliveryMethod">Метод получения *</label>
                     <select
                       id="deliveryMethod"
                       name="deliveryMethod"
@@ -398,7 +393,7 @@ function Cart() {
                   )}
                   
                   <div className="form-group">
-                    <label htmlFor="paymentMethod">Способ оплаты *</label>
+                    <label htmlFor="paymentMethod">Метод оплаты *</label>
                     <select
                       id="paymentMethod"
                       name="paymentMethod"
@@ -407,13 +402,13 @@ function Cart() {
                       required
                     >
                       <option value="cash">Наличными</option>
-                      <option value="card">Банковской картой</option>
-                      <option value="transfer">Банковский перевод</option>
+                      <option value="card">Картой</option>
+                      <option value="transfer">Переводом</option>
                     </select>
                   </div>
                   
                   <div className="form-group">
-                    <label htmlFor="comment">Комментарий к заказу</label>
+                    <label htmlFor="comment">Комментарии</label>
                     <textarea
                       id="comment"
                       name="comment"
@@ -424,7 +419,7 @@ function Cart() {
                   </div>
                   
                   <div className="order-summary">
-                    <h4>Ваш заказ:</h4>
+                    <h4>Заказ:</h4>
                     <div className="order-items">
                       {cartItems.map((item) => (
                         <div key={item.id} className="order-item">
@@ -440,7 +435,7 @@ function Cart() {
                         </div>
                         <div className="discount-line">
                           <span className="discount-text">
-                            <FaPercent /> Скидка "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
+                            <FaPercent /> Акция "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
                           </span>
                           <span className="discount-amount">
                             -{priceCalculation.discountAmount.toLocaleString()} ₽
@@ -455,10 +450,10 @@ function Cart() {
                   
                   <div className="form-actions">
                     <button type="button" onClick={() => setShowCheckout(false)} className="cancel-btn">
-                      Отмена
+                      Отменить
                     </button>
                     <button type="submit" className="submit-btn">
-                      Подтвердить заказ
+                      Подтвердить
                     </button>
                   </div>
                 </form>
