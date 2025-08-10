@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaTruck, 
@@ -244,6 +245,27 @@ function App() {
         </div>
       </footer>
       
+      {/* Глобальный контейнер уведомлений */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2500,
+          style: {
+            background: '#1f2937',
+            color: '#fff',
+            borderRadius: '10px',
+            boxShadow:
+              '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)'
+          },
+          success: {
+            icon: '🛒'
+          },
+          error: {
+            icon: '⚠️'
+          }
+        }}
+      />
+
       <SearchModal 
         isOpen={isSearchModalOpen} 
         onClose={closeSearchModal} 

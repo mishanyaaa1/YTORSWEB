@@ -1,4 +1,5 @@
 import { useCart } from '../context/CartContext';
+import toast from 'react-hot-toast';
 
 export const useCartActions = () => {
   const { addToCart } = useCart();
@@ -6,11 +7,12 @@ export const useCartActions = () => {
   const addToCartWithNotification = (product, quantity = 1) => {
     try {
       addToCart(product, quantity);
-      // Простое уведомление через alert (можно заменить на более красивое позже)
-      // alert(`${product.title} добавлен в корзину!`);
+      const title = product?.title || 'Товар';
+      const price = product?.price != null ? ` — ${product.price} ₽` : '';
+      toast.success(`${title} добавлен в корзину${price}`);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Ошибка при добавлении товара в корзину');
+      toast.error('Ошибка при добавлении товара в корзину');
     }
   };
 
