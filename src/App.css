@@ -6,10 +6,10 @@
 }
 
 body {
-  font-family: var(--font-family-sans);
-  background: var(--bg-900);
-  color: var(--text-200);
-  line-height: var(--line-height-base);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  line-height: 1.6;
   overflow-x: hidden;
   width: 100%;
   min-width: 100vw;
@@ -41,7 +41,7 @@ html {
 
 /* Хедер */
 .header {
-  background: rgba(20, 23, 26, 0.9);
+  background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
@@ -49,7 +49,7 @@ html {
   right: 0;
   width: 100%;
   z-index: 1000;
-  border-bottom: 1px solid var(--border-100);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-content {
@@ -61,9 +61,9 @@ html {
 }
 
 .logo {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  color: var(--accent-500);
+  color: #00ff88;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -76,7 +76,7 @@ html {
 }
 
 .nav-link {
-  color: var(--text-200);
+  color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -85,7 +85,7 @@ html {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--accent-400);
+  color: #00ff88;
 }
 
 .header-actions {
@@ -97,7 +97,7 @@ html {
 .icon-button {
   background: none;
   border: none;
-  color: var(--text-200);
+  color: #ffffff;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
@@ -106,8 +106,8 @@ html {
 }
 
 .icon-button:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--accent-400);
+  background: rgba(255, 255, 255, 0.1);
+  color: #00ff88;
 }
 
 .mobile-menu-button {
@@ -122,7 +122,7 @@ html {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: var(--danger-500);
+  background: #ff4757;
   color: white;
   border-radius: 50%;
   width: 20px;
@@ -145,7 +145,7 @@ html {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, var(--bg-900) 0%, var(--bg-800) 50%, var(--bg-900) 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
   position: relative;
   overflow: hidden;
   padding-top: 80px;
@@ -163,59 +163,62 @@ html {
 }
 
 .hero-text h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  color: var(--text-100);
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-text p {
-  font-size: 1.15rem;
-  color: var(--text-300);
+  font-size: 1.2rem;
+  color: #cccccc;
   margin-bottom: 2rem;
   line-height: 1.8;
 }
 
 .cta-button {
-  background: var(--accent-600);
-  color: #0b0e10;
-  border: 1px solid var(--border-200);
-  padding: 0.9rem 1.6rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  border-radius: 14px;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000000;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
-  box-shadow: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
 }
 
 .cta-button:hover {
-  transform: translateY(-1px);
-  background: var(--accent-500);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
 }
 
 .hero-image {
-  background: linear-gradient(135deg, rgba(77, 179, 140, 0.08) 0%, rgba(62, 158, 121, 0.08) 100%);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
+  border-radius: 20px;
   padding: 2rem;
   text-align: center;
-  border: 1px solid var(--border-100);
+  border: 1px solid rgba(0, 255, 136, 0.2);
   width: 100%;
 }
 
 .hero-placeholder {
   width: 100%;
   height: 300px;
-  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1rem;
 }
 
@@ -239,7 +242,7 @@ html {
 /* Секция преимуществ */
 .features {
   padding: 5rem 0;
-  background: var(--bg-800);
+  background: #111111;
   width: 100%;
 }
 
@@ -248,7 +251,10 @@ html {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  color: var(--text-100);
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .features-grid {
@@ -260,8 +266,8 @@ html {
 }
 
 .feature-card {
-  background: var(--surface-800);
-  border: 1px solid var(--border-100);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 2rem;
   text-align: center;
@@ -269,13 +275,14 @@ html {
 }
 
 .feature-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-200);
+  transform: translateY(-5px);
+  border-color: #00ff88;
+  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .feature-icon {
   font-size: 3rem;
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1rem;
 }
 
@@ -283,18 +290,18 @@ html {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: var(--text-200);
+  color: #ffffff;
 }
 
 .feature-text {
-  color: var(--text-300);
+  color: #cccccc;
   line-height: 1.6;
 }
 
 /* Секция популярных товаров */
 .products {
   padding: 5rem 0;
-  background: var(--bg-900);
+  background: #0a0a0a;
   width: 100%;
 }
 
@@ -307,26 +314,27 @@ html {
 }
 
 .product-card {
-  background: var(--surface-800);
-  border: 1px solid var(--border-100);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-200);
+  transform: translateY(-5px);
+  border-color: #00ff88;
+  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .product-image {
   height: 200px;
-  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  color: var(--accent-500);
+  color: #00ff88;
   position: relative;
 }
 
@@ -351,37 +359,37 @@ html {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-200) !important;
+  color: #ffffff !important;
 }
 
 .product-price {
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1rem;
 }
 
 .product-button {
-  background: var(--accent-600);
-  color: #0b0e10;
-  border: 1px solid var(--border-200);
-  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000000;
+  border: none;
+  padding: 0.8rem 1.5rem;
   font-size: 1rem;
-  font-weight: 700;
-  border-radius: 12px;
+  font-weight: 600;
+  border-radius: 25px;
   cursor: pointer;
   width: 100%;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .product-button:hover {
-  transform: translateY(-1px);
-  background: var(--accent-500);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
 }
 
 /* Футер */
 .footer {
-  background: var(--bg-800);
+  background: #111111;
   padding: 3rem 0 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
@@ -396,14 +404,14 @@ html {
 }
 
 .footer-section h3 {
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
 
 .footer-section p,
 .footer-section a {
-  color: var(--text-300);
+  color: #cccccc;
   text-decoration: none;
   line-height: 1.8;
   display: block;
@@ -411,14 +419,14 @@ html {
 }
 
 .footer-section a:hover {
-  color: var(--accent-400);
+  color: #00ff88;
 }
 
 .footer-bottom {
   text-align: center;
   padding-top: 2rem;
-  border-top: 1px solid var(--border-100);
-  color: var(--text-400);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888888;
 }
 
 /* Адаптивность */

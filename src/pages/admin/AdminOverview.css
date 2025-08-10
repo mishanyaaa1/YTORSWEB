@@ -10,9 +10,12 @@
 .overview-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-200);
+  color: #ffffff;
   margin-bottom: 0.5rem;
-  background: none;
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .overview-header p {
@@ -85,7 +88,7 @@
 .recent-activity h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1.5rem;
 }
 
@@ -181,7 +184,7 @@
 .helpful-links h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--accent-500);
+  color: #00ff88;
   margin-bottom: 1.5rem;
 }
 
@@ -219,7 +222,7 @@
 }
 
 .info-card a {
-  color: var(--accent-500);
+  color: #00ff88;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;

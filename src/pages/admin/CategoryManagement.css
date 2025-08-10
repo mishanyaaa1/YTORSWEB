@@ -2,8 +2,8 @@
 .category-management {
   max-width: 1200px;
   margin: 0 auto;
-  background: var(--bg-900);
-  border: 1px solid var(--border-100);
+  background: #0f0f0f; /* более тёмный фон раздела */
+  border: 1px solid #222;
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -18,13 +18,13 @@
   align-items: center;
   gap: 12px;
   font-size: 1.8rem;
-  color: var(--text-200);
+  color: #ffffff;
   margin-bottom: 8px;
   font-weight: 600;
 }
 
 .page-header p {
-  color: var(--text-300);
+  color: #ccc;
   font-size: 1.1rem;
   margin: 0;
 }
@@ -37,17 +37,17 @@
 
 /* Sections */
 .section {
-  background: var(--surface-800);
+  background: #1a1a1a;
   border-radius: 12px;
   padding: 24px;
-  border: 1px solid var(--border-100);
+  border: 1px solid #333;
 }
 
 .section h3 {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--accent-500);
+  color: #00ff88;
   font-size: 1.3rem;
   margin-bottom: 20px;
   font-weight: 600;
@@ -68,9 +68,9 @@
 }
 
 .subchip {
-  background: var(--bg-800);
-  border: 1px solid var(--border-100);
-  color: var(--text-200);
+  background: #1f1f1f;
+  border: 1px solid #333;
+  color: #ddd;
   padding: 6px 10px;
   border-radius: 999px;
   display: inline-flex;
@@ -86,23 +86,23 @@
   line-height: 1;
   font-size: 14px;
 }
-.subchip button:hover { color: var(--text-200); }
+.subchip button:hover { color: #fff; }
 
 .add-category-form input {
   flex: 1;
   padding: 12px 16px;
-  background: var(--bg-700);
-  border: 1px solid var(--border-100);
+  background: #252525;
+  border: 1px solid #444;
   border-radius: 8px;
-  color: var(--text-200);
+  color: #fff;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
 }
 
 .add-category-form input:focus {
-  border-color: var(--border-200);
-  box-shadow: var(--accent-shadow);
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
 .add-btn {
@@ -110,8 +110,8 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: var(--accent-600);
-  color: #0b0e10;
+  background: #00ff88;
+  color: #000;
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -121,7 +121,7 @@
 }
 
 .add-btn:hover:not(:disabled) {
-  background: var(--accent-500);
+  background: #00e67a;
   transform: translateY(-1px);
 }
 
@@ -140,9 +140,9 @@
 }
 
 .category-item {
-  background: var(--surface-800);
+  background: #252525;
   border-radius: 10px;
-  border: 1px solid var(--border-100);
+  border: 1px solid #333;
   overflow: hidden;
 }
 
@@ -151,19 +151,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  background: var(--bg-800);
-  border-bottom: 1px solid var(--border-100);
+  background: #2a2a2a;
+  border-bottom: 1px solid #333;
 }
 
 .category-info h4 {
-  color: var(--text-200);
+  color: #fff;
   font-size: 1.2rem;
   margin: 0 0 4px 0;
   font-weight: 600;
 }
 
 .subcategory-count {
-  color: var(--accent-500);
+  color: #00ff88;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -190,8 +190,8 @@
 }
 
 .edit-btn {
-  background: #2b7abf;
-  color: var(--text-100);
+  background: #2196f3;
+  color: white;
 }
 
 .edit-btn:hover {
@@ -199,8 +199,8 @@
 }
 
 .delete-btn {
-  background: var(--danger-500);
-  color: var(--text-100);
+  background: #ff4444;
+  color: white;
 }
 
 .delete-btn:hover {
@@ -208,8 +208,8 @@
 }
 
 .save-btn {
-  background: var(--accent-600);
-  color: #0b0e10;
+  background: #00ff88;
+  color: #000;
 }
 
 .save-btn:hover {
@@ -238,13 +238,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: var(--bg-800);
+  background: #1a1a1a;
   border-radius: 8px;
-  border: 1px solid var(--border-100);
+  border: 1px solid #333;
 }
 
 .subcategory-name {
-  color: var(--text-300);
+  color: #ccc;
   font-weight: 500;
 }
 
@@ -259,16 +259,16 @@
 .edit-form input {
   flex: 1;
   padding: 8px 12px;
-  background: var(--bg-700);
-  border: 1px solid var(--border-100);
+  background: #333;
+  border: 1px solid #555;
   border-radius: 6px;
-  color: var(--text-200);
+  color: #fff;
   font-size: 0.95rem;
   outline: none;
 }
 
 .edit-form input:focus {
-  border-color: var(--border-200);
+  border-color: #00ff88;
 }
 
 /* Add Subcategory Form */
@@ -280,10 +280,10 @@
 
 .add-subcategory-form select {
   padding: 12px 16px;
-  background: var(--bg-700);
-  border: 1px solid var(--border-100);
+  background: #252525;
+  border: 1px solid #444;
   border-radius: 8px;
-  color: var(--text-200);
+  color: #fff;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
@@ -291,25 +291,25 @@
 }
 
 .add-subcategory-form select:focus {
-  border-color: var(--border-200);
-  box-shadow: var(--accent-shadow);
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
 .add-subcategory-form input {
   flex: 1;
   padding: 12px 16px;
-  background: var(--bg-700);
-  border: 1px solid var(--border-100);
+  background: #252525;
+  border: 1px solid #444;
   border-radius: 8px;
-  color: var(--text-200);
+  color: #fff;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
 }
 
 .add-subcategory-form input:focus {
-  border-color: var(--border-200);
-  box-shadow: var(--accent-shadow);
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
 /* Responsive */

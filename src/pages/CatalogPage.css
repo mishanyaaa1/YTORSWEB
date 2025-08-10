@@ -1,8 +1,8 @@
 .catalog-page {
   padding: 120px 0 60px;
   min-height: 100vh;
-  background: var(--bg-900);
-  color: var(--text-200);
+  background: #0a0a0a;
+  color: #ffffff;
 }
 
 .catalog-header {
@@ -11,15 +11,18 @@
 }
 
 .catalog-header h1 {
-  font-size: 2.6rem;
-  font-weight: 800;
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--text-100);
+  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .catalog-header p {
-  font-size: 1.1rem;
-  color: var(--text-300);
+  font-size: 1.2rem;
+  color: #cccccc;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;

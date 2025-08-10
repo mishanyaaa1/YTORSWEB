@@ -11,12 +11,12 @@ export default function HeroVisual() {
     >
       <defs>
         <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4db38c" />
-          <stop offset="100%" stopColor="#3e9e79" />
+          <stop offset="0%" stopColor="#00ff88" />
+          <stop offset="100%" stopColor="#00cc6a" />
         </linearGradient>
         <radialGradient id="bg" cx="50%" cy="50%" r="70%">
-          <stop offset="0%" stopColor="#14171a" />
-          <stop offset="100%" stopColor="#0f1113" />
+          <stop offset="0%" stopColor="#0a0a0a" />
+          <stop offset="100%" stopColor="#1a1a1a" />
         </radialGradient>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="4" result="coloredBlur" />
@@ -40,12 +40,12 @@ export default function HeroVisual() {
             width="12"
             height="26"
             rx="3"
-            fill="#4db38c"
+            fill="#00ff88"
             opacity="0.9"
             transform={`rotate(${(360 / 12) * i})`}
           />
         ))}
-        <circle r="12" fill="#4db38c" opacity="0.9" />
+        <circle r="12" fill="#00ff88" opacity="0.9" />
       </g>
 
       {/* Малая шестерня */}
@@ -59,12 +59,12 @@ export default function HeroVisual() {
             width="10"
             height="18"
             rx="2"
-            fill="#4db38c"
+            fill="#00ff88"
             opacity="0.9"
             transform={`rotate(${(360 / 10) * i})`}
           />
         ))}
-        <circle r="9" fill="#4db38c" opacity="0.9" />
+        <circle r="9" fill="#00ff88" opacity="0.9" />
       </g>
 
       {/* Контур детали */}

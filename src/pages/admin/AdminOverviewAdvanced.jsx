@@ -31,7 +31,7 @@ function AdminOverviewAdvanced() {
       icon: <FaBox />,
       label: 'Товары',
       value: data.products.length,
-      color: 'var(--accent-500)',
+      color: '#00ff88',
       link: '/admin/dashboard/products'
     },
     {
@@ -85,7 +85,7 @@ function AdminOverviewAdvanced() {
       icon: <FaPlus />,
       label: 'Добавить товар',
       link: '/admin/dashboard/products',
-      color: 'var(--accent-500)'
+      color: '#00ff88'
     },
     {
       icon: <FaPercent />,
@@ -103,7 +103,7 @@ function AdminOverviewAdvanced() {
       icon: <FaEye />,
       label: 'Посмотреть сайт',
       link: '/',
-      color: 'var(--accent-500)',
+      color: '#00ff88',
       external: true
     }
   ];

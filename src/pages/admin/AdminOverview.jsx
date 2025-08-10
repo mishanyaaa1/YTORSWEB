@@ -20,7 +20,7 @@ function AdminOverview() {
       icon: <FaBox />,
       label: 'Товары',
       value: '6',
-      color: 'var(--accent-500)',
+      color: '#00ff88',
       link: '/admin/dashboard/products'
     },
     {
@@ -75,7 +75,7 @@ function AdminOverview() {
       icon: <FaPlus />,
       label: 'Добавить товар',
       link: '/admin/dashboard/products/new',
-      color: 'var(--accent-500)'
+      color: '#00ff88'
     },
     {
       icon: <FaPercent />,
