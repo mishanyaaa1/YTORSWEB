@@ -16,11 +16,16 @@ function CategoryManagement() {
     data, 
     addCategory, 
     updateCategory, 
-    deleteCategory,
+deleteCategory,
     addSubcategory,
     updateSubcategory,
     deleteSubcategory
   } = useAdminData();
+
+  // Защита от undefined data
+  if (!data || !data.categoryStructure) {
+    return <div>Загрузка данных...</div>;
+  }
 
   const [newCategoryName, setNewCategoryName] = useState('');
   const [newCategorySubs, setNewCategorySubs] = useState([]);
@@ -171,7 +176,7 @@ function CategoryManagement() {
             </button>
           </div>
 
-          {newCategorySubs.length > 0 && (
+          {newCategorySubs && newCategorySubs.length > 0 && (
             <div className="subchips">
               {newCategorySubs.map((s, idx) => (
                 <span key={idx} className="subchip">
@@ -191,7 +196,7 @@ function CategoryManagement() {
             <FaList /> Категории ({Object.keys(data.categoryStructure).length})
           </h3>
           <div className="categories-list">
-            {Object.entries(data.categoryStructure).map(([categoryName, subcategories]) => (
+            {data.categoryStructure && Object.entries(data.categoryStructure).map(([categoryName, subcategories]) => (
               <div key={categoryName} className="category-item">
                 <div className="category-header">
                   <div className="category-info">
@@ -243,7 +248,7 @@ function CategoryManagement() {
 
                 {/* Подкатегории */}
                 <div className="subcategories">
-                  {subcategories.map((subcategoryName) => (
+                  {subcategories && Array.isArray(subcategories) && subcategories.map((subcategoryName) => (
                     <div key={subcategoryName} className="subcategory-item">
                       {editingSubcategory === `${categoryName}::${subcategoryName}` ? (
                         <div className="edit-form">

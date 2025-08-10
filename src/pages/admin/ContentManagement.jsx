@@ -7,6 +7,11 @@ import './ContentManagement.css';
 export default function ContentManagement() {
   const { aboutContent, updateAboutContent } = useAdminData();
   const [activeTab, setActiveTab] = useState('basic');
+
+  // Защита от undefined данных
+  if (!aboutContent) {
+    return <div>Загрузка данных...</div>;
+  }
   const [formData, setFormData] = useState({
     title: aboutContent.title || '',
     description: aboutContent.description || '',
@@ -1034,7 +1039,7 @@ export default function ContentManagement() {
                     ...prev,
                     footer: { ...prev.footer, copyright: e.target.value }
                   }))}
-                  placeholder="© 2024 ВездеходЗапчасти. Все права защищены."
+                  placeholder="© 2024 ЮТОРС. Все права защищены."
                 />
               </div>
             </div>

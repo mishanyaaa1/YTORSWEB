@@ -33,28 +33,28 @@ function AdminDashboard() {
 
   const menuItems = [
     {
-      path: '/admin/dashboard',
+              path: '/admin/advanced',
       icon: <FaChartLine />,
       label: 'Аналитика',
       exact: true
     },
     {
-      path: '/admin/dashboard/products',
+              path: '/admin/advanced/products',
       icon: <FaBox />,
       label: 'Позиции'
     },
     {
-      path: '/admin/dashboard/promotions',
+              path: '/admin/advanced/promotions',
       icon: <FaPercent />,
       label: 'Предложения'
     },
     {
-      path: '/admin/dashboard/content',
+              path: '/admin/advanced/content',
       icon: <FaFileAlt />,
       label: 'Контент'
     },
     {
-      path: '/admin/dashboard/orders',
+              path: '/admin/advanced/orders',
       icon: <FaUsers />,
       label: 'Заказы'
     }

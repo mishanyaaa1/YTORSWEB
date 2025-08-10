@@ -94,8 +94,8 @@ export default function About() {
     {
       icon: <FaEnvelope />,
       title: "Email",
-      info: contactsData.email || "info@vezdehod-zapchasti.ru",
-      link: `mailto:${contactsData.email || 'info@vezdehod-zapchasti.ru'}`
+      info: contactsData.email || "info@ytors.ru",
+      link: `mailto:${contactsData.email || 'info@ytors.ru'}`
     },
     {
       icon: <FaClock />,
@@ -116,7 +116,7 @@ export default function About() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1>{aboutContent.title || "О компании ВездеходЗапчасти"}</h1>
+          <h1>{aboutContent.title || "О компании Вездеход Запчасти"}</h1>
             <p>
               {aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники."}
             </p>
@@ -253,7 +253,7 @@ export default function About() {
               <div className="history-content">
                 <p>
                   {aboutContent.history?.content || 
-                    "Компания ВездеходЗапчасти была основана в 2013 году группой энтузиастов, увлеченных вездеходной техникой. Начав с небольшого магазина в Москве, мы постепенно расширили свою деятельность и сегодня являемся одним из ведущих поставщиков запчастей для вездеходов в России."
+            "Компания «Вездеход Запчасти» была основана в 2013 году группой энтузиастов, увлеченных вездеходной техникой. Начав с небольшого магазина в Москве, мы постепенно расширили свою деятельность и сегодня являемся одним из ведущих поставщиков запчастей для вездеходов в России."
                   }
                 </p>
                 

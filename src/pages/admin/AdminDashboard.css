@@ -1,16 +1,17 @@
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
-  background: #0d1117;
-  color: #c9d1d9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Sidebar */
 .admin-sidebar {
-  width: 280px;
-  background: #161b22;
-  border-right: 1px solid #30363d;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -18,7 +19,8 @@
   left: 0;
   height: 100vh;
   z-index: 1000;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .admin-sidebar.open {
@@ -26,192 +28,244 @@
 }
 
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #21262d;
+  padding: 2.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  color: #58a6ff;
+  gap: 1rem;
+  color: #4f46e5;
   text-decoration: none;
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: color 0.2s ease;
+  font-weight: 700;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
 }
 
 .brand-link:hover {
-  color: #79c0ff;
+  color: #6366f1;
+  transform: translateY(-2px);
+}
+
+.brand-link svg {
+  font-size: 1.6rem;
+  color: #8b5cf6;
 }
 
 .sidebar-close {
-  background: none;
-  border: none;
-  color: #8b949e;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #6366f1;
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  padding: 0.8rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
   display: none;
 }
 
 .sidebar-close:hover {
-  background: #21262d;
-  color: #c9d1d9;
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+  transform: scale(1.1);
 }
 
 .sidebar-nav {
   flex: 1;
-  padding: 1rem 0;
+  padding: 2rem 0;
   overflow-y: auto;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1rem 1.5rem;
-  color: #8b949e;
+  gap: 1.2rem;
+  padding: 1.2rem 2rem;
+  color: #374151;
   text-decoration: none;
-  transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+  margin: 0.5rem 1.5rem;
+  border-radius: 16px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.nav-item:hover::before {
+  opacity: 1;
 }
 
 .nav-item:hover {
-  background: #21262d;
-  color: #c9d1d9;
-  border-left-color: #58a6ff;
+  color: #ffffff;
+  transform: translateX(8px);
+  box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
 }
 
 .nav-item.active {
-  background: #1f6feb1a;
-  color: #58a6ff;
-  border-left-color: #58a6ff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
 }
 
 .nav-item svg {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover svg {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .sidebar-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #21262d;
+  padding: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .logout-btn {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
   width: 100%;
-  padding: 1rem;
-  background: #21262d;
-  border: 1px solid #30363d;
-  color: #f85149;
-  border-radius: 6px;
+  padding: 1.2rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
+  font-weight: 500;
 }
 
 .logout-btn:hover {
-  background: #f8514926;
-  border-color: #f85149;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
 }
 
 /* Main Content */
 .admin-main {
   flex: 1;
-  margin-left: 280px;
+  margin-left: 300px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 .admin-header {
-  background: #161b22;
-  border-bottom: 1px solid #21262d;
-  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-toggle {
-  background: none;
-  border: none;
-  color: #8b949e;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #6366f1;
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
   display: none;
 }
 
 .sidebar-toggle:hover {
-  background: #21262d;
-  color: #c9d1d9;
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+  transform: scale(1.1);
 }
 
 .admin-header h1 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #c9d1d9;
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .site-link {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #58a6ff;
+  gap: 1rem;
+  color: #6366f1;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-weight: 400;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
 .site-link:hover {
-  background: #1f6feb1a;
-  color: #79c0ff;
+  background: rgba(99, 102, 241, 0.2);
+  color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
 }
 
 .logout-btn-header {
-  background: #21262d;
-  border: 1px solid #30363d;
-  color: #f85149;
-  padding: 0.5rem;
-  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 1rem;
+  font-weight: 600;
 }
 
 .logout-btn-header:hover {
-  background: #f8514926;
-  border-color: #f85149;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
 }
 
 .admin-content {
   flex: 1;
-  padding: 2rem;
+  padding: 3rem;
   overflow-y: auto;
+  background: transparent;
 }
 
 .sidebar-overlay {
@@ -220,7 +274,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(13, 17, 23, 0.5);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
   z-index: 999;
   display: none;
 }
@@ -254,15 +309,15 @@
 
 @media (max-width: 768px) {
   .admin-header {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .admin-header h1 {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
   
   .admin-content {
-    padding: 1rem;
+    padding: 2rem 1.5rem;
   }
   
   .site-link span {
@@ -270,6 +325,10 @@
   }
   
   .header-actions {
-    gap: 0.5rem;
+    gap: 1rem;
+  }
+  
+  .admin-sidebar {
+    width: 280px;
   }
 }

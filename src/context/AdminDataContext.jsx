@@ -32,7 +32,9 @@ export const AdminDataProvider = ({ children }) => {
 
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem('adminCategories');
-    return saved ? JSON.parse(saved) : categoryStructure;
+    const result = saved ? JSON.parse(saved) : categoryStructure;
+    console.log('AdminDataContext: Initial categories state:', result);
+    return result;
   });
 
   const [brands, setBrands] = useState(() => {
@@ -42,8 +44,8 @@ export const AdminDataProvider = ({ children }) => {
 
   const [promotions, setPromotions] = useState(() => {
     const saved = localStorage.getItem('adminPromotions');
-    // По умолчанию пустой список — никаких демо-акций
-    return saved ? JSON.parse(saved) : [];
+    // По умолчанию используем локальные данные
+    return saved ? JSON.parse(saved) : initialPromotions;
   });
 
   const [aboutContent, setAboutContent] = useState(() => {
@@ -93,50 +95,135 @@ export const AdminDataProvider = ({ children }) => {
   useEffect(() => {
     const bootstrapFromApi = async () => {
       try {
+        // Добавляем таймаут для fetch запросов
+        const fetchWithTimeout = (url, timeout = 5000) => {
+          return Promise.race([
+            fetch(url),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('Timeout')), timeout)
+            )
+          ]);
+        };
+
         const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
-          fetch('/api/products'),
-          fetch('/api/categories'),
-          fetch('/api/brands'),
-          fetch('/api/promotions')
+          fetchWithTimeout('/api/products'),
+          fetchWithTimeout('/api/categories'),
+          fetchWithTimeout('/api/brands'),
+          fetchWithTimeout('/api/promotions')
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
-          const apiProducts = await apiProductsRes.value.json();
-          const normalized = Array.isArray(apiProducts)
-            ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
-            : [];
-          setProducts(normalized);
-          localStorage.setItem('adminProducts', JSON.stringify(normalized));
+          try {
+            const apiProducts = await apiProductsRes.value.json();
+            const normalized = Array.isArray(apiProducts)
+              ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
+              : [];
+            setProducts(normalized);
+            localStorage.setItem('adminProducts', JSON.stringify(normalized));
+            console.log('AdminDataContext: Products set from API');
+          } catch (error) {
+            console.error('AdminDataContext: Error parsing API products:', error);
+            // Fallback на локальные данные
+            console.log('AdminDataContext: Using fallback products from initialProducts');
+            setProducts(initialProducts);
+          }
+        } else {
+          console.log('AdminDataContext: API products failed:', apiProductsRes);
+          // Fallback на локальные данные
+          console.log('AdminDataContext: Using fallback products from initialProducts');
+          setProducts(initialProducts);
         }
 
         if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
-          const apiCats = await apiCategoriesRes.value.json();
-          if (apiCats && typeof apiCats === 'object') {
-            setCategories(apiCats);
-            localStorage.setItem('adminCategories', JSON.stringify(apiCats));
+          try {
+            const apiCats = await apiCategoriesRes.value.json();
+            console.log('AdminDataContext: API categories response:', apiCats);
+            if (apiCats && typeof apiCats === 'object') {
+              setCategories(apiCats);
+              localStorage.setItem('adminCategories', JSON.stringify(apiCats));
+              console.log('AdminDataContext: Categories set from API');
+            } else {
+              throw new Error('Invalid categories format from API');
+            }
+          } catch (error) {
+            console.error('AdminDataContext: Error parsing API categories:', error);
+            // Fallback на локальные данные
+            console.log('AdminDataContext: Using fallback categories from categoryStructure');
+            setCategories(categoryStructure);
           }
+        } else {
+          console.log('AdminDataContext: API categories failed:', apiCategoriesRes);
+          // Fallback на локальные данные
+          console.log('AdminDataContext: Using fallback categories from categoryStructure');
+          setCategories(categoryStructure);
         }
 
         if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
-          const apiBrands = await apiBrandsRes.value.json();
-          if (Array.isArray(apiBrands) && apiBrands.length) {
-            setBrands(apiBrands);
-            localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
+          try {
+            const apiBrands = await apiBrandsRes.value.json();
+            if (Array.isArray(apiBrands) && apiBrands.length) {
+              setBrands(apiBrands);
+              localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
+              console.log('AdminDataContext: Brands set from API');
+            } else {
+              throw new Error('Invalid brands format from API');
+            }
+          } catch (error) {
+            console.error('AdminDataContext: Error parsing API brands:', error);
+            // Fallback на локальные данные
+            console.log('AdminDataContext: Using fallback brands from initialBrands');
+            setBrands(initialBrands);
           }
+        } else {
+          console.log('AdminDataContext: API brands failed:', apiBrandsRes);
+          // Fallback на локальные данные
+          console.log('AdminDataContext: Using fallback brands from initialBrands');
+          setBrands(initialBrands);
         }
 
         if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
-          const apiPromos = await apiPromosRes.value.json();
-          if (Array.isArray(apiPromos)) {
-            setPromotions(apiPromos);
-            localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
+          try {
+            const apiPromos = await apiPromosRes.value.json();
+            if (Array.isArray(apiPromos) && apiPromos.length) {
+              setPromotions(apiPromos);
+              localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
+              console.log('AdminDataContext: Promotions set from API');
+            } else {
+              throw new Error('Invalid promotions format from API');
+            }
+          } catch (error) {
+            console.error('AdminDataContext: Error parsing API promotions:', error);
+            // Fallback на локальные данные
+            console.log('AdminDataContext: Using fallback promotions from initialPromotions');
+            setPromotions(initialPromotions);
           }
+        } else {
+          console.log('AdminDataContext: API promotions failed:', apiPromosRes);
+          // Fallback на локальные данные
+          console.log('AdminDataContext: Using fallback promotions from initialPromotions');
+          setPromotions(initialPromotions);
         }
       } catch (e) {
-        console.warn('AdminDataContext: API bootstrap failed, using local data');
+        console.warn('AdminDataContext: API bootstrap failed, using local data:', e);
+        // Fallback на все локальные данные
+        try {
+          setCategories(categoryStructure);
+          setProducts(initialProducts);
+          setBrands(initialBrands);
+          setPromotions(initialPromotions);
+        } catch (fallbackError) {
+          console.error('AdminDataContext: Fallback to local data failed:', fallbackError);
+        }
       }
     };
-    bootstrapFromApi();
+    
+    // Вызываем bootstrapFromApi только в браузере
+    if (typeof window !== 'undefined') {
+      bootstrapFromApi();
+    } else {
+      // Серверный рендеринг - используем только локальные данные
+      console.log('AdminDataContext: Server side rendering, using local data only');
+    }
   }, []);
 
   // Функции для работы с товарами

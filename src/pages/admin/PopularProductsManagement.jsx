@@ -9,6 +9,11 @@ export default function PopularProductsManagement() {
   const [selectedIds, setSelectedIds] = useState([...popularProductIds]);
   const [availableProducts] = useState(products.filter(p => !popularProductIds.includes(p.id)));
 
+  // Защита от undefined данных
+  if (!products || !popularProductIds) {
+    return <div>Загрузка данных...</div>;
+  }
+
   const handleAddProduct = (productId) => {
     if (!selectedIds.includes(productId) && selectedIds.length < 6) {
       setSelectedIds([...selectedIds, productId]);
@@ -55,7 +60,7 @@ export default function PopularProductsManagement() {
         <div className="selected-products">
           <h3>Популярные товары (максимум 6)</h3>
           <div className="products-list">
-            {selectedIds.map((id, index) => {
+            {selectedIds && selectedIds.map((id, index) => {
               const product = getProductById(id);
               if (!product) return null;
               

@@ -10,6 +10,11 @@ import './Catalog.css';
 export default function Catalog() {
   const { products, categories, brands } = useAdminData();
   const [selectedCategory, setSelectedCategory] = useState('Все');
+
+  // Защита от undefined данных
+  if (!products || !categories || !brands) {
+    return <div>Загрузка данных...</div>;
+  }
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
   const [selectedBrand, setSelectedBrand] = useState('Все');
   const [priceRange, setPriceRange] = useState([0, 1000000000]);
@@ -77,7 +82,7 @@ export default function Catalog() {
   // Получаем подкатегории для выбранной категории
   const availableSubcategories = selectedCategory === 'Все' 
     ? [] 
-    : ['Все', ...(categories[selectedCategory] || [])];
+    : ['Все', ...(categories && categories[selectedCategory] ? categories[selectedCategory] : [])];
 
   // Сброс подкатегории при смене основной категории
   const handleCategoryChange = (category) => {
@@ -109,12 +114,12 @@ export default function Catalog() {
         <div className="filter-group">
           <label>Категория</label>
           <select value={selectedCategory} onChange={e => handleCategoryChange(e.target.value)}>
-            {categoryList.map(cat => (
+            {categoryList && categoryList.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
         </div>
-        {availableSubcategories.length > 0 && (
+        {availableSubcategories && availableSubcategories.length > 0 && (
           <div className="filter-group">
             <label>Подкатегория</label>
             <select value={selectedSubcategory} onChange={e => setSelectedSubcategory(e.target.value)}>
@@ -127,7 +132,7 @@ export default function Catalog() {
         <div className="filter-group">
           <label>Производитель</label>
           <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
-            {brandList.map(brand => (
+            {brandList && brandList.map(brand => (
               <option key={brand} value={brand}>{brand}</option>
             ))}
           </select>
@@ -166,35 +171,29 @@ export default function Catalog() {
             Только в наличии
           </label>
         </div>
-        <div className="filter-actions" style={{ marginTop: '8px' }}>
-          <button onClick={resetFilters} className="catalog-reset-btn">
-            Сбросить фильтры
-          </button>
+        <div className="filter-actions">
+          <button onClick={resetFilters} className="catalog-reset-btn">Сбросить фильтры</button>
         </div>
       </aside>
+
       <main className="catalog-main">
         <h2>Каталог товаров</h2>
         <div className="catalog-grid">
-          {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
-          {filteredProducts.map(product => (
+          {(!filteredProducts || filteredProducts.length === 0) && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
+          {filteredProducts && filteredProducts.map(product => (
             <Link to={`/product/${product.id}`} className="catalog-card" key={product.id}>
               <div className="catalog-card-image">
                 {(() => {
                   const migratedProduct = migrateProductImages(product);
                   const mainImage = getMainImage(migratedProduct);
-                  
                   if (mainImage?.data) {
-                    if (
-                      typeof mainImage.data === 'string' &&
-                      (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))
-                    ) {
+                    if (typeof mainImage.data === 'string' && (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
                       return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
                     }
                     return <span className="catalog-card-icon">{mainImage.data}</span>;
                   }
                   return <span className="catalog-card-icon">📦</span>;
                 })()}
-                {/* wishlist button removed */}
               </div>
               <div className="catalog-card-info">
                 <h3>{product.title}</h3>
@@ -206,15 +205,11 @@ export default function Catalog() {
                 <div className="catalog-card-meta">
                   <span className="catalog-card-brand">{product.brand}</span>
                   <span className={product.available ? 'in-stock' : 'out-of-stock'}>
-                    {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
+                    {product.available ? 'В наличии' : 'Нет в наличии'}
                   </span>
                 </div>
-                <button 
-                  className="catalog-card-btn"
-                  onClick={(e) => handleAddToCart(product, e)}
-                  disabled={!product.available}
-                >
-                  <FaShoppingCart /> В корзину
+                <button className="catalog-card-btn" onClick={(e) => handleAddToCart(product, e)} disabled={!product.available}>
+                  В корзину
                 </button>
               </div>
             </Link>

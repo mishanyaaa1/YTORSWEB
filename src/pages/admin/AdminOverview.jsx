@@ -21,28 +21,28 @@ function AdminOverview() {
       label: 'Товары',
       value: '6',
       color: '#00ff88',
-      link: '/admin/dashboard/products'
+      link: '/admin/advanced/products'
     },
     {
       icon: <FaPercent />,
       label: 'Акции',
       value: '3',
       color: '#ff9800',
-      link: '/admin/dashboard/promotions'
+      link: '/admin/advanced/promotions'
     },
     {
       icon: <FaShoppingCart />,
       label: 'Заказы',
       value: '12',
       color: '#2196f3',
-      link: '/admin/dashboard/orders'
+      link: '/admin/advanced/orders'
     },
     {
       icon: <FaUsers />,
       label: 'Клиенты',
       value: '45',
       color: '#9c27b0',
-      link: '/admin/dashboard/customers'
+      link: '/admin/advanced/customers'
     }
   ];
 
@@ -74,13 +74,13 @@ function AdminOverview() {
     {
       icon: <FaPlus />,
       label: 'Добавить товар',
-      link: '/admin/dashboard/products/new',
+              link: '/admin/advanced/products/new',
       color: '#00ff88'
     },
     {
       icon: <FaPercent />,
       label: 'Создать акцию',
-      link: '/admin/dashboard/promotions/new',
+              link: '/admin/advanced/promotions/new',
       color: '#ff9800'
     },
     {
@@ -203,17 +203,17 @@ function AdminOverview() {
           <div className="info-card">
             <h4>🚀 Управление товарами</h4>
             <p>Добавляйте, редактируйте и удаляйте товары в каталоге</p>
-            <Link to="/admin/dashboard/products">Перейти к товарам</Link>
+            <Link to="/admin/advanced/products">Перейти к товарам</Link>
           </div>
           <div className="info-card">
             <h4>🎯 Управление акциями</h4>
             <p>Создавайте привлекательные предложения для клиентов</p>
-            <Link to="/admin/dashboard/promotions">Перейти к акциям</Link>
+            <Link to="/admin/advanced/promotions">Перейти к акциям</Link>
           </div>
           <div className="info-card">
             <h4>📝 Управление контентом</h4>
             <p>Редактируйте тексты и информацию на сайте</p>
-            <Link to="/admin/dashboard/content">Перейти к контенту</Link>
+            <Link to="/admin/advanced/content">Перейти к контенту</Link>
           </div>
         </div>
       </motion.div>

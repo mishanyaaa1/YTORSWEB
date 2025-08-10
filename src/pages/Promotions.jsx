@@ -17,6 +17,11 @@ function Promotions() {
   const { promotions: adminPromotions, categories: adminCategories } = useAdminData();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  // Защита от undefined данных
+  if (!adminPromotions || !adminCategories) {
+    return <div>Загрузка данных...</div>;
+  }
+
   // Фильтруем только активные акции, которые не истекли
   const activePromotions = adminPromotions.filter(promo => {
     const isActive = promo.active;
@@ -49,11 +54,11 @@ function Promotions() {
 
   const categories = [
     { value: 'all', label: 'Все предложения', icon: <FaGift /> },
-    ...Object.keys(adminCategories).map(cat => ({
+    ...(adminCategories ? Object.keys(adminCategories).map(cat => ({
       value: cat,
       label: cat,
       icon: getCategoryIcon(cat)
-    }))
+    })) : [])
   ];
 
   const filteredPromotions = selectedCategory === 'all' 
@@ -197,7 +202,7 @@ function Promotions() {
           </motion.h2>
           
           <div className="category-filters">
-            {categories.map((category) => (
+            {categories && categories.map((category) => (
               <button
                 key={category.value}
                 className={`filter-btn ${selectedCategory === category.value ? 'active' : ''}`}
@@ -231,7 +236,7 @@ function Promotions() {
                     <div className="empty-content">
                       <div className="empty-icon">📦</div>
                       <h3>Пусто в разделе</h3>
-                      <p>В разделе <strong>"{categories.find(c => c.value === selectedCategory)?.label}"</strong> нет активных предложений</p>
+                      <p>В разделе <strong>"{categories && categories.find(c => c.value === selectedCategory)?.label}"</strong> нет активных предложений</p>
                       <button 
                         className="view-all-btn" 
                         onClick={() => setSelectedCategory('all')}

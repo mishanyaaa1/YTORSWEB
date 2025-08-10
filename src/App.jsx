@@ -7,12 +7,14 @@ import {
   FaMapMarkerAlt,
   FaShoppingCart,
   FaSearch,
-  FaBars
+  FaBars,
+  FaCog
 } from 'react-icons/fa';
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
 // removed wishlist import
 import SearchModal from './components/SearchModal';
+import ParticleBackground from './components/ParticleBackground';
 import telegramSetup from './utils/telegramSetup';
 import debugOrders from './utils/debugOrders';
 import './App.css';
@@ -78,7 +80,7 @@ function App() {
     contactsSection: {
       title: 'Контакты',
       phone: '+7 (800) 123-45-67',
-      email: 'info@vezdehod-zapchasti.ru',
+      email: 'info@ytors.ru',
       address: 'г. Москва, ул. Примерная, 123'
     },
     informationSection: {
@@ -115,12 +117,13 @@ function App() {
 
   return (
     <div className="app">
+      <ParticleBackground />
       <header className="header">
         <div className="container">
           <div className="header-content">
             <Link to="/" className="logo">
-              <FaTruck />
-              ЮТОРС
+              <FaCog className="logo-icon" />
+              Вездеход Запчасти
             </Link>
             <nav className="nav">
               <Link 
