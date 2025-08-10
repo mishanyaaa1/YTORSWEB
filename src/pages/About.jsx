@@ -19,6 +19,7 @@ import {
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 import './About.css';
+import { getIconForEmoji } from '../utils/iconMap.jsx';
 
 export default function About() {
   const { aboutContent } = useAdminData();
@@ -173,7 +174,9 @@ export default function About() {
                 whileHover={{ y: -5 }}
               >
                 <div className="advantage-icon">
-                  {typeof advantage.icon === 'string' ? advantage.icon : defaultAdvantages[index]?.icon}
+                  {typeof advantage.icon === 'string' 
+                    ? getIconForEmoji(advantage.icon)
+                    : defaultAdvantages[index]?.icon}
                 </div>
                 <h3>{advantage.title || advantage}</h3>
                 <p>{advantage.description || ''}</p>
@@ -207,7 +210,9 @@ export default function About() {
                 viewport={{ once: true }}
               >
                 <div className="feature-icon">
-                  {typeof feature.icon === 'string' ? feature.icon : defaultFeatures[index]?.icon}
+                  {typeof feature.icon === 'string' 
+                    ? getIconForEmoji(feature.icon)
+                    : defaultFeatures[index]?.icon}
                 </div>
                 <div className="feature-content">
                   <h3>{feature.title}</h3>

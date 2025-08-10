@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { IconContext } from 'react-icons'
 import './index.css'
 import App from './App.jsx'
 import Home from './pages/Home.jsx'
@@ -71,7 +72,9 @@ createRoot(document.getElementById('root')).render(
     <AdminDataProvider>
       <OrdersProvider>
         <CartProvider>
-          <RouterProvider router={router} />
+          <IconContext.Provider value={{ color: '#e6a34a' }}>
+            <RouterProvider router={router} />
+          </IconContext.Provider>
         </CartProvider>
       </OrdersProvider>
     </AdminDataProvider>

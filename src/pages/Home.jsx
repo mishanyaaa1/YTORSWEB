@@ -11,6 +11,7 @@ import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl } from '../utils/imageHelpers';
 import HeroVisual from '../components/HeroVisual';
+import { getIconForEmoji } from '../utils/iconMap.jsx';
 import './Home.css';
 
 function Home() {
@@ -120,7 +121,9 @@ function Home() {
           <div className="features-grid">
             {features.map((feature, index) => (
               <div key={index} className="feature-card">
-                <div className="feature-icon">{feature.icon}</div>
+                <div className="feature-icon">
+                  {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
+                </div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-text">{feature.text}</p>
               </div>

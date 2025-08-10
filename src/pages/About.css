@@ -221,6 +221,8 @@
   margin-bottom: 1rem;
 }
 
+/* Используем react-icons для единых цветов; спец-класс не требуется */
+
 .advantage-card h3 {
   font-size: 1.3rem;
   font-weight: 600;

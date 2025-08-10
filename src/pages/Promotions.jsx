@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useAdminData } from '../context/AdminDataContext';
 import './Promotions.css';
+import { getIconForEmoji } from '../utils/iconMap.jsx';
 
 function Promotions() {
   const { promotions: adminPromotions, categories: adminCategories } = useAdminData();
@@ -29,12 +30,12 @@ function Promotions() {
   // Функция для получения иконки в зависимости от категории
   const getCategoryIcon = (category) => {
     switch(category) {
-      case 'Двигатель': return '⚙️';
-      case 'Трансмиссия': return '🔧';
-      case 'Ходовая часть': return '🛠️';
-      case 'Электрика': return '💡';
-      case 'Кабина': return '🪑';
-      default: return '🎯';
+      case 'Двигатель': return getIconForEmoji('⚙️');
+      case 'Трансмиссия': return getIconForEmoji('🔧');
+      case 'Ходовая часть': return getIconForEmoji('🛠️');
+      case 'Электрика': return getIconForEmoji('💡');
+      case 'Кабина': return getIconForEmoji('🪑');
+      default: return getIconForEmoji('🎯');
     }
   };
 
