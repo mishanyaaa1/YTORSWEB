@@ -51,10 +51,41 @@ export const AdminDataProvider = ({ children }) => {
     if (saved) {
       try {
         const parsedContent = JSON.parse(saved);
+
+        // Миграция deliveryAndPayment: аккуратно объединяем методы доставки по заголовку
+        const initialDAP = initialAboutContent.deliveryAndPayment || {};
+        const savedDAP = parsedContent.deliveryAndPayment || {};
+        const initialMethods = Array.isArray(initialDAP.deliveryMethods) ? initialDAP.deliveryMethods : [];
+        const savedMethods = Array.isArray(savedDAP.deliveryMethods) ? savedDAP.deliveryMethods : [];
+        const mergedMethods = [
+          ...initialMethods.map(initialMethod => {
+            const savedMatch = savedMethods.find(m => m && m.title === initialMethod.title);
+            if (!savedMatch) return initialMethod;
+            return {
+              ...initialMethod,
+              ...savedMatch,
+              description: savedMatch.description || initialMethod.description,
+              items: Array.isArray(savedMatch.items) && savedMatch.items.length
+                ? savedMatch.items
+                : initialMethod.items
+            };
+          }),
+          // Добавляем любые новые методы, которых не было раньше
+          ...savedMethods.filter(m => m && !initialMethods.some(im => im.title === m.title))
+        ];
+
+        const mergedDeliveryAndPayment = {
+          ...initialDAP,
+          ...savedDAP,
+          deliveryMethods: mergedMethods
+        };
+
         // Мигрируем данные для обеспечения совместимости
         const migratedContent = {
           ...initialAboutContent,
           ...parsedContent,
+          // Обновлённая секция доставки и оплаты
+          deliveryAndPayment: mergedDeliveryAndPayment,
           // Миграция ссылки в футере на новую секцию доставки
           footer: {
             ...initialAboutContent.footer,

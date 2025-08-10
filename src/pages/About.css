@@ -113,15 +113,35 @@
   margin-bottom: 1rem;
 }
 
-.methods-grid {}
 
-.method-card {}
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
 
-.method-card h4 {}
+.method-card {
+  text-align: left;
+}
 
-.method-card ul {}
+.method-card h4 {
+  margin: 0.25rem 0 0.5rem 0;
+}
 
-.method-card:hover {}
+.method-card .method-description {
+  color: #bbbbbb;
+  margin: 0 0 0.75rem 0;
+}
+
+.method-card ul {
+  padding-left: 1.1rem;
+  margin: 0;
+  color: #cccccc;
+}
+
+.method-card:hover {
+  background: rgba(230, 163, 74, 0.05);
+}
 
 .card-head {}
 

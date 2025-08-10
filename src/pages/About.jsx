@@ -365,6 +365,9 @@ export default function About() {
                   >
                     <div className="advantage-icon">{getDeliveryIcon(method.title)}</div>
                     <h4>{method.title}</h4>
+                    {method.description && (
+                      <p className="method-description">{method.description}</p>
+                    )}
                     {Array.isArray(method.items) && method.items.length > 0 && (
                       <ul className="method-list">
                         {method.items.map((it, idx) => (
