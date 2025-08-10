@@ -12,15 +12,15 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--text-200);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .icon-selector-trigger:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #00ff88;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-200);
 }
 
 .selected-icon {
@@ -34,7 +34,7 @@
 }
 
 .dropdown-arrow {
-  color: #00ff88;
+  color: var(--accent-500);
   font-size: 0.8rem;
   transition: transform 0.3s ease;
 }
@@ -44,8 +44,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-800);
+  border: 1px solid var(--border-100);
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   z-index: 1000;
@@ -56,14 +56,14 @@
 
 .icon-search {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-100);
 }
 
 .icon-search-input {
   width: 100%;
   padding: 0.5rem;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-100);
   border-radius: 6px;
   color: #ffffff;
   font-size: 0.9rem;
@@ -72,8 +72,8 @@
 }
 
 .icon-search-input:focus {
-  border-color: #00ff88;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-200);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .icon-search-input::placeholder {
@@ -96,7 +96,7 @@
   width: 50px;
   height: 50px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-100);
   border-radius: 8px;
   font-size: 1.5rem;
   cursor: pointer;
@@ -104,15 +104,15 @@
 }
 
 .icon-option:hover {
-  background: rgba(0, 255, 136, 0.1);
-  border-color: #00ff88;
+  background: rgba(77, 179, 140, 0.06);
+  border-color: var(--border-200);
   transform: scale(1.1);
 }
 
 .icon-option.selected {
-  background: rgba(0, 255, 136, 0.2);
-  border-color: #00ff88;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
+  background: rgba(77, 179, 140, 0.14);
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 2px rgba(77, 179, 140, 0.25);
 }
 
 /* Стили для скроллбара */
@@ -126,10 +126,10 @@
 }
 
 .icon-grid::-webkit-scrollbar-thumb {
-  background: rgba(0, 255, 136, 0.3);
+  background: rgba(77, 179, 140, 0.3);
   border-radius: 3px;
 }
 
 .icon-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 255, 136, 0.5);
+  background: rgba(77, 179, 140, 0.5);
 }

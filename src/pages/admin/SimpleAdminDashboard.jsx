@@ -19,13 +19,13 @@ function SimpleAdminDashboard() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0a0a',
-      color: 'white'
+      background: 'var(--bg-900)',
+      color: 'var(--text-200)'
     }}>
       <header style={{
-        background: '#1a1a1a',
+        background: 'var(--bg-800)',
         padding: '20px',
-        borderBottom: '1px solid #333',
+        borderBottom: '1px solid var(--border-100)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -35,7 +35,7 @@ function SimpleAdminDashboard() {
           <Link 
             to="/" 
             style={{ 
-              color: '#00ff88', 
+              color: 'var(--accent-500)', 
               textDecoration: 'none', 
               marginRight: '20px' 
             }}
@@ -45,8 +45,8 @@ function SimpleAdminDashboard() {
           <button 
             onClick={handleLogout}
             style={{
-              background: '#ff4444',
-              color: 'white',
+              background: 'var(--danger-500)',
+              color: 'var(--text-100)',
               border: 'none',
               padding: '8px 16px',
               borderRadius: '5px',
@@ -67,7 +67,7 @@ function SimpleAdminDashboard() {
         }}>
           {/* Статистика */}
           <div style={{
-            background: '#1a1a1a',
+            background: 'var(--surface-800)',
             padding: '20px',
             borderRadius: '10px'
           }}>
@@ -81,7 +81,7 @@ function SimpleAdminDashboard() {
 
           {/* Быстрые действия */}
           <div style={{
-            background: '#1a1a1a',
+            background: 'var(--surface-800)',
             padding: '20px',
             borderRadius: '10px'
           }}>
@@ -90,8 +90,8 @@ function SimpleAdminDashboard() {
               <Link 
                 to="/admin/advanced"
                 style={{
-                  background: '#00ff88',
-                  color: 'black',
+                  background: 'var(--accent-600)',
+                  color: '#0b0e10',
                   border: 'none',
                   padding: '10px',
                   borderRadius: '5px',
@@ -103,8 +103,8 @@ function SimpleAdminDashboard() {
                 🚀 Перейти к полной админке
               </Link>
               <button style={{
-                background: '#2196f3',
-                color: 'white',
+                background: '#2b7abf',
+                color: 'var(--text-100)',
                 border: 'none',
                 padding: '10px',
                 borderRadius: '5px',
@@ -118,7 +118,7 @@ function SimpleAdminDashboard() {
 
         {/* Последние заказы */}
         <div style={{
-          background: '#1a1a1a',
+          background: 'var(--surface-800)',
           padding: '20px',
           borderRadius: '10px'
         }}>
@@ -126,21 +126,21 @@ function SimpleAdminDashboard() {
           <div style={{ marginTop: '15px' }}>
             <div style={{ 
               padding: '10px', 
-              borderBottom: '1px solid #333',
+              borderBottom: '1px solid var(--border-100)',
               display: 'flex',
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1023 - Гусеницы для вездехода</span>
-              <span style={{ color: '#00ff88' }}>45,000 ₽</span>
+              <span style={{ color: 'var(--accent-500)' }}>45,000 ₽</span>
             </div>
             <div style={{ 
               padding: '10px', 
-              borderBottom: '1px solid #333',
+              borderBottom: '1px solid var(--border-100)',
               display: 'flex',
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1022 - Двигатель 2.0L</span>
-              <span style={{ color: '#00ff88' }}>180,000 ₽</span>
+              <span style={{ color: 'var(--accent-500)' }}>180,000 ₽</span>
             </div>
             <div style={{ 
               padding: '10px',
@@ -148,7 +148,7 @@ function SimpleAdminDashboard() {
               justifyContent: 'space-between'
             }}>
               <span>Заказ #1021 - Подвеска</span>
-              <span style={{ color: '#00ff88' }}>65,000 ₽</span>
+              <span style={{ color: 'var(--accent-500)' }}>65,000 ₽</span>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@ function SimpleAdminDashboard() {
         {/* Информация */}
         <div style={{
           marginTop: '40px',
-          background: '#1a1a1a',
+          background: 'var(--surface-800)',
           padding: '20px',
           borderRadius: '10px'
         }}>

@@ -1,8 +1,8 @@
 .cart-page {
   padding: 120px 0 60px;
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #ffffff;
+  background: var(--bg-900);
+  color: var(--text-200);
 }
 
 .cart-header {
@@ -11,20 +11,20 @@
   align-items: center;
   margin-bottom: 3rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-100);
 }
 
 .cart-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: var(--text-100);
   margin: 0;
 }
 
 .clear-cart-btn {
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid #ff4757;
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.12);
+  border: 1px solid var(--danger-500);
+  color: var(--danger-500);
   padding: 0.8rem 1.5rem;
   border-radius: 25px;
   cursor: pointer;
@@ -50,8 +50,8 @@
 }
 
 .cart-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-800);
+  border: 1px solid var(--border-100);
   border-radius: 15px;
   padding: 1.5rem;
   display: flex;
@@ -61,14 +61,14 @@
 }
 
 .cart-item:hover {
-  border-color: #00ff88;
-  background: rgba(0, 255, 136, 0.05);
+  border-color: var(--border-200);
+  background: rgba(77, 179, 140, 0.06);
 }
 
 .item-image {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@
 
 .item-icon {
   font-size: 2rem;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .item-image-img {
@@ -96,17 +96,17 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .item-brand {
-  color: #cccccc;
+  color: var(--text-300);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .item-price {
-  color: #00ff88;
+  color: var(--accent-500);
   font-weight: 600;
   font-size: 1.1rem;
 }
@@ -120,7 +120,7 @@
 .quantity-controls {
   display: flex;
   align-items: center;
-  background: #1a1a1a;
+  background: var(--bg-800);
   border-radius: 25px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -129,7 +129,7 @@
 .quantity-btn {
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--text-200);
   padding: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -141,8 +141,8 @@
 }
 
 .quantity-btn:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.08);
+  color: var(--accent-500);
 }
 
 .quantity-btn:disabled {
@@ -155,7 +155,7 @@
   font-weight: 600;
   min-width: 50px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .quantity-input {
@@ -164,8 +164,8 @@
   min-width: 50px;
   max-width: 80px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-200);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 1rem;
@@ -175,8 +175,8 @@
 
 .quantity-input:focus {
   background: rgba(255, 255, 255, 0.1);
-  border-color: #00ff88;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+  border-color: var(--border-200);
+  box-shadow: var(--accent-shadow);
 }
 
 .quantity-input::-webkit-outer-spin-button,
@@ -192,15 +192,15 @@
 .item-total {
   font-weight: 700;
   font-size: 1.2rem;
-  color: #00ff88;
+  color: var(--accent-500);
   min-width: 120px;
   text-align: right;
 }
 
 .remove-btn {
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid #ff4757;
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.12);
+  border: 1px solid var(--danger-500);
+  color: var(--danger-500);
   padding: 0.8rem;
   border-radius: 50%;
   cursor: pointer;
@@ -224,17 +224,17 @@
 }
 
 .summary-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-800);
+  border: 1px solid var(--border-100);
   border-radius: 20px;
   padding: 2rem;
 }
 
 .summary-card h3 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .summary-line {
@@ -242,7 +242,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .summary-total {
@@ -251,7 +251,7 @@
   align-items: center;
   font-size: 1.3rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-200);
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -259,61 +259,63 @@
 
 .checkout-btn {
   width: 100%;
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
-  border: none;
-  padding: 1.2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 25px;
+  background: var(--accent-600);
+  color: #0b0e10;
+  border: 1px solid var(--border-200);
+  padding: 1.05rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: 14px;
   cursor: pointer;
   margin-top: 2rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .checkout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  transform: translateY(-1px);
+  box-shadow: none;
+  background: var(--accent-500);
 }
 
 .empty-cart {
   text-align: center;
   padding: 5rem 0;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .empty-cart-icon {
   font-size: 5rem;
-  color: #cccccc;
+  color: var(--text-300);
   margin-bottom: 2rem;
 }
 
 .empty-cart h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .empty-cart p {
-  color: #cccccc;
+  color: var(--text-300);
   margin-bottom: 2rem;
   font-size: 1.1rem;
 }
 
 .continue-shopping-btn {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
+  background: var(--accent-600);
+  color: #0b0e10;
   text-decoration: none;
-  padding: 1rem 2rem;
-  border-radius: 25px;
-  font-weight: 600;
+  padding: 0.9rem 1.4rem;
+  border-radius: 12px;
+  font-weight: 800;
   display: inline-block;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .continue-shopping-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  transform: translateY(-1px);
+  box-shadow: none;
+  background: var(--accent-500);
 }
 
 /* Модальное окно оформления заказа */
@@ -332,8 +334,8 @@
 }
 
 .checkout-content {
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-800);
+  border: 1px solid var(--border-100);
   border-radius: 20px;
   padding: 2rem;
   max-width: 600px;
@@ -344,10 +346,10 @@
 }
 
 .checkout-content h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #00ff88;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--accent-500);
   text-align: center;
 }
 
@@ -364,33 +366,34 @@
 }
 
 .checkout-content .form-group label {
-  font-weight: 500;
-  color: #ffffff !important;
+  font-weight: 600;
+  color: var(--text-200) !important;
 }
 
 .checkout-content .form-group input,
 .checkout-content .form-group select,
 .checkout-content .form-group textarea {
   background: #222222 !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-100);
   border-radius: 10px;
   padding: 0.8rem;
-  color: #ffffff !important;
+  color: var(--text-200) !important;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .checkout-content .form-group input:focus,
 .checkout-content .form-group select:focus,
 .checkout-content .form-group textarea:focus {
   outline: none;
-  border-color: #00ff88;
-  color: #ffffff !important;
+  border-color: var(--border-200);
+  color: var(--text-200) !important;
+  box-shadow: var(--accent-shadow);
 }
 
 .checkout-content .form-group input::placeholder,
 .checkout-content .form-group textarea::placeholder {
-  color: #eeeeee !important;
+  color: #e5e7eb !important;
 }
 
 /* Дополнительная специфичность для checkout формы */
@@ -414,7 +417,7 @@
 }
 
 .order-summary h4 {
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
@@ -428,13 +431,13 @@
 .order-item {
   display: flex;
   justify-content: space-between;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .order-total {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 1rem;
-  color: #ffffff;
+  color: var(--text-200);
   font-size: 1.1rem;
 }
 
@@ -456,9 +459,9 @@
 }
 
 .cancel-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-200);
+  border: 1px solid var(--border-100);
 }
 
 .cancel-btn:hover {
@@ -466,13 +469,14 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
+  background: var(--accent-600);
+  color: #0b0e10;
 }
 
 .submit-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  transform: translateY(-1px);
+  box-shadow: none;
+  background: var(--accent-500);
 }
 
 /* Адаптивность */
@@ -524,7 +528,7 @@
 
 /* Стили для скидок */
 .discount-line {
-  color: #00ff88 !important;
+  color: var(--accent-500) !important;
 }
 
 .discount-line .discount-icon {
@@ -532,7 +536,7 @@
 }
 
 .discount-amount {
-  color: #00ff88 !important;
+  color: var(--accent-500) !important;
   font-weight: 600;
 }
 
@@ -541,23 +545,23 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(77, 179, 140, 0.1);
   border-radius: 8px;
   margin-top: 1rem;
-  color: #00ff88;
+  color: var(--accent-500);
   font-size: 0.9rem;
 }
 
 .promo-icon {
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .discount-info {
   margin: 1rem 0;
   padding: 1rem;
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(77, 179, 140, 0.06);
   border-radius: 8px;
-  border-left: 3px solid #00ff88;
+  border-left: 3px solid var(--accent-500);
 }
 
 .discount-info .discount-line {

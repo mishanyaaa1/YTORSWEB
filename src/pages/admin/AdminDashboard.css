@@ -1,16 +1,16 @@
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-900);
+  color: var(--text-200);
+  font-family: var(--font-family-sans);
 }
 
 /* Sidebar */
 .admin-sidebar {
   width: 280px;
-  background: #1a1a1a;
-  border-right: 1px solid rgba(0, 255, 136, 0.2);
+  background: var(--bg-800);
+  border-right: 1px solid var(--border-100);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -27,7 +27,7 @@
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-100);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  color: #00ff88;
+  color: var(--accent-500);
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
@@ -45,7 +45,7 @@
 }
 
 .brand-link:hover {
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .sidebar-close {
@@ -76,22 +76,22 @@
   align-items: center;
   gap: 0.8rem;
   padding: 1rem 1.5rem;
-  color: #cccccc;
+  color: var(--text-300);
   text-decoration: none;
   transition: all 0.3s ease;
   border-left: 3px solid transparent;
 }
 
 .nav-item:hover {
-  background: rgba(0, 255, 136, 0.05);
-  color: #ffffff;
-  border-left-color: rgba(0, 255, 136, 0.3);
+  background: rgba(77, 179, 140, 0.06);
+  color: var(--text-200);
+  border-left-color: var(--border-200);
 }
 
 .nav-item.active {
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
-  border-left-color: #00ff88;
+  background: rgba(77, 179, 140, 0.12);
+  color: var(--accent-500);
+  border-left-color: var(--accent-500);
 }
 
 .nav-item svg {
@@ -101,7 +101,7 @@
 
 .sidebar-footer {
   padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-100);
 }
 
 .logout-btn {
@@ -110,9 +110,9 @@
   gap: 0.8rem;
   width: 100%;
   padding: 1rem;
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid rgba(255, 71, 87, 0.3);
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.12);
+  border: 1px solid rgba(227, 93, 106, 0.3);
+  color: var(--danger-500);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -120,8 +120,8 @@
 }
 
 .logout-btn:hover {
-  background: rgba(255, 71, 87, 0.2);
-  border-color: #ff4757;
+  background: rgba(227, 93, 106, 0.2);
+  border-color: var(--danger-500);
 }
 
 /* Main Content */
@@ -134,8 +134,8 @@
 }
 
 .admin-header {
-  background: #1a1a1a;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-800);
+  border-bottom: 1px solid var(--border-100);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -148,7 +148,7 @@
 .sidebar-toggle {
   background: none;
   border: none;
-  color: #cccccc;
+  color: var(--text-300);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
@@ -158,14 +158,14 @@
 }
 
 .sidebar-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-200);
 }
 
 .admin-header h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-200);
   margin: 0;
 }
 
@@ -179,7 +179,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #00ff88;
+  color: var(--accent-500);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -188,14 +188,14 @@
 }
 
 .site-link:hover {
-  background: rgba(0, 255, 136, 0.1);
-  color: #ffffff;
+  background: rgba(77, 179, 140, 0.12);
+  color: var(--text-200);
 }
 
 .logout-btn-header {
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid rgba(255, 71, 87, 0.3);
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.12);
+  border: 1px solid rgba(227, 93, 106, 0.3);
+  color: var(--danger-500);
   padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
@@ -204,8 +204,8 @@
 }
 
 .logout-btn-header:hover {
-  background: rgba(255, 71, 87, 0.2);
-  border-color: #ff4757;
+  background: rgba(227, 93, 106, 0.2);
+  border-color: var(--danger-500);
 }
 
 .admin-content {

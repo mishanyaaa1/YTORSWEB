@@ -19,8 +19,8 @@
 }
 
 .image-item.main-image {
-  border-color: #00ff88;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 2px rgba(77, 179, 140, 0.25);
 }
 
 .image-item:hover {
@@ -64,12 +64,12 @@
 }
 
 .btn-main.active {
-  background: rgba(0, 255, 136, 0.9);
+  background: rgba(77, 179, 140, 0.9);
   color: #000;
 }
 
 .btn-main:hover {
-  background: rgba(0, 255, 136, 0.8);
+  background: rgba(77, 179, 140, 0.8);
   color: #000;
 }
 
@@ -81,7 +81,7 @@
   position: absolute;
   bottom: 5px;
   left: 5px;
-  background: linear-gradient(45deg, #00ff88, #00cc6a);
+  background: var(--accent-600);
   color: #000;
   padding: 3px 8px;
   border-radius: 12px;
@@ -105,8 +105,8 @@
 }
 
 .upload-slot:hover {
-  border-color: #00ff88;
-  background: rgba(0, 255, 136, 0.1);
+  border-color: var(--accent-500);
+  background: rgba(77, 179, 140, 0.1);
 }
 
 .upload-icon {
@@ -125,7 +125,7 @@
   background: #f8f9fa;
   padding: 12px;
   border-radius: 8px;
-  border-left: 4px solid #00ff88;
+  border-left: 4px solid var(--accent-500);
 }
 
 .upload-info p {
@@ -140,13 +140,13 @@
 }
 
 .main-info {
-  color: #00ff88;
+  color: var(--accent-500);
   font-weight: 500;
   margin-left: 10px;
 }
 
 .star-icon {
-  color: #00ff88;
+  color: var(--accent-500);
   font-size: 12px;
 }
 

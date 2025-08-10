@@ -1,13 +1,13 @@
 .product-page {
   padding: 120px 0 60px;
   min-height: 100vh;
-  background: #0a0a0a;
+  background: var(--bg-900);
 }
 
 .back-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-100);
+  color: var(--text-200);
   padding: 0.8rem 1.5rem;
   border-radius: 25px;
   cursor: pointer;
@@ -21,9 +21,9 @@
 }
 
 .back-button:hover {
-  background: rgba(0, 255, 136, 0.1);
-  border-color: #00ff88;
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.08);
+  border-color: var(--border-200);
+  color: var(--accent-500);
 }
 
 .product-content {
@@ -40,10 +40,10 @@
 }
 
 .main-image {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border-radius: 20px;
+  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
+  border-radius: var(--radius-lg);
   padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-100);
 }
 
 .image-placeholder {
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: center;
   font-size: 6rem;
-  color: #00ff88;
+  color: var(--accent-500);
   cursor: pointer;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .thumbnail {
-  background: #1a1a1a;
+  background: var(--bg-800);
   border: 2px solid transparent;
   border-radius: 10px;
   padding: 0.5rem;
@@ -76,12 +76,12 @@
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .thumbnail:hover,
 .thumbnail.active {
-  border-color: #00ff88;
+  border-color: var(--accent-500);
 }
 
 /* Новые стили для галереи */
@@ -149,7 +149,7 @@
 }
 
 .product-info {
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .product-header {
@@ -161,15 +161,15 @@
 
 .product-header h1 {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 800;
+  color: var(--text-100);
   line-height: 1.2;
 }
 
 .wishlist-button {
   background: none;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: var(--text-200);
   padding: 0.8rem;
   border-radius: 50%;
   cursor: pointer;
@@ -179,8 +179,8 @@
 
 .wishlist-button:hover,
 .wishlist-button.active {
-  border-color: #ff4757;
-  color: #ff4757;
+  border-color: var(--danger-500);
+  color: var(--danger-500);
 }
 
 .product-meta {
@@ -192,8 +192,8 @@
 }
 
 .brand {
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.1);
+  color: var(--accent-500);
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
   font-size: 0.9rem;
@@ -201,8 +201,8 @@
 }
 
 .category {
-  background: rgba(255, 255, 255, 0.1);
-  color: #cccccc;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-300);
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
   font-size: 0.9rem;
@@ -217,11 +217,11 @@
 }
 
 .availability.in-stock {
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .availability.out-of-stock {
-  color: #ff4757;
+  color: var(--danger-500);
 }
 
 .product-price {
@@ -230,13 +230,13 @@
 
 .current-price {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #00ff88;
+  font-weight: 800;
+  color: var(--accent-500);
 }
 
 .original-price {
   font-size: 1.5rem;
-  color: #888888;
+  color: var(--text-500);
   text-decoration: line-through;
   margin-left: 1rem;
 }
@@ -244,12 +244,12 @@
 .product-description {
   margin-bottom: 2rem;
   line-height: 1.8;
-  color: #ffffff;
+  color: var(--text-200);
   font-size: 1.1rem;
 }
 
 .product-description p {
-  color: #ffffff !important;
+  color: var(--text-200) !important;
 }
 
 .product-features {
@@ -257,7 +257,7 @@
 }
 
 .product-features h3 {
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
   font-size: 1.3rem;
 }
@@ -271,14 +271,14 @@
   padding: 0.5rem 0;
   position: relative;
   padding-left: 1.5rem;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .product-features li::before {
   content: "✓";
   position: absolute;
   left: 0;
-  color: #00ff88;
+  color: var(--accent-500);
   font-weight: bold;
 }
 
@@ -302,16 +302,16 @@
 .quantity-controls {
   display: flex;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-100);
   border-radius: 25px;
   overflow: hidden;
-  background: #1a1a1a;
+  background: var(--bg-800);
 }
 
 .quantity-controls button {
   background: none;
   border: none;
-  color: #ffffff;
+  color: var(--text-200);
   padding: 0.8rem 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -320,8 +320,8 @@
 }
 
 .quantity-controls button:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.08);
+  color: var(--accent-500);
 }
 
 .quantity-controls button:disabled {
@@ -334,9 +334,9 @@
   font-weight: 600;
   min-width: 60px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   border: none;
-  color: #ffffff;
+  color: var(--text-200);
   font-size: 1rem;
   outline: none;
 }
@@ -377,24 +377,24 @@
 }
 
 .add-to-cart-btn {
-  background: rgba(0, 255, 136, 0.1);
-  color: #00ff88;
-  border: 2px solid #00ff88;
+  background: rgba(77, 179, 140, 0.08);
+  color: var(--accent-500);
+  border: 2px solid var(--accent-500);
 }
 
 .add-to-cart-btn:hover:not(:disabled) {
-  background: #00ff88;
-  color: #000000;
+  background: var(--accent-500);
+  color: #0b0e10;
 }
 
 .buy-now-btn {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
+  background: var(--accent-600);
+  color: #0b0e10;
 }
 
 .buy-now-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  transform: translateY(-1px);
+  box-shadow: none;
 }
 
 .add-to-cart-btn:disabled,
@@ -404,14 +404,14 @@
 }
 
 .product-specifications {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-800);
+  border: 1px solid var(--border-100);
   border-radius: 20px;
   padding: 2rem;
 }
 
 .product-specifications h3 {
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -428,31 +428,31 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-100);
 }
 
 .spec-label {
   font-weight: 500;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .spec-value {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .product-not-found {
   text-align: center;
   padding: 120px 0;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .product-not-found h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #ff4757;
+  color: var(--danger-500);
 }
 
 /* Адаптивность */

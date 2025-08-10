@@ -1,13 +1,13 @@
 .about-page {
   padding-top: 80px;
-  background: #0a0a0a;
-  color: #ffffff;
+  background: var(--bg-900);
+  color: var(--text-200);
 }
 
 /* Hero секция */
 .about-hero {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  background: linear-gradient(135deg, var(--bg-900) 0%, var(--bg-800) 50%, var(--bg-900) 100%);
   text-align: center;
 }
 
@@ -15,7 +15,8 @@
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: none;
+  color: var(--text-100);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -23,7 +24,7 @@
 
 .about-hero p {
   font-size: 1.3rem;
-  color: #cccccc;
+  color: var(--text-300);
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.8;
@@ -39,29 +40,29 @@
 }
 
 .advantages {
-  background: #111111;
+  background: var(--bg-800);
 }
 
 .features-section {
-  background: #0a0a0a;
+  background: var(--bg-900);
 }
 
 .team-section {
-  background: #111111;
+  background: var(--bg-800);
 }
 
 .company-story {
-  background: #0a0a0a;
+  background: var(--bg-900);
 }
 
 .contacts-section {
-  background: #111111;
+  background: var(--bg-800);
 }
 
 /* Доставка и оплата */
 .delivery-payment {
   padding: 5rem 0;
-  background: #0a0a0a;
+  background: var(--bg-900);
 }
 
 .steps-grid {
@@ -82,8 +83,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000;
+  background: var(--accent-600);
+  color: #0b0e10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,13 +93,13 @@
 }
 
 .step-title {
-  color: #ffffff;
+  color: var(--text-200);
   margin: 0 0 0.5rem 0;
   font-weight: 600;
 }
 
 .step-text {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0;
   line-height: 1.6;
 }
@@ -109,7 +110,7 @@
 
 .delivery-methods h3,
 .payment-section h3 {
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
@@ -128,17 +129,17 @@
 
 .method-card h4 {
   margin: 0 0 0.5rem 0;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .method-card ul {
   margin: 0;
   padding-left: 1.2rem;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .delivery-note {
-  color: #cccccc;
+  color: var(--text-300);
   margin-top: 1rem;
 }
 
@@ -161,11 +162,11 @@
 
 .payment-card h4 {
   margin: 0 0 0.5rem 0;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .payment-card p {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0 0 0.5rem 0;
 }
 
@@ -174,7 +175,8 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
+  background: none;
+  color: var(--text-100);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -198,13 +200,13 @@
 }
 
 .advantage-card:hover {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .advantage-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
@@ -212,11 +214,11 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .advantage-card p {
-  color: #cccccc;
+  color: var(--text-300);
   line-height: 1.6;
 }
 
@@ -241,13 +243,13 @@
 }
 
 .feature-item:hover {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   background: rgba(0, 255, 136, 0.05);
 }
 
 .feature-item .feature-icon {
   font-size: 3rem;
-  color: #00ff88;
+  color: var(--accent-500);
   flex-shrink: 0;
   margin-top: 0.5rem;
 }
@@ -256,11 +258,11 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .feature-content p {
-  color: #cccccc;
+  color: var(--text-300);
   line-height: 1.8;
   font-size: 1.1rem;
 }
@@ -285,44 +287,44 @@
 }
 
 .team-card:hover {
-  border-color: #00ff88;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  border-color: var(--border-200);
+  box-shadow: 0 20px 40px rgba(77, 179, 140, 0.12);
 }
 
 .member-photo {
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
   margin: 0 auto 1.5rem;
-  border: 3px solid #00ff88;
+  border: 3px solid var(--accent-500);
 }
 
 .team-card h3 {
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .member-position {
-  color: #00ff88;
+  color: var(--accent-500);
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
 .member-experience {
-  color: #cccccc;
+  color: var(--text-300);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .member-description {
-  color: #aaaaaa;
+  color: var(--text-400);
   font-size: 0.85rem;
   line-height: 1.4;
   font-style: italic;
@@ -351,11 +353,11 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .story-text p {
-  color: #cccccc;
+  color: var(--text-300);
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
@@ -367,7 +369,7 @@
 }
 
 .story-placeholder {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
   border-radius: 20px;
   padding: 3rem;
   text-align: center;
@@ -378,12 +380,12 @@
 
 .story-placeholder svg {
   font-size: 4rem;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
 .story-placeholder p {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0;
 }
 
@@ -405,13 +407,13 @@
 }
 
 .contact-card:hover {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
 }
 
 .contact-icon {
   font-size: 2.5rem;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
@@ -419,27 +421,27 @@
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .contact-link {
-  color: #00ff88;
+  color: var(--accent-500);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
 .contact-link:hover {
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .contact-card p {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0;
 }
 
 .map-placeholder {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: linear-gradient(135deg, var(--bg-800) 0%, var(--bg-700) 100%);
   border-radius: 20px;
   padding: 4rem;
   text-align: center;
@@ -449,12 +451,12 @@
 
 .map-placeholder svg {
   font-size: 4rem;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
 .map-placeholder p {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0;
   font-size: 1.1rem;
 }
@@ -545,7 +547,7 @@
 }
 
 .milestones h3 {
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
@@ -569,14 +571,14 @@
 }
 
 .milestone-item:hover {
-  background: rgba(0, 255, 136, 0.05);
-  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(77, 179, 140, 0.06);
+  border-color: var(--border-200);
   transform: translateY(-5px);
 }
 
 .milestone-year {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  color: #000000;
+  background: var(--accent-600);
+  color: #0b0e10;
   padding: 0.75rem 1rem;
   border-radius: 10px;
   font-weight: 700;
@@ -587,14 +589,14 @@
 }
 
 .milestone-content h4 {
-  color: #ffffff;
+  color: var(--text-200);
   margin: 0 0 0.5rem 0;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 .milestone-content p {
-  color: #cccccc;
+  color: var(--text-300);
   margin: 0;
   line-height: 1.6;
   font-size: 0.95rem;

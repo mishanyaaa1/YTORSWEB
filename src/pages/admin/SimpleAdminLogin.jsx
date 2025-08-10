@@ -26,11 +26,11 @@ function SimpleAdminLogin() {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
-      background: '#0a0a0a',
-      color: 'white'
+      background: 'var(--bg-900)',
+      color: 'var(--text-200)'
     }}>
       <div style={{
-        background: '#1a1a1a',
+        background: 'var(--surface-800)',
         padding: '40px',
         borderRadius: '10px',
         width: '400px'
@@ -51,10 +51,10 @@ function SimpleAdminLogin() {
               style={{
                 width: '100%',
                 padding: '10px',
-                background: '#333',
-                border: '1px solid #555',
+            background: 'var(--bg-700)',
+            border: '1px solid var(--border-100)',
                 borderRadius: '5px',
-                color: 'white'
+            color: 'var(--text-200)'
               }}
               required
             />
@@ -71,17 +71,17 @@ function SimpleAdminLogin() {
               style={{
                 width: '100%',
                 padding: '10px',
-                background: '#333',
-                border: '1px solid #555',
+            background: 'var(--bg-700)',
+            border: '1px solid var(--border-100)',
                 borderRadius: '5px',
-                color: 'white'
+            color: 'var(--text-200)'
               }}
               required
             />
           </div>
           
           {error && (
-            <div style={{ color: 'red', marginBottom: '20px' }}>
+            <div style={{ color: 'var(--danger-500)', marginBottom: '20px' }}>
               {error}
             </div>
           )}
@@ -91,10 +91,10 @@ function SimpleAdminLogin() {
             style={{
               width: '100%',
               padding: '12px',
-              background: '#00ff88',
-              border: 'none',
-              borderRadius: '5px',
-              color: 'black',
+            background: 'var(--accent-600)',
+            border: 'none',
+            borderRadius: '8px',
+            color: '#0b0e10',
               fontSize: '16px',
               cursor: 'pointer'
             }}
@@ -106,7 +106,7 @@ function SimpleAdminLogin() {
         <div style={{ 
           marginTop: '20px', 
           padding: '15px', 
-          background: '#2a2a2a', 
+          background: 'var(--bg-800)', 
           borderRadius: '5px',
           fontSize: '14px'
         }}>

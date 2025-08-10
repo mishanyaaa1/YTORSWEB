@@ -154,10 +154,10 @@ function OrderManagement() {
               alert('Ошибка создания тестового заказа: ' + error.message);
             }
           }}
-          style={{
-            background: '#00ff88',
+            style={{
+            background: 'var(--accent-600)',
             border: 'none',
-            color: '#0a0a0a',
+            color: '#0b0e10',
             padding: '0.5rem 1rem',
             borderRadius: '8px',
             cursor: 'pointer',

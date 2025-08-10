@@ -1,8 +1,8 @@
 .order-management {
   padding: 2rem;
-  background: #0a0a0a;
+  background: var(--bg-900);
   min-height: 100vh;
-  color: #ffffff;
+  color: var(--text-200);
 }
 
 .management-header {
@@ -11,8 +11,8 @@
 
 .management-header h2 {
   font-size: 2rem;
-  font-weight: 700;
-  color: #00ff88;
+  font-weight: 800;
+  color: var(--accent-500);
   margin: 0;
 }
 
@@ -37,7 +37,7 @@
 
 .stat-card:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(0, 255, 136, 0.3);
+  border-color: var(--border-200);
 }
 
 .stat-icon {
@@ -47,7 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(77, 179, 140, 0.1);
   border-radius: 10px;
 }
 
@@ -58,7 +58,7 @@
 .stat-number {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 0.25rem;
 }
 
@@ -104,7 +104,7 @@
 }
 
 .search-box input:focus {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -140,13 +140,13 @@
 }
 
 .filter-box select:focus {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   background: rgba(255, 255, 255, 0.08);
 }
 
 .filter-box option {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: var(--bg-800);
+  color: var(--text-200);
 }
 
 /* Таблица заказов */
@@ -162,9 +162,9 @@
   grid-template-columns: 150px 1fr 120px 150px 180px 200px;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  background: rgba(0, 255, 136, 0.1);
-  font-weight: 600;
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.1);
+  font-weight: 700;
+  color: var(--accent-500);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -184,7 +184,7 @@
 
 .order-number {
   font-weight: 600;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .customer-info {
@@ -255,15 +255,15 @@
 }
 
 .view-btn:hover {
-  background: rgba(0, 255, 136, 0.2);
-  border-color: #00ff88;
-  color: #00ff88;
+  background: rgba(77, 179, 140, 0.18);
+  border-color: var(--border-200);
+  color: var(--accent-500);
 }
 
 .delete-btn:hover {
-  background: rgba(255, 71, 87, 0.2);
-  border-color: #ff4757;
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.2);
+  border-color: var(--danger-500);
+  color: var(--danger-500);
 }
 
 .status-select {
@@ -279,12 +279,12 @@
 }
 
 .status-select:focus {
-  border-color: #00ff88;
+  border-color: var(--border-200);
 }
 
 .status-select option {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: var(--bg-800);
+  color: var(--text-200);
 }
 
 /* Пустое состояние */
@@ -327,8 +327,8 @@
 }
 
 .order-details-content {
-  background: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface-800);
+  border: 1px solid var(--border-100);
   border-radius: 20px;
   max-width: 800px;
   width: 100%;
@@ -348,14 +348,14 @@
 .modal-header h3 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #00ff88;
+  color: var(--accent-500);
   margin: 0;
 }
 
 .close-btn {
-  background: rgba(255, 71, 87, 0.1);
-  border: 1px solid #ff4757;
-  color: #ff4757;
+  background: rgba(227, 93, 106, 0.12);
+  border: 1px solid var(--danger-500);
+  color: var(--danger-500);
   padding: 0.5rem;
   border-radius: 8px;
   cursor: pointer;
@@ -383,7 +383,7 @@
 .details-section h4 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-bottom: 1rem;
 }
 
@@ -421,13 +421,13 @@
 
 .item-title {
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text-200);
   margin-bottom: 0.25rem;
 }
 
 .item-brand {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-500);
 }
 
 .item-quantity {
@@ -437,11 +437,11 @@
 
 .item-price {
   font-weight: 600;
-  color: #00ff88;
+  color: var(--accent-500);
 }
 
 .order-total-details {
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(77, 179, 140, 0.06);
   border-radius: 10px;
   padding: 1rem;
 }
@@ -451,7 +451,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  color: #cccccc;
+  color: var(--text-300);
 }
 
 .total-line.discount {
@@ -462,7 +462,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-weight: 600;
   font-size: 1.1rem;
-  color: #00ff88;
+  color: var(--accent-500);
   margin-top: 0.5rem;
   padding-top: 1rem;
 }
@@ -507,7 +507,7 @@
 }
 
 .add-note input:focus {
-  border-color: #00ff88;
+  border-color: var(--border-200);
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -516,9 +516,9 @@
 }
 
 .add-note-btn {
-  background: #00ff88;
+  background: var(--accent-600);
   border: none;
-  color: #0a0a0a;
+  color: #0b0e10;
   padding: 0.8rem;
   border-radius: 8px;
   cursor: pointer;
@@ -530,7 +530,7 @@
 }
 
 .add-note-btn:hover {
-  background: #00cc6a;
+  background: var(--accent-500);
 }
 
 .add-note-btn:disabled {
