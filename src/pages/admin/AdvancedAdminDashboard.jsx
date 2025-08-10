@@ -1,0 +1,190 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAdminData } from '../../context/AdminDataContext';
+import ProductManagement from './ProductManagement';
+import CategoryManagement from './CategoryManagement';
+import PromotionManagement from './PromotionManagement';
+import ContentManagement from './ContentManagement';
+import PopularProductsManagement from './PopularProductsManagement';
+import OrderManagement from './OrderManagement';
+import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
+import './AdvancedAdminDashboard.css';
+
+function AdvancedAdminDashboard() {
+  const navigate = useNavigate();
+  const { products, promotions } = useAdminData();
+  const [activeSection, setActiveSection] = useState('overview');
+
+  useEffect(() => {
+    const isAuth = localStorage.getItem('adminAuth');
+    if (!isAuth) {
+      navigate('/admin');
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminAuth');
+    navigate('/admin');
+  };
+
+  const menuItems = [
+    { id: 'overview', label: 'Обзор', icon: <FaChartBar /> },
+    { id: 'products', label: 'Товары', icon: <FaBox /> },
+    { id: 'categories', label: 'Категории', icon: <FaTags /> },
+    { id: 'popular', label: 'Популярные товары', icon: <FaStar /> },
+    { id: 'promotions', label: 'Акции', icon: <FaTags /> },
+    { id: 'orders', label: 'Заказы', icon: <FaShoppingCart /> },
+    { id: 'content', label: 'Контент', icon: <FaEdit /> }
+  ];
+
+  const renderOverview = () => (
+    <div className="overview-section">
+      <h2>Обзор системы</h2>
+      
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-icon">📦</div>
+          <div className="stat-content">
+            <div className="stat-number">{products.length}</div>
+            <div className="stat-label">Товаров</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">🎯</div>
+          <div className="stat-content">
+            <div className="stat-number">{promotions.length}</div>
+            <div className="stat-label">Акций</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">✅</div>
+          <div className="stat-content">
+            <div className="stat-number">{products.filter(p => p.available).length}</div>
+            <div className="stat-label">В наличии</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">💰</div>
+          <div className="stat-content">
+            <div className="stat-number">{Math.round(products.reduce((sum, p) => sum + (p.price * (p.quantity || 0)), 0) / 1000)}К</div>
+            <div className="stat-label">Общая стоимость склада</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="recent-section">
+        <h3>Популярные товары</h3>
+        <div className="product-list">
+          {products && products.length > 0 ? products.slice(0, 5).map(product => (
+            <div key={product.id} className="product-item">
+              {(() => {
+                const migratedProduct = migrateProductImages(product);
+                const mainImage = getMainImage(migratedProduct);
+                
+                if (mainImage?.data) {
+                  if (
+                    typeof mainImage.data === 'string' &&
+                    (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
+                  ) {
+                    return <img src={mainImage.data} alt={product.title} className="product-image-small" />;
+                  }
+                  return <span className="product-icon">{mainImage.data}</span>;
+                }
+                return <span className="product-icon">📦</span>;
+              })()}
+              <div className="product-info">
+                <div className="product-name">{product.title}</div>
+                <div className="product-price">{product.price.toLocaleString()} ₽</div>
+                <div className="product-quantity">Количество: {product.quantity || 0} шт.</div>
+              </div>
+              <div className={`product-status ${product.available ? 'available' : 'unavailable'}`}>
+                {product.available ? 'В наличии' : 'Нет в наличии'}
+              </div>
+            </div>
+          )) : (
+            <div className="no-products">
+              <p>Товары не найдены. <Link to="#" onClick={() => setActiveSection('products')}>Добавить товары</Link></p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'overview':
+        return renderOverview();
+      case 'products':
+        return <ProductManagement />;
+      case 'categories':
+        return <CategoryManagement />;
+      case 'popular':
+        return <PopularProductsManagement />;
+      case 'promotions':
+        return <PromotionManagement />;
+      case 'orders':
+        return <OrderManagement />;
+      case 'content':
+        return <ContentManagement />;
+      default:
+        return renderOverview();
+    }
+  };
+
+  return (
+    <div className="admin-dashboard">
+      <aside className="admin-sidebar">
+        <div className="sidebar-header">
+          <h2>ЮТОРС</h2>
+          <p>Админ панель</p>
+        </div>
+        
+        <nav className="sidebar-nav">
+          {menuItems.map(item => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
+              onClick={() => setActiveSection(item.id)}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+        
+        <div className="sidebar-footer">
+          <Link to="/" className="nav-item">
+            <FaHome />
+            <span>На сайт</span>
+          </Link>
+          <button onClick={handleLogout} className="nav-item logout">
+            <FaSignOutAlt />
+            <span>Выйти</span>
+          </button>
+        </div>
+      </aside>
+
+      <main className="admin-main">
+        <header className="admin-header">
+          <h1>
+            {menuItems.find(item => item.id === activeSection)?.label || 'Обзор'}
+          </h1>
+          <div className="header-actions">
+            <span>Администратор</span>
+          </div>
+        </header>
+        
+        <div className="admin-content">
+          {renderContent()}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default AdvancedAdminDashboard;
