@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet, Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { 
-  FaBox, 
-  FaPercent, 
-  FaFileAlt, 
-  FaUsers,
-  FaChartLine,
-  FaSignOutAlt,
-  FaBars,
-  FaTimes,
-  FaHome
+  FaBox, FaPercent, FaFileAlt, FaShoppingCart, FaChartLine, 
+  FaSignOutAlt, FaBars, FaTimes, FaHome 
 } from 'react-icons/fa';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
 
   useEffect(() => {
-    const isAuth = localStorage.getItem('adminAuth');
-    if (!isAuth) {
+    if (!localStorage.getItem('adminAuth')) {
       navigate('/admin');
     }
   }, [navigate]);
@@ -32,114 +23,57 @@ function AdminDashboard() {
   };
 
   const menuItems = [
-    {
-      path: '/admin/dashboard',
-      icon: <FaChartLine />,
-      label: 'Обзор',
-      exact: true
-    },
-    {
-      path: '/admin/dashboard/products',
-      icon: <FaBox />,
-      label: 'Товары'
-    },
-    {
-      path: '/admin/dashboard/promotions',
-      icon: <FaPercent />,
-      label: 'Акции'
-    },
-    {
-      path: '/admin/dashboard/content',
-      icon: <FaFileAlt />,
-      label: 'Контент'
-    },
-    {
-      path: '/admin/dashboard/orders',
-      icon: <FaUsers />,
-      label: 'Заказы'
-    }
+    { path: '/admin/dashboard', icon: <FaChartLine />, label: 'Обзор', exact: true },
+    { path: '/admin/dashboard/products', icon: <FaBox />, label: 'Товары' },
+    { path: '/admin/dashboard/orders', icon: <FaShoppingCart />, label: 'Заказы' },
+    { path: '/admin/dashboard/promotions', icon: <FaPercent />, label: 'Акции' },
+    { path: '/admin/dashboard/content', icon: <FaFileAlt />, label: 'Контент' },
   ];
 
-  const isActiveLink = (path, exact = false) => {
-    if (exact) {
-      return location.pathname === path;
-    }
-    return location.pathname.startsWith(path);
-  };
+  const isActive = (path, exact) => exact ? location.pathname === path : location.pathname.startsWith(path);
 
   return (
-    <div className="admin-dashboard">
-      {/* Sidebar */}
-      <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+    <div className="admin-layout">
+      <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <Link to="/" className="brand-link">
-            <FaHome />
-            <span>На сайт</span>
-          </Link>
-          <button 
-            className="sidebar-close"
-            onClick={() => setIsSidebarOpen(false)}
-          >
+          <h3>Панель</h3>
+          <button className="sidebar-close-btn" onClick={() => setIsSidebarOpen(false)}>
             <FaTimes />
           </button>
         </div>
-
         <nav className="sidebar-nav">
-          {menuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`nav-item ${isActiveLink(item.path, item.exact) ? 'active' : ''}`}
-              onClick={() => setIsSidebarOpen(false)}
-            >
+          {menuItems.map(item => (
+            <Link key={item.path} to={item.path} className={`nav-link ${isActive(item.path, item.exact) ? 'active' : ''}`}>
               {item.icon}
               <span>{item.label}</span>
             </Link>
           ))}
         </nav>
-
         <div className="sidebar-footer">
-          <button className="logout-btn" onClick={handleLogout}>
+          <Link to="/" className="nav-link">
+            <FaHome />
+            <span>Вернуться на сайт</span>
+          </Link>
+          <button onClick={handleLogout} className="nav-link logout-btn">
             <FaSignOutAlt />
             <span>Выйти</span>
           </button>
         </div>
-      </div>
+      </aside>
 
-      {/* Main Content */}
-      <div className="admin-main">
+      <div className="admin-main-content">
         <header className="admin-header">
-          <button 
-            className="sidebar-toggle"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
+          <button className="sidebar-toggle-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <FaBars />
           </button>
-          
-          <h1>Панель администратора</h1>
-          
-          <div className="header-actions">
-            <Link to="/" className="site-link">
-              <FaHome /> На сайт
-            </Link>
-            <button className="logout-btn-header" onClick={handleLogout}>
-              <FaSignOutAlt />
-            </button>
-          </div>
+          <h2>{menuItems.find(item => isActive(item.path, item.exact))?.label || 'Панель'}</h2>
         </header>
-
-        <main className="admin-content">
+        <main className="admin-page-content">
           <Outlet />
         </main>
       </div>
-
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
-        <div 
-          className="sidebar-overlay"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+      
+      {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>}
     </div>
   );
 }

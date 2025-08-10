@@ -1,29 +1,27 @@
 .about-page {
   padding-top: 80px;
-  background: #0a0a0a;
+  background: #2a2a2a;
   color: #ffffff;
 }
 
 /* Hero секция */
 .about-hero {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #3a3a3a 0%, #404040 50%, #3a3a3a 100%);
   text-align: center;
 }
 
 .about-hero h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #00ff88 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .about-hero p {
-  font-size: 1.3rem;
-  color: #cccccc;
+  font-size: 1.4rem;
+  color: #d8d8d8;
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.8;
@@ -39,23 +37,23 @@
 }
 
 .advantages {
-  background: #111111;
+  background: #353535;
 }
 
 .features-section {
-  background: #0a0a0a;
+  background: #2a2a2a;
 }
 
 .team-section {
-  background: #111111;
+  background: #353535;
 }
 
 .company-story {
-  background: #0a0a0a;
+  background: #2a2a2a;
 }
 
 .contacts-section {
-  background: #111111;
+  background: #353535;
 }
 
 /* Доставка и оплата */
