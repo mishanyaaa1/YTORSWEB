@@ -1,6 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaTools } from 'react-icons/fa';
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaClock,
+  FaTools,
+  FaTruck,
+  FaStore,
+  FaShippingFast,
+  FaCreditCard,
+  FaShieldAlt,
+  FaFileInvoice,
+  FaUniversity,
+  FaCcVisa,
+  FaCcMastercard,
+  FaMoneyBillWave
+} from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 import './About.css';
 
@@ -104,6 +120,14 @@ export default function About() {
       link: null
     }
   ];
+
+  const getDeliveryIcon = (title) => {
+    const lower = (title || '').toLowerCase();
+    if (lower.includes('самовывоз')) return <FaStore />;
+    if (lower.includes('бесплатная')) return <FaTruck />;
+    if (lower.includes('россии') || lower.includes('снг') || lower.includes('доставка')) return <FaShippingFast />;
+    return <FaTruck />;
+  };
 
   return (
     <div className="about-page">
@@ -328,20 +352,21 @@ export default function About() {
           {aboutContent.deliveryAndPayment?.deliveryMethods && (
             <div className="delivery-methods">
               <h3>Способы доставки</h3>
-              <div className="methods-grid">
+              <div className="methods-grid advantages-grid">
                 {aboutContent.deliveryAndPayment.deliveryMethods.map((method, i) => (
                   <motion.div
                     key={i}
-                    className="method-card"
+                    className="advantage-card method-card"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                     viewport={{ once: true }}
                     whileHover={{ y: -4 }}
                   >
+                    <div className="advantage-icon">{getDeliveryIcon(method.title)}</div>
                     <h4>{method.title}</h4>
                     {Array.isArray(method.items) && method.items.length > 0 && (
-                      <ul>
+                      <ul className="method-list">
                         {method.items.map((it, idx) => (
                           <li key={idx}>{it}</li>
                         ))}
@@ -360,25 +385,34 @@ export default function About() {
           {aboutContent.deliveryAndPayment?.payment && (
             <div className="payment-section">
               <h3>Оплата</h3>
-              <div className="payment-cards">
-                <div className="payment-card">
+              <div className="payment-cards advantages-grid">
+                <div className="advantage-card payment-card">
+                  <div className="advantage-icon"><FaMoneyBillWave /></div>
                   <h4>Почему предоплата</h4>
                   <p>{aboutContent.deliveryAndPayment.payment.whyPrepay}</p>
                   {aboutContent.deliveryAndPayment.payment.whyPrepayExtra && (
                     <p>{aboutContent.deliveryAndPayment.payment.whyPrepayExtra}</p>
                   )}
                 </div>
-                <div className="payment-card">
+                <div className="advantage-card payment-card">
+                  <div className="advantage-icon"><FaShieldAlt /></div>
                   <h4>Гарантии честной сделки</h4>
                   <p>{aboutContent.deliveryAndPayment.payment.trust}</p>
                   {aboutContent.deliveryAndPayment.payment.trustExtra && (
                     <p>{aboutContent.deliveryAndPayment.payment.trustExtra}</p>
                   )}
                 </div>
-                <div className="payment-card">
+                <div className="advantage-card payment-card">
+                  <div className="advantage-icon"><FaFileInvoice /></div>
                   <h4>Реквизиты</h4>
                   <p>{aboutContent.deliveryAndPayment.payment.requisites}</p>
                 </div>
+              </div>
+              <div className="payment-logos" aria-hidden>
+                <span className="logo"><FaCcVisa /></span>
+                <span className="logo"><FaCcMastercard /></span>
+                <span className="logo"><FaUniversity /></span>
+                <span className="logo"><FaCreditCard /></span>
               </div>
             </div>
           )}

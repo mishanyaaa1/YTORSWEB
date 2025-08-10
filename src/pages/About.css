@@ -113,29 +113,22 @@
   margin-bottom: 1rem;
 }
 
-.methods-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-}
+.methods-grid {}
 
-.method-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-}
+.method-card {}
 
-.method-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #ffffff;
-}
+.method-card h4 {}
 
-.method-card ul {
-  margin: 0;
-  padding-left: 1.2rem;
-  color: #cccccc;
-}
+.method-card ul {}
+
+.method-card:hover {}
+
+.card-head {}
+
+.method-icon,
+.payment-icon {}
+
+.method-list li::marker { color: #e6a34a; }
 
 .delivery-note {
   color: #cccccc;
@@ -146,27 +139,27 @@
   margin-top: 2.5rem;
 }
 
-.payment-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
+.payment-cards {}
+
+.payment-card {}
+
+.payment-card h4 {}
+
+.payment-card p {}
+
+.payment-card:hover {}
+
+.payment-logos {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  opacity: 0.9;
 }
 
-.payment-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-}
-
-.payment-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #ffffff;
-}
-
-.payment-card p {
-  color: #cccccc;
-  margin: 0 0 0.5rem 0;
+.payment-logos .logo {
+  font-size: 1.75rem;
+  color: #e6a34a;
 }
 
 .section-title {
