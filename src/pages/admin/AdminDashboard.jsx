@@ -10,7 +10,12 @@ import {
   FaSignOutAlt,
   FaBars,
   FaTimes,
-  FaHome
+  FaHome,
+  FaCog,
+  FaBell,
+  FaUser,
+  FaShoppingCart,
+  FaStar
 } from 'react-icons/fa';
 import './AdminDashboard.css';
 
@@ -18,6 +23,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [notifications, setNotifications] = useState(3); // Моковые уведомления
 
   useEffect(() => {
     const isAuth = localStorage.getItem('adminAuth');
@@ -36,27 +42,38 @@ function AdminDashboard() {
       path: '/admin/dashboard',
       icon: <FaChartLine />,
       label: 'Обзор',
-      exact: true
+      exact: true,
+      description: 'Аналитика и статистика'
     },
     {
       path: '/admin/dashboard/products',
       icon: <FaBox />,
-      label: 'Товары'
+      label: 'Товары',
+      description: 'Управление каталогом'
     },
     {
       path: '/admin/dashboard/promotions',
       icon: <FaPercent />,
-      label: 'Акции'
+      label: 'Акции',
+      description: 'Скидки и промо'
     },
     {
       path: '/admin/dashboard/content',
       icon: <FaFileAlt />,
-      label: 'Контент'
+      label: 'Контент',
+      description: 'Тексты и страницы'
     },
     {
       path: '/admin/dashboard/orders',
-      icon: <FaUsers />,
-      label: 'Заказы'
+      icon: <FaShoppingCart />,
+      label: 'Заказы',
+      description: 'Обработка заказов'
+    },
+    {
+      path: '/admin/dashboard/categories',
+      icon: <FaCog />,
+      label: 'Категории',
+      description: 'Структура каталога'
     }
   ];
 
@@ -69,12 +86,22 @@ function AdminDashboard() {
 
   return (
     <div className="admin-dashboard">
-      {/* Sidebar */}
-      <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+      {/* Боковая панель */}
+      <motion.div 
+        className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}
+        initial={{ x: -280 }}
+        animate={{ x: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
         <div className="sidebar-header">
           <Link to="/" className="brand-link">
-            <FaHome />
-            <span>На сайт</span>
+            <div className="brand-icon">
+              <FaHome />
+            </div>
+            <div className="brand-text">
+              <span className="brand-title">ЮТОРС</span>
+              <span className="brand-subtitle">Админ панель</span>
+            </div>
           </Link>
           <button 
             className="sidebar-close"
@@ -86,15 +113,23 @@ function AdminDashboard() {
 
         <nav className="sidebar-nav">
           {menuItems.map((item) => (
-            <Link
+            <motion.div
               key={item.path}
-              to={item.path}
-              className={`nav-item ${isActiveLink(item.path, item.exact) ? 'active' : ''}`}
-              onClick={() => setIsSidebarOpen(false)}
+              whileHover={{ x: 8 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
+              <Link
+                to={item.path}
+                className={`nav-item ${isActiveLink(item.path, item.exact) ? 'active' : ''}`}
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                <div className="nav-icon">{item.icon}</div>
+                <div className="nav-content">
+                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-description">{item.description}</span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </nav>
 
@@ -104,36 +139,58 @@ function AdminDashboard() {
             <span>Выйти</span>
           </button>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Main Content */}
+      {/* Основной контент */}
       <div className="admin-main">
+        {/* Хедер */}
         <header className="admin-header">
-          <button 
-            className="sidebar-toggle"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            <FaBars />
-          </button>
-          
-          <h1>Панель администратора</h1>
+          <div className="header-left">
+            <button 
+              className="sidebar-toggle"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <FaBars />
+            </button>
+            <div className="page-info">
+              <h1>Панель управления</h1>
+              <p>Управление сайтом ЮТОРС</p>
+            </div>
+          </div>
           
           <div className="header-actions">
+            <button className="notification-btn">
+              <FaBell />
+              {notifications > 0 && (
+                <span className="notification-badge">{notifications}</span>
+              )}
+            </button>
+            
+            <div className="user-menu">
+              <button className="user-btn">
+                <FaUser />
+                <span>Администратор</span>
+              </button>
+            </div>
+            
             <Link to="/" className="site-link">
-              <FaHome /> На сайт
+              <FaHome />
+              <span>На сайт</span>
             </Link>
+            
             <button className="logout-btn-header" onClick={handleLogout}>
               <FaSignOutAlt />
             </button>
           </div>
         </header>
 
+        {/* Контент */}
         <main className="admin-content">
           <Outlet />
         </main>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* Оверлей для мобильной навигации */}
       {isSidebarOpen && (
         <div 
           className="sidebar-overlay"
