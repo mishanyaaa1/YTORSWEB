@@ -19,7 +19,6 @@ import './OrderManagement.css';
 function OrderManagement() {
   const { 
     orders, 
-    createOrder,
     updateOrderStatus, 
     addOrderNote, 
     deleteOrder,
@@ -29,9 +28,7 @@ function OrderManagement() {
     STATUS_COLORS
   } = useOrders();
   
-  // Логирование для диагностики
-  console.log('OrderManagement: Полученные заказы:', orders);
-  console.log('OrderManagement: Количество заказов:', orders.length);
+  
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -122,66 +119,6 @@ function OrderManagement() {
     <div className="order-management">
       <div className="management-header">
         <h2>Управление заказами</h2>
-        <button 
-          className="test-order-btn"
-          onClick={async () => {
-            console.log('🧪 Тест: Создаем тестовый заказ через createOrder');
-            const testOrderData = {
-              orderNumber: 'TEST' + Date.now(),
-              orderForm: {
-                name: 'Тестовый клиент',
-                phone: '+7 (999) 123-45-67',
-                email: 'test@example.com',
-                deliveryMethod: 'pickup',
-                paymentMethod: 'cash'
-              },
-              cartItems: [
-                { id: 1, title: 'Тестовый товар', price: 1000, quantity: 1, brand: 'Test' }
-              ],
-              priceCalculation: {
-                subtotal: 1000,
-                total: 1000,
-                discountAmount: 0
-              }
-            };
-            
-            try {
-              const result = await createOrder(testOrderData);
-              console.log('✅ Тестовый заказ создан:', result);
-              alert('Тестовый заказ создан! Проверьте список заказов.');
-            } catch (error) {
-              console.error('❌ Ошибка создания тестового заказа:', error);
-              alert('Ошибка создания тестового заказа: ' + error.message);
-            }
-          }}
-          style={{
-            background: '#00ff88',
-            border: 'none',
-            color: '#0a0a0a',
-            padding: '0.5rem 1rem',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: '600'
-          }}
-        >
-          🧪 Создать тестовый заказ
-        </button>
-        
-        {/* Отладочная информация */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.05)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '8px',
-          padding: '1rem',
-          marginTop: '1rem',
-          fontSize: '0.9rem',
-          color: '#cccccc'
-        }}>
-          <strong>🔍 Отладка:</strong><br/>
-          📋 Заказов в состоянии: {orders.length}<br/>
-          💾 localStorage key 'orders': {localStorage.getItem('orders') ? 'найден' : 'не найден'}<br/>
-          🔧 createOrder функция: {createOrder ? 'доступна' : 'не найдена'}
-        </div>
       </div>
 
       {/* Статистика */}
