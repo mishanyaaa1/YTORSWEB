@@ -8,12 +8,6 @@ import {
 } from '../data/initialData.js';
 import { migrateProductImages } from '../utils/imageHelpers';
 
-// Отладочная информация для initialProducts
-console.log('AdminDataContext: initialProducts:', initialProducts);
-console.log('AdminDataContext: Looking for popular products in initialProducts with IDs:', [11, 1, 8, 2]);
-const foundInitialPopularProducts = [11, 1, 8, 2].map(id => initialProducts.find(p => p.id === id));
-console.log('AdminDataContext: Found popular products in initialProducts:', foundInitialPopularProducts);
-
 const AdminDataContext = createContext();
 
 export const useAdminData = () => {
@@ -32,11 +26,6 @@ export const AdminDataProvider = ({ children }) => {
     
     // Автоматически мигрируем products при первой загрузке
     productsData = productsData.map(product => migrateProductImages(product));
-    
-    console.log('AdminDataContext: Initial products from localStorage:', productsData);
-    console.log('AdminDataContext: Looking for popular products with IDs:', [11, 1, 8, 2]);
-    const foundPopularProducts = [11, 1, 8, 2].map(id => productsData.find(p => p.id === id));
-    console.log('AdminDataContext: Found popular products from localStorage:', foundPopularProducts);
     
     return productsData;
   });
@@ -97,77 +86,52 @@ export const AdminDataProvider = ({ children }) => {
 
   const [popularProductIds, setPopularProductIds] = useState(() => {
     const saved = localStorage.getItem('adminPopularProducts');
-    const result = saved ? JSON.parse(saved) : [11, 1, 8, 2]; // ID популярных товаров по умолчанию
-    console.log('AdminDataContext: Initial popularProductIds:', result);
-    return result;
+    return saved ? JSON.parse(saved) : [11, 1, 8, 2]; // ID популярных товаров по умолчанию
   });
 
   // Первичная загрузка из API (fallback на локальные данные)
   useEffect(() => {
     const bootstrapFromApi = async () => {
       try {
-        console.log('AdminDataContext: Starting bootstrapFromApi...');
-                 const [productsRes, categoriesRes, brandsRes, promotionsRes] = await Promise.all([
-           fetch('/api/products'),
-           fetch('/api/categories'),
-           fetch('/api/brands'),
-           fetch('/api/promotions')
-         ]);
-         
-         console.log('AdminDataContext: API responses status:', {
-           products: productsRes.status,
-           categories: categoriesRes.status,
-           brands: brandsRes.status,
-           promotions: promotionsRes.status
-         });
-        
-        if (productsRes.ok) {
-          const productsData = await productsRes.json();
-          console.log('AdminDataContext: Raw products data from API:', productsData);
-          
-          const normalized = productsData.map(product => ({
-            ...product,
-            images: product.images || [],
-            icon: product.icon || null
-          }))
-          .map(product => migrateProductImages(product))
-          .filter(product => product.id && product.title);
-          console.log('AdminDataContext: Loaded products from API:', normalized);
-          console.log('AdminDataContext: Looking for popular products with IDs:', popularProductIds);
-          const foundPopularProducts = popularProductIds.map(id => normalized.find(p => p.id === id));
-          console.log('AdminDataContext: Found popular products:', foundPopularProducts);
+        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
+          fetch('/api/products'),
+          fetch('/api/categories'),
+          fetch('/api/brands'),
+          fetch('/api/promotions')
+        ]);
+
+        if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
+          const apiProducts = await apiProductsRes.value.json();
+          const normalized = Array.isArray(apiProducts)
+            ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
+            : [];
           setProducts(normalized);
           localStorage.setItem('adminProducts', JSON.stringify(normalized));
-        } else {
-          console.log('AdminDataContext: Products API failed, using local data');
         }
 
-        if (categoriesRes.ok) {
-          const apiCats = await categoriesRes.json();
+        if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
+          const apiCats = await apiCategoriesRes.value.json();
           if (apiCats && typeof apiCats === 'object') {
             setCategories(apiCats);
             localStorage.setItem('adminCategories', JSON.stringify(apiCats));
           }
         }
 
-        if (brandsRes.ok) {
-          const apiBrands = await brandsRes.json();
+        if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
+          const apiBrands = await apiBrandsRes.value.json();
           if (Array.isArray(apiBrands) && apiBrands.length) {
             setBrands(apiBrands);
             localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
           }
         }
 
-        if (promotionsRes.ok) {
-          const apiPromos = await promotionsRes.json();
+        if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
+          const apiPromos = await apiPromosRes.value.json();
           if (Array.isArray(apiPromos)) {
             setPromotions(apiPromos);
             localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
           }
         }
-
-
-
       } catch (e) {
         console.warn('AdminDataContext: API bootstrap failed, using local data');
       }
