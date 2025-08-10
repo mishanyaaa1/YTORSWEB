@@ -33,11 +33,6 @@ function OrderManagement() {
   console.log('OrderManagement: Полученные заказы:', orders);
   console.log('OrderManagement: Количество заказов:', orders.length);
 
-  // Защита от undefined данных
-  if (!orders) {
-    return <div>Загрузка данных...</div>;
-  }
-
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -266,7 +261,7 @@ function OrderManagement() {
         </div>
         
         <AnimatePresence>
-          {filteredOrders && filteredOrders.map((order) => (
+          {filteredOrders.map((order) => (
             <motion.div
               key={order.id}
               className="table-row"
@@ -390,7 +385,7 @@ function OrderManagement() {
                 <div className="details-section">
                   <h4>Товары в заказе</h4>
                   <div className="order-items">
-                    {selectedOrder.items && selectedOrder.items.map((item, index) => (
+                    {selectedOrder.items.map((item, index) => (
                       <div key={index} className="order-item">
                         <div className="item-info">
                           <div className="item-title">{item.title}</div>
@@ -425,7 +420,7 @@ function OrderManagement() {
                 <div className="details-section">
                   <h4>Заметки</h4>
                   <div className="notes-list">
-                    {selectedOrder.notes && selectedOrder.notes.map((note) => (
+                    {selectedOrder.notes.map((note) => (
                       <div key={note.id} className="note-item">
                         <div className="note-text">{note.text}</div>
                         <div className="note-date">{formatDate(note.timestamp)}</div>

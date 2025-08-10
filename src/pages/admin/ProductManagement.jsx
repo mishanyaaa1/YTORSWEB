@@ -1,21 +1,6 @@
 import React, { useState } from 'react';
 import { useAdminData } from '../../context/AdminDataContext';
-import { 
-  FaPlus, 
-  FaEdit, 
-  FaTrash, 
-  FaSave, 
-  FaTimes, 
-  FaSearch, 
-  FaFilter,
-  FaEye,
-  FaEyeSlash,
-  FaBox,
-  FaTags,
-  FaStar,
-  FaCheckCircle,
-  FaExclamationTriangle
-} from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import MultiImageUpload from '../../components/MultiImageUpload';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import './ProductManagement.css';
@@ -23,40 +8,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export default function ProductManagement() {
   const { products, categories, brands, addProduct, updateProduct, deleteProduct } = useAdminData();
-  
-  // Защита от undefined categories
-  if (!categories) {
-    return <div className="loading-state">Загрузка категорий...</div>;
-  }
-  
-  // Проверяем, что categories - это объект
-  if (typeof categories !== 'object' || categories === null) {
-    console.error('Categories is not an object:', categories);
-    return <div className="error-state">Ошибка загрузки категорий. Попробуйте обновить страницу.</div>;
-  }
-  
-  // Защита от undefined products
-  if (!products) {
-    return <div className="loading-state">Загрузка товаров...</div>;
-  }
-  
-  // Проверяем, что products - это массив
-  if (!Array.isArray(products)) {
-    console.error('Products is not an array:', products);
-    return <div className="error-state">Ошибка загрузки товаров. Попробуйте обновить страницу.</div>;
-  }
-  
-  // Защита от undefined brands
-  if (!brands) {
-    return <div className="loading-state">Загрузка брендов...</div>;
-  }
-  
-  // Проверяем, что brands - это массив
-  if (!Array.isArray(brands)) {
-    console.error('Brands is not an array:', brands);
-    return <div className="error-state">Ошибка загрузки брендов. Попробуйте обновить страницу.</div>;
-  }
-
   const [editingProduct, setEditingProduct] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
@@ -75,10 +26,8 @@ export default function ProductManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showForm, setShowForm] = useState(false);
-  const [sortBy, setSortBy] = useState('title');
-  const [sortOrder, setSortOrder] = useState('asc');
 
-  const categoryList = categories ? Object.keys(categories) : [];
+  const categoryList = Object.keys(categories);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -113,26 +62,19 @@ export default function ProductManagement() {
       specifications: [{ name: '', value: '' }],
       features: []
     });
-    setShowForm(true);
   };
 
   const startEditing = (product) => {
-    setEditingProduct(product);
+    setEditingProduct(product.id);
     setIsCreating(false);
-    setFormData({
-      title: product.title || '',
-      price: product.price || '',
-      category: product.category || '',
-      subcategory: product.subcategory || '',
-      brand: product.brand || '',
-      available: product.available !== undefined ? product.available : true,
-      quantity: product.quantity || 0,
-      images: product.images || [],
-      description: product.description || '',
-      specifications: product.specifications || [{ name: '', value: '' }],
-      features: product.features || []
-    });
-    setShowForm(true);
+    const migratedProduct = migrateProductImages(product);
+    // Нормализуем характеристики к массиву {name, value}
+    const normalizedSpecs = Array.isArray(migratedProduct.specifications)
+      ? migratedProduct.specifications
+      : migratedProduct.specifications && typeof migratedProduct.specifications === 'object'
+        ? Object.entries(migratedProduct.specifications).map(([name, value]) => ({ name, value }))
+        : [{ name: '', value: '' }];
+    setFormData({ ...migratedProduct, specifications: normalizedSpecs });
   };
 
   const cancelEditing = () => {
@@ -151,35 +93,55 @@ export default function ProductManagement() {
       specifications: [{ name: '', value: '' }],
       features: []
     });
-    setShowForm(false);
   };
 
   const saveProduct = () => {
-    if (!formData.title || !formData.price || !formData.category) {
-      alert('Пожалуйста, заполните обязательные поля');
+    console.log('Saving product:', { formData, isCreating, editingProduct });
+    
+    if (!formData.title || !formData.category) {
+      alert('Заполните обязательные поля: название и категория!');
       return;
     }
 
-    const productData = {
-      ...formData,
-      price: parseFloat(formData.price),
-      quantity: parseInt(formData.quantity)
-    };
-
-    if (isCreating) {
-      addProduct(productData);
-    } else {
-      updateProduct(editingProduct.id, productData);
+    const price = parseFloat(formData.price);
+    if (isNaN(price) || price < 0) {
+      alert('Укажите корректную цену товара!');
+      return;
     }
 
-    cancelEditing();
+    try {
+      const productData = {
+        ...formData,
+        price: parseFloat(formData.price),
+        quantity: parseInt(formData.quantity) || 0,
+        specifications: (formData.specifications || []).filter(s => (s.name || s.value))
+      };
+
+      if (isCreating) {
+        console.log('Creating new product:', productData);
+        addProduct(productData);
+        alert('Товар создан!');
+      } else {
+        console.log('Updating existing product:', editingProduct, productData);
+        updateProduct(editingProduct, productData);
+        alert('Товар обновлен!');
+      }
+      
+      cancelEditing();
+    } catch (error) {
+      console.error('Error saving product:', error);
+      alert('Ошибка при сохранении товара!');
+    }
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Вы уверены, что хотите удалить этот товар?')) {
+    if (window.confirm('Удалить товар?')) {
       deleteProduct(id);
+      alert('Товар удален!');
     }
   };
+
+  const availableSubcategories = formData.category ? categories[formData.category] || [] : [];
 
   const handleImagesChange = (images) => {
     setFormData(prev => ({ ...prev, images }));
@@ -187,381 +149,239 @@ export default function ProductManagement() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveProduct();
-  };
+    console.log('Submitting form:', formData);
 
-  const addSpecification = () => {
-    setFormData(prev => ({
-      ...prev,
-      specifications: [...prev.specifications, { name: '', value: '' }]
-    }));
-  };
-
-  const removeSpecification = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      specifications: prev.specifications.filter((_, i) => i !== index)
-    }));
-  };
-
-  const updateSpecification = (index, field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      specifications: prev.specifications.map((spec, i) => 
-        i === index ? { ...spec, [field]: value } : spec
-      )
-    }));
-  };
-
-  const addFeature = () => {
-    const feature = prompt('Введите название характеристики:');
-    if (feature && !formData.features.includes(feature)) {
-      setFormData(prev => ({
-        ...prev,
-        features: [...prev.features, feature]
-      }));
+    if (!formData.title || !formData.category) {
+      alert('Заполните обязательные поля: название и категория!');
+      return;
     }
-  };
 
-  const removeFeature = (feature) => {
-    setFormData(prev => ({
-      ...prev,
-      features: prev.features.filter(f => f !== feature)
-    }));
+    const price = parseFloat(formData.price);
+    if (isNaN(price) || price < 0) {
+      alert('Укажите корректную цену товара!');
+      return;
+    }
+
+    try {
+      const productData = {
+        ...formData,
+        price: parseFloat(formData.price),
+        quantity: parseInt(formData.quantity) || 0,
+        specifications: (formData.specifications || []).filter(s => (s.name || s.value)),
+        images: formData.images
+      };
+
+      if (editingProduct) {
+        updateProduct(editingProduct, productData);
+        alert('Позиция обновлена!');
+      } else {
+        addProduct(productData);
+        alert('Новая позиция создана!');
+      }
+      setShowForm(false);
+      setEditingProduct(null);
+      setFormData({
+        title: '',
+        price: '',
+        category: '',
+        subcategory: '',
+        brand: '',
+        available: true,
+        quantity: 0,
+        images: [],
+        description: '',
+        specifications: [{ name: '', value: '' }],
+        features: []
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Ошибка при сохранении позиции!');
+    }
   };
 
   const handleEdit = (product) => {
     startEditing(product);
+    setShowForm(true);
   };
 
-  // Фильтрация и сортировка
-  const filteredProducts = products
-    .filter(product => {
-      const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           product.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      let aValue = a[sortBy];
-      let bValue = b[sortBy];
-      
-      if (typeof aValue === 'string') {
-        aValue = aValue.toLowerCase();
-        bValue = bValue.toLowerCase();
-      }
-      
-      if (sortOrder === 'asc') {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    });
+  const filteredProducts = products.filter(product => {
+    const matchesSearchTerm = product.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    return matchesSearchTerm && matchesCategory;
+  });
 
   return (
     <div className="product-management">
-      <div className="management-header">
-        <div className="header-content">
-          <h1>Управление товарами</h1>
-          <p>Создавайте, редактируйте и управляйте товарами в вашем магазине</p>
-        </div>
-        <button className="create-button" onClick={startCreating}>
-          <FaPlus />
-          <span>Добавить товар</span>
-        </button>
+      <h2>Управление позициями</h2>
+      <button onClick={() => setShowForm(true)} className="add-product-btn">
+        <FaPlus /> Добавить позицию
+      </button>
+      
+      <div className="search-filter">
+        <input
+          type="text"
+          placeholder="Поиск по названию..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="category-select"
+        >
+          <option value="all">Все категории</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
       </div>
-
-      <div className="management-controls">
-        <div className="search-section">
-          <div className="search-wrapper">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Поиск товаров..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-          </div>
-        </div>
-
-        <div className="filters-section">
-          <div className="filter-group">
-            <label>Категория:</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="filter-select"
-            >
-              <option value="all">Все категории</option>
-              {categoryList.map(category => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label>Сортировка:</label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="filter-select"
-            >
-              <option value="title">По названию</option>
-              <option value="price">По цене</option>
-              <option value="quantity">По количеству</option>
-              <option value="available">По наличию</option>
-            </select>
-          </div>
-
-          <button
-            className="sort-order-btn"
-            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-          >
-            {sortOrder === 'asc' ? '↑' : '↓'}
-          </button>
-        </div>
-      </div>
-
+      
       <div className="products-grid">
         {filteredProducts.map(product => (
-          <motion.div
-            key={product.id}
-            className="product-card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <div key={product.id} className="product-card">
             <div className="product-image">
-              {(() => {
-                const migratedProduct = migrateProductImages(product);
-                const mainImage = getMainImage(migratedProduct);
-                
-                if (mainImage?.data) {
-                  if (
-                    typeof mainImage.data === 'string' &&
-                    (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
-                  ) {
-                    return <img src={mainImage.data} alt={product.title} />;
-                  }
-                  return <span className="product-icon">{mainImage.data}</span>;
-                }
-                return <FaBox className="default-icon" />;
-              })()}
-              
-              <div className="product-status-badge">
-                {product.available ? (
-                  <FaCheckCircle className="status-icon available" />
-                ) : (
-                  <FaExclamationTriangle className="status-icon unavailable" />
-                )}
-              </div>
+              {getMainImage(product)?.data ? (
+                <img src={getMainImage(product).data} alt={product.title} />
+              ) : (
+                <span className="product-icon">📦</span>
+              )}
             </div>
-
             <div className="product-info">
-              <h3 className="product-title">{product.title}</h3>
-              <div className="product-meta">
-                <span className="product-category">
-                  <FaTags /> {product.category}
-                </span>
-                {product.brand && (
-                  <span className="product-brand">
-                    <FaStar /> {product.brand}
-                  </span>
-                )}
-              </div>
-              <div className="product-price">
-                {product.price?.toLocaleString()} ₽
-              </div>
-              <div className="product-quantity">
-                Количество: {product.quantity || 0} шт.
-              </div>
+              <h3>{product.title}</h3>
+              <p className="product-category">{product.category}</p>
+              <p className="product-price">{product.price.toLocaleString()} ₽</p>
+              <p className="product-stock">Доступно: {product.quantity}</p>
             </div>
-
             <div className="product-actions">
-              <button
-                className="action-btn edit-btn"
-                onClick={() => handleEdit(product)}
-                title="Редактировать"
-              >
+              <button onClick={() => handleEdit(product)} className="edit-btn">
                 <FaEdit />
               </button>
-              <button
-                className="action-btn delete-btn"
-                onClick={() => handleDelete(product.id)}
-                title="Удалить"
-              >
+              <button onClick={() => handleDelete(product.id)} className="delete-btn">
                 <FaTrash />
               </button>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
-
-      {filteredProducts.length === 0 && (
-        <div className="no-products">
-          <FaBox className="no-products-icon" />
-          <h3>Товары не найдены</h3>
-          <p>Попробуйте изменить параметры поиска или добавьте новый товар</p>
-          <button className="create-button" onClick={startCreating}>
-            <FaPlus />
-            <span>Добавить первый товар</span>
-          </button>
-        </div>
-      )}
-
+      
       <AnimatePresence>
         {showForm && (
-          <motion.div
-            className="modal-overlay"
+          <motion.div 
+            className="product-form-modal"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={cancelEditing}
           >
-            <motion.div
-              className="product-form-modal"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
+            <motion.div 
+              className="product-form-content"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
             >
-              <div className="modal-header">
-                <h2>{isCreating ? 'Создание товара' : 'Редактирование товара'}</h2>
-                <button className="close-btn" onClick={cancelEditing}>
-                  <FaTimes />
-                </button>
-              </div>
-
+              <h3>{editingProduct ? 'Редактировать позицию' : 'Новая позиция'}</h3>
+              
               <form onSubmit={handleSubmit} className="product-form">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Название товара *</label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleInputChange}
-                      required
-                      className="form-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Цена *</label>
-                    <input
-                      type="number"
-                      name="price"
-                      value={formData.price}
-                      onChange={handleInputChange}
-                      required
-                      min="0"
-                      step="0.01"
-                      className="form-input"
-                    />
-                  </div>
+                <div className="form-group">
+                  <label>Название *</label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    required
+                  />
                 </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Категория *</label>
-                    <select
-                      name="category"
-                      value={formData.category}
-                      onChange={handleCategoryChange}
-                      required
-                      className="form-select"
-                    >
-                      <option value="">Выберите категорию</option>
-                      {categoryList.map(category => (
-                        <option key={category} value={category}>{category}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Подкатегория</label>
-                    <select
-                      name="subcategory"
-                      value={formData.subcategory}
-                      onChange={handleInputChange}
-                      className="form-select"
-                    >
-                      <option value="">Выберите подкатегорию</option>
-                      {formData.category && categories[formData.category]?.map(subcategory => (
-                        <option key={subcategory} value={subcategory}>{subcategory}</option>
-                      ))}
-                    </select>
-                  </div>
+                
+                <div className="form-group">
+                  <label>Категория *</label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    required
+                  >
+                    <option value="">Выберите категорию</option>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
                 </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Бренд</label>
-                    <select
-                      name="brand"
-                      value={formData.brand}
-                      onChange={handleInputChange}
-                      className="form-select"
-                    >
-                      <option value="">Выберите бренд</option>
-                      {brands.map(brand => (
-                        <option key={brand} value={brand}>{brand}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Количество</label>
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      min="0"
-                      className="form-input"
-                    />
-                  </div>
+                
+                <div className="form-group">
+                  <label>Цена (₽) *</label>
+                  <input
+                    type="number"
+                    value={formData.price}
+                    onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value)})}
+                    required
+                    min="0"
+                    step="0.01"
+                  />
                 </div>
-
+                
+                <div className="form-group">
+                  <label>Доступно (кол-во) *</label>
+                  <input
+                    type="number"
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value)})}
+                    required
+                    min="0"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Бренд</label>
+                  <input
+                    type="text"
+                    value={formData.brand}
+                    onChange={(e) => setFormData({...formData, brand: e.target.value})}
+                  />
+                </div>
+                
                 <div className="form-group">
                   <label>Описание</label>
                   <textarea
-                    name="description"
                     value={formData.description}
-                    onChange={handleInputChange}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
                     rows="4"
-                    className="form-textarea"
                   />
                 </div>
-
+                
+                <div className="form-group">
+                  <label>Характеристики (одна на строку, формат: Название: Значение)</label>
+                  <textarea
+                    value={formData.specifications.map(s => `${s.name}: ${s.value}`).join('\n')}
+                    onChange={(e) => setFormData({...formData, specifications: e.target.value.split('\n').map(line => {
+                      const [name, value] = line.split(':').map(s => s.trim());
+                      return { name, value };
+                    })})}
+                    rows="4"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Преимущества (одно на строку)</label>
+                  <textarea
+                    value={formData.features.join('\n')}
+                    onChange={(e) => setFormData({...formData, features: e.target.value.split('\n')})}
+                    rows="4"
+                  />
+                </div>
+                
                 <div className="form-group">
                   <label>Изображения</label>
-                  <MultiImageUpload
-                    images={formData.images}
-                    onChange={handleImagesChange}
+                  <MultiImageUpload 
+                    onImagesChange={handleImagesChange}
+                    initialImages={formData.images}
                   />
                 </div>
-
-                <div className="form-group">
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="available"
-                      checked={formData.available}
-                      onChange={handleInputChange}
-                      className="form-checkbox"
-                    />
-                    <span className="checkmark"></span>
-                    Товар доступен для заказа
-                  </label>
-                </div>
-
+                
                 <div className="form-actions">
-                  <button type="button" className="cancel-btn" onClick={cancelEditing}>
-                    <FaTimes />
-                    <span>Отмена</span>
+                  <button type="button" onClick={() => setShowForm(false)} className="cancel-btn">
+                    Отменить
                   </button>
-                  <button type="submit" className="save-btn">
-                    <FaSave />
-                    <span>{isCreating ? 'Создать' : 'Сохранить'}</span>
+                  <button type="submit" className="submit-btn">
+                    {editingProduct ? 'Сохранить' : 'Создать'}
                   </button>
                 </div>
               </form>

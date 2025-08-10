@@ -13,11 +13,6 @@ export default function SearchModal({ isOpen, onClose }) {
   const { products, categories } = useAdminData();
   const { addToCartWithNotification } = useCartActions();
 
-  // Защита от undefined данных
-  if (!products || !categories) {
-    return null;
-  }
-
   // Очищаем поиск при закрытии модального окна
   useEffect(() => {
     if (!isOpen) {
@@ -91,7 +86,7 @@ export default function SearchModal({ isOpen, onClose }) {
     addToCartWithNotification(product, 1);
   };
 
-  const categoryList = categories ? Object.keys(categories) : [];
+  const categoryList = Object.keys(categories);
 
   return (
     <AnimatePresence>
@@ -141,7 +136,7 @@ export default function SearchModal({ isOpen, onClose }) {
                   className="category-select"
                 >
                   <option value="all">Все категории</option>
-                  {categoryList && categoryList.map(category => (
+                  {categoryList.map(category => (
                     <option key={category} value={category}>
                       {category}
                     </option>
@@ -170,7 +165,7 @@ export default function SearchModal({ isOpen, onClose }) {
                   </div>
                   
                   <div className="results-list">
-                    {searchResults && searchResults.map((product) => {
+                    {searchResults.map((product) => {
                       const mainImage = getMainImage(product);
                       
                       return (

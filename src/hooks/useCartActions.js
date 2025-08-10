@@ -1,5 +1,4 @@
 import { useCart } from '../context/CartContext';
-import { showToast } from '../utils/notify';
 
 export const useCartActions = () => {
   const { addToCart } = useCart();
@@ -7,10 +6,11 @@ export const useCartActions = () => {
   const addToCartWithNotification = (product, quantity = 1) => {
     try {
       addToCart(product, quantity);
-      showToast(`${product.title} добавлен в корзину`, 'success');
+      // Простое уведомление через alert (можно заменить на более красивое позже)
+      // alert(`${product.title} добавлен в корзину!`);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      showToast('Ошибка при добавлении в корзину', 'error');
+      alert('Ошибка при добавлении товара в корзину');
     }
   };
 

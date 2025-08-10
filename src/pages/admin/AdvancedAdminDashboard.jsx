@@ -8,29 +8,12 @@ import ContentManagement from './ContentManagement';
 import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
-import { 
-  FaHome, 
-  FaBox, 
-  FaTags, 
-  FaUsers, 
-  FaChartBar, 
-  FaSignOutAlt, 
-  FaEdit, 
-  FaStar, 
-  FaShoppingCart,
-  FaEye,
-  FaEyeSlash,
-  FaArrowUp,
-  FaArrowDown,
-  FaExclamationTriangle,
-  FaCheckCircle,
-  FaPlus
-} from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 
 function AdvancedAdminDashboard() {
   const navigate = useNavigate();
-  const { products, promotions, orders } = useAdminData();
+  const { products, promotions } = useAdminData();
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
@@ -55,174 +38,78 @@ function AdvancedAdminDashboard() {
     { id: 'content', label: 'Контент', icon: <FaEdit /> }
   ];
 
-  // Расчет статистики
-  const totalProducts = products?.length || 0;
-  const availableProducts = products?.filter(p => p.available)?.length || 0;
-  const totalPromotions = promotions?.length || 0;
-  const totalOrders = orders?.length || 0;
-  const totalValue = products?.reduce((sum, p) => sum + (p.price * (p.quantity || 0)), 0) || 0;
-  const lowStockProducts = products?.filter(p => (p.quantity || 0) < 5 && p.available)?.length || 0;
-  const outOfStockProducts = products?.filter(p => !p.available || (p.quantity || 0) === 0)?.length || 0;
-
   const renderOverview = () => (
     <div className="overview-section">
-      <div className="overview-header">
-        <h2>Панель управления Вездеход Запчасти</h2>
-        <p className="overview-subtitle">Мониторинг и управление интернет-магазином</p>
-      </div>
+      <h2>Обзор системы</h2>
       
       <div className="stats-grid">
-        <div className="stat-card primary">
-          <div className="stat-icon">
-            <FaBox />
-          </div>
+        <div className="stat-card">
+          <div className="stat-icon">📦</div>
           <div className="stat-content">
-            <div className="stat-number">{totalProducts}</div>
-            <div className="stat-label">Всего товаров</div>
-            <div className="stat-trend">
-              <FaArrowUp className="trend-up" />
-              <span>+12% за месяц</span>
-            </div>
+            <div className="stat-number">{products.length}</div>
+            <div className="stat-label">Товаров</div>
           </div>
         </div>
         
-        <div className="stat-card success">
-          <div className="stat-icon">
-            <FaCheckCircle />
-          </div>
+        <div className="stat-card">
+          <div className="stat-icon">🎯</div>
           <div className="stat-content">
-            <div className="stat-number">{availableProducts}</div>
+            <div className="stat-number">{promotions.length}</div>
+            <div className="stat-label">Акций</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">✅</div>
+          <div className="stat-content">
+            <div className="stat-number">{products.filter(p => p.available).length}</div>
             <div className="stat-label">В наличии</div>
-            <div className="stat-trend">
-              <FaArrowUp className="trend-up" />
-              <span>Доступно</span>
-            </div>
           </div>
         </div>
         
-        <div className="stat-card warning">
-          <div className="stat-icon">
-            <FaExclamationTriangle />
-          </div>
+        <div className="stat-card">
+          <div className="stat-icon">💰</div>
           <div className="stat-content">
-            <div className="stat-number">{lowStockProducts}</div>
-            <div className="stat-label">Заканчивается</div>
-            <div className="stat-trend">
-              <FaArrowDown className="trend-down" />
-              <span>Требует внимания</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="stat-card danger">
-          <div className="stat-icon">
-            <FaEyeSlash />
-          </div>
-          <div className="stat-content">
-            <div className="stat-number">{outOfStockProducts}</div>
-            <div className="stat-label">Нет в наличии</div>
-            <div className="stat-trend">
-              <FaArrowDown className="trend-down" />
-              <span>Требует пополнения</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="stat-card info">
-          <div className="stat-icon">
-            <FaTags />
-          </div>
-          <div className="stat-content">
-            <div className="stat-number">{totalPromotions}</div>
-            <div className="stat-label">Активных акций</div>
-            <div className="stat-trend">
-              <FaTrendingUp className="trend-up" />
-              <span>Активно</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="stat-card secondary">
-          <div className="stat-icon">
-            <FaShoppingCart />
-          </div>
-          <div className="stat-content">
-            <div className="stat-number">{totalOrders}</div>
-            <div className="stat-label">Заказов</div>
-            <div className="stat-trend">
-              <FaArrowUp className="trend-up" />
-              <span>+8% за неделю</span>
-            </div>
+            <div className="stat-number">{Math.round(products.reduce((sum, p) => sum + (p.price * (p.quantity || 0)), 0) / 1000)}К</div>
+            <div className="stat-label">Общая стоимость склада</div>
           </div>
         </div>
       </div>
 
-      <div className="overview-charts">
-        <div className="chart-section">
-          <h3>Быстрые действия</h3>
-          <div className="quick-actions">
-            <button className="quick-action-btn" onClick={() => setActiveSection('products')}>
-              <FaPlus />
-              <span>Добавить товар</span>
-            </button>
-            <button className="quick-action-btn" onClick={() => setActiveSection('promotions')}>
-              <FaTags />
-              <span>Создать акцию</span>
-            </button>
-            <button className="quick-action-btn" onClick={() => setActiveSection('orders')}>
-              <FaShoppingCart />
-              <span>Просмотр заказов</span>
-            </button>
-            <button className="quick-action-btn" onClick={() => setActiveSection('content')}>
-              <FaEdit />
-              <span>Редактировать контент</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="chart-section">
-          <h3>Популярные товары</h3>
-          <div className="product-list">
-            {products && products.length > 0 ? products.slice(0, 5).map(product => (
-              <div key={product.id} className="product-item">
-                {(() => {
-                  const migratedProduct = migrateProductImages(product);
-                  const mainImage = getMainImage(migratedProduct);
-                  
-                  if (mainImage?.data) {
-                    if (
-                      typeof mainImage.data === 'string' &&
-                      (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
-                    ) {
-                      return <img src={mainImage.data} alt={product.title} className="product-image-small" />;
-                    }
-                    return <span className="product-icon">{mainImage.data}</span>;
+      <div className="recent-section">
+        <h3>Популярные товары</h3>
+        <div className="product-list">
+          {products && products.length > 0 ? products.slice(0, 5).map(product => (
+            <div key={product.id} className="product-item">
+              {(() => {
+                const migratedProduct = migrateProductImages(product);
+                const mainImage = getMainImage(migratedProduct);
+                
+                if (mainImage?.data) {
+                  if (
+                    typeof mainImage.data === 'string' &&
+                    (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
+                  ) {
+                    return <img src={mainImage.data} alt={product.title} className="product-image-small" />;
                   }
-                  return <span className="product-icon">📦</span>;
-                })()}
-                <div className="product-info">
-                  <div className="product-name">{product.title}</div>
-                  <div className="product-price">{product.price?.toLocaleString()} ₽</div>
-                  <div className="product-quantity">
-                    {product.available ? (
-                      <span className="product-status available">
-                        <FaCheckCircle /> В наличии ({product.quantity || 0})
-                      </span>
-                    ) : (
-                      <span className="product-status unavailable">
-                        <FaEyeSlash /> Нет в наличии
-                      </span>
-                    )}
-                  </div>
-                </div>
+                  return <span className="product-icon">{mainImage.data}</span>;
+                }
+                return <span className="product-icon">📦</span>;
+              })()}
+              <div className="product-info">
+                <div className="product-name">{product.title}</div>
+                <div className="product-price">{product.price.toLocaleString()} ₽</div>
+                <div className="product-quantity">Количество: {product.quantity || 0} шт.</div>
               </div>
-            )) : (
-              <div className="no-products">
-                <p>Товары не найдены</p>
-                <Link to="/admin/advanced/products">Добавить первый товар</Link>
+              <div className={`product-status ${product.available ? 'available' : 'unavailable'}`}>
+                {product.available ? 'В наличии' : 'Нет в наличии'}
               </div>
-            )}
-          </div>
+            </div>
+          )) : (
+            <div className="no-products">
+              <p>Товары не найдены. <Link to="#" onClick={() => setActiveSection('products')}>Добавить товары</Link></p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -253,7 +140,7 @@ function AdvancedAdminDashboard() {
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <h2>Вездеход Запчасти</h2>
+          <h2>ЮТОРС</h2>
           <p>Админ панель</p>
         </div>
         

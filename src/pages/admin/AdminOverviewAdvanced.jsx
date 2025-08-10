@@ -25,28 +25,28 @@ function AdminOverviewAdvanced() {
       label: 'Категории',
       value: Object.keys(data.categoryStructure).length,
       color: '#9c27b0',
-      link: '/admin/advanced/categories'
+      link: '/admin/dashboard/categories'
     },
     {
       icon: <FaBox />,
       label: 'Товары',
       value: data.products.length,
       color: '#00ff88',
-      link: '/admin/advanced/products'
+      link: '/admin/dashboard/products'
     },
     {
       icon: <FaPercent />,
       label: 'Акции',
       value: data.promotions.length,
       color: '#ff9800',
-      link: '/admin/advanced/promotions'
+      link: '/admin/dashboard/promotions'
     },
     {
       icon: <FaShoppingCart />,
       label: 'В наличии',
       value: data.products.filter(p => p.available).length,
       color: '#2196f3',
-      link: '/admin/advanced/products'
+      link: '/admin/dashboard/products'
     }
   ];
 
@@ -78,25 +78,25 @@ function AdminOverviewAdvanced() {
     {
       icon: <FaTags />,
       label: 'Управление категориями',
-      link: '/admin/advanced/categories',
+      link: '/admin/dashboard/categories',
       color: '#9c27b0'
     },
     {
       icon: <FaPlus />,
       label: 'Добавить товар',
-      link: '/admin/advanced/products',
+      link: '/admin/dashboard/products',
       color: '#00ff88'
     },
     {
       icon: <FaPercent />,
       label: 'Создать акцию',
-      link: '/admin/advanced/promotions',
+      link: '/admin/dashboard/promotions',
       color: '#ff9800'
     },
     {
       icon: <FaFileAlt />,
       label: 'Редактировать контент',
-      link: '/admin/advanced/content',
+      link: '/admin/dashboard/content',
       color: '#2196f3'
     },
     {
@@ -114,7 +114,7 @@ function AdminOverviewAdvanced() {
         <h2>
           <FaChartLine /> Обзор системы
         </h2>
-        <p>Добро пожаловать в панель управления сайтом «Вездеход Запчасти»</p>
+        <p>Добро пожаловать в панель управления сайтом ВездеходЗапчасти</p>
       </div>
 
       {/* Статистика */}
@@ -197,22 +197,22 @@ function AdminOverviewAdvanced() {
           <div className="info-card">
             <h4>🗂️ Категории</h4>
             <p>Управляйте категориями и подкатегориями товаров</p>
-            <Link to="/admin/advanced/categories">Перейти к категориям</Link>
+            <Link to="/admin/dashboard/categories">Перейти к категориям</Link>
           </div>
           <div className="info-card">
             <h4>📦 Товары</h4>
             <p>Добавляйте, редактируйте и удаляйте товары в каталоге</p>
-            <Link to="/admin/advanced/products">Перейти к товарам</Link>
+            <Link to="/admin/dashboard/products">Перейти к товарам</Link>
           </div>
           <div className="info-card">
             <h4>🎯 Акции</h4>
             <p>Создавайте привлекательные предложения для клиентов</p>
-            <Link to="/admin/advanced/promotions">Перейти к акциям</Link>
+            <Link to="/admin/dashboard/promotions">Перейти к акциям</Link>
           </div>
           <div className="info-card">
             <h4>📝 О компании</h4>
             <p>Редактируйте информацию о компании и контакты</p>
-            <Link to="/admin/advanced/content">Перейти к контенту</Link>
+            <Link to="/admin/dashboard/content">Перейти к контенту</Link>
           </div>
         </div>
       </div>

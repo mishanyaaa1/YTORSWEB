@@ -7,18 +7,15 @@ import Home from './pages/Home.jsx'
 import CatalogPage from './pages/CatalogPage.jsx'
 import ProductPage from './pages/ProductPage.jsx'
 import Cart from './pages/Cart.jsx'
+// Removed Wishlist page
 import About from './pages/About.jsx'
 import Promotions from './pages/Promotions.jsx'
 import SimpleAdminLogin from './pages/admin/SimpleAdminLogin.jsx'
+import SimpleAdminDashboard from './pages/admin/SimpleAdminDashboard.jsx'
 import AdvancedAdminDashboard from './pages/admin/AdvancedAdminDashboard.jsx'
-import ProductManagement from './pages/admin/ProductManagement.jsx'
-import CategoryManagement from './pages/admin/CategoryManagement.jsx'
-import PromotionManagement from './pages/admin/PromotionManagement.jsx'
-import ContentManagement from './pages/admin/ContentManagement.jsx'
-import OrderManagement from './pages/admin/OrderManagement.jsx'
-import PopularProductsManagement from './pages/admin/PopularProductsManagement.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { AdminDataProvider } from './context/AdminDataContext.jsx'
+// Removed WishlistProvider
 import { OrdersProvider } from './context/OrdersContext.jsx'
 
 const router = createBrowserRouter([
@@ -43,6 +40,9 @@ const router = createBrowserRouter([
         element: <Cart />
       },
       {
+        // Removed wishlist route
+      },
+      {
         path: "about",
         element: <About />
       },
@@ -57,32 +57,12 @@ const router = createBrowserRouter([
     element: <SimpleAdminLogin />
   },
   {
+    path: "/admin/dashboard",
+    element: <SimpleAdminDashboard />
+  },
+  {
     path: "/admin/advanced",
     element: <AdvancedAdminDashboard />
-  },
-  {
-    path: "/admin/advanced/products",
-    element: <ProductManagement />
-  },
-  {
-    path: "/admin/advanced/categories",
-    element: <CategoryManagement />
-  },
-  {
-    path: "/admin/advanced/promotions",
-    element: <PromotionManagement />
-  },
-  {
-    path: "/admin/advanced/content",
-    element: <ContentManagement />
-  },
-  {
-    path: "/admin/advanced/orders",
-    element: <OrderManagement />
-  },
-  {
-    path: "/admin/advanced/popular",
-    element: <PopularProductsManagement />
   }
 ]);
 
@@ -92,9 +72,8 @@ createRoot(document.getElementById('root')).render(
       <OrdersProvider>
         <CartProvider>
           <RouterProvider router={router} />
-          <div id="toast-root"></div>
         </CartProvider>
       </OrdersProvider>
     </AdminDataProvider>
-  </StrictMode>
+  </StrictMode>,
 )

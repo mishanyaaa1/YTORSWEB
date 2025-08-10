@@ -6,11 +6,6 @@ import './PromotionManagement.css';
 export default function PromotionManagement() {
   const { promotions, categories, addPromotion, updatePromotion, deletePromotion } = useAdminData();
   const [editingPromotion, setEditingPromotion] = useState(null);
-
-  // Защита от undefined данных
-  if (!promotions || !categories) {
-    return <div>Загрузка данных...</div>;
-  }
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -23,7 +18,7 @@ export default function PromotionManagement() {
     minPurchase: 15000
   });
 
-  const categoryList = ['Все категории', ...(categories ? Object.keys(categories) : [])];
+  const categoryList = ['Все категории', ...Object.keys(categories)];
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -156,7 +151,7 @@ export default function PromotionManagement() {
                 onChange={handleInputChange}
               >
                 <option value="">Выберите категорию</option>
-                {categoryList && categoryList.map(cat => (
+                {categoryList.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
@@ -239,7 +234,7 @@ export default function PromotionManagement() {
             <p>Акций пока нет. Создайте первую акцию!</p>
           </div>
         ) : (
-          promotions && promotions.map(promotion => (
+          promotions.map(promotion => (
             <div key={promotion.id} className={`promotion-card ${!promotion.active ? 'inactive' : ''} ${isExpired(promotion.validUntil) ? 'expired' : ''}`}>
               <div className="promotion-header">
                 <h3>{promotion.title}</h3>

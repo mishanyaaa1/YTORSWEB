@@ -5,24 +5,12 @@ import {
   FaTools, 
   FaShieldAlt, 
   FaArrowRight,
-  FaStar,
-  FaUsers,
-  FaGlobe,
-  FaAward,
-  FaCheckCircle,
-  FaCog,
-  FaIndustry,
-  FaRocket,
-  FaHandshake,
-  FaChartLine,
-  FaHeadset,
-  FaClock
+  FaStar
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl } from '../utils/imageHelpers';
 import HeroVisual from '../components/HeroVisual';
-import ParticleBackground from '../components/ParticleBackground';
 import './Home.css';
 
 function Home() {
@@ -46,123 +34,6 @@ function Home() {
       icon: <FaShieldAlt />,
       title: "Гарантийное обслуживание",
       text: "Комплексная гарантия на всю продукцию с профессиональной поддержкой"
-    }
-  ];
-
-  const advancedFeatures = [
-    {
-      icon: <FaIndustry />,
-      title: "Промышленные стандарты",
-      text: "Соответствие международным стандартам качества и безопасности"
-    },
-    {
-      icon: <FaRocket />,
-      title: "Инновационные решения",
-      text: "Внедрение передовых технологий в производство и поставки"
-    },
-    {
-      icon: <FaHandshake />,
-      title: "Партнерские отношения",
-      text: "Долгосрочное сотрудничество на взаимовыгодных условиях"
-    }
-  ];
-
-  const stats = [
-    {
-      icon: <FaUsers />,
-      number: "500+",
-      label: "Довольных клиентов"
-    },
-    {
-      icon: <FaGlobe />,
-      number: "85",
-      label: "Регионов РФ"
-    },
-    {
-      icon: <FaAward />,
-      number: "15",
-      label: "Лет опыта"
-    },
-    {
-      icon: <FaTruck />,
-      number: "24ч",
-      label: "Доставка"
-    }
-  ];
-
-  const additionalStats = [
-    {
-      icon: <FaChartLine />,
-      number: "98%",
-      label: "Успешных поставок"
-    },
-    {
-      icon: <FaHeadset />,
-      number: "24/7",
-      label: "Поддержка клиентов"
-    },
-    {
-      icon: <FaClock />,
-      number: "2ч",
-      label: "Время ответа"
-    },
-    {
-      icon: <FaCog />,
-      number: "1000+",
-      label: "Позиций в каталоге"
-    }
-  ];
-
-  const technologies = [
-    {
-      name: "3D моделирование",
-      description: "Точное проектирование и визуализация компонентов",
-      icon: "🔧"
-    },
-    {
-      name: "AI аналитика",
-      description: "Прогнозирование спроса и оптимизация поставок",
-      icon: "🤖"
-    },
-    {
-      name: "IoT мониторинг",
-      description: "Отслеживание состояния оборудования в реальном времени",
-      icon: "📡"
-    },
-    {
-      name: "Блокчейн",
-      description: "Прозрачность цепочки поставок и подлинность товаров",
-      icon: "⛓️"
-    }
-  ];
-
-  const partners = [
-    { name: "Ростех", logo: "🏭" },
-    { name: "Газпром", logo: "⛽" },
-    { name: "РЖД", logo: "🚂" },
-    { name: "Роснефть", logo: "🛢️" },
-    { name: "Лукойл", logo: "🛢️" },
-    { name: "Норникель", logo: "🏔️" }
-  ];
-
-  const testimonials = [
-    {
-      name: "Александр Петров",
-      company: "ООО 'СеверТранс'",
-      text: "Отличное качество запчастей и быстрая доставка. Сотрудничаем уже 3 года.",
-      rating: 5
-    },
-    {
-      name: "Михаил Сидоров",
-      company: "ИП 'АрктикСтрой'",
-      text: "Профессиональный подход и индивидуальные условия для каждого клиента.",
-      rating: 5
-    },
-    {
-      name: "Дмитрий Козлов",
-      company: "ООО 'ПолярЭксперт'",
-      text: "Лучшие цены на рынке при неизменно высоком качестве продукции.",
-      rating: 5
     }
   ];
 
@@ -218,8 +89,7 @@ function Home() {
   ];
 
   return (
-    <div className="home-container">
-      <ParticleBackground />
+    <div>
       <section className="hero">
         <div className="container">
           <div className="hero-content">
@@ -229,15 +99,10 @@ function Home() {
                 Профессиональные решения для бизнеса: качественные компоненты для всех типов вездеходов. 
                 Оптимизированная логистика по РФ. Полная гарантия и поддержка.
               </p>
-              <div className="hero-buttons">
-                <Link to="/catalog" className="cta-button primary">
-                  Просмотреть каталог
-                  <FaArrowRight />
-                </Link>
-                <Link to="/about" className="cta-button secondary">
-                  Узнать больше
-                </Link>
-              </div>
+              <Link to="/catalog" className="cta-button">
+                Просмотреть каталог
+                <FaArrowRight />
+              </Link>
             </div>
             <div className="hero-image">
               <div className="hero-placeholder">
@@ -245,20 +110,6 @@ function Home() {
               </div>
               <p>Надежные компоненты для вашего бизнеса</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="stats-section">
-        <div className="container">
-          <div className="stats-grid">
-            {stats.map((stat, index) => (
-              <div key={index} className="stat-card">
-                <div className="stat-icon">{stat.icon}</div>
-                <div className="stat-number">{stat.number}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -272,87 +123,6 @@ function Home() {
                 <div className="feature-icon">{feature.icon}</div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-text">{feature.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="technologies-section">
-        <div className="container">
-          <h2 className="section-title">Инновационные технологии</h2>
-          <div className="technologies-grid">
-            {technologies.map((tech, index) => (
-              <div key={index} className="technology-card">
-                <div className="tech-icon">{tech.icon}</div>
-                <h3 className="tech-title">{tech.name}</h3>
-                <p className="tech-description">{tech.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="advanced-stats-section">
-        <div className="container">
-          <h2 className="section-title">Ключевые показатели</h2>
-          <div className="advanced-stats-grid">
-            {additionalStats.map((stat, index) => (
-              <div key={index} className="advanced-stat-card">
-                <div className="advanced-stat-icon">{stat.icon}</div>
-                <div className="advanced-stat-number">{stat.number}</div>
-                <div className="advanced-stat-label">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="advanced-features">
-        <div className="container">
-          <h2 className="section-title">Дополнительные возможности</h2>
-          <div className="advanced-features-grid">
-            {advancedFeatures.map((feature, index) => (
-              <div key={index} className="advanced-feature-card">
-                <div className="advanced-feature-icon">{feature.icon}</div>
-                <h3 className="advanced-feature-title">{feature.title}</h3>
-                <p className="advanced-feature-text">{feature.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="partners-section">
-        <div className="container">
-          <h2 className="section-title">Наши партнеры</h2>
-          <div className="partners-grid">
-            {partners.map((partner, index) => (
-              <div key={index} className="partner-card">
-                <div className="partner-logo">{partner.logo}</div>
-                <div className="partner-name">{partner.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="testimonials">
-        <div className="container">
-          <h2 className="section-title">Отзывы наших клиентов</h2>
-          <div className="testimonials-grid">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="testimonial-card">
-                <div className="testimonial-rating">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <FaStar key={i} className="star-icon" />
-                  ))}
-                </div>
-                <p className="testimonial-text">"{testimonial.text}"</p>
-                <div className="testimonial-author">
-                  <strong>{testimonial.name}</strong>
-                  <span>{testimonial.company}</span>
-                </div>
               </div>
             ))}
           </div>
@@ -431,24 +201,6 @@ function Home() {
               ))}
             </div>
           )}
-        </div>
-      </section>
-
-      <section className="cta-section">
-        <div className="container">
-          <div className="cta-content">
-            <h2>Готовы начать сотрудничество?</h2>
-            <p>Получите персональное предложение для вашего бизнеса</p>
-            <div className="cta-buttons">
-              <Link to="/catalog" className="cta-button primary large">
-                Перейти в каталог
-                <FaArrowRight />
-              </Link>
-              <Link to="/about#contacts" className="cta-button secondary large">
-                Связаться с нами
-              </Link>
-            </div>
-          </div>
         </div>
       </section>
     </div>

@@ -56,30 +56,6 @@ button:focus-visible {
   outline: 4px auto #58a6ff;
 }
 
-/* Toast container */
-#toast-root {
-  position: fixed;
-  top: 80px;
-  right: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 9999;
-}
-
-.toast {
-  background: #161b22;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-  border-radius: 6px;
-  padding: 10px 14px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-
-.toast-success {
-  border-color: #58a6ff;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

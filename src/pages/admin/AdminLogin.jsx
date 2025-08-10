@@ -31,7 +31,7 @@ function AdminLogin() {
     setTimeout(() => {
       if (credentials.username === 'admin' && credentials.password === 'admin123') {
         localStorage.setItem('adminAuth', 'true');
-        navigate('/admin/advanced');
+        navigate('/admin/dashboard');
       } else {
         setError('Неверный логин или пароль');
       }
