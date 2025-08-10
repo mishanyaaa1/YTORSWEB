@@ -149,12 +149,12 @@
 }
 
 .btn-add {
-  background: #e6a34a;
+  background: #28a745;
   color: white;
 }
 
 .btn-add:hover:not(:disabled) {
-  background: #c97c1a;
+  background: #218838;
 }
 
 .btn-add:disabled {

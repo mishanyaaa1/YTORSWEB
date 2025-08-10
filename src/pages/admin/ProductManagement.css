@@ -207,7 +207,7 @@
 }
 
 .status-available {
-  color: #e6a34a;
+  color: #28a745;
   font-weight: 500;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .btn-edit {
-  background: #17a2b8;
+  background: #e6a34a;
   color: white;
   border: none;
   padding: 6px 10px;
@@ -233,7 +233,7 @@
 }
 
 .btn-edit:hover {
-  background: #138496;
+  background: #c97c1a;
 }
 
 .btn-delete {
