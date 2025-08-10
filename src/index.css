@@ -47,11 +47,12 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #e6a34a;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 3px solid rgba(230, 163, 74, 0.6);
+  outline-offset: 2px;
 }
 
 @media (prefers-color-scheme: light) {

@@ -20,7 +20,7 @@
 
 .image-item.main-image {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.3);
 }
 
 .image-item:hover {
@@ -64,12 +64,12 @@
 }
 
 .btn-main.active {
-  background: rgba(0, 255, 136, 0.9);
+  background: rgba(230, 163, 74, 0.9);
   color: #000;
 }
 
 .btn-main:hover {
-  background: rgba(0, 255, 136, 0.8);
+  background: rgba(230, 163, 74, 0.8);
   color: #000;
 }
 
@@ -106,7 +106,7 @@
 
 .upload-slot:hover {
   border-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
 }
 
 .upload-icon {

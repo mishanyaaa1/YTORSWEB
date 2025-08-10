@@ -11614,7 +11614,7 @@ export default ProductPage;
 }
 
 .back-button:hover {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   border-color: #e6a34a;
   color: #e6a34a;
 }
@@ -11724,7 +11724,7 @@ export default ProductPage;
 }
 
 .nav-button:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.8);
+  background: rgba(230, 163, 74, 0.8);
   color: #000;
   transform: scale(1.1);
 }
@@ -11785,7 +11785,7 @@ export default ProductPage;
 }
 
 .brand {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
@@ -11909,7 +11909,7 @@ export default ProductPage;
 }
 
 .quantity-controls button:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
 }
 
@@ -11966,7 +11966,7 @@ export default ProductPage;
 }
 
 .add-to-cart-btn {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
   border: 2px solid #e6a34a;
 }
@@ -11983,7 +11983,7 @@ export default ProductPage;
 
 .buy-now-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .add-to-cart-btn:disabled,
@@ -12143,7 +12143,7 @@ export default ProductPage;
 }
 
 .back-button:hover {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   border-color: #e6a34a;
   color: #e6a34a;
 }
@@ -12253,7 +12253,7 @@ export default ProductPage;
 }
 
 .nav-button:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.8);
+  background: rgba(230, 163, 74, 0.8);
   color: #000;
   transform: scale(1.1);
 }
@@ -12314,7 +12314,7 @@ export default ProductPage;
 }
 
 .brand {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
@@ -12442,7 +12442,7 @@ export default ProductPage;
 }
 
 .quantity-controls button:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
 }
 
@@ -12499,7 +12499,7 @@ export default ProductPage;
 }
 
 .add-to-cart-btn {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
   border: 2px solid #e6a34a;
 }
@@ -12516,7 +12516,7 @@ export default ProductPage;
 
 .buy-now-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .add-to-cart-btn:disabled,
@@ -13194,20 +13194,20 @@ html {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 30px rgba(230, 163, 74, 0.3);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .hero-image {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
   border-radius: 20px;
   padding: 2rem;
   text-align: center;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(230, 163, 74, 0.2);
   width: 100%;
 }
 
@@ -13273,7 +13273,7 @@ html {
 .feature-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .feature-icon {
@@ -13320,7 +13320,7 @@ html {
 .product-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .product-image {
@@ -13380,7 +13380,7 @@ html {
 
 .product-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
 /* Футер */
@@ -13747,20 +13747,20 @@ html {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 30px rgba(230, 163, 74, 0.3);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .hero-image {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
   border-radius: 20px;
   padding: 2rem;
   text-align: center;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(230, 163, 74, 0.2);
   width: 100%;
 }
 
@@ -13832,7 +13832,7 @@ html {
 .feature-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .feature-icon {
@@ -13879,7 +13879,7 @@ html {
 .product-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .product-image {
@@ -13939,7 +13939,7 @@ html {
 
 .product-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
 /* Футер */
@@ -23242,7 +23242,7 @@ input[type='number'] {
 }
 
 .catalog-card:hover {
-  box-shadow: 0 8px 32px rgba(0,255,136,0.10);
+  box-shadow: 0 8px 32px rgba(230, 163, 74, 0.10);
   border: 1px solid #e6a34a;
   transform: translateY(-5px) scale(1.03);
 }
@@ -23355,7 +23355,7 @@ input[type='number'] {
   background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,255,136,0.15);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.15);
 }
 
 .no-products {
@@ -23534,7 +23534,7 @@ input[type='number'] {
 }
 
 .catalog-card:hover {
-  box-shadow: 0 8px 32px rgba(0,255,136,0.10);
+  box-shadow: 0 8px 32px rgba(230, 163, 74, 0.10);
   border: 1px solid #e6a34a;
   transform: translateY(-5px) scale(1.03);
 }
@@ -23647,7 +23647,7 @@ input[type='number'] {
   background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,255,136,0.15);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.15);
 }
 
 .no-products {
@@ -24512,7 +24512,7 @@ input[type='number'] {
 }
 
 .catalog-card:hover {
-  box-shadow: 0 8px 32px rgba(0,255,136,0.10);
+  box-shadow: 0 8px 32px rgba(230, 163, 74, 0.10);
   border: 1px solid #e6a34a;
   transform: translateY(-5px) scale(1.03);
 }
@@ -24625,7 +24625,7 @@ input[type='number'] {
   background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,255,136,0.15);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.15);
 }
 
 .no-products {
@@ -25013,7 +25013,7 @@ export default AdvancedAdminDashboard;
 
 .add-category-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-btn {
@@ -25203,7 +25203,7 @@ export default AdvancedAdminDashboard;
 
 .add-subcategory-form select:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-subcategory-form input {
@@ -25220,7 +25220,7 @@ export default AdvancedAdminDashboard;
 
 .add-subcategory-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 /* Responsive */
@@ -25700,7 +25700,7 @@ export default CategoryManagement;
 
 .add-category-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-btn {
@@ -25890,7 +25890,7 @@ export default CategoryManagement;
 
 .add-subcategory-form select:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-subcategory-form input {
@@ -25907,7 +25907,7 @@ export default CategoryManagement;
 
 .add-subcategory-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 /* Responsive */
@@ -26207,7 +26207,7 @@ export default Home;
 
 .popular-products .promotion-card {
   background: rgba(40, 40, 40, 0.8);
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  border: 1px solid rgba(230, 163, 74, 0.3);
   border-radius: 15px;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -26217,9 +26217,9 @@ export default Home;
 
 .popular-products .promotion-card:hover {
   border-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 10px 25px rgba(230, 163, 74, 0.2);
 }
 
 .popular-products .promo-header {
@@ -26238,7 +26238,7 @@ export default Home;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
-  border: 2px solid rgba(0, 255, 136, 0.3);
+  border: 2px solid rgba(230, 163, 74, 0.3);
   overflow: hidden;
 }
 

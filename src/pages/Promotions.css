@@ -214,7 +214,7 @@
 
 .promo-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 15px 30px rgba(230, 163, 74, 0.3);
 }
 
 /* Фильтры категорий */
@@ -256,7 +256,7 @@
 
 .promotions-page .promotion-card {
   background: rgba(40, 40, 40, 0.8) !important;
-  border: 1px solid rgba(0, 255, 136, 0.3) !important;
+  border: 1px solid rgba(230, 163, 74, 0.3) !important;
   border-radius: 15px;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -265,9 +265,9 @@
 
 .promotions-page .promotion-card:hover {
   border-color: #e6a34a !important;
-  background: rgba(0, 255, 136, 0.1) !important;
+  background: rgba(230, 163, 74, 0.1) !important;
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 10px 25px rgba(230, 163, 74, 0.2);
 }
 
 .promotions-page .promo-header {
@@ -286,7 +286,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
-  border: 2px solid rgba(0, 255, 136, 0.3);
+  border: 2px solid rgba(230, 163, 74, 0.3);
 }
 
 .discount-badge-small {
@@ -377,7 +377,7 @@
 
 .step-card:hover {
   border-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(230, 163, 74, 0.05);
 }
 
 .step-number {
@@ -413,7 +413,7 @@
   padding: 60px 40px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
   border-radius: 20px;
-  border: 2px dashed rgba(0, 255, 136, 0.3);
+  border: 2px dashed rgba(230, 163, 74, 0.3);
   margin: 20px 0;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -425,8 +425,8 @@
 }
 
 .promotions-page .no-promotions.category-empty {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 200, 100, 0.05)) !important;
-  border-color: rgba(0, 255, 136, 0.4);
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.15), rgba(0, 200, 100, 0.05)) !important;
+  border-color: rgba(230, 163, 74, 0.4);
 }
 
 .empty-content {
@@ -472,12 +472,12 @@
   cursor: pointer;
   margin-top: 1.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 4px 15px rgba(230, 163, 74, 0.3);
 }
 
 .view-all-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 6px 20px rgba(230, 163, 74, 0.4);
   background: linear-gradient(135deg, #c97c1a, #a56312);
 }
 
@@ -504,7 +504,7 @@
 
 .no-promotions button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
 /* Адаптивность */

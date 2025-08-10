@@ -113,7 +113,7 @@ input[type='number'] {
 }
 
 .catalog-card:hover {
-  box-shadow: 0 8px 32px rgba(0,255,136,0.10);
+  box-shadow: 0 8px 32px rgba(230, 163, 74, 0.10);
   border: 1px solid #e6a34a;
   transform: translateY(-5px) scale(1.03);
 }
@@ -226,7 +226,7 @@ input[type='number'] {
   background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,255,136,0.15);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.15);
 }
 
 .no-products {

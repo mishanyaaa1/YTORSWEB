@@ -41,7 +41,7 @@
 .tab.active {
   color: #e6a34a;
   border-bottom-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
 }
 
 /* Контент табов */
@@ -100,7 +100,7 @@
 .form-group select:focus {
   border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
 }
 
 .form-group input::placeholder,
@@ -126,7 +126,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   border: 1px solid #e6a34a;
   border-radius: 8px;
   color: #e6a34a;
@@ -136,7 +136,7 @@
 }
 
 .add-btn:hover {
-  background: rgba(0, 255, 136, 0.2);
+  background: rgba(230, 163, 74, 0.2);
   transform: translateY(-2px);
 }
 
@@ -171,7 +171,7 @@
 
 .save-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
 /* Элементы карточек */
@@ -191,8 +191,8 @@
 .why-choose-us-item:hover,
 .team-member-item:hover,
 .milestone-item:hover {
-  border-color: rgba(0, 255, 136, 0.3);
-  background: rgba(0, 255, 136, 0.05);
+  border-color: rgba(230, 163, 74, 0.3);
+  background: rgba(230, 163, 74, 0.05);
 }
 
 .advantage-header,
@@ -282,7 +282,7 @@
 .footer-subsection h5 {
   color: #e6a34a;
   margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+  border-bottom: 1px solid rgba(230, 163, 74, 0.2);
   padding-bottom: 0.5rem;
 }
 

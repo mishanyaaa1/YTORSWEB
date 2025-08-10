@@ -62,7 +62,7 @@
 
 .cart-item:hover {
   border-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(230, 163, 74, 0.05);
 }
 
 .item-image {
@@ -141,7 +141,7 @@
 }
 
 .quantity-btn:hover:not(:disabled) {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   color: #e6a34a;
 }
 
@@ -176,7 +176,7 @@
 .quantity-input:focus {
   background: rgba(255, 255, 255, 0.1);
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
 }
 
 .quantity-input::-webkit-outer-spin-button,
@@ -273,7 +273,7 @@
 
 .checkout-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .empty-cart {
@@ -313,7 +313,7 @@
 
 .continue-shopping-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 /* Модальное окно оформления заказа */
@@ -472,7 +472,7 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 30px rgba(230, 163, 74, 0.3);
 }
 
 /* Адаптивность */
@@ -541,7 +541,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   border-radius: 8px;
   margin-top: 1rem;
   color: #e6a34a;
@@ -555,7 +555,7 @@
 .discount-info {
   margin: 1rem 0;
   padding: 1rem;
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(230, 163, 74, 0.05);
   border-radius: 8px;
   border-left: 3px solid #e6a34a;
 }

@@ -102,7 +102,7 @@
 
 .add-category-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-btn {
@@ -292,7 +292,7 @@
 
 .add-subcategory-form select:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 .add-subcategory-form input {
@@ -309,7 +309,7 @@
 
 .add-subcategory-form input:focus {
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
 }
 
 /* Responsive */

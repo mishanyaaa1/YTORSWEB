@@ -199,7 +199,7 @@
 
 .advantage-card:hover {
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .advantage-icon {
@@ -242,7 +242,7 @@
 
 .feature-item:hover {
   border-color: #e6a34a;
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(230, 163, 74, 0.05);
 }
 
 .feature-item .feature-icon {
@@ -286,7 +286,7 @@
 
 .team-card:hover {
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .member-photo {
@@ -371,7 +371,7 @@
   border-radius: 20px;
   padding: 3rem;
   text-align: center;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(230, 163, 74, 0.2);
   width: 100%;
   max-width: 400px;
 }
@@ -406,7 +406,7 @@
 
 .contact-card:hover {
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .contact-icon {
@@ -443,7 +443,7 @@
   border-radius: 20px;
   padding: 4rem;
   text-align: center;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(230, 163, 74, 0.2);
   margin-top: 2rem;
 }
 
@@ -569,8 +569,8 @@
 }
 
 .milestone-item:hover {
-  background: rgba(0, 255, 136, 0.05);
-  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(230, 163, 74, 0.05);
+  border-color: rgba(230, 163, 74, 0.3);
   transform: translateY(-5px);
 }
 

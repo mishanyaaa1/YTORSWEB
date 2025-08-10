@@ -192,20 +192,20 @@ html {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 30px rgba(230, 163, 74, 0.3);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
 }
 
 .hero-image {
-  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
   border-radius: 20px;
   padding: 2rem;
   text-align: center;
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(230, 163, 74, 0.2);
   width: 100%;
 }
 
@@ -277,7 +277,7 @@ html {
 .feature-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .feature-icon {
@@ -324,7 +324,7 @@ html {
 .product-card:hover {
   transform: translateY(-5px);
   border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
 }
 
 .product-image {
@@ -384,7 +384,7 @@ html {
 
 .product-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
 /* Футер */

@@ -104,15 +104,15 @@
 }
 
 .icon-option:hover {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(230, 163, 74, 0.1);
   border-color: #e6a34a;
   transform: scale(1.1);
 }
 
 .icon-option.selected {
-  background: rgba(0, 255, 136, 0.2);
+  background: rgba(230, 163, 74, 0.2);
   border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.3);
 }
 
 /* Стили для скроллбара */
@@ -126,10 +126,10 @@
 }
 
 .icon-grid::-webkit-scrollbar-thumb {
-  background: rgba(0, 255, 136, 0.3);
+  background: rgba(230, 163, 74, 0.3);
   border-radius: 3px;
 }
 
 .icon-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 255, 136, 0.5);
+  background: rgba(230, 163, 74, 0.5);
 }
