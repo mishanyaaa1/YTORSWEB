@@ -59,9 +59,49 @@
 }
 
 .nav-item.active {
-  background: #e6a34a;
-  color: black;
-  font-weight: 500;
+  /* Более деликатная подсветка активного раздела, согласованная с цветом иконок */
+  background: linear-gradient(180deg, rgba(230, 163, 74, 0.18) 0%, rgba(230, 163, 74, 0.10) 100%);
+  border: 1px solid rgba(230, 163, 74, 0.35);
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(230, 163, 74, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Иконки в боковой панели — подложка под цвет бренда, чтобы не сливались */
+/* Иконки: по умолчанию без подложки, только брендовый цвет. 
+   Подложка появляется плавно на hover, чтобы не выглядело "тяжело". */
+.admin-sidebar .nav-item svg {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform: none;
+  transition: color 120ms ease;
+}
+
+/* Состояния: ховер и активный пункт меню */
+.admin-sidebar .nav-item:hover svg {
+  color: inherit;
+  background: transparent;
+}
+
+.admin-sidebar .nav-item.active svg {
+  color: inherit;
+  background: transparent;
+}
+
+/* Специальный стиль для пункта "Выйти" */
+.admin-sidebar .nav-item.logout svg {
+  color: inherit;
+  background: transparent;
+}
+.admin-sidebar .nav-item.logout:hover svg {
+  color: inherit;
+  background: transparent;
 }
 
 .nav-item.logout {

@@ -254,16 +254,37 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.view-btn {
+  /* Тёплая подложка под цвет иконки просмотра */
+  background: rgba(230, 163, 74, 0.18);
+  border-color: rgba(230, 163, 74, 0.4);
+  color: #e6a34a;
+}
+
 .view-btn:hover {
   background: rgba(230, 163, 74, 0.2);
   border-color: #e6a34a;
   color: #e6a34a;
 }
 
+.delete-btn {
+  /* Красная подложка под цвет иконки удаления */
+  background: rgba(255, 71, 87, 0.18);
+  border-color: rgba(255, 71, 87, 0.45);
+  color: #ff6b7d;
+}
+
 .delete-btn:hover {
   background: rgba(255, 71, 87, 0.2);
   border-color: #ff4757;
   color: #ff4757;
+}
+
+/* Размер и читаемость иконок внутри action-кнопок */
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
 }
 
 .status-select {
