@@ -1,52 +1,17 @@
-.promotion-management {
-  padding: 20px;
-}
+.promotion-management { padding: 20px; background: #0a0a0a; color: #ffffff; min-height: 100vh; }
 
-.management-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e0e0e0;
-}
+.management-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 
-.management-header h2 {
-  margin: 0;
-  color: #333;
-}
+.management-header h2 { margin: 0; color: #ffffff; }
 
-.btn-primary {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  transition: background 0.2s;
-}
+.btn-primary { background: #e6a34a; color: #0a0a0a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.btn-primary svg { color: #0a0a0a !important; }
 
-.btn-primary:hover {
-  background: #0056b3;
-}
+.btn-primary:hover { filter: brightness(1.05); }
 
-.promotion-form {
-  background: #f8f9fa;
-  padding: 25px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  border: 1px solid #e0e0e0;
-  color: #000000;
-}
+.promotion-form { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; }
 
-.promotion-form h3 {
-  margin: 0 0 20px 0;
-  color: #000000;
-}
+.promotion-form h3 { margin: 0 0 20px 0; color: #ffffff; }
 
 .form-grid {
   display: grid;
@@ -64,30 +29,15 @@
   grid-column: 1 / -1;
 }
 
-.form-group label {
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #000000;
-}
+.form-group label { margin-bottom: 5px; font-weight: 500; color: #ffffff; }
 
 .form-group input,
 .form-group select,
-.form-group textarea {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #000000;
-  background: #ffffff;
-}
+.form-group textarea { padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; font-size: 14px; color: #ffffff; background: rgba(255, 255, 255, 0.06); }
 
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
+.form-group textarea:focus { outline: none; border-color: #e6a34a; box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2); }
 
 .form-group input[type="checkbox"] {
   width: auto;
@@ -99,41 +49,14 @@
   gap: 10px;
 }
 
-.btn-success {
-  background: #e6a34a;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  transition: background 0.2s;
-}
+.btn-success { background: #e6a34a; color: #0a0a0a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.btn-success svg { color: #0a0a0a !important; }
 
-.btn-success:hover {
-  background: #c97c1a;
-}
+.btn-success:hover { filter: brightness(1.05); }
 
-.btn-secondary {
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  transition: background 0.2s;
-}
+.btn-secondary { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
 
-.btn-secondary:hover {
-  background: #5a6268;
-}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.18); }
 
 .promotions-grid {
   display: grid;
@@ -141,55 +64,19 @@
   gap: 20px;
 }
 
-.no-promotions {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 50px;
-  color: #000000;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+.no-promotions { grid-column: 1 / -1; text-align: center; padding: 50px; color: #cccccc; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; }
 
-.promotion-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border: 1px solid #e0e0e0;
-  transition: all 0.2s;
-  color: #000000;
-}
+.promotion-card { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; color: #ffffff; }
 
-.promotion-card:hover {
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
+.promotion-card:hover { background: rgba(255,255,255,0.06); }
 
-.promotion-card.inactive {
-  opacity: 0.7;
-  border-color: #ccc;
-}
+.promotion-card.inactive { opacity: 0.7; border-color: rgba(255,255,255,0.15); }
 
-.promotion-card.expired {
-  border-color: #dc3545;
-  background: #fff5f5;
-}
+.promotion-card.expired { border-color: rgba(255, 71, 87, 0.35); background: rgba(255, 71, 87, 0.08); }
 
-.promotion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e0e0e0;
-}
+.promotion-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-.promotion-header h3 {
-  margin: 0;
-  color: #000000;
-  font-size: 18px;
-  flex: 1;
-}
+.promotion-header h3 { margin: 0; color: #ffffff; font-size: 18px; flex: 1; }
 
 .promotion-actions {
   display: flex;
@@ -215,39 +102,15 @@
   color: #6c757d;
 }
 
-.btn-toggle:hover {
-  background: #f0f0f0;
-}
+.btn-toggle:hover { background: rgba(255, 255, 255, 0.08); }
 
-.btn-edit {
-  background: rgba(230, 163, 74, 0.12);
-  color: #b37314;
-  border: none;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background 0.2s;
-  border: 1px solid rgba(230, 163, 74, 0.35);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 3px rgba(0, 0, 0, 0.2);
-}
+.btn-edit { background: rgba(230, 163, 74, 0.15); color: #e6a34a; border: 1px solid rgba(230, 163, 74, 0.4); padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; }
 
 .btn-edit:hover {
   background: rgba(230, 163, 74, 0.22);
 }
 
-.btn-delete {
-  background: rgba(220, 53, 69, 0.12);
-  color: #b02a37;
-  border: none;
-  padding: 6px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background 0.2s;
-  border: 1px solid rgba(220, 53, 69, 0.35);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 3px rgba(0, 0, 0, 0.2);
-}
+.btn-delete { background: rgba(255, 71, 87, 0.15); color: #ff6b7d; border: 1px solid rgba(255, 71, 87, 0.4); padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; }
 
 /* Размер и читаемость иконок */
 .btn-edit svg,
@@ -268,11 +131,7 @@
   gap: 15px;
 }
 
-.promotion-description {
-  margin: 0;
-  color: #000000;
-  line-height: 1.5;
-}
+.promotion-description { margin: 0; color: #dddddd; line-height: 1.5; }
 
 .promotion-details {
   display: flex;
@@ -291,10 +150,7 @@
 
 .discount-label,
 .category-label,
-.validity-label {
-  font-weight: 500;
-  color: #000000;
-}
+.validity-label { font-weight: 500; color: #cccccc; }
 
 .discount-value {
   background: #e6a34a;
@@ -313,10 +169,7 @@
   font-size: 12px;
 }
 
-.validity-value {
-  font-weight: 500;
-  color: #000000;
-}
+.validity-value { font-weight: 500; color: #ffffff; }
 
 .validity-value.expired {
   color: #dc3545;

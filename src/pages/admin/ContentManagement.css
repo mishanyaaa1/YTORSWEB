@@ -135,6 +135,13 @@
   font-size: 0.9rem;
 }
 
+/* Чёткая видимость иконок на брендовой подложке */
+.add-btn svg,
+.save-btn svg,
+.upload-btn svg {
+  color: #0a0a0a !important;
+}
+
 .add-btn:hover {
   background: rgba(230, 163, 74, 0.2);
   transform: translateY(-2px);
