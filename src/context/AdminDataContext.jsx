@@ -84,6 +84,16 @@ export const AdminDataProvider = ({ children }) => {
         const migratedContent = {
           ...initialAboutContent,
           ...parsedContent,
+          homeHero: {
+            ...initialAboutContent.homeHero,
+            ...(parsedContent.homeHero || {}),
+            // миграция одиночной кнопки в массив
+            visualButtons: Array.isArray(parsedContent?.homeHero?.visualButtons)
+              ? parsedContent.homeHero.visualButtons
+              : (parsedContent?.homeHero?.visualButtonText
+                  ? [{ text: parsedContent.homeHero.visualButtonText, link: parsedContent.homeHero.visualButtonLink || '/catalog' }]
+                  : (initialAboutContent.homeHero.visualButtons || []))
+          },
           // Обновлённая секция доставки и оплаты
           deliveryAndPayment: mergedDeliveryAndPayment,
           // Миграция ссылки в футере на новую секцию доставки
@@ -455,6 +465,13 @@ export const AdminDataProvider = ({ children }) => {
     const completeContent = {
       ...initialAboutContent,
       ...newContent,
+      homeHero: {
+        ...initialAboutContent.homeHero,
+        ...(newContent.homeHero || {}),
+        visualButtons: Array.isArray(newContent?.homeHero?.visualButtons)
+          ? newContent.homeHero.visualButtons
+          : []
+      },
       team: newContent.team || [],
       history: {
         ...initialAboutContent.history,

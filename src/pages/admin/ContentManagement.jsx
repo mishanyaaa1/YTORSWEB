@@ -8,6 +8,15 @@ export default function ContentManagement() {
   const { aboutContent, updateAboutContent } = useAdminData();
   const [activeTab, setActiveTab] = useState('basic');
   const [formData, setFormData] = useState({
+    homeHero: aboutContent.homeHero || {
+      title: 'Запчасти для вездеходов',
+      description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
+      ctaText: 'Перейти в каталог',
+      ctaLink: '/catalog',
+      imageCaption: 'Надёжные запчасти для вашего вездехода',
+      visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
+      visualImage: ''
+    },
     title: aboutContent.title || '',
     description: aboutContent.description || '',
     advantages: aboutContent.advantages || [],
@@ -32,6 +41,15 @@ export default function ContentManagement() {
   // Синхронизируем formData с aboutContent при изменении
   useEffect(() => {
     setFormData({
+      homeHero: aboutContent.homeHero || {
+        title: 'Запчасти для вездеходов',
+        description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
+        ctaText: 'Перейти в каталог',
+        ctaLink: '/catalog',
+        imageCaption: 'Надёжные запчасти для вашего вездехода',
+        visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
+        visualImage: ''
+      },
       title: aboutContent.title || '',
       description: aboutContent.description || '',
       advantages: aboutContent.advantages || [],
@@ -59,6 +77,47 @@ export default function ContentManagement() {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  const handleHomeHeroChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      homeHero: {
+        ...prev.homeHero,
+        [name]: value
+      }
+    }));
+  };
+
+  const addVisualButton = () => {
+    setFormData(prev => ({
+      ...prev,
+      homeHero: {
+        ...prev.homeHero,
+        visualButtons: [...(prev.homeHero.visualButtons || []), { text: '', link: '' }]
+      }
+    }));
+  };
+
+  const updateVisualButton = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      homeHero: {
+        ...prev.homeHero,
+        visualButtons: (prev.homeHero.visualButtons || []).map((b, i) => i === index ? { ...b, [field]: value } : b)
+      }
+    }));
+  };
+
+  const removeVisualButton = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      homeHero: {
+        ...prev.homeHero,
+        visualButtons: (prev.homeHero.visualButtons || []).filter((_, i) => i !== index)
+      }
     }));
   };
 
@@ -280,6 +339,7 @@ export default function ContentManagement() {
   };
 
   const tabs = [
+    { id: 'home', label: 'Главная (визуальный блок)' },
     { id: 'basic', label: 'Основная информация' },
     { id: 'advantages', label: 'Преимущества' },
     { id: 'whyChooseUs', label: 'Почему выбирают нас' },
@@ -307,6 +367,102 @@ export default function ContentManagement() {
       </div>
 
       <div className="tab-content">
+        {activeTab === 'home' && (
+          <div className="basic-info">
+            <h3>Главная страница — визуальный блок</h3>
+            <div className="form-group">
+              <label>Заголовок:</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.homeHero.title}
+                onChange={handleHomeHeroChange}
+                placeholder="Заголовок в Hero"
+              />
+            </div>
+            <div className="form-group">
+              <label>Описание:</label>
+              <textarea
+                name="description"
+                value={formData.homeHero.description}
+                onChange={handleHomeHeroChange}
+                placeholder="Подзаголовок/описание"
+                rows={4}
+              />
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Текст кнопки:</label>
+                <input
+                  type="text"
+                  name="ctaText"
+                  value={formData.homeHero.ctaText}
+                  onChange={handleHomeHeroChange}
+                  placeholder="Например: Перейти в каталог"
+                />
+              </div>
+              <div className="form-group">
+                <label>Ссылка кнопки:</label>
+                <input
+                  type="text"
+                  name="ctaLink"
+                  value={formData.homeHero.ctaLink}
+                  onChange={handleHomeHeroChange}
+                  placeholder="/catalog"
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Подпись под изображением:</label>
+              <input
+                type="text"
+                name="imageCaption"
+                value={formData.homeHero.imageCaption}
+                onChange={handleHomeHeroChange}
+                placeholder="Надёжные запчасти для вашего вездехода"
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <div className="section-header" style={{paddingBottom: 0, border: 'none'}}>
+                  <h4>Кнопки визуального блока</h4>
+                  <button type="button" className="add-btn" onClick={addVisualButton}><FaPlus /> Добавить кнопку</button>
+                </div>
+                {(formData.homeHero.visualButtons || []).map((btn, index) => (
+                  <div key={index} className="link-item">
+                    <div className="link-header">
+                      <span>Кнопка #{index + 1}</span>
+                      <button type="button" className="remove-btn" onClick={() => removeVisualButton(index)}><FaTrash /></button>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Текст</label>
+                        <input type="text" value={btn.text} onChange={(e) => updateVisualButton(index, 'text', e.target.value)} placeholder="Например: Подробнее" />
+                      </div>
+                      <div className="form-group">
+                        <label>Ссылка</label>
+                        <input type="text" value={btn.link} onChange={(e) => updateVisualButton(index, 'link', e.target.value)} placeholder="/catalog" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Изображение в визуальном блоке:</label>
+              <input
+                type="text"
+                name="visualImage"
+                value={formData.homeHero.visualImage}
+                onChange={handleHomeHeroChange}
+                placeholder="Вставьте dataURL или ссылку (опционально)"
+              />
+              <small>Если пусто, показывается SVG визуализация по умолчанию.</small>
+            </div>
+          </div>
+        )}
         {activeTab === 'basic' && (
           <div className="basic-info">
           <h3>Основная информация</h3>

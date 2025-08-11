@@ -16,7 +16,7 @@ import './Home.css';
 
 function Home() {
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
-  const { products, popularProductIds } = useAdminData();
+  const { products, popularProductIds, aboutContent } = useAdminData();
   
   // wishlist removed
   
@@ -95,21 +95,28 @@ function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
-              <h1>Запчасти для вездеходов</h1>
-              <p>
-                Качественные запчасти для всех типов вездеходов. 
-                Быстрая доставка по всей России. Гарантия качества на все товары.
-              </p>
-              <Link to="/catalog" className="cta-button">
-                Перейти в каталог
+              <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
+              <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
+              <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
                 <FaArrowRight />
               </Link>
             </div>
             <div className="hero-image">
               <div className="hero-placeholder">
-                <HeroVisual />
+                {aboutContent?.homeHero?.visualImage ? (
+                  <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
+                ) : (
+                  <HeroVisual />
+                )}
               </div>
-              <p>Надёжные запчасти для вашего вездехода</p>
+              <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
+              {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
+                <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
+                  {btn.text || 'Подробнее'}
+                  <FaArrowRight />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
