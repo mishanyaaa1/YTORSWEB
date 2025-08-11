@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   FaTruck, 
   FaTools, 
@@ -15,6 +15,7 @@ import { getIconForEmoji } from '../utils/iconMap.jsx';
 import './Home.css';
 
 function Home() {
+  const navigate = useNavigate();
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds, aboutContent } = useAdminData();
   
@@ -97,10 +98,26 @@ function Home() {
             <div className="hero-text">
               <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
               <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
-              <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
-                {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                <FaArrowRight />
-              </Link>
+              <div className="hero-cta-group">
+                <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                  {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
+                  <FaArrowRight />
+                </Link>
+                <Link
+                  to="/about#contacts"
+                  className="cta-button secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/about#contacts');
+                    setTimeout(() => {
+                      const el = document.getElementById('contacts');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 50);
+                  }}
+                >
+                  Связаться с менеджером
+                </Link>
+              </div>
             </div>
             <div className="hero-image">
               <div className="hero-placeholder">

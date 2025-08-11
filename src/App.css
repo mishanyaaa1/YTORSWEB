@@ -213,6 +213,30 @@ html {
   filter: none;
 }
 
+/* Группа CTA в hero */
+.hero-cta-group {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/* Вторичная (менее яркая) кнопка */
+.cta-button.secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(230, 163, 74, 0.4);
+}
+
+.cta-button.secondary:hover {
+  background: rgba(230, 163, 74, 0.08);
+  box-shadow: none;
+  color: #ffffff !important;
+}
+
+.cta-button.secondary svg {
+  color: #ffffff !important;
+}
+
 .hero-image {
   background: linear-gradient(135deg, rgba(230, 163, 74, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
   border-radius: 20px;
