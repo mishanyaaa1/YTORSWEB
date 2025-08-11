@@ -5,7 +5,8 @@ import {
   FaTools, 
   FaShieldAlt, 
   FaArrowRight,
-  FaStar
+  FaStar,
+  FaPlus
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
@@ -101,8 +102,8 @@ function Home() {
                 Быстрая доставка по всей России. Гарантия качества на все товары.
               </p>
               <Link to="/catalog" className="cta-button">
+                <FaPlus />
                 Перейти в каталог
-                <FaArrowRight />
               </Link>
             </div>
             <div className="hero-image">
@@ -159,7 +160,7 @@ function Home() {
                   Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
                 </p>
                 <Link to="/catalog" className="cta-button">
-                  Перейти в каталог <FaArrowRight />
+                  <FaPlus /> Перейти в каталог
                 </Link>
               </div>
             </div>
