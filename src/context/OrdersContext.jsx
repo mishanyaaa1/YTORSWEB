@@ -47,7 +47,7 @@ export const OrdersProvider = ({ children }) => {
   useEffect(() => {
     const loadOrders = async () => {
       try {
-        const response = await fetch('/api/orders');
+        const response = await fetch('/api/orders', { credentials: 'include' });
         if (!response.ok) throw new Error('Failed to load orders');
         const data = await response.json();
         setOrders(Array.isArray(data) ? data : []);
@@ -65,13 +65,14 @@ export const OrdersProvider = ({ children }) => {
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(orderData)
       });
       if (!response.ok) throw new Error('Failed to create order');
       const saved = await response.json();
 
       // Обновляем локальное состояние свежей копией с сервера
-      const list = await fetch('/api/orders').then(r => r.json());
+      const list = await fetch('/api/orders', { credentials: 'include' }).then(r => r.json());
       setOrders(Array.isArray(list) ? list : []);
 
       return saved;
@@ -86,16 +87,18 @@ export const OrdersProvider = ({ children }) => {
     await fetch(`/api/orders/${orderId}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ status: newStatus })
     });
     if (note) {
       await fetch(`/api/orders/${orderId}/notes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ text: note, type: 'status_change' })
       });
     }
-    const list = await fetch('/api/orders').then(r => r.json());
+    const list = await fetch('/api/orders', { credentials: 'include' }).then(r => r.json());
     setOrders(Array.isArray(list) ? list : []);
   };
 
@@ -104,9 +107,10 @@ export const OrdersProvider = ({ children }) => {
     await fetch(`/api/orders/${orderId}/notes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ text: noteText, type: 'note' })
     });
-    const list = await fetch('/api/orders').then(r => r.json());
+    const list = await fetch('/api/orders', { credentials: 'include' }).then(r => r.json());
     setOrders(Array.isArray(list) ? list : []);
   };
 
@@ -145,8 +149,8 @@ export const OrdersProvider = ({ children }) => {
   // Удалить заказ (только для отмененных заказов) — серверный hard delete
   const deleteOrder = async (orderId) => {
     try {
-      await fetch(`/api/orders/${orderId}`, { method: 'DELETE' });
-      const list = await fetch('/api/orders').then(r => r.json());
+      await fetch(`/api/orders/${orderId}`, { method: 'DELETE', credentials: 'include' });
+      const list = await fetch('/api/orders', { credentials: 'include' }).then(r => r.json());
       setOrders(Array.isArray(list) ? list : []);
     } catch (e) {
       setOrders(prev => prev.filter(order => order.id !== orderId));

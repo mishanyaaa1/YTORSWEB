@@ -5,11 +5,45 @@ const path = require('path');
 const { db, run, get, all } = require('./db');
 const fs = require('fs');
 const multer = require('multer');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const JWT_SECRET = process.env.JWT_SECRET || 'please-change-this-secret-in-env';
 
-app.use(cors());
+app.set('trust proxy', 1);
+
+// Security headers
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
+// CORS (ограничим источники)
+const allowedOrigins = new Set([
+  'http://localhost:5174',
+  'http://127.0.0.1:5174',
+  'http://localhost:3001', // через прокси changeOrigin
+]);
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.has(origin)) return callback(null, true);
+      return callback(null, false);
+    },
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
 app.use(express.json({ limit: '25mb' }));
 // Статическая раздача загруженных файлов
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -31,15 +65,125 @@ const storage = multer.diskStorage({
     cb(null, name);
   }
 });
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const ok = (file.mimetype || '').startsWith('image/');
+    cb(ok ? null : new Error('Only image uploads are allowed'), ok);
+  },
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
+
+// --- Auth helpers ---
+async function ensureAdminTableAndDefaultUser() {
+  await run(
+    db,
+    `CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )`
+  );
+  const row = await get(db, `SELECT COUNT(1) as cnt FROM admins`);
+  if (!row || !row.cnt) {
+    const username = process.env.ADMIN_USERNAME || 'admin';
+    const password = process.env.ADMIN_PASSWORD || 'admin123';
+    const hash = await bcrypt.hash(password, 12);
+    await run(db, `INSERT INTO admins (username, password_hash) VALUES (?, ?)`, [username, hash]);
+    console.log('Created default admin user:', username);
+  }
+}
+
+function signAdminToken(payload) {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '12h' });
+}
+
+function parseAdminFromCookie(req, res, next) {
+  const token = req.cookies && req.cookies.admin_token;
+  if (!token) return next();
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.admin = { id: decoded.id, username: decoded.username };
+  } catch (_) {
+    // ignore invalid/expired token
+  }
+  next();
+}
+
+function requireAdmin(req, res, next) {
+  if (!req.admin) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+}
+
+function verifySameOrigin(req, res, next) {
+  // Разрешаем системные и auth-эндпоинты без проверки
+  if (req.path === '/api/health' || req.path === '/api/admin/login' || req.path === '/api/admin/logout' || req.path === '/api/admin/me') {
+    return next();
+  }
+  const method = req.method.toUpperCase();
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    const origin = req.headers.origin || '';
+    const referer = req.headers.referer || '';
+    // Если заголовков нет (например, через дев-прокси) — пропускаем
+    if (!origin && !referer) return next();
+    const ok = Array.from(allowedOrigins).some((o) => origin === o || referer.startsWith(o));
+    if (!ok) return res.status(403).json({ error: 'Forbidden origin' });
+  }
+  next();
+}
+
+app.use(parseAdminFromCookie);
+app.use(verifySameOrigin);
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // Healthcheck
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
+// --- Auth routes ---
+app.post('/api/admin/login', loginLimiter, async (req, res) => {
+  try {
+    const { username, password } = req.body || {};
+    if (!username || !password) return res.status(400).json({ error: 'Missing credentials' });
+    const admin = await get(db, `SELECT id, username, password_hash FROM admins WHERE username=?`, [username]);
+    if (!admin) return res.status(401).json({ error: 'Неверный логин или пароль' });
+    const ok = await bcrypt.compare(password, admin.password_hash);
+    if (!ok) return res.status(401).json({ error: 'Неверный логин или пароль' });
+
+    const token = signAdminToken({ id: admin.id, username: admin.username });
+    res.cookie('admin_token', token, {
+      httpOnly: true,
+      secure: NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 12 * 60 * 60 * 1000,
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+app.post('/api/admin/logout', requireAdmin, (req, res) => {
+  res.clearCookie('admin_token', { path: '/' });
+  res.json({ ok: true });
+});
+
+app.get('/api/admin/me', requireAdmin, (req, res) => {
+  res.json({ id: req.admin.id, username: req.admin.username });
+});
+
 // Backup DB (download)
-app.get('/api/_debug/backup', (req, res) => {
+app.get('/api/_debug/backup', requireAdmin, (req, res) => {
   try {
     const dbPath = require('./db').DB_FILE;
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -51,7 +195,7 @@ app.get('/api/_debug/backup', (req, res) => {
   }
 });
 
-app.get('/api/_debug/download', (req, res) => {
+app.get('/api/_debug/download', requireAdmin, (req, res) => {
   const file = req.query.f;
   if (!file) return res.status(400).send('Missing f');
   const full = path.join(backupsDir, file);
@@ -59,8 +203,8 @@ app.get('/api/_debug/download', (req, res) => {
   res.download(full);
 });
 
-// Upload image
-app.post('/api/upload/image', upload.single('image'), (req, res) => {
+// Upload image (admin only)
+app.post('/api/upload/image', requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file' });
   const url = `/uploads/${req.file.filename}`;
   res.status(201).json({ url });
@@ -76,7 +220,7 @@ app.get('/api/brands', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch brands' });
   }
 });
-app.post('/api/brands', async (req, res) => {
+app.post('/api/brands', requireAdmin, async (req, res) => {
   try {
     const { name } = req.body;
     await ensureBrandByName(name);
@@ -86,7 +230,7 @@ app.post('/api/brands', async (req, res) => {
     res.status(500).json({ error: 'Failed to create brand' });
   }
 });
-app.delete('/api/brands/:name', async (req, res) => {
+app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
   try {
     const { name } = req.params;
     await run(db, `DELETE FROM brands WHERE name=?`, [name]);
@@ -119,7 +263,7 @@ app.get('/api/categories', async (req, res) => {
   }
 });
 // Categories CRUD by name
-app.post('/api/categories', async (req, res) => {
+app.post('/api/categories', requireAdmin, async (req, res) => {
   try {
     const { name, subcategories = [] } = req.body;
     const catId = await ensureCategoryByName(name);
@@ -132,7 +276,7 @@ app.post('/api/categories', async (req, res) => {
     res.status(500).json({ error: 'Failed to create category' });
   }
 });
-app.put('/api/categories/:name', async (req, res) => {
+app.put('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const oldName = req.params.name;
     const { newName } = req.body;
@@ -143,7 +287,7 @@ app.put('/api/categories/:name', async (req, res) => {
     res.status(500).json({ error: 'Failed to rename category' });
   }
 });
-app.delete('/api/categories/:name', async (req, res) => {
+app.delete('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
     await run(db, `DELETE FROM categories WHERE name=?`, [name]);
@@ -153,7 +297,7 @@ app.delete('/api/categories/:name', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete category' });
   }
 });
-app.put('/api/categories/:name/subcategories', async (req, res) => {
+app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
     const { subcategories = [] } = req.body;
@@ -252,7 +396,7 @@ async function ensureBrandByName(name) {
 }
 
 // Create product
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', requireAdmin, async (req, res) => {
   try {
     const { title, price, category, subcategory, brand, available = true, quantity = 0, description = null, specifications, features, images } = req.body;
 
@@ -285,7 +429,7 @@ app.post('/api/products', async (req, res) => {
 });
 
 // Update product
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { title, price, category, subcategory, brand, available = true, quantity = 0, description = null, specifications, features, images } = req.body;
@@ -319,7 +463,7 @@ app.put('/api/products/:id', async (req, res) => {
 });
 
 // Delete product
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     await run(db, `DELETE FROM products WHERE id=?`, [id]);
@@ -358,7 +502,7 @@ app.get('/api/promotions', async (req, res) => {
 });
 
 // Promotions CRUD (минимум)
-app.post('/api/promotions', async (req, res) => {
+app.post('/api/promotions', requireAdmin, async (req, res) => {
   try {
     const { title, description, discount, category, validUntil, active = true, featured = false, minPurchase } = req.body;
     const catId = category ? (await get(db, `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
@@ -375,7 +519,7 @@ app.post('/api/promotions', async (req, res) => {
   }
 });
 
-app.put('/api/promotions/:id', async (req, res) => {
+app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { title, description, discount, category, validUntil, active, featured, minPurchase } = req.body;
@@ -392,7 +536,7 @@ app.put('/api/promotions/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/promotions/:id', async (req, res) => {
+app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     await run(db, `DELETE FROM promotions WHERE id=?`, [id]);
@@ -404,7 +548,7 @@ app.delete('/api/promotions/:id', async (req, res) => {
 });
 
 // Orders
-app.get('/api/orders', async (req, res) => {
+app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await all(db, `SELECT * FROM orders ORDER BY created_at DESC`);
     const orderIds = orders.map(o => o.id);
@@ -502,7 +646,7 @@ app.post('/api/orders', async (req, res) => {
 });
 
 // Orders: update status
-app.patch('/api/orders/:id/status', async (req, res) => {
+app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -515,7 +659,7 @@ app.patch('/api/orders/:id/status', async (req, res) => {
 });
 
 // Orders: add note
-app.post('/api/orders/:id/notes', async (req, res) => {
+app.post('/api/orders/:id/notes', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { text, type = 'note' } = req.body;
@@ -528,7 +672,7 @@ app.post('/api/orders/:id/notes', async (req, res) => {
 });
 
 // Orders: hard delete (used for cancelled orders cleanup)
-app.delete('/api/orders/:id', async (req, res) => {
+app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     // Удаляем связанные записи явно, чтобы не зависеть от PRAGMA foreign_keys
@@ -543,7 +687,7 @@ app.delete('/api/orders/:id', async (req, res) => {
 });
 
 // Admin: normalize product IDs to be sequential starting from 1
-app.post('/api/_admin/normalize/products', async (req, res) => {
+app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
   try {
     await run(db, 'PRAGMA foreign_keys = OFF');
     await run(db, 'BEGIN TRANSACTION');
@@ -629,13 +773,8 @@ app.post('/api/_admin/normalize/products', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`API server listening on http://localhost:${PORT}`);
-});
-
-
-// Debug: list registered routes
-app.get('/api/_debug/routes', (req, res) => {
+// Debug: list registered routes (admin only)
+app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   try {
     const routes = [];
     app._router.stack.forEach((m) => {
@@ -655,4 +794,15 @@ app.get('/api/_debug/routes', (req, res) => {
     res.status(500).json({ error: String(e) });
   }
 });
+
+ensureAdminTableAndDefaultUser()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`API server listening on http://localhost:${PORT}`);
+    });
+  })
+  .catch((e) => {
+    console.error('Failed to initialize admin table', e);
+    process.exit(1);
+  });
 

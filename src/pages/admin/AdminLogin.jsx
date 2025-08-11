@@ -26,17 +26,26 @@ function AdminLogin() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-
-    // Простая проверка логина/пароля (в реальном приложении это должно быть на сервере)
-    setTimeout(() => {
-      if (credentials.username === 'admin' && credentials.password === 'admin123') {
-        localStorage.setItem('adminAuth', 'true');
-        navigate('/admin/dashboard');
-      } else {
-        setError('Неверный логин или пароль');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: credentials.username,
+          password: credentials.password,
+        })
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Ошибка входа');
       }
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError(err.message || 'Ошибка входа');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -113,9 +122,7 @@ function AdminLogin() {
           </form>
 
           <div className="login-info">
-            <p><strong>Тестовые данные для входа:</strong></p>
-            <p>Логин: admin</p>
-            <p>Пароль: admin123</p>
+            <p>Для доступа используйте логин и пароль администратора.</p>
           </div>
         </motion.div>
       </div>

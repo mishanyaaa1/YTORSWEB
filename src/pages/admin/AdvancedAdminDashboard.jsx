@@ -17,15 +17,24 @@ function AdvancedAdminDashboard() {
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
-    const isAuth = localStorage.getItem('adminAuth');
-    if (!isAuth) {
-      navigate('/admin');
-    }
+    let canceled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/admin/me', { credentials: 'include' });
+        if (!res.ok) throw new Error('unauth');
+      } catch (_) {
+        if (!canceled) navigate('/admin');
+      }
+    })();
+    return () => { canceled = true; };
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    navigate('/admin');
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+    } finally {
+      navigate('/admin');
+    }
   };
 
   const menuItems = [

@@ -125,10 +125,10 @@ export const AdminDataProvider = ({ children }) => {
     const bootstrapFromApi = async () => {
       try {
         const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
-          fetch('/api/products'),
-          fetch('/api/categories'),
-          fetch('/api/brands'),
-          fetch('/api/promotions')
+          fetch('/api/products', { credentials: 'include' }),
+          fetch('/api/categories', { credentials: 'include' }),
+          fetch('/api/brands', { credentials: 'include' }),
+          fetch('/api/promotions', { credentials: 'include' })
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
@@ -176,6 +176,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(product)
       });
       if (!res.ok) throw new Error('Failed to create product');
@@ -197,6 +198,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(updatedProduct)
       });
       if (!res.ok) throw new Error('Failed to update product');
@@ -212,7 +214,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete product');
       await refreshFromApi();
     } catch (e) {
@@ -228,6 +230,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch('/api/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ name: categoryName, subcategories })
       });
       if (!res.ok) throw new Error('Failed to create category');
@@ -249,6 +252,7 @@ export const AdminDataProvider = ({ children }) => {
         const r1 = await fetch(`/api/categories/${encodeURIComponent(oldName)}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ newName })
         });
         if (!r1.ok) throw new Error('Failed to rename category');
@@ -256,6 +260,7 @@ export const AdminDataProvider = ({ children }) => {
       const r2 = await fetch(`/api/categories/${encodeURIComponent(newName)}/subcategories`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ subcategories: subs })
       });
       if (!r2.ok) throw new Error('Failed to update subcategories');
@@ -272,7 +277,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteCategory = async (categoryName) => {
     try {
-      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}`, { method: 'DELETE' });
+      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete category');
       await refreshFromApi();
     } catch (e) {
@@ -292,6 +297,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ subcategories: next })
       });
       if (!res.ok) throw new Error('Failed to add subcategory');
@@ -310,6 +316,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ subcategories: next })
       });
       if (!res.ok) throw new Error('Failed to update subcategory');
@@ -328,6 +335,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ subcategories: next })
       });
       if (!res.ok) throw new Error('Failed to delete subcategory');
@@ -346,6 +354,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch('/api/brands', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ name: brandName })
       });
       if (!res.ok) throw new Error('Failed to create brand');
@@ -361,7 +370,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteBrand = async (brandName) => {
     try {
-      const res = await fetch(`/api/brands/${encodeURIComponent(brandName)}`, { method: 'DELETE' });
+      const res = await fetch(`/api/brands/${encodeURIComponent(brandName)}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete brand');
       await refreshFromApi();
     } catch (e) {
@@ -381,6 +390,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch('/api/promotions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('Failed to create promotion');
@@ -406,6 +416,7 @@ export const AdminDataProvider = ({ children }) => {
       const res = await fetch(`/api/promotions/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('Failed to update promotion');
@@ -422,7 +433,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deletePromotion = async (id) => {
     try {
-      const res = await fetch(`/api/promotions/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/promotions/${id}`, { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete promotion');
       await refreshFromApi();
     } catch (e) {
@@ -480,10 +491,10 @@ export const AdminDataProvider = ({ children }) => {
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
       const [p, c, b, pr] = await Promise.all([
-        fetch('/api/products').then(r => r.ok ? r.json() : []),
-        fetch('/api/categories').then(r => r.ok ? r.json() : categoryStructure),
-        fetch('/api/brands').then(r => r.ok ? r.json() : initialBrands),
-        fetch('/api/promotions').then(r => r.ok ? r.json() : [])
+        fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+        fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
+        fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
+        fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
       ]);
       const normalized = Array.isArray(p) ? p.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
       setProducts(normalized);

@@ -9,14 +9,23 @@ function SimpleAdminLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (credentials.username === 'admin' && credentials.password === 'admin123') {
-      localStorage.setItem('adminAuth', 'true');
+    setError('');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username: credentials.username, password: credentials.password })
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Ошибка входа');
+      }
       navigate('/admin/dashboard');
-    } else {
-      setError('Неверный логин или пароль');
+    } catch (err) {
+      setError(err.message || 'Ошибка входа');
     }
   };
 
@@ -110,9 +119,7 @@ function SimpleAdminLogin() {
           borderRadius: '5px',
           fontSize: '14px'
         }}>
-          <strong>Тестовые данные:</strong><br/>
-          Логин: admin<br/>
-          Пароль: admin123
+          Введите логин и пароль администратора для входа.
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ export default function MultiImageUpload({
   const uploadToServer = async (file) => {
     const form = new FormData();
     form.append('image', file);
-    const res = await fetch('/api/upload/image', { method: 'POST', body: form });
+    const res = await fetch('/api/upload/image', { method: 'POST', body: form, credentials: 'include' });
     if (!res.ok) throw new Error('upload failed');
     const data = await res.json();
     return data.url; // '/uploads/xxx.ext'
