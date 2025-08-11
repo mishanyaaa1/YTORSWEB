@@ -187,24 +187,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Повышаем визуальный контраст на тёмном фоне */
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
 .edit-btn {
-  background: #e6a34a;
-  color: white;
+  /* Подложка, гармонирующая с цветом иконки */
+  background: rgba(230, 163, 74, 0.18);
+  color: #e6a34a;
+  border-color: rgba(230, 163, 74, 0.4);
 }
 
 .edit-btn:hover {
-  background: #c97c1a;
+  background: rgba(230, 163, 74, 0.28);
 }
 
 .delete-btn {
-  background: #ff4444;
-  color: white;
+  background: rgba(255, 68, 68, 0.18);
+  color: #ff6666;
+  border-color: rgba(255, 68, 68, 0.45);
 }
 
 .delete-btn:hover {
-  background: #ff3333;
+  background: rgba(255, 68, 68, 0.28);
 }
 
 .save-btn {
@@ -223,6 +229,16 @@
 
 .cancel-btn:hover {
   background: #555;
+}
+
+/* Делаем иконки чуть крупнее и с лёгкой тенью для читаемости */
+.edit-btn svg,
+.delete-btn svg,
+.save-btn svg,
+.cancel-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
 }
 
 /* Subcategories */
