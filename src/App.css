@@ -61,12 +61,32 @@ html {
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #e6a34a;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #e6a34a;
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    height: 30px;
+  }
+  .logo-text {
+    font-size: 1.2rem;
+  }
 }
 
 .nav {

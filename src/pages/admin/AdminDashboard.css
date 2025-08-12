@@ -48,6 +48,12 @@
   color: #ffffff;
 }
 
+.brand-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
 .sidebar-close {
   background: none;
   border: none;

@@ -9,9 +9,9 @@ import {
   FaChartLine,
   FaSignOutAlt,
   FaBars,
-  FaTimes,
-  FaHome
+  FaTimes
 } from 'react-icons/fa';
+import logoUrl from '/logo.png';
 import './AdminDashboard.css';
 
 function AdminDashboard() {
@@ -81,9 +81,8 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <Link to="/" className="brand-link">
-            <FaHome />
-            <span>На сайт</span>
+          <Link to="/" className="brand-link" aria-label="На сайт">
+            <img src={logoUrl} alt="ЮТОРС" className="brand-logo" />
           </Link>
           <button 
             className="sidebar-close"
@@ -128,9 +127,7 @@ function AdminDashboard() {
           <h1>Панель администратора</h1>
           
           <div className="header-actions">
-            <Link to="/" className="site-link">
-              <FaHome /> На сайт
-            </Link>
+            <Link to="/" className="site-link">На сайт</Link>
             <button className="logout-btn-header" onClick={handleLogout}>
               <FaSignOutAlt />
             </button>

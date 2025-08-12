@@ -9,6 +9,7 @@ import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
+import logoUrl from '/logo.png';
 import './AdvancedAdminDashboard.css';
 
 function AdvancedAdminDashboard() {
@@ -149,7 +150,7 @@ function AdvancedAdminDashboard() {
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <h2>ЮТОРС</h2>
+          <img src={logoUrl} alt="ЮТОРС" className="brand-logo" />
           <p>Админ панель</p>
         </div>
         
