@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import BrandLogo from '../../components/BrandLogo';
 
 function SimpleAdminDashboard() {
   const navigate = useNavigate();
@@ -39,7 +40,10 @@ function SimpleAdminDashboard() {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <h1>Панель администратора</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <BrandLogo to="/" size="sm" />
+          <h1 style={{ margin: 0, fontSize: '1.2rem' }}>Панель администратора</h1>
+        </div>
         <div>
           <Link 
             to="/" 

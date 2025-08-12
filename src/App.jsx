@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  FaTruck, 
   FaPhone, 
   FaEnvelope, 
   FaMapMarkerAlt,
@@ -17,6 +16,7 @@ import SearchModal from './components/SearchModal';
 import telegramSetup from './utils/telegramSetup';
 import debugOrders from './utils/debugOrders';
 import './App.css';
+import BrandLogo from './components/BrandLogo';
 
 function App() {
   const location = useLocation();
@@ -119,10 +119,7 @@ function App() {
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <Link to="/" className="logo">
-              <FaTruck />
-              ЮТОРС
-            </Link>
+            <BrandLogo to="/" className="logo" size="md" text="ЮТОРС" />
             <nav className="nav">
               <Link 
                 to="/" 

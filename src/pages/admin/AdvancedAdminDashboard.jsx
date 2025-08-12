@@ -10,6 +10,7 @@ import OrderManagement from './OrderManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
+import BrandLogo from '../../components/BrandLogo';
 
 function AdvancedAdminDashboard() {
   const navigate = useNavigate();
@@ -149,7 +150,7 @@ function AdvancedAdminDashboard() {
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <h2>ЮТОРС</h2>
+          <BrandLogo to="/" size="sm" />
           <p>Админ панель</p>
         </div>
         
@@ -184,7 +185,7 @@ function AdvancedAdminDashboard() {
             {menuItems.find(item => item.id === activeSection)?.label || 'Обзор'}
           </h1>
           <div className="header-actions">
-            <span>Администратор</span>
+            <BrandLogo to="/" size="sm" />
           </div>
         </header>
         

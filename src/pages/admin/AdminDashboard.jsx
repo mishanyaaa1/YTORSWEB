@@ -13,6 +13,7 @@ import {
   FaHome
 } from 'react-icons/fa';
 import './AdminDashboard.css';
+import BrandLogo from '../../components/BrandLogo';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -81,7 +82,8 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <Link to="/" className="brand-link">
+          <BrandLogo to="/" size="sm" />
+          <Link to="/" className="brand-link" style={{ marginLeft: 'auto' }}>
             <FaHome />
             <span>На сайт</span>
           </Link>
@@ -125,7 +127,10 @@ function AdminDashboard() {
             <FaBars />
           </button>
           
-          <h1>Панель администратора</h1>
+          <div className="admin-brand">
+            <BrandLogo to="/" size="sm" />
+            <h1 className="admin-title">Панель администратора</h1>
+          </div>
           
           <div className="header-actions">
             <Link to="/" className="site-link">

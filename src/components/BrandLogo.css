@@ -1,0 +1,41 @@
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  display: block;
+  height: 32px;
+  width: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
+}
+
+.brand-logo-text {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #e6a34a;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Встраивание в тёмную шапку */
+.header .brand-logo .brand-logo-text {
+  color: #e6a34a;
+}
+
+.admin-header .brand-logo .brand-logo-text,
+.admin-sidebar .brand-logo .brand-logo-text {
+  color: #e6a34a;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .brand-logo { gap: 8px; }
+  .brand-logo-text { font-size: 1.05rem; }
+}
+
+

@@ -60,14 +60,8 @@ html {
   width: 100%;
 }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #e6a34a;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+/* .logo остается как хук для позиционирования */
+.logo { display: inline-flex; align-items: center; }
 
 .nav {
   display: flex;
