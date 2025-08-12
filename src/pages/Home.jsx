@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   FaTruck, 
@@ -96,7 +97,7 @@ function Home() {
       <section className="hero">
         <div className="container">
           <div className="hero-content">
-            <div className="hero-text">
+            <motion.div className="hero-text" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.6 }}>
               <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
               <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
               <div className="hero-cta-group">
@@ -119,8 +120,8 @@ function Home() {
                   Связаться с менеджером
                 </Link>
               </div>
-            </div>
-            <div className="hero-image">
+            </motion.div>
+            <motion.div className="hero-image" initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6, delay: 0.1 }}>
               <div className="hero-placeholder">
                 {aboutContent?.homeHero?.visualImage ? (
                   <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
@@ -135,7 +136,7 @@ function Home() {
                   <FaArrowRight />
                 </Link>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -145,13 +146,20 @@ function Home() {
           <h2 className="section-title">Почему выбирают нас</h2>
           <div className="features-grid">
             {features.map((feature, index) => (
-              <div key={index} className="feature-card">
+              <motion.div
+                key={index}
+                className="feature-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+              >
                 <div className="feature-icon">
                   {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
                 </div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-text">{feature.text}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -190,8 +198,15 @@ function Home() {
             </div>
           ) : (
             <div className="promotions-grid">
-              {popularProducts.map((product) => (
-                <Link to={`/product/${product.id}`} key={product.id} className="promotion-card">
+              {popularProducts.map((product, idx) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.4, delay: idx * 0.06 }}
+                >
+                <Link to={`/product/${product.id}`} className="promotion-card">
                   <div className="promo-header">
                     <div className="promo-image-small">
                       {(() => {
@@ -238,6 +253,7 @@ function Home() {
                     </div>
                   </div>
                 </Link>
+                </motion.div>
               ))}
             </div>
           )}
