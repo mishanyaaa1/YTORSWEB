@@ -1,5 +1,4 @@
 import React from 'react';
-import './HeroVisual.css';
 
 export default function HeroVisual() {
   return (
