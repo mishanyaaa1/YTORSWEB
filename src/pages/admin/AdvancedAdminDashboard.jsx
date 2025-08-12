@@ -8,6 +8,7 @@ import ContentManagement from './ContentManagement';
 import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
+import BrandMark from '../../components/BrandMark';
 import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
@@ -102,9 +103,17 @@ function AdvancedAdminDashboard() {
                   ) {
                     return <img src={mainImage.data} alt={product.title} className="product-image-small" />;
                   }
-                  return <span className="product-icon">{mainImage.data}</span>;
+                  return (
+                    <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <BrandMark alt={product.title} style={{ height: 24 }} />
+                    </span>
+                  );
                 }
-                return <span className="product-icon">📦</span>;
+                return (
+                  <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <BrandMark alt={product.title} style={{ height: 24 }} />
+                  </span>
+                );
               })()}
               <div className="product-info">
                 <div className="product-name">{product.title}</div>

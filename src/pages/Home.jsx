@@ -10,6 +10,7 @@ import {
 import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl } from '../utils/imageHelpers';
+import BrandMark from '../components/BrandMark';
 import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 import './Home.css';
@@ -47,7 +48,7 @@ function Home() {
       id: product.id,
       title: product.title,
       price: `${product.price.toLocaleString()} ₽`,
-      icon: getMainImage(product)?.data || '📦'
+      icon: getMainImage(product)?.data
     }));
 
   // Оригинальный массив для справки:
@@ -195,7 +196,11 @@ function Home() {
                     <div className="promo-image-small">
                       {(() => {
                         const productData = products.find(p => p.id === product.id);
-                        if (!productData) return <span className="promo-icon">{product.icon}</span>;
+                        if (!productData) return (
+                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={product.title} style={{ height: 36 }} />
+                          </span>
+                        );
                         const mainImage = getMainImage(productData);
                         if (mainImage?.data) {
                           if (
@@ -211,9 +216,17 @@ function Home() {
                               />
                             );
                           }
-                          return <span className="promo-icon">{mainImage.data}</span>;
+                          return (
+                            <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <BrandMark alt={product.title} style={{ height: 36 }} />
+                            </span>
+                          );
                         }
-                        return <span className="promo-icon">{product.icon}</span>;
+                        return (
+                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={product.title} style={{ height: 36 }} />
+                          </span>
+                        );
                       })()}
                     </div>
                   </div>

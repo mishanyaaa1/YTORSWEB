@@ -3,6 +3,7 @@ import { useAdminData } from '../../context/AdminDataContext';
 import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import MultiImageUpload from '../../components/MultiImageUpload';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
+import BrandMark from '../../components/BrandMark';
 import './ProductManagement.css';
 
 export default function ProductManagement() {
@@ -351,7 +352,11 @@ export default function ProductManagement() {
                         }
                         return <span className="product-icon">{mainImage.data}</span>;
                       }
-                      return <span className="product-icon">📦</span>;
+                       return (
+                         <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                           <BrandMark alt={product.title} style={{ height: 24 }} />
+                         </span>
+                       );
                     })()}
                     {product.title}
                   </div>

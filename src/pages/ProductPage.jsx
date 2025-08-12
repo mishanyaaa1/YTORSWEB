@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useCartActions } from '../hooks/useCartActions';
 import { useAdminData } from '../context/AdminDataContext';
 import { migrateProductImages, getAllImages, isImageUrl } from '../utils/imageHelpers';
+import BrandMark from '../components/BrandMark';
 import './ProductPage.css';
 
 // Данные товаров (в реальном приложении будут загружаться с сервера)
@@ -248,10 +249,14 @@ function ProductPage() {
                       className="product-main-image"
                     />
                   ) : (
-                    <span className="product-icon">{allImages[safeSelectedIndex]?.data || '📦'}</span>
+                    <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <BrandMark alt={product.title} style={{ height: 200 }} />
+                    </span>
                   )
                 ) : (
-                  <span className="product-icon">📦</span>
+                  <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <BrandMark alt={product.title} style={{ height: 200 }} />
+                  </span>
                 )}
               </motion.div>
               
@@ -288,7 +293,9 @@ function ProductPage() {
                     ) ? (
                       <img src={image.data} alt={`${product.title} ${index + 1}`} />
                     ) : (
-                      <span className="product-icon">{image?.data || '📦'}</span>
+                      <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <BrandMark alt={product.title} style={{ height: 40 }} />
+                      </span>
                     )}
                   </button>
                 ))}

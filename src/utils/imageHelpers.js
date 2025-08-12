@@ -60,13 +60,8 @@ export const isImageUrl = (data) => {
 // Получить отображаемое изображение (возвращает объект с типом и данными)
 export const getDisplayImageInfo = (imageData) => {
   if (isBase64Image(imageData) || isImageUrl(imageData)) {
-    return {
-      type: 'image',
-      data: imageData
-    };
+    return { type: 'image', data: imageData };
   }
-  return {
-    type: 'icon',
-    data: imageData || '📦'
-  };
+  // Возвращаем специальный маркер для логотипа бренда как fallback
+  return { type: 'brand', data: null };
 };

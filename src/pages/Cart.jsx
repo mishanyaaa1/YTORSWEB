@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { useAdminData } from '../context/AdminDataContext';
 import { useOrders } from '../context/OrdersContext';
 import { getMainImage } from '../utils/imageHelpers';
+import BrandMark from '../components/BrandMark';
 import { sendTelegramMessage, formatOrderMessage, generateOrderNumber } from '../utils/telegramService';
 import './Cart.css';
 
@@ -187,7 +188,11 @@ function Cart() {
                   <div className="item-image">
                     {(() => {
                       const productData = products.find(p => p.id === item.id);
-                      if (!productData) return <span className="item-icon">📦</span>;
+                      if (!productData) return (
+                        <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <BrandMark alt={item.title} style={{ height: 40 }} />
+                        </span>
+                      );
                       
                       const mainImage = getMainImage(productData);
                       if (mainImage?.data) {
@@ -197,9 +202,17 @@ function Cart() {
                         ) {
                           return <img src={mainImage.data} alt={item.title} className="item-image-img" />;
                         }
-                        return <span className="item-icon">{mainImage.data}</span>;
+                        return (
+                          <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={item.title} style={{ height: 40 }} />
+                          </span>
+                        );
                       }
-                      return <span className="item-icon">📦</span>;
+                      return (
+                        <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <BrandMark alt={item.title} style={{ height: 40 }} />
+                        </span>
+                      );
                     })()}
                   </div>
                   

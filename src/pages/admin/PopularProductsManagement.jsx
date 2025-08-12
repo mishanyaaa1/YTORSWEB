@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAdminData } from '../../context/AdminDataContext';
 import { FaSave, FaPlus, FaTimes, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { getMainImage } from '../../utils/imageHelpers';
+import BrandMark from '../../components/BrandMark';
 import './PopularProductsManagement.css';
 
 export default function PopularProductsManagement() {
@@ -66,7 +67,11 @@ export default function PopularProductsManagement() {
                       if (d && typeof d === 'string' && (d.startsWith('data:image') || d.startsWith('/uploads/') || d.startsWith('http'))) {
                         return <img src={d} alt={product.title} />;
                       }
-                      return <span className="product-icon">{d || '📦'}</span>;
+                      return (
+                        <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <BrandMark alt={product.title} style={{ height: 28 }} />
+                        </span>
+                      );
                     })()}
                   </div>
                   <div className="product-info">
@@ -121,7 +126,11 @@ export default function PopularProductsManagement() {
                       if (d && typeof d === 'string' && (d.startsWith('data:image') || d.startsWith('/uploads/') || d.startsWith('http'))) {
                         return <img src={d} alt={product.title} />;
                       }
-                      return <span className="product-icon">{d || '📦'}</span>;
+                      return (
+                        <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <BrandMark alt={product.title} style={{ height: 28 }} />
+                        </span>
+                      );
                     })()}
                   </div>
                   <div className="product-info">

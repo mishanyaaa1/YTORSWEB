@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaSearch, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 import { getMainImage } from '../utils/imageHelpers';
+import BrandMark from './BrandMark';
 import { useCartActions } from '../hooks/useCartActions';
 import './SearchModal.css';
 
@@ -182,7 +183,11 @@ export default function SearchModal({ isOpen, onClose }) {
                         if (d && typeof d === 'string' && (d.startsWith('data:image') || d.startsWith('/uploads/') || d.startsWith('http'))){
                           return <img src={d} alt={product.title} />;
                         }
-                        return <span className="result-icon">{d || '📦'}</span>;
+                        return (
+                          <span className="result-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={product.title} style={{ height: 28 }} />
+                          </span>
+                        );
                       })()}
                           </div>
 

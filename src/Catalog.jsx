@@ -5,6 +5,7 @@ import { useCartActions } from './hooks/useCartActions';
 import { useAdminData } from './context/AdminDataContext';
 // wishlist removed
 import { migrateProductImages, getMainImage, isImageUrl } from './utils/imageHelpers';
+import BrandMark from './components/BrandMark';
 import './Catalog.css';
 
 export default function Catalog() {
@@ -190,9 +191,17 @@ export default function Catalog() {
                     ) {
                       return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
                     }
-                    return <span className="catalog-card-icon">{mainImage.data}</span>;
+                    return (
+                      <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <BrandMark alt={product.title} style={{ height: 64 }} />
+                      </span>
+                    );
                   }
-                  return <span className="catalog-card-icon">📦</span>;
+                  return (
+                    <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <BrandMark alt={product.title} style={{ height: 64 }} />
+                    </span>
+                  );
                 })()}
                 {/* wishlist button removed */}
               </div>
