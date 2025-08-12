@@ -150,7 +150,15 @@ function AdvancedAdminDashboard() {
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <BrandLogo to="/" size="sm" />
+          <BrandLogo
+            to="/admin/advanced"
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveSection('overview');
+              navigate('/admin/advanced');
+            }}
+          />
           <p>Админ панель</p>
         </div>
         
@@ -185,7 +193,7 @@ function AdvancedAdminDashboard() {
             {menuItems.find(item => item.id === activeSection)?.label || 'Обзор'}
           </h1>
           <div className="header-actions">
-            <BrandLogo to="/" size="sm" />
+            {/* вторичный логотип удалён по просьбе */}
           </div>
         </header>
         

@@ -41,7 +41,7 @@ function SimpleAdminDashboard() {
         alignItems: 'center'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <BrandLogo to="/" size="sm" />
+          <BrandLogo to="/admin/advanced" size="sm" />
           <h1 style={{ margin: 0, fontSize: '1.2rem' }}>Панель администратора</h1>
         </div>
         <div>

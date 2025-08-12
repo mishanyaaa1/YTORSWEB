@@ -82,7 +82,7 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <BrandLogo to="/" size="sm" />
+          <BrandLogo to="/admin/advanced" size="sm" />
           <Link to="/" className="brand-link" style={{ marginLeft: 'auto' }}>
             <FaHome />
             <span>На сайт</span>
@@ -128,7 +128,7 @@ function AdminDashboard() {
           </button>
           
           <div className="admin-brand">
-            <BrandLogo to="/" size="sm" />
+            <BrandLogo to="/admin/advanced" size="sm" />
             <h1 className="admin-title">Панель администратора</h1>
           </div>
           

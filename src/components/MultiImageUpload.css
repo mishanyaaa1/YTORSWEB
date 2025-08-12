@@ -92,7 +92,7 @@
 
 .upload-slot {
   aspect-ratio: 1;
-  border: 2px dashed #ddd;
+  border: 2px dashed rgba(255, 255, 255, 0.28);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -100,13 +100,13 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: #fafafa;
+  background: rgba(255, 255, 255, 0.06);
   gap: 8px;
 }
 
 .upload-slot:hover {
   border-color: #e6a34a;
-  background: rgba(230, 163, 74, 0.1);
+  background: rgba(230, 163, 74, 0.12);
 }
 
 .upload-icon {
@@ -121,8 +121,9 @@
   font-weight: 500;
 }
 
+/* Инфо-блок о загруженных изображениях — адаптирован под тёмную тему */
 .upload-info {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.06);
   padding: 12px;
   border-radius: 8px;
   border-left: 4px solid #e6a34a;
@@ -131,11 +132,11 @@
 .upload-info p {
   margin: 0 0 5px 0;
   font-size: 14px;
-  color: #333;
+  color: #ffffff;
 }
 
 .upload-info small {
-  color: #666;
+  color: #bbbbbb;
   font-size: 12px;
 }
 
