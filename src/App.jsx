@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
+  FaTruck, 
   FaPhone, 
   FaEnvelope, 
   FaMapMarkerAlt,
@@ -9,7 +10,6 @@ import {
   FaSearch,
   FaBars
 } from 'react-icons/fa';
-import logoUrl from '/logo.png';
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
 // removed wishlist import
@@ -119,9 +119,9 @@ function App() {
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <Link to="/" className="logo" aria-label="ЮТОРС">
-              <img src={logoUrl} alt="ЮТОРС" className="logo-image" />
-              <span className="logo-text">ЮТОРС</span>
+            <Link to="/" className="logo">
+              <FaTruck />
+              ЮТОРС
             </Link>
             <nav className="nav">
               <Link 

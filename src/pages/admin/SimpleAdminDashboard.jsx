@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import logoUrl from '/logo.png';
 
 function SimpleAdminDashboard() {
   const navigate = useNavigate();
@@ -40,10 +39,7 @@ function SimpleAdminDashboard() {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
-          <img src={logoUrl} alt="ЮТОРС" style={{height:'24px',display:'block'}} />
-          <h1 style={{margin:0}}>Панель администратора</h1>
-        </div>
+        <h1>Панель администратора</h1>
         <div>
           <Link 
             to="/" 
