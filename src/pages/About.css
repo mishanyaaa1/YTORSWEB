@@ -38,6 +38,89 @@
   padding: 5rem 0;
 }
 
+/* Анимированные фоны для секций страницы "О нас" */
+.about-hero,
+.advantages,
+.features-section,
+.team-section,
+.company-story,
+.delivery-payment,
+.contacts-section {
+	position: relative;
+	overflow: hidden;
+}
+
+.about-hero .container,
+.advantages .container,
+.features-section .container,
+.team-section .container,
+.company-story .container,
+.delivery-payment .container,
+.contacts-section .container {
+	position: relative;
+	z-index: 1;
+}
+
+/* Мягкий диагональный шиммер + редкие частицы */
+.about-hero::before,
+.advantages::before,
+.features-section::before,
+.team-section::before,
+.company-story::before,
+.delivery-payment::before,
+.contacts-section::before {
+	content: "";
+	position: absolute;
+	inset: -10%;
+	background:
+		repeating-linear-gradient(-30deg, rgba(230, 163, 74, 0.06) 0 2px, transparent 2px 180px),
+		radial-gradient(circle at 12% 22%, rgba(230, 163, 74, 0.10), transparent 42%),
+		radial-gradient(circle at 88% 78%, rgba(0, 204, 102, 0.08), transparent 42%);
+	filter: blur(0.2px);
+	animation: hero-sweep 28s linear infinite;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.about-hero::after,
+.advantages::after,
+.features-section::after,
+.team-section::after,
+.company-story::after,
+.delivery-payment::after,
+.contacts-section::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(circle, rgba(230,163,74,0.16) 0.5px, transparent 0.8px) 0 0 / 70px 70px,
+		radial-gradient(circle, rgba(0,204,102,0.12) 0.5px, transparent 0.8px) 35px 35px / 110px 110px;
+	animation: particles-shift 60s linear infinite;
+	opacity: 0.35;
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* Уважение настроек "уменьшить движение" */
+@media (prefers-reduced-motion: reduce) {
+	.about-hero::before,
+	.advantages::before,
+	.features-section::before,
+	.team-section::before,
+	.company-story::before,
+	.delivery-payment::before,
+	.contacts-section::before,
+	.about-hero::after,
+	.advantages::after,
+	.features-section::after,
+	.team-section::after,
+	.company-story::after,
+	.delivery-payment::after,
+	.contacts-section::after {
+		animation: none !important;
+	}
+}
+
 .advantages {
   background: #111111;
 }

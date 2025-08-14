@@ -5,6 +5,51 @@
   color: #ffffff;
 }
 
+/* Анимированный фон для страницы каталога */
+.catalog-page {
+	position: relative;
+	overflow: hidden;
+}
+
+.catalog-page .container {
+	position: relative;
+	z-index: 1;
+}
+
+.catalog-page::before {
+	content: "";
+	position: absolute;
+	inset: -12%;
+	background:
+		repeating-linear-gradient(-30deg, rgba(230, 163, 74, 0.05) 0 2px, transparent 2px 160px),
+		radial-gradient(ellipse at 18% 28%, rgba(230, 163, 74, 0.10), transparent 45%),
+		radial-gradient(ellipse at 82% 72%, rgba(0, 204, 102, 0.08), transparent 45%);
+	animation: hero-sweep 30s linear infinite;
+	filter: blur(0.2px);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.catalog-page::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(circle, rgba(230,163,74,0.16) 0.5px, transparent 0.8px) 0 0 / 80px 80px,
+		radial-gradient(circle, rgba(0,204,102,0.12) 0.5px, transparent 0.8px) 40px 40px / 120px 120px;
+	animation: particles-shift 55s linear infinite;
+	opacity: 0.3;
+	pointer-events: none;
+	z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.catalog-page::before,
+	.catalog-page::after {
+		animation: none !important;
+	}
+}
+
 .catalog-header {
   text-align: center;
   margin-bottom: 3rem;
