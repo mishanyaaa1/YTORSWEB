@@ -30,41 +30,45 @@ export default function HeroVisual() {
       <rect x="0" y="0" width="600" height="360" fill="url(#bg)" rx="16" />
 
       {/* Большая шестерня */}
-      <g className="gear-large" transform="translate(180,180)">
-        <circle r="70" fill="none" stroke="url(#g1)" strokeWidth="6" filter="url(#glow)" />
-        {Array.from({ length: 12 }).map((_, i) => (
-          <rect
-            key={i}
-            x="-6"
-            y="-100"
-            width="12"
-            height="26"
-            rx="3"
-            fill="#e6a34a"
-            opacity="0.9"
-            transform={`rotate(${(360 / 12) * i})`}
-          />
-        ))}
-        <circle r="12" fill="#e6a34a" opacity="0.9" />
+      <g transform="translate(180,180)">
+        <g className="gear-large">
+          <circle r="70" fill="none" stroke="url(#g1)" strokeWidth="6" filter="url(#glow)" />
+          {Array.from({ length: 12 }).map((_, i) => (
+            <rect
+              key={i}
+              x="-6"
+              y="-100"
+              width="12"
+              height="26"
+              rx="3"
+              fill="#e6a34a"
+              opacity="0.9"
+              transform={`rotate(${(360 / 12) * i})`}
+            />
+          ))}
+          <circle r="12" fill="#e6a34a" opacity="0.9" />
+        </g>
       </g>
 
       {/* Малая шестерня */}
-      <g className="gear-small" transform="translate(380,200)">
-        <circle r="42" fill="none" stroke="url(#g1)" strokeWidth="5" filter="url(#glow)" />
-        {Array.from({ length: 10 }).map((_, i) => (
-          <rect
-            key={i}
-            x="-5"
-            y="-65"
-            width="10"
-            height="18"
-            rx="2"
-            fill="#e6a34a"
-            opacity="0.9"
-            transform={`rotate(${(360 / 10) * i})`}
-          />
-        ))}
-        <circle r="9" fill="#e6a34a" opacity="0.9" />
+      <g transform="translate(380,200)">
+        <g className="gear-small">
+          <circle r="42" fill="none" stroke="url(#g1)" strokeWidth="5" filter="url(#glow)" />
+          {Array.from({ length: 10 }).map((_, i) => (
+            <rect
+              key={i}
+              x="-5"
+              y="-65"
+              width="10"
+              height="18"
+              rx="2"
+              fill="#e6a34a"
+              opacity="0.9"
+              transform={`rotate(${(360 / 10) * i})`}
+            />
+          ))}
+          <circle r="9" fill="#e6a34a" opacity="0.9" />
+        </g>
       </g>
 
       {/* Контур детали */}

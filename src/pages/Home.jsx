@@ -93,7 +93,7 @@ function Home() {
 
   return (
     <div>
-      <section className="hero">
+      <section className="hero hero--particles">
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
