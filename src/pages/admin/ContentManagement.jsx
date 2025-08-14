@@ -14,6 +14,7 @@ export default function ContentManagement() {
       ctaText: 'Перейти в каталог',
       ctaLink: '/catalog',
       imageCaption: 'Надёжные запчасти для вашего вездехода',
+      heroEffect: 'particles',
       visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
       visualImage: ''
     },
@@ -47,6 +48,7 @@ export default function ContentManagement() {
         ctaText: 'Перейти в каталог',
         ctaLink: '/catalog',
         imageCaption: 'Надёжные запчасти для вашего вездехода',
+        heroEffect: 'particles',
         visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
         visualImage: ''
       },
@@ -370,6 +372,19 @@ export default function ContentManagement() {
         {activeTab === 'home' && (
           <div className="basic-info">
             <h3>Главная страница — визуальный блок</h3>
+            <div className="form-group">
+              <label>Эффект фона (Hero):</label>
+              <select
+                name="heroEffect"
+                value={formData.homeHero.heroEffect || 'particles'}
+                onChange={handleHomeHeroChange}
+              >
+                <option value="particles">Частицы</option>
+                <option value="sparks">Искры</option>
+                <option value="none">Без эффекта</option>
+              </select>
+              <small>Выберите визуальный эффект фона в верхнем баннере.</small>
+            </div>
             <div className="form-group">
               <label>Заголовок:</label>
               <input

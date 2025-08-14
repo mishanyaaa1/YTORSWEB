@@ -93,52 +93,59 @@ function Home() {
 
   return (
     <div>
-      <section className="hero hero--particles">
-        <div className="container">
-          <div className="hero-content">
-            <div className="hero-text">
-              <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
-              <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
-              <div className="hero-cta-group">
-                <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
-                  {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                  <FaArrowRight />
-                </Link>
-                <Link
-                  to="/about#contacts"
-                  className="cta-button secondary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate('/about#contacts');
-                    setTimeout(() => {
-                      const el = document.getElementById('contacts');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }, 50);
-                  }}
-                >
-                  Связаться с менеджером
-                </Link>
+      {(() => {
+        const heroEffect = aboutContent?.homeHero?.heroEffect || 'particles';
+        const heroClass = `hero ${heroEffect === 'particles' ? 'hero--particles' : heroEffect === 'sparks' ? 'hero--sparks' : ''}`;
+        return (
+          <section className={heroClass}>
+            <div className="container">
+              <div className="hero-content">
+                <div className="hero-text">
+                  <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
+                  <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
+                  <div className="hero-cta-group">
+                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                      {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
+                      <FaArrowRight />
+                    </Link>
+                    <Link
+                      to="/about#contacts"
+                      className="cta-button secondary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate('/about#contacts');
+                        setTimeout(() => {
+                          const el = document.getElementById('contacts');
+                          if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        }, 50);
+                      }}
+                    >
+                      Связаться с менеджером
+                    </Link>
+                  </div>
+                </div>
+                <div className="hero-image">
+                  <div className="hero-placeholder">
+                    {aboutContent?.homeHero?.visualImage ? (
+                      <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
+                    ) : (
+                      <HeroVisual />
+                    )}
+                  </div>
+                  <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
+                  {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
+                    <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
+                      {btn.text || 'Подробнее'}
+                      <FaArrowRight />
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="hero-image">
-              <div className="hero-placeholder">
-                {aboutContent?.homeHero?.visualImage ? (
-                  <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
-                ) : (
-                  <HeroVisual />
-                )}
-              </div>
-              <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
-              {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
-                <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
-                  {btn.text || 'Подробнее'}
-                  <FaArrowRight />
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        );
+      })()}
+      
 
       <section className="features">
         <div className="container">

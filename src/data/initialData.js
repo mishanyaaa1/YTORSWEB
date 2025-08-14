@@ -355,6 +355,7 @@ export const initialAboutContent = {
     ctaText: 'Перейти в каталог',
     ctaLink: '/catalog',
     imageCaption: 'Надёжные запчасти для вашего вездехода',
+    heroEffect: 'particles',
     // Кнопки и изображение в правом визуальном блоке
     visualButtons: [
       { text: 'Подробнее', link: '/catalog' }

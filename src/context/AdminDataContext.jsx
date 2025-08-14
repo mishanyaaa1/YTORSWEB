@@ -135,6 +135,7 @@ export const AdminDataProvider = ({ children }) => {
           homeHero: {
             ...initialAboutContent.homeHero,
             ...(parsedContent.homeHero || {}),
+            heroEffect: (parsedContent?.homeHero?.heroEffect) || initialAboutContent.homeHero.heroEffect || 'particles',
             // миграция одиночной кнопки в массив
             visualButtons: Array.isArray(parsedContent?.homeHero?.visualButtons)
               ? parsedContent.homeHero.visualButtons
@@ -517,6 +518,7 @@ export const AdminDataProvider = ({ children }) => {
       homeHero: {
         ...initialAboutContent.homeHero,
         ...(newContent.homeHero || {}),
+        heroEffect: (newContent?.homeHero?.heroEffect) || initialAboutContent.homeHero.heroEffect || 'particles',
         visualButtons: Array.isArray(newContent?.homeHero?.visualButtons)
           ? newContent.homeHero.visualButtons
           : []
