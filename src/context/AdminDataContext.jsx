@@ -112,10 +112,10 @@ export const AdminDataProvider = ({ children }) => {
             return {
               ...initialMethod,
               ...savedMatch,
-              description: savedMatch.description || initialMethod.description,
-              items: Array.isArray(savedMatch.items) && savedMatch.items.length
-                ? savedMatch.items
-                : initialMethod.items
+              // Учитываем намеренно пустую строку ("скрыть описание")
+              description: (savedMatch.description !== undefined) ? savedMatch.description : initialMethod.description,
+              // Если массив задан (включая пустой), используем его; иначе — дефолт
+              items: Array.isArray(savedMatch.items) ? savedMatch.items : initialMethod.items
             };
           }),
           // Добавляем любые новые методы, которых не было раньше
@@ -531,6 +531,19 @@ export const AdminDataProvider = ({ children }) => {
         ...(newContent.footer || {})
       }
     };
+
+    // Тонкая настройка: если админ явно задал пустое описание метода доставки,
+    // сохраняем пустую строку (не подменяем дефолтом).
+    if (completeContent?.deliveryAndPayment?.deliveryMethods) {
+      completeContent.deliveryAndPayment.deliveryMethods = completeContent.deliveryAndPayment.deliveryMethods.map(m => {
+        if (!m) return m;
+        return {
+          ...m,
+          description: (m.description !== undefined) ? m.description : undefined,
+          items: Array.isArray(m.items) ? m.items : []
+        };
+      });
+    }
     
     setAboutContent(completeContent);
     localStorage.setItem('adminAboutContent', JSON.stringify(completeContent));

@@ -930,6 +930,21 @@ export default function ContentManagement() {
                       placeholder="Например: Самовывоз"
                     />
                   </div>
+                  <div className="form-group">
+                    <label>Описание:</label>
+                    <textarea
+                      rows={3}
+                      value={method.description || ''}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        deliveryAndPayment: {
+                          ...prev.deliveryAndPayment,
+                          deliveryMethods: prev.deliveryAndPayment.deliveryMethods.map((m, i) => i === index ? { ...m, description: e.target.value } : m)
+                        }
+                      }))}
+                      placeholder="Краткое описание способа доставки (отображается под заголовком)"
+                    />
+                  </div>
                   <div className="links-section">
                     <div className="section-header">
                       <h5>Подпункты</h5>
