@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdminData } from '../../context/AdminDataContext';
 import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
 import MultiImageUpload from '../../components/MultiImageUpload';
@@ -25,6 +25,22 @@ export default function ProductManagement() {
   });
 
   const categoryList = Object.keys(categories);
+
+  // Гарантируем согласованность выбранной категории/подкатегории
+  useEffect(() => {
+    // Если выбранная категория больше не существует (переименована/удалена), сбросим выбор
+    if (formData.category && !categories[formData.category]) {
+      setFormData(prev => ({ ...prev, category: '', subcategory: '' }));
+      return;
+    }
+    // Если выбранная подкатегория больше не входит в список доступных, сбросим её
+    if (formData.category && formData.subcategory) {
+      const subs = categories[formData.category] || [];
+      if (!subs.includes(formData.subcategory)) {
+        setFormData(prev => ({ ...prev, subcategory: '' }));
+      }
+    }
+  }, [categories, formData.category, formData.subcategory]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;

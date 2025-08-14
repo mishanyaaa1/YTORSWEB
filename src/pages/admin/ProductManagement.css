@@ -241,6 +241,14 @@
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
 }
 
+/* Исправление: элементы в раскрытом списке select рисуются системой на белом фоне,
+   поэтому принудительно делаем текст вариантов чёрным для видимости. */
+.product-form select option,
+.product-form select optgroup {
+  color: #0a0a0a !important;
+  background: #ffffff !important;
+}
+
 @media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;

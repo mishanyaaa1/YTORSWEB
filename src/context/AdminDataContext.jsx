@@ -10,6 +10,44 @@ import { migrateProductImages } from '../utils/imageHelpers';
 
 const AdminDataContext = createContext();
 
+// Нормализуем любые форматы категорий к виду { [name]: string[] }
+function normalizeCategories(rawCategories) {
+  try {
+    if (!rawCategories) return {};
+    // Если уже объект вида { name: [subs] }
+    if (!Array.isArray(rawCategories) && typeof rawCategories === 'object') {
+      // Убедимся, что значения — массивы строк
+      const result = {};
+      Object.entries(rawCategories).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          result[key] = value.map(String);
+        } else if (value && typeof value === 'object' && Array.isArray(value.subcategories)) {
+          result[key] = value.subcategories.map(String);
+        } else {
+          result[key] = [];
+        }
+      });
+      return result;
+    }
+    // Если массив: поддержим форматы [{ name, subcategories }] или [name]
+    if (Array.isArray(rawCategories)) {
+      const entries = rawCategories.map((item) => {
+        if (item && typeof item === 'object') {
+          const name = String(item.name ?? '');
+          const subs = Array.isArray(item.subcategories) ? item.subcategories.map(String) : [];
+          return [name, subs];
+        }
+        return [String(item), []];
+      }).filter(([name]) => name);
+      return Object.fromEntries(entries);
+    }
+  } catch (e) {
+    // В случае ошибки вернём пустую структуру, чтобы не ломать UI
+    return {};
+  }
+  return {};
+}
+
 export const useAdminData = () => {
   const context = useContext(AdminDataContext);
   if (!context) {
@@ -32,8 +70,18 @@ export const AdminDataProvider = ({ children }) => {
 
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem('adminCategories');
-    return saved ? JSON.parse(saved) : categoryStructure;
+    const initial = saved ? JSON.parse(saved) : categoryStructure;
+    return normalizeCategories(initial);
   });
+
+  // Гарантируем, что в localStorage хранится нормализованный формат категорий
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminCategories', JSON.stringify(categories));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [categories]);
 
   const [brands, setBrands] = useState(() => {
     const saved = localStorage.getItem('adminBrands');
@@ -152,9 +200,10 @@ export const AdminDataProvider = ({ children }) => {
 
         if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
           const apiCats = await apiCategoriesRes.value.json();
-          if (apiCats && typeof apiCats === 'object') {
-            setCategories(apiCats);
-            localStorage.setItem('adminCategories', JSON.stringify(apiCats));
+          const normalizedCats = normalizeCategories(apiCats);
+          if (normalizedCats && typeof normalizedCats === 'object') {
+            setCategories(normalizedCats);
+            localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
           }
         }
 
@@ -507,13 +556,14 @@ export const AdminDataProvider = ({ children }) => {
     popularProductIds,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
-      const [p, c, b, pr] = await Promise.all([
+      const [p, cRaw, b, pr] = await Promise.all([
         fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
         fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
         fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
         fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
       ]);
       const normalized = Array.isArray(p) ? p.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
+      const c = normalizeCategories(cRaw);
       setProducts(normalized);
       setCategories(c);
       setBrands(b);
