@@ -9,10 +9,11 @@ import {
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
-import { getMainImage, isImageUrl } from '../utils/imageHelpers';
+import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
+import Reveal from '../components/Reveal';
 import './Home.css';
 
 function Home() {
@@ -149,16 +150,20 @@ function Home() {
 
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Почему выбирают нас</h2>
+          <Reveal type="up">
+            <h2 className="section-title">Почему выбирают нас</h2>
+          </Reveal>
           <div className="features-grid">
             {features.map((feature, index) => (
-              <div key={index} className="feature-card">
-                <div className="feature-icon">
-                  {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
+              <Reveal key={index} type="up" delay={index * 0.1}>
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
+                  </div>
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className="feature-text">{feature.text}</p>
                 </div>
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-text">{feature.text}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -166,7 +171,9 @@ function Home() {
 
       <section className="products popular-products">
         <div className="container">
-          <h2 className="section-title">Популярные товары</h2>
+          <Reveal type="up">
+            <h2 className="section-title">Популярные товары</h2>
+          </Reveal>
 
           {popularProducts.length === 0 ? (
             <div
@@ -197,8 +204,9 @@ function Home() {
             </div>
           ) : (
             <div className="promotions-grid">
-              {popularProducts.map((product) => (
-                <Link to={`/product/${product.id}`} key={product.id} className="promotion-card">
+              {popularProducts.map((product, i) => (
+                <Reveal key={product.id} type="up" delay={i * 0.05}>
+                <Link to={`/product/${product.id}`} className="popular-card">
                   <div className="promo-header">
                     <div className="promo-image-small">
                       {(() => {
@@ -210,13 +218,14 @@ function Home() {
                         );
                         const mainImage = getMainImage(productData);
                         if (mainImage?.data) {
+                          const resolved = typeof mainImage.data === 'string' ? resolveImageSrc(mainImage.data) : null;
                           if (
-                            typeof mainImage.data === 'string' &&
-                            (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))
+                            (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
+                            resolved
                           ) {
                             return (
                               <img
-                                src={mainImage.data}
+                                src={resolved || mainImage.data}
                                 alt={product.title}
                                 className="product-image-img"
                                 style={{ borderRadius: '8px' }}
@@ -245,6 +254,7 @@ function Home() {
                     </div>
                   </div>
                 </Link>
+                </Reveal>
               ))}
             </div>
           )}

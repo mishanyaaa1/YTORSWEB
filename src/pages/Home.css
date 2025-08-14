@@ -4,7 +4,8 @@
   gap: 2rem;
 }
 
-.popular-products .promotion-card {
+.popular-products .promotion-card,
+.popular-products .popular-card {
   background: rgba(40, 40, 40, 0.8);
   border: 1px solid rgba(230, 163, 74, 0.3);
   border-radius: 15px;
@@ -12,9 +13,13 @@
   transition: all 0.3s ease;
   text-decoration: none;
   color: inherit;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.popular-products .promotion-card:hover {
+.popular-products .promotion-card:hover,
+.popular-products .popular-card:hover {
   border-color: #e6a34a;
   background: rgba(230, 163, 74, 0.1);
   transform: translateY(-3px);
@@ -22,10 +27,14 @@
 }
 
 .popular-products .promo-header {
+  flex: 0 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin: 0;
+}
+
+.popular-products .promo-info {
+  flex: 1 1 auto;
 }
 
 .popular-products .promo-image-small {
@@ -39,6 +48,21 @@
   font-size: 1.8rem;
   border: 2px solid rgba(230, 163, 74, 0.3);
   overflow: hidden;
+}
+
+.popular-products .promo-header + .promo-info h3,
+.popular-products .promo-header + .promo-info .min-purchase,
+.popular-products .promo-header + .promo-info .promo-link {
+  margin-left: 0;
+}
+
+/* Убедимся, что картинки занимают весь контейнер и не скруглены сверх контейнера */
+.popular-products .promo-image-small img.product-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
 }
 
 .popular-products .promo-info h3 {

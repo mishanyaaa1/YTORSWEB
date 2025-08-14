@@ -20,6 +20,7 @@ import {
 import { useAdminData } from '../context/AdminDataContext';
 import './About.css';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
+import Reveal from '../components/Reveal';
 
 export default function About() {
   const { aboutContent } = useAdminData();
@@ -135,17 +136,14 @@ export default function About() {
       {/* Hero секция */}
       <section className="about-hero">
         <div className="container">
-          <motion.div 
-            className="hero-content"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1>{aboutContent.title || "О компании ВездеходЗапчасти"}</h1>
-            <p>
-              {aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники."}
-            </p>
-          </motion.div>
+          <Reveal type="up">
+            <div className="hero-content">
+              <h1>{aboutContent.title || "О компании ВездеходЗапчасти"}</h1>
+              <p>
+                {aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники."}
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 

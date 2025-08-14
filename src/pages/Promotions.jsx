@@ -10,6 +10,7 @@ import {
   FaArrowRight
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
 import './Promotions.css';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
@@ -94,18 +95,15 @@ function Promotions() {
       {/* Hero секция */}
       <section className="promotions-hero">
         <div className="container">
-          <motion.div 
-            className="hero-content"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1>Акции и специальные предложения</h1>
-            <p>
-              Выгодные предложения на качественные запчасти для вездеходов. 
-              Не упустите возможность сэкономить!
-            </p>
-          </motion.div>
+          <Reveal type="up">
+            <div className="hero-content">
+              <h1>Акции и специальные предложения</h1>
+              <p>
+                Выгодные предложения на качественные запчасти для вездеходов. 
+                Не упустите возможность сэкономить!
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 

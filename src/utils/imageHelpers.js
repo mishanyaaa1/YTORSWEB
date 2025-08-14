@@ -47,20 +47,42 @@ export const isBase64Image = (data) => {
 };
 
 // Проверить, является ли строка URL изображения (локальные /uploads или http)
+// Нормализация путей изображений (учёт Windows-слэшей и отсутствующего ведущего слэша)
+const normalizeImagePath = (data) => {
+  if (typeof data !== 'string') return data;
+  let s = data.trim();
+  // Преобразуем обратные слэши в прямые
+  s = s.replace(/\\/g, '/');
+  // Если путь указывает на uploads без ведущего слэша — добавим его
+  if (s.startsWith('uploads/')) s = '/' + s;
+  // Удалим возможные дубли слэшей
+  s = s.replace(/\/\/+/, '/');
+  return s;
+};
+
 export const isImageUrl = (data) => {
+  if (typeof data !== 'string') return false;
+  const s = normalizeImagePath(data);
   return (
-    typeof data === 'string' && (
-      data.startsWith('/uploads/') ||
-      data.startsWith('http://') ||
-      data.startsWith('https://')
-    )
+    /^https?:\/\//i.test(s) ||
+    s.startsWith('/uploads/')
   );
+};
+
+// Вернуть нормализованный src, если это URL изображения, иначе null
+export const resolveImageSrc = (data) => {
+  if (typeof data !== 'string') return null;
+  const s = normalizeImagePath(data);
+  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith('/uploads/')) return s;
+  return null;
 };
 
 // Получить отображаемое изображение (возвращает объект с типом и данными)
 export const getDisplayImageInfo = (imageData) => {
-  if (isBase64Image(imageData) || isImageUrl(imageData)) {
-    return { type: 'image', data: imageData };
+  const resolved = resolveImageSrc(imageData);
+  if (isBase64Image(imageData) || resolved) {
+    return { type: 'image', data: resolved || imageData };
   }
   // Возвращаем специальный маркер для логотипа бренда как fallback
   return { type: 'brand', data: null };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Reveal from '../components/Reveal';
 import { useCartActions } from '../hooks/useCartActions';
 import { useAdminData } from '../context/AdminDataContext';
 import { migrateProductImages, getAllImages, isImageUrl } from '../utils/imageHelpers';
@@ -303,7 +304,7 @@ function ProductPage() {
             )}
           </div>
 
-          <div className="product-info">
+            <div className="product-info">
             <div className="product-header">
               <h1>{product.title}</h1>
               {/* wishlist button removed */}
@@ -318,16 +319,20 @@ function ProductPage() {
               </span>
             </div>
 
+            <Reveal type="up">
             <div className="product-price">
               <span className="current-price">{product.price.toLocaleString()} ₽</span>
               {product.originalPrice && (
                 <span className="original-price">{product.originalPrice.toLocaleString()} ₽</span>
               )}
             </div>
+            </Reveal>
 
-            <div className="product-description">
-              <p>{product.description}</p>
-            </div>
+            <Reveal type="up" delay={0.05}>
+              <div className="product-description">
+                <p>{product.description}</p>
+              </div>
+            </Reveal>
 
             {product.features && product.features.length > 0 && (
               <div className="product-features">
@@ -340,6 +345,7 @@ function ProductPage() {
               </div>
             )}
 
+            <Reveal type="up" delay={0.1}>
             <div className="product-actions">
               <div className="quantity-selector">
                 <label>Количество:</label>
@@ -406,10 +412,12 @@ function ProductPage() {
                 </motion.button>
               </div>
             </div>
+            </Reveal>
           </div>
         </div>
 
         {specsArray.length > 0 && (
+          <Reveal type="up">
           <div className="product-specifications">
             <h3>Технические характеристики</h3>
             <div className="specs-grid">
@@ -421,6 +429,7 @@ function ProductPage() {
               ))}
             </div>
           </div>
+          </Reveal>
         )}
       </div>
     </motion.div>
