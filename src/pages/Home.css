@@ -6,9 +6,9 @@
 
 .popular-products .promotion-card,
 .popular-products .popular-card {
-  background: rgba(40, 40, 40, 0.8);
-  border: 1px solid rgba(230, 163, 74, 0.3);
-  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
   padding: 1.5rem;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -16,14 +16,15 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .popular-products .promotion-card:hover,
 .popular-products .popular-card:hover {
-  border-color: #e6a34a;
-  background: rgba(230, 163, 74, 0.1);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(230, 163, 74, 0.2);
+  border-color: #2c3e50;
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 
 .popular-products .promo-header {
@@ -40,13 +41,13 @@
 .popular-products .promo-image-small {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a1a2a 100%);
-  border-radius: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.8rem;
-  border: 2px solid rgba(230, 163, 74, 0.3);
+  border: 1px solid #dee2e6;
   overflow: hidden;
 }
 
@@ -61,28 +62,29 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 6px;
   display: block;
 }
 
 .popular-products .promo-info h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #ffffff;
+  color: #2c3e50;
 }
 
 .popular-products .min-purchase {
-  color: #cccccc;
-  font-size: 0.95rem;
+  color: #6c757d;
+  font-size: 0.9rem;
   margin-bottom: 0.8rem;
 }
 
 .popular-products .promo-link {
-  color: #e6a34a;
+  color: #2c3e50;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  font-weight: 500;
 }
 
 

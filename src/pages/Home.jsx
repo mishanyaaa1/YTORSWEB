@@ -8,20 +8,16 @@ import {
   FaStar
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
-// wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
-import Reveal from '../components/Reveal';
 import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds, aboutContent } = useAdminData();
-  
-  // wishlist removed
   
   const features = [
     {
@@ -52,118 +48,67 @@ function Home() {
       icon: getMainImage(product)?.data
     }));
 
-  // Оригинальный массив для справки:
-  const _originalPopularProducts = [
-    {
-      id: 11,
-      title: "Гусеницы для вездехода",
-      price: "45,000 ₽",
-      icon: "🔗"
-    },
-    {
-      id: 1,
-      title: "Двигатель 2.0L дизельный",
-      price: "180,000 ₽",
-      icon: "⚙️"
-    },
-    {
-      id: 8,
-      title: "Коробка передач механическая",
-      price: "95,000 ₽",
-      icon: "🔧"
-    },
-    {
-      id: 12,
-      title: "Амортизатор передний",
-      price: "12,000 ₽",
-      icon: "🛠️"
-    },
-    {
-      id: 15,
-      title: "Аккумулятор 12V 100Ah",
-      price: "15,000 ₽",
-      icon: "🔋"
-    },
-    {
-      id: 17,
-      title: "Сиденье водителя",
-      price: "25,000 ₽",
-      icon: "🪑"
-    }
-  ];
-
   return (
     <div>
-      {(() => {
-        const heroEffect = aboutContent?.homeHero?.heroEffect || 'particles';
-        const heroClass = `hero ${heroEffect === 'particles' ? 'hero--particles' : heroEffect === 'sparks' ? 'hero--sparks' : ''}`;
-        return (
-          <section className={heroClass}>
-            <div className="container">
-              <div className="hero-content">
-                <div className="hero-text">
-                  <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
-                  <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
-                  <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
-                      {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                      <FaArrowRight />
-                    </Link>
-                    <Link
-                      to="/about#contacts"
-                      className="cta-button secondary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/about#contacts');
-                        setTimeout(() => {
-                          const el = document.getElementById('contacts');
-                          if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
-                      }}
-                    >
-                      Связаться с менеджером
-                    </Link>
-                  </div>
-                </div>
-                <div className="hero-image">
-                  <div className="hero-placeholder">
-                    {aboutContent?.homeHero?.visualImage ? (
-                      <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
-                    ) : (
-                      <HeroVisual />
-                    )}
-                  </div>
-                  <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
-                  {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
-                    <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
-                      {btn.text || 'Подробнее'}
-                      <FaArrowRight />
-                    </Link>
-                  ))}
-                </div>
+      <section className="hero">
+        <div className="container">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
+              <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
+              <div className="hero-cta-group">
+                <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                  {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
+                  <FaArrowRight />
+                </Link>
+                <Link
+                  to="/about#contacts"
+                  className="cta-button secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/about#contacts');
+                    setTimeout(() => {
+                      const el = document.getElementById('contacts');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 50);
+                  }}
+                >
+                  Связаться с менеджером
+                </Link>
               </div>
             </div>
-          </section>
-        );
-      })()}
+            <div className="hero-image">
+              <div className="hero-placeholder">
+                {aboutContent?.homeHero?.visualImage ? (
+                  <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
+                ) : (
+                  <HeroVisual />
+                )}
+              </div>
+              <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
+              {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
+                <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
+                  {btn.text || 'Подробнее'}
+                  <FaArrowRight />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
       
-
       <section className="features">
         <div className="container">
-          <Reveal type="up">
-            <h2 className="section-title">Почему выбирают нас</h2>
-          </Reveal>
+          <h2 className="section-title">Почему выбирают нас</h2>
           <div className="features-grid">
             {features.map((feature, index) => (
-              <Reveal key={index} type="up" delay={index * 0.1}>
-                <div className="feature-card">
-                  <div className="feature-icon">
-                    {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
-                  </div>
-                  <h3 className="feature-title">{feature.title}</h3>
-                  <p className="feature-text">{feature.text}</p>
+              <div key={index} className="feature-card">
+                <div className="feature-icon">
+                  {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
                 </div>
-              </Reveal>
+                <h3 className="feature-title">{feature.title}</h3>
+                <p className="feature-text">{feature.text}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -171,9 +116,7 @@ function Home() {
 
       <section className="products popular-products">
         <div className="container">
-          <Reveal type="up">
-            <h2 className="section-title">Популярные товары</h2>
-          </Reveal>
+          <h2 className="section-title">Популярные товары</h2>
 
           {popularProducts.length === 0 ? (
             <div
@@ -182,19 +125,19 @@ function Home() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '2rem',
-                borderRadius: '16px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                borderRadius: '8px',
+                border: '1px solid #e9ecef',
+                background: '#ffffff',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
                 textAlign: 'center'
               }}
             >
               <div>
-                <div style={{ fontSize: '2.2rem', color: '#ffd166', marginBottom: '0.5rem' }}>
+                <div style={{ fontSize: '2.2rem', color: '#6c757d', marginBottom: '0.5rem' }}>
                   <FaStar style={{ verticalAlign: 'middle' }} />
                 </div>
-                <h3 style={{ margin: '0 0 0.5rem' }}>Популярные товары скоро появятся</h3>
-                <p style={{ opacity: 0.85, margin: '0 0 1rem' }}>
+                <h3 style={{ margin: '0 0 0.5rem', color: '#2c3e50' }}>Популярные товары скоро появятся</h3>
+                <p style={{ color: '#6c757d', margin: '0 0 1rem' }}>
                   Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
                 </p>
                 <Link to="/catalog" className="cta-button">
@@ -205,8 +148,7 @@ function Home() {
           ) : (
             <div className="promotions-grid">
               {popularProducts.map((product, i) => (
-                <Reveal key={product.id} type="up" delay={i * 0.05}>
-                <Link to={`/product/${product.id}`} className="popular-card">
+                <Link key={product.id} to={`/product/${product.id}`} className="popular-card">
                   <div className="promo-header">
                     <div className="promo-image-small">
                       {(() => {
@@ -228,7 +170,7 @@ function Home() {
                                 src={resolved || mainImage.data}
                                 alt={product.title}
                                 className="product-image-img"
-                                style={{ borderRadius: '8px' }}
+                                style={{ borderRadius: '6px' }}
                               />
                             );
                           }
@@ -254,7 +196,6 @@ function Home() {
                     </div>
                   </div>
                 </Link>
-                </Reveal>
               ))}
             </div>
           )}

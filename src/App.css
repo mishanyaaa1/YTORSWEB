@@ -7,8 +7,8 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #0a0a0a;
-  color: #ffffff;
+  background: #f8f9fa;
+  color: #2c3e50;
   line-height: 1.6;
   overflow-x: hidden;
   width: 100%;
@@ -41,7 +41,7 @@ html {
 
 /* Хедер */
 .header {
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
@@ -49,7 +49,8 @@ html {
   right: 0;
   width: 100%;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #e9ecef;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
@@ -70,16 +71,18 @@ html {
 }
 
 .nav-link {
-  color: #ffffff;
+  color: #495057;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
   cursor: pointer;
+  font-size: 1rem;
 }
 
 .nav-link:hover,
 .nav-link.active {
-  color: #e6a34a;
+  color: #2c3e50;
+  border-bottom: 2px solid #2c3e50;
 }
 
 .header-actions {
@@ -91,17 +94,17 @@ html {
 .icon-button {
   background: none;
   border: none;
-  color: #ffffff;
+  color: #495057;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: all 0.3s ease;
 }
 
 .icon-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e6a34a;
+  background: #e9ecef;
+  color: #2c3e50;
 }
 
 .mobile-menu-button {
@@ -116,7 +119,7 @@ html {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #ff4757;
+  background: #dc3545;
   color: white;
   border-radius: 50%;
   width: 20px;
@@ -136,14 +139,15 @@ html {
 
 /* Главный баннер */
 .hero {
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e9ecef 100%);
   position: relative;
   overflow: hidden;
   padding-top: 80px;
   width: 100%;
+  border-bottom: 1px solid #dee2e6;
 }
 
 /* Альтернативный фоновый эффект для hero: мягкий диагональный шиммер + парящие частицы */
@@ -235,109 +239,98 @@ html {
 }
 
 .hero-text h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  line-height: 1.2;
 }
 
 .hero-text p {
-  font-size: 1.2rem;
-  color: #cccccc;
+  font-size: 1.1rem;
+  color: #6c757d;
   margin-bottom: 2rem;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 .cta-button {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
-  color: #000000;
-  border: none;
+  background: #2c3e50;
+  color: #ffffff;
+  border: 2px solid #2c3e50;
   padding: 1rem 2rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 6px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: none;
-  text-shadow: none;
+  text-decoration: none;
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
-  color: #000000 !important;
+  background: #ffffff;
+  color: #2c3e50;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
 }
 
-/* Иконки внутри кнопки делаютcя чёрными как текст */
+/* Иконки внутри кнопки */
 .cta-button svg {
-  color: #000000 !important;
-}
-
-/* На hover иконка остаётся чёрной (как у product-button), без свечения */
-.cta-button:hover svg {
-  color: #000000 !important;
-  filter: none;
+  color: inherit;
 }
 
 /* Группа CTA в hero */
 .hero-cta-group {
   display: flex;
-  gap: 0.8rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
-/* Вторичная (менее яркая) кнопка */
+/* Вторичная кнопка */
 .cta-button.secondary {
   background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(230, 163, 74, 0.4);
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
 }
 
 .cta-button.secondary:hover {
-  background: rgba(230, 163, 74, 0.08);
-  box-shadow: none;
-  color: #ffffff !important;
-}
-
-.cta-button.secondary svg {
-  color: #ffffff !important;
+  background: #2c3e50;
+  color: #ffffff;
 }
 
 .hero-image {
-  background: linear-gradient(135deg, rgba(230, 163, 74, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
-  border-radius: 20px;
+  background: #ffffff;
+  border-radius: 12px;
   padding: 2rem;
   text-align: center;
-  border: 1px solid rgba(230, 163, 74, 0.2);
+  border: 2px solid #e9ecef;
   width: 100%;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .hero-placeholder {
   width: 100%;
   height: 300px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  border-radius: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  color: #e6a34a;
+  color: #6c757d;
   margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
 }
 
 .hero-visual {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .hero-visual-svg {
@@ -411,25 +404,24 @@ html {
 }
 
 .hero-image p {
-  color: #cccccc;
+  color: #6c757d;
+  font-size: 0.95rem;
 }
 
 /* Секция преимуществ */
 .features {
-  padding: 5rem 0;
-  background: #111111;
+  padding: 4rem 0;
+  background: #ffffff;
   width: 100%;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .section-title {
   text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2.2rem;
+  font-weight: 600;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #2c3e50;
 }
 
 .features-grid {
@@ -441,42 +433,43 @@ html {
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
   padding: 2rem;
   text-align: center;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
+  transform: translateY(-2px);
+  border-color: #2c3e50;
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 
 .feature-icon {
-  font-size: 3rem;
-  color: #e6a34a;
+  font-size: 2.5rem;
+  color: #2c3e50;
   margin-bottom: 1rem;
 }
 
 .feature-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: #2c3e50;
 }
 
 .feature-text {
-  color: #cccccc;
+  color: #6c757d;
   line-height: 1.6;
 }
 
 /* Секция популярных товаров */
 .products {
-  padding: 5rem 0;
-  background: #0a0a0a;
+  padding: 4rem 0;
+  background: #f8f9fa;
   width: 100%;
 }
 
@@ -489,28 +482,30 @@ html {
 }
 
 .product-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
   overflow: hidden;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  border-color: #e6a34a;
-  box-shadow: 0 20px 40px rgba(230, 163, 74, 0.1);
+  transform: translateY(-2px);
+  border-color: #2c3e50;
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 
 .product-image {
   height: 200px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  background: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  color: #e6a34a;
+  color: #6c757d;
   position: relative;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .product-icon {
@@ -524,49 +519,48 @@ html {
   border-radius: 0;
 }
 
-/* wishlist toggle on home removed */
-
 .product-info {
   padding: 1.5rem;
 }
 
 .product-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #ffffff !important;
+  color: #2c3e50 !important;
 }
 
 .product-price {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #e6a34a;
+  color: #2c3e50;
   margin-bottom: 1rem;
 }
 
 .product-button {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
-  color: #000000;
+  background: #2c3e50;
+  color: #ffffff;
   border: none;
   padding: 0.8rem 1.5rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  border-radius: 25px;
+  border-radius: 6px;
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease;
 }
 
 .product-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
+  background: #1a252f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
 }
 
 /* Футер */
 .footer {
-  background: #111111;
+  background: #2c3e50;
   padding: 3rem 0 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid #34495e;
   width: 100%;
 }
 
@@ -579,14 +573,15 @@ html {
 }
 
 .footer-section h3 {
-  color: #e6a34a;
+  color: #ffffff;
   margin-bottom: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .footer-section p,
 .footer-section a {
-  color: #cccccc;
+  color: #bdc3c7;
   text-decoration: none;
   line-height: 1.8;
   display: block;
@@ -594,14 +589,14 @@ html {
 }
 
 .footer-section a:hover {
-  color: #e6a34a;
+  color: #ffffff;
 }
 
 .footer-bottom {
   text-align: center;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: #888888;
+  border-top: 1px solid #34495e;
+  color: #95a5a6;
 }
 
 /* Адаптивность */
@@ -620,7 +615,7 @@ html {
   }
   
   .hero-text h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   
   .container {
