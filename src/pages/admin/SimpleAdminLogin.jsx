@@ -61,8 +61,8 @@ function SimpleAdminLogin() {
                 width: '100%',
                 padding: '10px',
                 background: '#333',
-                border: '1px solid #555',
-                borderRadius: '5px',
+                border: '2px solid #555',
+                borderRadius: '6px',
                 color: 'white'
               }}
               required
@@ -81,8 +81,8 @@ function SimpleAdminLogin() {
                 width: '100%',
                 padding: '10px',
                 background: '#333',
-                border: '1px solid #555',
-                borderRadius: '5px',
+                border: '2px solid #555',
+                borderRadius: '6px',
                 color: 'white'
               }}
               required
@@ -101,8 +101,8 @@ function SimpleAdminLogin() {
               width: '100%',
               padding: '12px',
               background: '#e6a34a',
-              border: 'none',
-              borderRadius: '5px',
+              border: '2px solid #e6a34a',
+              borderRadius: '6px',
               color: 'black',
               fontSize: '16px',
               cursor: 'pointer'

@@ -260,24 +260,27 @@
 }
 
 .promo-button {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
   text-decoration: none;
   padding: 0.8rem 1.5rem;
-  border-radius: 20px;
+  border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   width: 100%;
   justify-content: center;
+  border: 2px solid #e6a34a;
 }
 
 .promo-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(230, 163, 74, 0.3);
+  background: #c97c1a;
+  border-color: #c97c1a;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Фильтры категорий */
@@ -291,12 +294,12 @@
 
 .filter-btn {
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
   padding: 0.8rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -305,7 +308,7 @@
 
 .filter-btn:hover,
 .filter-btn.active {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
   border-color: #e6a34a;
 }

@@ -90,13 +90,13 @@ html {
 
 .icon-button {
   background: none;
-  border: none;
+  border: 2px solid transparent;
   color: #ffffff;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .icon-button:hover {
@@ -252,25 +252,27 @@ html {
 }
 
 .cta-button {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
-  border: none;
+  border: 2px solid #e6a34a;
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 8px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   box-shadow: none;
   text-shadow: none;
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
+  background: #c97c1a;
+  border-color: #c97c1a;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   color: #000000 !important;
 }
 
@@ -296,13 +298,13 @@ html {
 .cta-button.secondary {
   background: transparent;
   color: #ffffff;
-  border: 1px solid rgba(230, 163, 74, 0.4);
+  border: 2px solid #e6a34a;
 }
 
 .cta-button.secondary:hover {
-  background: rgba(230, 163, 74, 0.08);
-  box-shadow: none;
-  color: #ffffff !important;
+  background: #e6a34a;
+  color: #000000 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cta-button.secondary svg {
@@ -545,21 +547,23 @@ html {
 }
 
 .product-button {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
-  border: none;
+  border: 2px solid #e6a34a;
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .product-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
+  background: #c97c1a;
+  border-color: #c97c1a;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Футер */

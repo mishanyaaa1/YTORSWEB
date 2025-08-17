@@ -68,12 +68,12 @@
 
 .clear-cart-btn {
   background: rgba(255, 71, 87, 0.1);
-  border: 1px solid #ff4757;
+  border: 2px solid #ff4757;
   color: #ff4757;
   padding: 0.8rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-weight: 500;
 }
 
@@ -304,21 +304,23 @@
 
 .checkout-btn {
   width: 100%;
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
-  border: none;
+  border: 2px solid #e6a34a;
   padding: 1.2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 2rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .checkout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
+  background: #c97c1a;
+  border-color: #c97c1a;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .empty-cart {
@@ -346,19 +348,22 @@
 }
 
 .continue-shopping-btn {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  background: #e6a34a;
   color: #000000;
   text-decoration: none;
   padding: 1rem 2rem;
-  border-radius: 25px;
+  border-radius: 8px;
   font-weight: 600;
   display: inline-block;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  border: 2px solid #e6a34a;
 }
 
 .continue-shopping-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(230, 163, 74, 0.4);
+  background: #c97c1a;
+  border-color: #c97c1a;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Модальное окно оформления заказа */
