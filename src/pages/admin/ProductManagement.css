@@ -22,16 +22,16 @@
 .btn-primary {
   background: #e6a34a;
   color: #0a0a0a;
-  border: 2px solid #e6a34a;
+  border: none;
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
 .btn-primary svg { color: #0a0a0a !important; }
 

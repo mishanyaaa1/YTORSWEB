@@ -209,25 +209,24 @@ input[type='number'] {
 }
 
 .catalog-card-btn {
-  background: #e6a34a;
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000;
-  border: 2px solid #e6a34a;
+  border: none;
   padding: 0.7rem 1.5rem;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
   width: 100%;
-  transition: all 0.2s;
+  transition: all 0.3s;
   margin-top: 0.5rem;
 }
 
 .catalog-card-btn:hover {
-  background: #c97c1a;
-  border-color: #c97c1a;
-  color: #000;
-  transform: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(230, 163, 74, 0.15);
 }
 
 .no-products {

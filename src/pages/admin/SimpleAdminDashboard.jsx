@@ -60,9 +60,9 @@ function SimpleAdminDashboard() {
             style={{
               background: '#ff4444',
               color: 'white',
-              border: '2px solid #ff4444',
+              border: 'none',
               padding: '8px 16px',
-              borderRadius: '6px',
+              borderRadius: '5px',
               cursor: 'pointer'
             }}
           >

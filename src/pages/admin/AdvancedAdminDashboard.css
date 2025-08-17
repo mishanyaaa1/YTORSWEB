@@ -40,7 +40,7 @@
 .nav-item {
   width: 100%;
   background: none;
-  border: 2px solid transparent;
+  border: none;
   color: #ccc;
   padding: 15px 20px;
   text-align: left;

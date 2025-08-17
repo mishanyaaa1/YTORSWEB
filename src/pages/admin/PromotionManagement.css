@@ -4,7 +4,7 @@
 
 .management-header h2 { margin: 0; color: #ffffff; }
 
-.btn-primary { background: #e6a34a; color: #0a0a0a; border: 2px solid #e6a34a; padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.btn-primary { background: #e6a34a; color: #0a0a0a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
 .btn-primary svg { color: #0a0a0a !important; }
 
 .btn-primary:hover { filter: brightness(1.05); }
@@ -49,12 +49,12 @@
   gap: 10px;
 }
 
-.btn-success { background: #e6a34a; color: #0a0a0a; border: 2px solid #e6a34a; padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.btn-success { background: #e6a34a; color: #0a0a0a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
 .btn-success svg { color: #0a0a0a !important; }
 
 .btn-success:hover { filter: brightness(1.05); }
 
-.btn-secondary { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 2px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.btn-secondary { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
 
 .btn-secondary:hover { background: rgba(255, 255, 255, 0.18); }
 
