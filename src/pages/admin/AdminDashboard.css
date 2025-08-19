@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
@@ -34,6 +36,7 @@
 }
 
 .brand-link {
+  font-family: 'Playfair Display', serif;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -42,6 +45,7 @@
   font-weight: 600;
   font-size: 1.1rem;
   transition: color 0.3s ease;
+  letter-spacing: 0.5px;
 }
 
 .brand-link:hover {
@@ -166,10 +170,12 @@
 }
 
 .admin-header h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: #ffffff;
   margin: 0;
+  letter-spacing: 0.3px;
 }
 
 .header-actions {

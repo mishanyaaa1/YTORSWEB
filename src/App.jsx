@@ -237,7 +237,20 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>{footerData.copyright}</p>
+            <p>
+              {footerData.copyright.includes('ЮТОРС') ? (
+                <>
+                  {footerData.copyright.split('ЮТОРС').map((part, index, array) => (
+                    <React.Fragment key={index}>
+                      {part}
+                      {index < array.length - 1 && <span className="company-name">ЮТОРС</span>}
+                    </React.Fragment>
+                  ))}
+                </>
+              ) : (
+                footerData.copyright
+              )}
+            </p>
           </div>
         </div>
       </footer>

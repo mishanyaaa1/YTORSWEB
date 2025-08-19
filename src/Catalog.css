@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 /* Каталог товаров */
 .catalog-wrapper {
   display: flex;
@@ -18,10 +20,12 @@
 }
 
 .catalog-filters h3 {
+  font-family: 'Playfair Display', serif;
   margin-bottom: 1.5rem;
   color: #e6a34a;
   font-size: 1.3rem;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .filter-group {
@@ -88,10 +92,12 @@ input[type='number'] {
 }
 
 .catalog-main h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   color: #e6a34a;
+  letter-spacing: 0.8px;
 }
 
 .catalog-grid {
@@ -152,10 +158,12 @@ input[type='number'] {
 }
 
 .catalog-card-info h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #fff;
+  letter-spacing: 0.3px;
 }
 
 .catalog-card-price {

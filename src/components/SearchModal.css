@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .search-modal-overlay {
   position: fixed;
   top: 0;
@@ -37,6 +39,7 @@
 }
 
 .search-header h2 {
+  font-family: 'Playfair Display', serif;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -44,6 +47,7 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .close-btn {

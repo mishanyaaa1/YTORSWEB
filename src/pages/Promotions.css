@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 /* UPDATED: Fixing promotion cards background - FORCED UPDATE */
 .promotions-page {
   padding-top: 80px;
@@ -76,6 +78,7 @@
 }
 
 .promotions-hero h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
@@ -83,6 +86,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 .promotions-hero p {
@@ -113,6 +118,7 @@
 }
 
 .section-title {
+  font-family: 'Playfair Display', serif;
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
@@ -121,6 +127,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 /* Горячие предложения */
@@ -206,7 +214,9 @@
 }
 
 .promo-content h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
+  letter-spacing: 0.5px;
   font-weight: 700;
   margin-bottom: 0.8rem;
   color: #ffffff;
@@ -458,10 +468,12 @@
 }
 
 .step-card h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
+  letter-spacing: 0.3px;
 }
 
 .step-card p {
@@ -505,11 +517,13 @@
 }
 
 .no-promotions h3 {
+  font-family: 'Playfair Display', serif;
   color: #ffffff !important;
   font-size: 1.8rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.8px;
 }
 
 .no-promotions p {

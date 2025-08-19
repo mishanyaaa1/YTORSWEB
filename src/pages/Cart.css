@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .cart-page {
   padding: 120px 0 60px;
   min-height: 100vh;
@@ -60,10 +62,12 @@
 }
 
 .cart-header h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0;
+  letter-spacing: 1px;
 }
 
 .clear-cart-btn {
@@ -138,10 +142,12 @@
 }
 
 .item-info h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #ffffff;
+  letter-spacing: 0.3px;
 }
 
 .item-brand {
@@ -276,10 +282,12 @@
 }
 
 .summary-card h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: #e6a34a;
+  letter-spacing: 0.5px;
 }
 
 .summary-line {
@@ -334,9 +342,11 @@
 }
 
 .empty-cart h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #ffffff;
+  letter-spacing: 0.8px;
 }
 
 .empty-cart p {
@@ -389,11 +399,13 @@
 }
 
 .checkout-content h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 2rem;
   color: #e6a34a;
   text-align: center;
+  letter-spacing: 0.8px;
 }
 
 .order-form {
@@ -459,8 +471,10 @@
 }
 
 .order-summary h4 {
+  font-family: 'Playfair Display', serif;
   color: #e6a34a;
   margin-bottom: 1rem;
+  letter-spacing: 0.3px;
 }
 
 .order-items {

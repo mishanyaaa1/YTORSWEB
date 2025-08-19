@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .content-management {
   padding: 2rem;
   background: #0a0a0a; /* более тёмная подложка, как в остальных разделах админки */
@@ -6,10 +8,12 @@
 }
 
 .content-management h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   color: #ffffff;
+  letter-spacing: 0.8px;
 }
 
 /* Табы */
@@ -65,8 +69,10 @@
 
 .section-header h3,
 .section-header h4 {
+  font-family: 'Playfair Display', serif;
   color: #ffffff;
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
 /* Формы */

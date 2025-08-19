@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .order-management {
   padding: 2rem;
   background: #0a0a0a;
@@ -10,10 +12,12 @@
 }
 
 .management-header h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
   color: #e6a34a;
   margin: 0;
+  letter-spacing: 0.8px;
 }
 
 /* Статистика */
@@ -322,9 +326,11 @@
 }
 
 .no-orders h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
 .no-orders p {
@@ -367,10 +373,12 @@
 }
 
 .modal-header h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: #e6a34a;
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
 .close-btn {
@@ -402,10 +410,12 @@
 }
 
 .details-section h4 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: #e6a34a;
   margin-bottom: 1rem;
+  letter-spacing: 0.3px;
 }
 
 .customer-details p {

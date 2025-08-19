@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 .about-page {
   padding-top: 80px;
   background: #0a0a0a;
@@ -12,6 +14,7 @@
 }
 
 .about-hero h1 {
+  font-family: 'Playfair Display', serif;
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
@@ -19,9 +22,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 .about-hero p {
+  font-family: 'Inter', sans-serif;
   font-size: 1.3rem;
   color: #cccccc;
   max-width: 800px;
@@ -175,9 +181,11 @@
 }
 
 .step-title {
+  font-family: 'Playfair Display', serif;
   color: #ffffff;
   margin: 0 0 0.5rem 0;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .step-text {
@@ -192,8 +200,10 @@
 
 .delivery-methods h3,
 .payment-section h3 {
+  font-family: 'Playfair Display', serif;
   color: #e6a34a;
   margin-bottom: 1rem;
+  letter-spacing: 0.5px;
 }
 
 
@@ -208,7 +218,9 @@
 }
 
 .method-card h4 {
+  font-family: 'Playfair Display', serif;
   margin: 0.25rem 0 0.5rem 0;
+  letter-spacing: 0.3px;
 }
 
 .method-card .method-description {
@@ -266,6 +278,7 @@
 }
 
 .section-title {
+  font-family: 'Playfair Display', serif;
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
@@ -274,6 +287,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 /* Преимущества */
@@ -307,10 +322,12 @@
 /* Используем react-icons для единых цветов; спец-класс не требуется */
 
 .advantage-card h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
 .advantage-card p {
@@ -351,10 +368,12 @@
 }
 
 .feature-content h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
 .feature-content p {
@@ -401,10 +420,12 @@
 }
 
 .team-card h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #ffffff;
+  letter-spacing: 0.3px;
 }
 
 .member-position {
@@ -446,10 +467,12 @@
 }
 
 .story-text h2 {
+  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
   color: #e6a34a;
+  letter-spacing: 0.8px;
 }
 
 .story-text p {
@@ -514,10 +537,12 @@
 }
 
 .contact-card h3 {
+  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
+  letter-spacing: 0.3px;
 }
 
 .contact-link {
@@ -643,10 +668,12 @@
 }
 
 .milestones h3 {
+  font-family: 'Playfair Display', serif;
   color: #e6a34a;
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .milestones-list {
@@ -685,10 +712,12 @@
 }
 
 .milestone-content h4 {
+  font-family: 'Playfair Display', serif;
   color: #ffffff;
   margin: 0 0 0.5rem 0;
   font-size: 1.2rem;
   font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .milestone-content p {
