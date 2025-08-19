@@ -11,7 +11,6 @@ import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
-import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 import Reveal from '../components/Reveal';
 import './Home.css';
@@ -130,7 +129,10 @@ function Home() {
                     {aboutContent?.homeHero?.visualImage ? (
                       <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
                     ) : (
-                      <HeroVisual />
+                      <div className="hero-simple-visual">
+                        <div className="hero-simple-gear">⚙️</div>
+                        <div className="hero-simple-text">Запчасти для вездеходов</div>
+                      </div>
                     )}
                   </div>
                   <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
