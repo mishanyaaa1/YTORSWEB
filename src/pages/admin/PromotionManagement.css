@@ -1,15 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 .promotion-management { padding: 20px; background: #0a0a0a; color: #ffffff; min-height: 100vh; }
 
 .management-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 
-.management-header h2 { 
-  font-family: 'Playfair Display', serif;
-  margin: 0; 
-  color: #ffffff; 
-  letter-spacing: 0.8px;
-}
+.management-header h2 { margin: 0; color: #ffffff; }
 
 .btn-primary { background: #e6a34a; color: #0a0a0a; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
 .btn-primary svg { color: #0a0a0a !important; }
@@ -18,12 +11,7 @@
 
 .promotion-form { background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; }
 
-.promotion-form h3 { 
-  font-family: 'Playfair Display', serif;
-  margin: 0 0 20px 0; 
-  color: #ffffff; 
-  letter-spacing: 0.5px;
-}
+.promotion-form h3 { margin: 0 0 20px 0; color: #ffffff; }
 
 .form-grid {
   display: grid;
@@ -88,14 +76,7 @@
 
 .promotion-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-.promotion-header h3 { 
-  font-family: 'Playfair Display', serif;
-  margin: 0; 
-  color: #ffffff; 
-  font-size: 18px; 
-  flex: 1; 
-  letter-spacing: 0.3px;
-}
+.promotion-header h3 { margin: 0; color: #ffffff; font-size: 18px; flex: 1; }
 
 .promotion-actions {
   display: flex;

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 /* Глобальные стили */
 * {
   margin: 0;
@@ -237,7 +235,6 @@ html {
 }
 
 .hero-text h1 {
-  font-family: 'Playfair Display', serif;
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
@@ -245,8 +242,6 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 1.5px;
-  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 .hero-text p {
@@ -427,7 +422,6 @@ html {
 }
 
 .section-title {
-  font-family: 'Playfair Display', serif;
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
@@ -436,8 +430,6 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 1px;
-  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 .features-grid {
@@ -470,12 +462,10 @@ html {
 }
 
 .feature-title {
-  font-family: 'Playfair Display', serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #ffffff;
-  letter-spacing: 0.5px;
 }
 
 .feature-text {
@@ -592,8 +582,6 @@ html {
   color: #e6a34a;
   margin-bottom: 1rem;
   font-size: 1.2rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
 }
 
 .footer-section p,
@@ -603,7 +591,6 @@ html {
   line-height: 1.8;
   display: block;
   margin-bottom: 0.5rem;
-  font-family: 'Inter', sans-serif;
 }
 
 .footer-section a:hover {
@@ -615,31 +602,6 @@ html {
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #888888;
-}
-
-.footer-bottom p {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-/* Специальные стили для названия компании в копирайте */
-/* Название компании в копирайте — используем отдельный span */
-.footer-bottom p .company-name {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: 800;
-  color: #e6a34a;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Альтернативный способ стилизации названия компании */
-.footer-bottom .company-name-gradient {
-  background: linear-gradient(135deg, #e6a34a 0%, #ffd166 50%, #e6a34a 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 1px 2px rgba(230, 163, 74, 0.3);
 }
 
 /* Адаптивность */
@@ -659,7 +621,6 @@ html {
   
   .hero-text h1 {
     font-size: 2.5rem;
-    letter-spacing: 1px;
   }
   
   .container {

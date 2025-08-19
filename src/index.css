@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -33,10 +31,8 @@ body {
 }
 
 h1 {
-  font-family: 'Playfair Display', serif;
   font-size: 3.2em;
   line-height: 1.1;
-  letter-spacing: 0.5px;
 }
 
 button {

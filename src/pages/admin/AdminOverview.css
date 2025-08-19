@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 .admin-overview {
   max-width: 1200px;
   margin: 0 auto;
@@ -10,7 +8,6 @@
 }
 
 .overview-header h2 {
-  font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: 700;
   color: #ffffff;
@@ -19,8 +16,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 1px;
-  text-shadow: 0 4px 8px rgba(230, 163, 74, 0.3);
 }
 
 .overview-header p {
@@ -91,12 +86,10 @@
 /* Быстрые действия */
 .quick-actions h3,
 .recent-activity h3 {
-  font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: #e6a34a;
   margin-bottom: 1.5rem;
-  letter-spacing: 0.5px;
 }
 
 .actions-grid {

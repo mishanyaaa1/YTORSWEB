@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 /* Admin Overview Advanced */
 .admin-overview-advanced {
   max-width: 1200px;
@@ -11,7 +9,6 @@
 }
 
 .overview-header h2 {
-  font-family: 'Playfair Display', serif;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -19,7 +16,6 @@
   color: #ffffff;
   margin-bottom: 8px;
   font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
 .overview-header p {

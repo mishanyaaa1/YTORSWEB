@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 .popular-products .promotions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -68,23 +66,19 @@
 }
 
 .popular-products .promo-info h3 {
-  font-family: 'Playfair Display', serif;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #ffffff;
-  letter-spacing: 0.3px;
 }
 
 .popular-products .min-purchase {
-  font-family: 'Inter', sans-serif;
   color: #cccccc;
   font-size: 0.95rem;
   margin-bottom: 0.8rem;
 }
 
 .popular-products .promo-link {
-  font-family: 'Inter', sans-serif;
   color: #e6a34a;
   display: inline-flex;
   align-items: center;

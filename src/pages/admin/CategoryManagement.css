@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 /* Category Management */
 .category-management {
   max-width: 1200px;
@@ -16,7 +14,6 @@
 }
 
 .page-header h2 {
-  font-family: 'Playfair Display', serif;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -24,7 +21,6 @@
   color: #ffffff;
   margin-bottom: 8px;
   font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
 .page-header p {
@@ -48,7 +44,6 @@
 }
 
 .section h3 {
-  font-family: 'Playfair Display', serif;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -56,7 +51,6 @@
   font-size: 1.3rem;
   margin-bottom: 20px;
   font-weight: 600;
-  letter-spacing: 0.3px;
 }
 
 /* Add Category Form */
