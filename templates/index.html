@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YTORSWEB - Интернет-магазин</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div id="root">
+        <!-- React приложение будет загружено сюда -->
+        <div style="text-align: center; padding: 50px;">
+            <h1>YTORSWEB</h1>
+            <p>Загрузка приложения...</p>
+        </div>
+    </div>
+    
+    <!-- Загружаем собранные React файлы -->
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
