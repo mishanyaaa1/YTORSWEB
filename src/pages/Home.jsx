@@ -5,10 +5,12 @@ import {
   FaTools, 
   FaShieldAlt, 
   FaArrowRight,
-  FaStar
+  FaStar,
+  FaRocket,
+  FaCog,
+  FaLightbulb
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
-// wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import HeroVisual from '../components/HeroVisual';
@@ -21,30 +23,28 @@ function Home() {
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds, aboutContent } = useAdminData();
   
-  // wishlist removed
-  
   const features = [
     {
-      icon: <FaTruck />,
-      title: "Быстрая доставка",
-      text: "Доставляем запчасти по всей России в кратчайшие сроки"
+      icon: <FaRocket />,
+      title: "Молниеносная доставка",
+      text: "Доставляем запчасти по всей России в течение 24-48 часов"
     },
     {
-      icon: <FaTools />,
-      title: "Качественные детали",
-      text: "Только оригинальные и сертифицированные запчасти"
+      icon: <FaCog />,
+      title: "Премиум качество",
+      text: "Только оригинальные и сертифицированные запчасти от ведущих производителей"
     },
     {
-      icon: <FaShieldAlt />,
-      title: "Гарантия качества",
-      text: "Полная гарантия на все товары и профессиональная поддержка"
+      icon: <FaLightbulb />,
+      title: "Экспертная поддержка",
+      text: "24/7 консультации от опытных специалистов и полная гарантия на все товары"
     }
   ];
 
   // Получаем популярные товары из контекста по ID
   const popularProducts = popularProductIds
     .map(id => products.find(product => product.id === id))
-    .filter(product => product) // Убираем undefined если товар не найден
+    .filter(product => product)
     .map(product => ({
       id: product.id,
       title: product.title,
@@ -52,102 +52,61 @@ function Home() {
       icon: getMainImage(product)?.data
     }));
 
-  // Оригинальный массив для справки:
-  const _originalPopularProducts = [
-    {
-      id: 11,
-      title: "Гусеницы для вездехода",
-      price: "45,000 ₽",
-      icon: "🔗"
-    },
-    {
-      id: 1,
-      title: "Двигатель 2.0L дизельный",
-      price: "180,000 ₽",
-      icon: "⚙️"
-    },
-    {
-      id: 8,
-      title: "Коробка передач механическая",
-      price: "95,000 ₽",
-      icon: "🔧"
-    },
-    {
-      id: 12,
-      title: "Амортизатор передний",
-      price: "12,000 ₽",
-      icon: "🛠️"
-    },
-    {
-      id: 15,
-      title: "Аккумулятор 12V 100Ah",
-      price: "15,000 ₽",
-      icon: "🔋"
-    },
-    {
-      id: 17,
-      title: "Сиденье водителя",
-      price: "25,000 ₽",
-      icon: "🪑"
-    }
-  ];
-
   return (
     <div>
-      {(() => {
-        const heroEffect = aboutContent?.homeHero?.heroEffect || 'particles';
-        const heroClass = `hero ${heroEffect === 'particles' ? 'hero--particles' : heroEffect === 'sparks' ? 'hero--sparks' : ''}`;
-        return (
-          <section className={heroClass}>
-            <div className="container">
-              <div className="hero-content">
-                <div className="hero-text">
-                  <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
-                  <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
-                  <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
-                      {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                      <FaArrowRight />
-                    </Link>
-                    <Link
-                      to="/about#contacts"
-                      className="cta-button secondary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/about#contacts');
-                        setTimeout(() => {
-                          const el = document.getElementById('contacts');
-                          if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
-                      }}
-                    >
-                      Связаться с менеджером
-                    </Link>
-                  </div>
-                </div>
-                <div className="hero-image">
-                  <div className="hero-placeholder">
-                    {aboutContent?.homeHero?.visualImage ? (
-                      <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
-                    ) : (
-                      <HeroVisual />
-                    )}
-                  </div>
-                  <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
-                  {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
-                    <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
-                      {btn.text || 'Подробнее'}
-                      <FaArrowRight />
-                    </Link>
-                  ))}
-                </div>
+      {/* Hero секция с современным дизайном */}
+      <section className="hero">
+        <div className="container">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1>
+                {aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}
+              </h1>
+              <p>
+                {aboutContent?.homeHero?.description || 'Инновационные решения для вашего вездехода. Качественные запчасти, быстрая доставка и экспертная поддержка 24/7.'}
+              </p>
+              <div className="hero-cta-group">
+                <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                  {aboutContent?.homeHero?.ctaText || 'Исследовать каталог'}
+                  <FaArrowRight />
+                </Link>
+                <Link
+                  to="/about#contacts"
+                  className="cta-button secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/about#contacts');
+                    setTimeout(() => {
+                      const el = document.getElementById('contacts');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 50);
+                  }}
+                >
+                  Связаться с экспертом
+                </Link>
               </div>
             </div>
-          </section>
-        );
-      })()}
-      
+            <div className="hero-image">
+              <div className="hero-placeholder">
+                {aboutContent?.homeHero?.visualImage ? (
+                  <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
+                ) : (
+                  <HeroVisual />
+                )}
+              </div>
+              <p>{aboutContent?.homeHero?.imageCaption || 'Инновационные решения для вашего вездехода'}</p>
+              {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
+                <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
+                  {btn.text || 'Подробнее'}
+                  <FaArrowRight />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
+      {/* Секция преимуществ с 3D эффектами */}
       <section className="features">
         <div className="container">
           <Reveal type="up">
@@ -155,7 +114,7 @@ function Home() {
           </Reveal>
           <div className="features-grid">
             {features.map((feature, index) => (
-              <Reveal key={index} type="up" delay={index * 0.1}>
+              <Reveal key={index} type="up" delay={index * 0.2}>
                 <div className="feature-card">
                   <div className="feature-icon">
                     {typeof feature.icon === 'string' ? getIconForEmoji(feature.icon) : feature.icon}
@@ -169,6 +128,7 @@ function Home() {
         </div>
       </section>
 
+      {/* Секция популярных товаров */}
       <section className="products popular-products">
         <div className="container">
           <Reveal type="up">
@@ -176,44 +136,29 @@ function Home() {
           </Reveal>
 
           {popularProducts.length === 0 ? (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '2rem',
-                borderRadius: '16px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                background: 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-                textAlign: 'center'
-              }}
-            >
-              <div>
-                <div style={{ fontSize: '2.2rem', color: '#ffd166', marginBottom: '0.5rem' }}>
-                  <FaStar style={{ verticalAlign: 'middle' }} />
-                </div>
-                <h3 style={{ margin: '0 0 0.5rem' }}>Популярные товары скоро появятся</h3>
-                <p style={{ opacity: 0.85, margin: '0 0 1rem' }}>
-                  Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
-                </p>
-                <Link to="/catalog" className="cta-button">
-                  Перейти в каталог <FaArrowRight />
-                </Link>
+            <div className="empty-state">
+              <div className="empty-state-icon">
+                <FaStar />
               </div>
+              <h3>Популярные товары скоро появятся</h3>
+              <p>
+                Сейчас мы собираем статистику по покупкам. В каталоге уже много отличных предложений.
+              </p>
+              <Link to="/catalog" className="cta-button">
+                Перейти в каталог <FaArrowRight />
+              </Link>
             </div>
           ) : (
-            <div className="promotions-grid">
+            <div className="products-grid">
               {popularProducts.map((product, i) => (
-                <Reveal key={product.id} type="up" delay={i * 0.05}>
-                <Link to={`/product/${product.id}`} className="popular-card">
-                  <div className="promo-header">
-                    <div className="promo-image-small">
+                <Reveal key={product.id} type="up" delay={i * 0.1}>
+                  <div className="product-card">
+                    <div className="product-image">
                       {(() => {
                         const productData = products.find(p => p.id === product.id);
                         if (!productData) return (
-                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={product.title} style={{ height: 36 }} />
+                          <span className="product-icon">
+                            <BrandMark alt={product.title} style={{ height: 48 }} />
                           </span>
                         );
                         const mainImage = getMainImage(productData);
@@ -228,32 +173,30 @@ function Home() {
                                 src={resolved || mainImage.data}
                                 alt={product.title}
                                 className="product-image-img"
-                                style={{ borderRadius: '8px' }}
                               />
                             );
                           }
                           return (
-                            <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <BrandMark alt={product.title} style={{ height: 36 }} />
+                            <span className="product-icon">
+                              <BrandMark alt={product.title} style={{ height: 48 }} />
                             </span>
                           );
                         }
                         return (
-                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={product.title} style={{ height: 36 }} />
+                          <span className="product-icon">
+                            <BrandMark alt={product.title} style={{ height: 48 }} />
                           </span>
                         );
                       })()}
                     </div>
-                  </div>
-                  <div className="promo-info">
-                    <h3>{product.title}</h3>
-                    <div className="min-purchase">Цена: {product.price}</div>
-                    <div className="promo-link">
-                      Подробнее <FaArrowRight />
+                    <div className="product-info">
+                      <h3 className="product-title">{product.title}</h3>
+                      <div className="product-price">{product.price}</div>
+                      <Link to={`/product/${product.id}`} className="product-button">
+                        Подробнее
+                      </Link>
                     </div>
                   </div>
-                </Link>
                 </Reveal>
               ))}
             </div>

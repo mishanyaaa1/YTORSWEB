@@ -10,8 +10,8 @@ function CatalogPage() {
       <div className="container">
         <Reveal type="up">
           <div className="catalog-header">
-            <h1>Каталог запчастей</h1>
-            <p>Широкий ассортимент качественных запчастей для вездеходов</p>
+            <h1 className="page-title">Каталог запчастей</h1>
+            <p className="page-subtitle">Инновационные решения для вашего вездехода</p>
           </div>
         </Reveal>
         

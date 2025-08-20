@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLeft, FaChevronRight, FaStar, FaTruck, FaShieldAlt, FaTools } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Reveal from '../components/Reveal';
 import { useCartActions } from '../hooks/useCartActions';
@@ -100,340 +100,298 @@ const productsData = {
     description: 'Усиленная подвеска для экстремальных условий эксплуатации. Повышает проходимость и комфорт езды.',
     specifications: {
       'Тип': 'Независимая',
-      'Амортизаторы': 'Газо-масляные',
-      'Материал': 'Сталь + алюминий',
-      'Ход подвески': '250 мм',
+      'Ход': '200 мм',
+      'Материал': 'Сталь высокой прочности',
+      'Совместимость': 'Универсальная',
       'Гарантия': '12 месяцев'
     },
     features: [
       'Увеличенный ход подвески',
-      'Усиленная конструкция',
-      'Отличная амортизация',
-      'Подходит для экстремальных условий'
-    ]
-  },
-  5: {
-    id: 5,
-    title: 'Фильтр воздушный',
-    price: 3500,
-    category: 'Двигатель',
-    brand: 'ТехноМотор',
-    available: true,
-    inStock: 25,
-    icon: '🌀',
-    images: ['/api/placeholder/600/400'],
-    description: 'Высококачественный воздушный фильтр для защиты двигателя от пыли и грязи.',
-    specifications: {
-      'Тип': 'Панельный',
-      'Материал': 'Синтетическое волокно',
-      'Эффективность': '99.5%',
-      'Ресурс': '15 000 км',
-      'Гарантия': '6 месяцев'
-    },
-    features: [
-      'Высокая степень фильтрации',
-      'Долгий срок службы',
-      'Простая замена',
-      'Защита двигателя от износа'
-    ]
-  },
-  6: {
-    id: 6,
-    title: 'Ремень приводной',
-    price: 2200,
-    category: 'Трансмиссия',
-    brand: 'DrivePro',
-    available: true,
-    inStock: 15,
-    icon: '⛓️',
-    images: ['/api/placeholder/600/400'],
-    description: 'Прочный приводной ремень для надежной передачи мощности от двигателя к трансмиссии.',
-    specifications: {
-      'Длина': '1200 мм',
-      'Ширина': '30 мм',
-      'Материал': 'Резина с кевларовым кордом',
-      'Максимальная нагрузка': '150 Нм',
-      'Гарантия': '12 месяцев'
-    },
-    features: [
-      'Высокая прочность на разрыв',
-      'Устойчивость к износу',
-      'Работа в широком диапазоне температур',
-      'Простая установка'
+      'Высокая прочность',
+      'Простое обслуживание',
+      'Совместимость с большинством вездеходов'
     ]
   }
 };
 
-function ProductPage() {
-  const { id } = useParams();
+export default function ProductPage() {
+  const { productId } = useParams();
   const navigate = useNavigate();
   const { addToCartWithNotification } = useCartActions();
   const { products } = useAdminData();
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  // wishlist removed
-
-  const product = products.find(p => p.id === parseInt(id));
-
+  
+  // Получаем данные товара
+  const product = products.find(p => p.id === parseInt(productId)) || productsData[productId];
+  
   if (!product) {
     return (
-      <div className="product-not-found">
-        <h2>Товар не найден</h2>
-        <button onClick={() => navigate('/catalog')} className="back-button">
-          Вернуться в каталог
-        </button>
+      <div className="product-page">
+        <div className="container">
+          <div className="product-not-found">
+            <h1>Товар не найден</h1>
+            <p>К сожалению, запрашиваемый товар не существует или был удален.</p>
+            <button onClick={() => navigate('/catalog')} className="cta-button">
+              Вернуться в каталог
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
-  // Мигрируем и получаем все изображения товара
-  const migratedProduct = migrateProductImages(product);
-  const allImages = getAllImages(migratedProduct) || [];
-  
-  // Безопасность: убеждаемся что selectedImageIndex в пределах массива
-  const safeSelectedIndex = Math.max(0, Math.min(selectedImageIndex, allImages.length - 1));
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+
+  // Получаем изображения товара
+  const productImages = getAllImages(product);
+  const hasImages = productImages && productImages.length > 0;
 
   const handleAddToCart = () => {
     addToCartWithNotification(product, quantity);
   };
 
-  const handleBuyNow = () => {
-    try {
-      addToCartWithNotification(product, quantity);
-      setTimeout(() => {
-        navigate('/cart');
-      }, 100);
-    } catch (error) {
-      console.error('Error in handleBuyNow:', error);
-      alert('Ошибка при покупке товара');
-    }
+  const nextImage = () => {
+    setSelectedImageIndex((prev) => (prev + 1) % productImages.length);
   };
 
-  // Нормализация характеристик: поддержка как объекта, так и массива [{name, value}]
-  const specsArray = Array.isArray(product?.specifications)
-    ? (product.specifications || []).filter(s => s && (s.name || s.value))
-    : (product?.specifications && typeof product.specifications === 'object')
-      ? Object.entries(product.specifications).map(([name, value]) => ({ name, value }))
-      : [];
+  const prevImage = () => {
+    setSelectedImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+  };
+
+  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+  const discountPercentage = hasDiscount ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
 
   return (
-    <motion.div 
-      className="product-page"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div className="product-page">
       <div className="container">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="back-button"
-        >
-          <FaArrowLeft /> Назад
-        </button>
+        {/* Заголовок страницы */}
+        <div className="product-header">
+          <button onClick={() => navigate(-1)} className="back-button">
+            <FaArrowLeft />
+            Назад
+          </button>
+          <div className="breadcrumbs">
+            <span onClick={() => navigate('/catalog')} className="breadcrumb-link">Каталог</span>
+            <span className="breadcrumb-separator">/</span>
+            <span onClick={() => navigate(`/catalog?category=${product.category}`)} className="breadcrumb-link">{product.category}</span>
+            <span className="breadcrumb-separator">/</span>
+            <span className="breadcrumb-current">{product.title}</span>
+          </div>
+        </div>
 
         <div className="product-content">
-          <div className="product-images">
-            <div className="main-image">
-              <motion.div 
-                className="image-container"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                {allImages && allImages.length > 0 && allImages[safeSelectedIndex] ? (
-                  allImages[safeSelectedIndex].data && (
-                    allImages[safeSelectedIndex].data.startsWith('data:image') ||
-                    isImageUrl(allImages[safeSelectedIndex].data)
-                  ) ? (
+          {/* Галерея изображений */}
+          <div className="product-gallery">
+            <Reveal type="left">
+              <div className="main-image-container">
+                {hasImages ? (
+                  <div className="main-image-wrapper">
                     <img
-                      src={allImages[safeSelectedIndex].data}
+                      src={productImages[selectedImageIndex]}
                       alt={product.title}
-                      className="product-main-image"
+                      className="main-image"
                     />
-                  ) : (
-                    <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <BrandMark alt={product.title} style={{ height: 200 }} />
-                    </span>
-                  )
-                ) : (
-                  <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <BrandMark alt={product.title} style={{ height: 200 }} />
-                  </span>
-                )}
-              </motion.div>
-              
-              {allImages && allImages.length > 1 && (
-                <div className="image-navigation">
-                  <button 
-                    className="nav-button prev"
-                    onClick={() => setSelectedImageIndex(selectedImageIndex === 0 ? allImages.length - 1 : selectedImageIndex - 1)}
-                    disabled={!allImages || allImages.length <= 1}
-                  >
-                    <FaChevronLeft />
-                  </button>
-                  <button 
-                    className="nav-button next"
-                    onClick={() => setSelectedImageIndex(selectedImageIndex === allImages.length - 1 ? 0 : selectedImageIndex + 1)}
-                    disabled={!allImages || allImages.length <= 1}
-                  >
-                    <FaChevronRight />
-                  </button>
-                </div>
-              )}
-            </div>
-            
-            {allImages && allImages.length > 1 && (
-              <div className="image-thumbnails">
-                {allImages.map((image, index) => (
-                  <button
-                    key={index}
-                    className={`thumbnail ${selectedImageIndex === index ? 'active' : ''}`}
-                    onClick={() => setSelectedImageIndex(index)}
-                  >
-                    {image && image.data && (
-                      image.data.startsWith('data:image') || isImageUrl(image.data)
-                    ) ? (
-                      <img src={image.data} alt={`${product.title} ${index + 1}`} />
-                    ) : (
-                      <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <BrandMark alt={product.title} style={{ height: 40 }} />
-                      </span>
+                    {productImages.length > 1 && (
+                      <>
+                        <button className="gallery-nav prev" onClick={prevImage}>
+                          <FaChevronLeft />
+                        </button>
+                        <button className="gallery-nav next" onClick={nextImage}>
+                          <FaChevronRight />
+                        </button>
+                      </>
                     )}
-                  </button>
-                ))}
+                  </div>
+                ) : (
+                  <div className="main-image-placeholder">
+                    <BrandMark alt={product.title} style={{ height: 120 }} />
+                  </div>
+                )}
               </div>
+            </Reveal>
+
+            {/* Миниатюры */}
+            {hasImages && productImages.length > 1 && (
+              <Reveal type="left" delay={0.1}>
+                <div className="image-thumbnails">
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      className={`thumbnail ${index === selectedImageIndex ? 'active' : ''}`}
+                      onClick={() => setSelectedImageIndex(index)}
+                    >
+                      <img src={image} alt={`${product.title} ${index + 1}`} />
+                    </button>
+                  ))}
+                </div>
+              </Reveal>
             )}
           </div>
 
-            <div className="product-info">
-            <div className="product-header">
-              <h1>{product.title}</h1>
-              {/* wishlist button removed */}
-            </div>
-
-            <div className="product-meta">
-              <span className="brand">{product.brand}</span>
-              <span className="category">{product.category}</span>
-              <span className={`availability ${product.available ? 'in-stock' : 'out-of-stock'}`}>
-                {product.available ? <FaCheckCircle /> : <FaTimesCircle />}
-                {product.available ? `В наличии: ${product.quantity || 0} шт` : 'Нет в наличии'}
-              </span>
-            </div>
-
-            <Reveal type="up">
-            <div className="product-price">
-              <span className="current-price">{product.price.toLocaleString()} ₽</span>
-              {product.originalPrice && (
-                <span className="original-price">{product.originalPrice.toLocaleString()} ₽</span>
-              )}
-            </div>
+          {/* Информация о товаре */}
+          <div className="product-info">
+            <Reveal type="right">
+              <div className="product-header-info">
+                <div className="product-meta">
+                  <span className="product-category">{product.category}</span>
+                  {product.brand && <span className="product-brand">{product.brand}</span>}
+                </div>
+                
+                <h1 className="product-title">{product.title}</h1>
+                
+                <div className="product-rating">
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar key={i} className={i < 4 ? 'star filled' : 'star'} />
+                    ))}
+                  </div>
+                  <span className="rating-text">4.8 (127 отзывов)</span>
+                </div>
+              </div>
             </Reveal>
 
-            <Reveal type="up" delay={0.05}>
+            <Reveal type="right" delay={0.1}>
+              <div className="product-pricing">
+                <div className="price-container">
+                  <span className="current-price">{product.price.toLocaleString()} ₽</span>
+                  {hasDiscount && (
+                    <span className="original-price">{product.originalPrice.toLocaleString()} ₽</span>
+                  )}
+                </div>
+                {hasDiscount && (
+                  <div className="discount-badge">
+                    -{discountPercentage}%
+                  </div>
+                )}
+              </div>
+            </Reveal>
+
+            <Reveal type="right" delay={0.2}>
+              <div className="product-availability">
+                <div className={`availability-status ${product.available ? 'in-stock' : 'out-of-stock'}`}>
+                  {product.available ? <FaCheckCircle /> : <FaTimesCircle />}
+                  <span>{product.available ? 'В наличии' : 'Нет в наличии'}</span>
+                </div>
+                {product.available && product.inStock && (
+                  <span className="stock-count">Осталось: {product.inStock} шт.</span>
+                )}
+              </div>
+            </Reveal>
+
+            <Reveal type="right" delay={0.3}>
               <div className="product-description">
+                <h3>Описание</h3>
                 <p>{product.description}</p>
               </div>
             </Reveal>
 
-            {product.features && product.features.length > 0 && (
-              <div className="product-features">
-                <h3>Преимущества:</h3>
-                <ul>
-                  {product.features.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Reveal type="up" delay={0.1}>
-            <div className="product-actions">
-              <div className="quantity-selector">
-                <label>Количество:</label>
-                <div className="quantity-controls">
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
-                  <input 
-                    type="text" 
-                    value={quantity} 
-                    onChange={(e) => {
-                      const inputValue = e.target.value.replace(/[^0-9]/g, '');
-                      // Разрешаем пустое поле
-                      if (inputValue === '') {
-                        return;
-                      }
-                      const value = parseInt(inputValue);
-                      if (!isNaN(value) && value >= 1) {
-                        setQuantity(Math.min(value, product.quantity || 999));
-                      }
-                    }}
-                    onBlur={(e) => {
-                      // При потере фокуса, если поле пустое, ставим 1
-                      const cleanValue = e.target.value.replace(/[^0-9]/g, '');
-                      if (cleanValue === '' || parseInt(cleanValue) < 1) {
-                        setQuantity(1);
-                      }
-                    }}
-                    onFocus={(e) => e.target.select()}
-                    placeholder="1"
-                    className="quantity-input"
-                  />
-                  <button 
-                    onClick={() => setQuantity(Math.min(quantity + 1, product.quantity || 999))}
-                    disabled={quantity >= (product.quantity || 999)}
-                  >
-                    +
-                  </button>
+            <Reveal type="right" delay={0.4}>
+              <div className="product-actions">
+                <div className="quantity-selector">
+                  <label htmlFor="quantity">Количество:</label>
+                  <div className="quantity-controls">
+                    <button
+                      className="quantity-btn"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      id="quantity"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      min="1"
+                      className="quantity-input"
+                    />
+                    <button
+                      className="quantity-btn"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="action-buttons">
-                <motion.button 
+                <button
                   className="add-to-cart-btn"
                   onClick={handleAddToCart}
                   disabled={!product.available}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
-                  <FaShoppingCart /> В корзину
-                </motion.button>
-
-                <motion.button 
-                  className="buy-now-btn"
-                  onClick={handleBuyNow}
-                  disabled={!product.available}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Купить сейчас
-                </motion.button>
+                  <FaShoppingCart />
+                  {product.available ? 'Добавить в корзину' : 'Нет в наличии'}
+                </button>
               </div>
-            </div>
+            </Reveal>
+
+            <Reveal type="right" delay={0.5}>
+              <div className="product-features">
+                <h3>Ключевые особенности</h3>
+                <ul className="features-list">
+                  {product.features.map((feature, index) => (
+                    <li key={index} className="feature-item">
+                      <FaStar className="feature-icon" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
           </div>
         </div>
 
-        {specsArray.length > 0 && (
+        {/* Детальная информация */}
+        <div className="product-details">
           <Reveal type="up">
-          <div className="product-specifications">
-            <h3>Технические характеристики</h3>
-            <div className="specs-grid">
-              {specsArray.map((spec, idx) => (
-                <div key={idx} className="spec-item">
-                  <span className="spec-label">{spec.name}:</span>
-                  <span className="spec-value">{String(spec.value)}</span>
+            <div className="details-tabs">
+              <div className="tab-content active" id="specifications">
+                <h3 className="tab-title">
+                  <FaTools />
+                  Технические характеристики
+                </h3>
+                <div className="specifications-grid">
+                  {Object.entries(product.specifications).map(([key, value]) => (
+                    <div key={key} className="spec-item">
+                      <span className="spec-label">{key}</span>
+                      <span className="spec-value">{value}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Дополнительные преимущества */}
+        <Reveal type="up">
+          <div className="product-benefits">
+            <div className="benefits-grid">
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <FaTruck />
+                </div>
+                <h4>Быстрая доставка</h4>
+                <p>Доставляем по всей России в течение 24-48 часов</p>
+              </div>
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <FaShieldAlt />
+                </div>
+                <h4>Гарантия качества</h4>
+                <p>Полная гарантия на все товары от производителя</p>
+              </div>
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <FaTools />
+                </div>
+                <h4>Техподдержка</h4>
+                <p>Профессиональная консультация по установке и использованию</p>
+              </div>
             </div>
           </div>
-          </Reveal>
-        )}
+        </Reveal>
       </div>
-    </motion.div>
+    </div>
   );
 }
-
-export default ProductPage;

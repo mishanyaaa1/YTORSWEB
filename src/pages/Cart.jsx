@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaPercent, FaTags } from 'react-icons/fa';
+import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaPercent, FaTags, FaCreditCard, FaTruck, FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { useAdminData } from '../context/AdminDataContext';
 import { useOrders } from '../context/OrdersContext';
@@ -23,8 +23,6 @@ function Cart() {
   const { createOrder } = useOrders();
   const navigate = useNavigate();
   
-  // Логирование для диагностики
-  console.log('Cart component: useOrders hook result:', { createOrder });
   const [showCheckout, setShowCheckout] = useState(false);
   const [orderForm, setOrderForm] = useState({
     name: '',
@@ -101,45 +99,37 @@ function Cart() {
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
     
+    if (!orderForm.name || !orderForm.phone) {
+      alert('Пожалуйста, заполните обязательные поля: имя и телефон');
+      return;
+    }
+
     try {
-      // Генерируем номер заказа
       const orderNumber = generateOrderNumber();
-      
-      // Подготавливаем данные для отправки
       const orderData = {
-        orderForm,
-        cartItems,
-        priceCalculation,
-        orderNumber
+        orderNumber,
+        items: cartItems,
+        customerInfo: orderForm,
+        total: priceCalculation.total,
+        discount: priceCalculation.discountAmount,
+        appliedPromotion: priceCalculation.appliedPromotion
       };
-      
-      // Сохраняем заказ в систему
-      const savedOrder = await createOrder(orderData);
-      console.log('Заказ сохранен в системе:', savedOrder);
-      
-      // Форматируем сообщение для Telegram
+
+      // Создаем заказ в контексте
+      await createOrder(orderData);
+
+      // Отправляем уведомление в Telegram
       const message = formatOrderMessage(orderData);
-      
-      // Отправляем в Telegram
-      console.log('Отправляем заказ в Telegram...');
-      const result = await sendTelegramMessage(message);
-      
-      if (result.success) {
-        alert(`Заказ #${orderNumber} успешно оформлен! Мы свяжемся с вами в ближайшее время.`);
-        console.log('Заказ успешно отправлен в Telegram');
-      } else {
-        console.error('Ошибка отправки в Telegram:', result.error);
-        alert(`Заказ #${orderNumber} оформлен, но возникла ошибка при отправке уведомления. Мы обязательно с вами свяжемся!`);
-      }
-      
-      // Очищаем корзину и переходим на главную
+      await sendTelegramMessage(message);
+
+      // Очищаем корзину и переходим на страницу успешного заказа
       clearCart();
-      setShowCheckout(false);
-      navigate('/');
-      
+      navigate('/order-success', { 
+        state: { orderNumber, orderData } 
+      });
     } catch (error) {
-      console.error('Ошибка при оформлении заказа:', error);
-      alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.');
+      console.error('Ошибка при создании заказа:', error);
+      alert('Произошла ошибка при создании заказа. Попробуйте еще раз.');
     }
   };
 
@@ -148,10 +138,12 @@ function Cart() {
       <div className="cart-page">
         <div className="container">
           <div className="empty-cart">
-            <FaShoppingCart className="empty-cart-icon" />
+            <div className="empty-cart-icon">
+              <FaShoppingCart />
+            </div>
             <h2>Ваша корзина пуста</h2>
-            <p>Добавьте товары из каталога, чтобы оформить заказ</p>
-            <Link to="/catalog" className="continue-shopping-btn">
+            <p>Добавьте товары в корзину, чтобы продолжить покупки</p>
+            <Link to="/catalog" className="cta-button">
               Перейти в каталог
             </Link>
           </div>
@@ -164,321 +156,303 @@ function Cart() {
     <div className="cart-page">
       <div className="container">
         <div className="cart-header">
-          <button onClick={() => navigate(-1)} className="back-button">
-            <FaArrowLeft /> Назад
-          </button>
-          <h1>Корзина товаров</h1>
-          <button onClick={clearCart} className="clear-cart-btn">
-            Очистить корзину
-          </button>
+          <Link to="/catalog" className="back-link">
+            <FaArrowLeft />
+            Вернуться к покупкам
+          </Link>
+          <h1 className="cart-title">Корзина</h1>
         </div>
 
         <div className="cart-content">
           <div className="cart-items">
+            <h2 className="cart-section-title">Товары в корзине</h2>
             <AnimatePresence>
-              {cartItems.map((item) => (
-                <motion.div
-                  key={item.id}
-                  className="cart-item"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -100 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="item-image">
-                    {(() => {
-                      const productData = products.find(p => p.id === item.id);
-                      if (!productData) return (
-                        <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <BrandMark alt={item.title} style={{ height: 40 }} />
-                        </span>
-                      );
-                      
-                      const mainImage = getMainImage(productData);
-                      if (mainImage?.data) {
-                        if (
-                          typeof mainImage.data === 'string' &&
-                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
-                        ) {
-                          return <img src={mainImage.data} alt={item.title} className="item-image-img" />;
+              {cartItems.map((item) => {
+                const product = products.find(p => p.id === item.id);
+                if (!product) return null;
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    className="cart-item"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="cart-item-image">
+                      {(() => {
+                        const mainImage = getMainImage(product);
+                        if (mainImage?.data) {
+                          const resolved = typeof mainImage.data === 'string' ? mainImage.data : null;
+                          if (
+                            (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
+                            resolved
+                          ) {
+                            return (
+                              <img
+                                src={resolved || mainImage.data}
+                                alt={product.title}
+                                className="cart-product-image"
+                              />
+                            );
+                          }
                         }
                         return (
-                          <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={item.title} style={{ height: 40 }} />
+                          <span className="cart-product-icon">
+                            <BrandMark alt={product.title} style={{ height: 48 }} />
                           </span>
                         );
-                      }
-                      return (
-                        <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <BrandMark alt={item.title} style={{ height: 40 }} />
-                        </span>
-                      );
-                    })()}
-                  </div>
-                  
-                  <div className="item-info">
-                    <h3>{item.title}</h3>
-                    <p className="item-brand">{item.brand}</p>
-                    <p className="item-price">{item.price.toLocaleString()} ₽</p>
-                  </div>
-                  
-                  <div className="item-controls">
-                    <div className="quantity-controls">
+                      })()}
+                    </div>
+
+                    <div className="cart-item-info">
+                      <h3 className="cart-item-title">{product.title}</h3>
+                      <div className="cart-item-meta">
+                        <span className="cart-item-category">{product.category}</span>
+                        {product.brand && <span className="cart-item-brand">{product.brand}</span>}
+                      </div>
+                      <div className="cart-item-price">{product.price.toLocaleString()} ₽</div>
+                    </div>
+
+                    <div className="cart-item-quantity">
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
                         className="quantity-btn"
+                        onClick={() => handleQuantityChange(item.id, Math.max(1, item.quantity - 1))}
+                        disabled={item.quantity <= 1}
                       >
                         <FaMinus />
                       </button>
-                      <input 
-                        type="text" 
-                        value={item.quantity} 
-                        onChange={(e) => {
-                          const inputValue = e.target.value.replace(/[^0-9]/g, '');
-                          // Разрешаем пустое поле
-                          if (inputValue === '') {
-                            // Временно не обновляем состояние
-                            return;
-                          }
-                          const value = parseInt(inputValue);
-                          if (!isNaN(value) && value >= 1) {
-                            handleQuantityChange(item.id, value);
-                          }
-                        }}
-                        onBlur={(e) => {
-                          // При потере фокуса, если поле пустое, ставим 1
-                          const cleanValue = e.target.value.replace(/[^0-9]/g, '');
-                          if (cleanValue === '' || parseInt(cleanValue) < 1) {
-                            handleQuantityChange(item.id, 1);
-                          }
-                        }}
-                        onFocus={(e) => e.target.select()}
-                        placeholder="1"
-                        className="quantity-input"
-                      />
+                      <span className="quantity-value">{item.quantity}</span>
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                         className="quantity-btn"
+                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       >
                         <FaPlus />
                       </button>
                     </div>
-                    
-                    <div className="item-total">
-                      {(item.price * item.quantity).toLocaleString()} ₽
+
+                    <div className="cart-item-total">
+                      {(product.price * item.quantity).toLocaleString()} ₽
                     </div>
-                    
+
                     <button
+                      className="remove-item-btn"
                       onClick={() => handleRemoveItem(item.id)}
-                      className="remove-btn"
+                      title="Удалить товар"
                     >
                       <FaTrash />
                     </button>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
 
-          <div className="cart-summary">
-            <div className="summary-card">
-              <h3>Итого</h3>
-              <div className="summary-line">
-                <span>Товары ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} шт):</span>
-                <span>{priceCalculation.subtotal.toLocaleString()} ₽</span>
-              </div>
-              
-              {priceCalculation.appliedPromotion && (
-                <div className="summary-line discount-line">
-                  <span>
-                    <FaPercent className="discount-icon" />
-                    Скидка "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
-                  </span>
-                  <span className="discount-amount">
-                    -{priceCalculation.discountAmount.toLocaleString()} ₽
-                  </span>
-                </div>
-              )}
-              
-              <div className="summary-line">
-                <span>Доставка:</span>
-                <span>Бесплатно</span>
-              </div>
-              
-              <div className="summary-total">
-                <span>К оплате:</span>
-                <span>{priceCalculation.total.toLocaleString()} ₽</span>
-              </div>
+          <div className="cart-sidebar">
+            <div className="cart-summary">
+              <h3 className="summary-title">Итого заказа</h3>
               
               {applicableDiscounts.length > 0 && (
-                <div className="promotions-info">
-                  <FaTags className="promo-icon" />
-                  <span>Применены активные акции!</span>
+                <div className="promotions-section">
+                  <h4 className="promotions-title">
+                    <FaTags />
+                    Доступные скидки
+                  </h4>
+                  {applicableDiscounts.map((promo, index) => (
+                    <div key={index} className="promotion-item">
+                      <div className="promotion-info">
+                        <span className="promotion-name">{promo.title}</span>
+                        <span className="promotion-discount">-{promo.discount}%</span>
+                      </div>
+                      {promo.description && (
+                        <p className="promotion-description">{promo.description}</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
-              
-              <motion.button
+
+              <div className="price-breakdown">
+                <div className="price-row">
+                  <span>Подытог:</span>
+                  <span>{priceCalculation.subtotal.toLocaleString()} ₽</span>
+                </div>
+                {priceCalculation.discountAmount > 0 && (
+                  <div className="price-row discount">
+                    <span>Скидка:</span>
+                    <span>-{priceCalculation.discountAmount.toLocaleString()} ₽</span>
+                  </div>
+                )}
+                <div className="price-row total">
+                  <span>Итого:</span>
+                  <span>{priceCalculation.total.toLocaleString()} ₽</span>
+                </div>
+              </div>
+
+              <button
                 className="checkout-btn"
                 onClick={() => setShowCheckout(true)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
                 Оформить заказ
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>
 
-        <AnimatePresence>
-          {showCheckout && (
-            <motion.div
-              className="checkout-modal"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                className="checkout-content"
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 50, opacity: 0 }}
-              >
+        {/* Форма оформления заказа */}
+        {showCheckout && (
+          <motion.div
+            className="checkout-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="checkout-content">
+              <div className="checkout-header">
                 <h2>Оформление заказа</h2>
-                
-                <form onSubmit={handleSubmitOrder} className="order-form">
-                  <div className="form-group">
-                    <label htmlFor="name">Имя *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={orderForm.name}
-                      onChange={handleFormChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="phone">Телефон *</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={orderForm.phone}
-                      onChange={handleFormChange}
-                      required
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={orderForm.email}
-                      onChange={handleFormChange}
-                    />
-                  </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="deliveryMethod">Способ получения *</label>
-                    <select
-                      id="deliveryMethod"
-                      name="deliveryMethod"
-                      value={orderForm.deliveryMethod}
-                      onChange={handleFormChange}
-                      required
-                    >
-                      <option value="pickup">Самовывоз</option>
-                      <option value="delivery">Доставка</option>
-                    </select>
-                  </div>
-                  
-                  {orderForm.deliveryMethod === 'delivery' && (
+                <button
+                  className="close-checkout"
+                  onClick={() => setShowCheckout(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmitOrder} className="checkout-form">
+                <div className="form-section">
+                  <h3 className="form-section-title">
+                    <FaUser />
+                    Контактная информация
+                  </h3>
+                  <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="address">Адрес доставки *</label>
-                      <textarea
+                      <label htmlFor="name">Имя *</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={orderForm.name}
+                        onChange={handleFormChange}
+                        required
+                        className="form-input"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="phone">Телефон *</label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={orderForm.phone}
+                        onChange={handleFormChange}
+                        required
+                        className="form-input"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={orderForm.email}
+                        onChange={handleFormChange}
+                        className="form-input"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="address">Адрес доставки</label>
+                      <input
+                        type="text"
                         id="address"
                         name="address"
                         value={orderForm.address}
                         onChange={handleFormChange}
-                        required={orderForm.deliveryMethod === 'delivery'}
-                        rows="3"
+                        className="form-input"
                       />
                     </div>
-                  )}
-                  
-                  <div className="form-group">
-                    <label htmlFor="paymentMethod">Способ оплаты *</label>
-                    <select
-                      id="paymentMethod"
-                      name="paymentMethod"
-                      value={orderForm.paymentMethod}
-                      onChange={handleFormChange}
-                      required
-                    >
-                      <option value="cash">Наличными</option>
-                      <option value="card">Банковской картой</option>
-                      <option value="transfer">Банковский перевод</option>
-                    </select>
                   </div>
-                  
+                </div>
+
+                <div className="form-section">
+                  <h3 className="form-section-title">
+                    <FaTruck />
+                    Способ доставки
+                  </h3>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="deliveryMethod">Выберите способ доставки</label>
+                      <select
+                        id="deliveryMethod"
+                        name="deliveryMethod"
+                        value={orderForm.deliveryMethod}
+                        onChange={handleFormChange}
+                        className="form-select"
+                      >
+                        <option value="pickup">Самовывоз</option>
+                        <option value="courier">Курьерская доставка</option>
+                        <option value="post">Почтовая доставка</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3 className="form-section-title">
+                    <FaCreditCard />
+                    Способ оплаты
+                  </h3>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="paymentMethod">Выберите способ оплаты</label>
+                      <select
+                        id="paymentMethod"
+                        name="paymentMethod"
+                        value={orderForm.paymentMethod}
+                        onChange={handleFormChange}
+                        className="form-select"
+                      >
+                        <option value="cash">Наличными при получении</option>
+                        <option value="card">Банковской картой</option>
+                        <option value="transfer">Банковский перевод</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-section">
+                  <h3 className="form-section-title">Комментарий к заказу</h3>
                   <div className="form-group">
-                    <label htmlFor="comment">Комментарий к заказу</label>
                     <textarea
-                      id="comment"
                       name="comment"
                       value={orderForm.comment}
                       onChange={handleFormChange}
+                      placeholder="Дополнительная информация о заказе..."
                       rows="3"
+                      className="form-textarea"
                     />
                   </div>
-                  
-                  <div className="order-summary">
-                    <h4>Ваш заказ:</h4>
-                    <div className="order-items">
-                      {cartItems.map((item) => (
-                        <div key={item.id} className="order-item">
-                          <span>{item.title} × {item.quantity}</span>
-                          <span>{(item.price * item.quantity).toLocaleString()} ₽</span>
-                        </div>
-                      ))}
-                    </div>
-                    {priceCalculation.appliedPromotion && (
-                      <div className="discount-info">
-                        <div className="discount-line">
-                          <span>Подытог: {priceCalculation.subtotal.toLocaleString()} ₽</span>
-                        </div>
-                        <div className="discount-line">
-                          <span className="discount-text">
-                            <FaPercent /> Скидка "{priceCalculation.appliedPromotion.title}" ({priceCalculation.appliedPromotion.discount}%):
-                          </span>
-                          <span className="discount-amount">
-                            -{priceCalculation.discountAmount.toLocaleString()} ₽
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                    <div className="order-total">
-                      <strong>Итого: {priceCalculation.total.toLocaleString()} ₽</strong>
-                    </div>
-                  </div>
-                  
-                  <div className="form-actions">
-                    <button type="button" onClick={() => setShowCheckout(false)} className="cancel-btn">
-                      Отмена
-                    </button>
-                    <button type="submit" className="submit-btn">
-                      Подтвердить заказ
-                    </button>
-                  </div>
-                </form>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </div>
+
+                <div className="form-actions">
+                  <button
+                    type="button"
+                    className="cancel-btn"
+                    onClick={() => setShowCheckout(false)}
+                  >
+                    Отмена
+                  </button>
+                  <button type="submit" className="submit-btn">
+                    Подтвердить заказ
+                  </button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        )}
       </div>
     </div>
   );
