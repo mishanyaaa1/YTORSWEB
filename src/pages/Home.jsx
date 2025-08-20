@@ -11,6 +11,7 @@ import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
+import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 import Reveal from '../components/Reveal';
 import './Home.css';
@@ -124,9 +125,13 @@ function Home() {
                     </Link>
                   </div>
                 </div>
-                
                 <div className="hero-image">
                   <div className="hero-placeholder">
+                    {aboutContent?.homeHero?.visualImage ? (
+                      <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
+                    ) : (
+                      <HeroVisual />
+                    )}
                   </div>
                   <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
                   {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
@@ -136,7 +141,6 @@ function Home() {
                     </Link>
                   ))}
                 </div>
-
               </div>
             </div>
           </section>
