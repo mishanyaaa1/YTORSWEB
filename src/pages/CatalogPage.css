@@ -1,87 +1,88 @@
-/* ===== СТРАНИЦА КАТАЛОГА ===== */
 .catalog-page {
-  padding: 2rem 0 4rem;
+  padding: 120px 0 60px;
   min-height: 100vh;
-  background: var(--bg-primary);
+  background: #0a0a0a;
+  color: #ffffff;
+}
+
+/* Анимированный фон для страницы каталога */
+.catalog-page {
+	position: relative;
+	overflow: hidden;
+}
+
+.catalog-page .container {
+	position: relative;
+	z-index: 1;
+}
+
+.catalog-page::before {
+	content: "";
+	position: absolute;
+	inset: -12%;
+	background:
+		repeating-linear-gradient(-30deg, rgba(230, 163, 74, 0.05) 0 2px, transparent 2px 160px),
+		radial-gradient(ellipse at 18% 28%, rgba(230, 163, 74, 0.10), transparent 45%),
+		radial-gradient(ellipse at 82% 72%, rgba(0, 204, 102, 0.08), transparent 45%);
+	animation: hero-sweep 30s linear infinite;
+	filter: blur(0.2px);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.catalog-page::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(circle, rgba(230,163,74,0.16) 0.5px, transparent 0.8px) 0 0 / 80px 80px,
+		radial-gradient(circle, rgba(0,204,102,0.12) 0.5px, transparent 0.8px) 40px 40px / 120px 120px;
+	animation: particles-shift 55s linear infinite;
+	opacity: 0.3;
+	pointer-events: none;
+	z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.catalog-page::before,
+	.catalog-page::after {
+		animation: none !important;
+	}
 }
 
 .catalog-header {
   text-align: center;
-  margin-bottom: 4rem;
-  padding: 3rem 0;
-  position: relative;
+  margin-bottom: 3rem;
 }
 
-.catalog-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: var(--gradient-primary);
-  border-radius: 2px;
-}
-
-.page-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  background: var(--gradient-primary);
+.catalog-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1.1;
 }
 
-.page-subtitle {
-  font-size: 1.3rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
+.catalog-header p {
+  font-size: 1.2rem;
+  color: #cccccc;
   max-width: 600px;
   margin: 0 auto;
-  opacity: 0;
-  animation: fade-in-up 1s ease-out 0.3s forwards;
+  line-height: 1.8;
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Адаптивность */
 @media (max-width: 768px) {
   .catalog-page {
-    padding: 1rem 0 2rem;
+    padding: 100px 0 40px;
   }
   
-  .catalog-header {
-    margin-bottom: 3rem;
-    padding: 2rem 0;
-  }
-  
-  .page-title {
-    font-size: 2.5rem;
-  }
-  
-  .page-subtitle {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-title {
+  .catalog-header h1 {
     font-size: 2rem;
   }
   
-  .page-subtitle {
+  .catalog-header p {
     font-size: 1rem;
   }
 }

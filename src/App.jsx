@@ -7,8 +7,7 @@ import {
   FaMapMarkerAlt,
   FaShoppingCart,
   FaSearch,
-  FaBars,
-  FaTimes
+  FaBars
 } from 'react-icons/fa';
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
@@ -27,7 +26,6 @@ function App() {
   // wishlist removed
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [contactsActive, setContactsActive] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   useEffect(() => {
     // Отслеживаем, в зоне видимости ли блок контактов на странице 
@@ -114,19 +112,6 @@ function App() {
     setIsSearchModalOpen(false);
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  // Закрытие мобильного меню при изменении маршрута
-  useEffect(() => {
-    closeMobileMenu();
-  }, [location.pathname]);
-
   // wishlist removed
 
   return (
@@ -187,122 +172,23 @@ function App() {
               </Link>
             </nav>
             <div className="header-actions">
-              <button className="icon-button icon-animated" onClick={handleSearchClick}>
-                <FaSearch className="icon-wobble" />
+              <button className="icon-button" onClick={handleSearchClick}>
+                <FaSearch />
               </button>
               {/* wishlist button removed */}
-              <button className="icon-button cart-button icon-animated" onClick={handleCartClick}>
-                <FaShoppingCart className="icon-bounce" />
+              <button className="icon-button cart-button" onClick={handleCartClick}>
+                <FaShoppingCart />
                 {getCartItemsCount() > 0 && (
                   <span className="cart-count">{getCartItemsCount()}</span>
                 )}
               </button>
-              <button 
-                className="mobile-menu-button"
-                onClick={toggleMobileMenu}
-                aria-label="Открыть меню"
-              >
-                {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+              <button className="mobile-menu-button">
+                <FaBars />
               </button>
             </div>
           </div>
         </div>
       </header>
-
-      {/* Мобильное меню */}
-      {isMobileMenuOpen && (
-        <div className="mobile-menu-overlay" onClick={closeMobileMenu}>
-          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-            <div className="mobile-menu-header">
-              <BrandLogo to="/" className="mobile-logo" size="sm" text="ЮТОРС" />
-              <button 
-                className="mobile-menu-close"
-                onClick={closeMobileMenu}
-                aria-label="Закрыть меню"
-              >
-                <FaTimes />
-              </button>
-            </div>
-            
-            <nav className="mobile-nav">
-              <Link 
-                to="/" 
-                className={`mobile-nav-link ${isActiveLink('/') ? 'active' : ''}`}
-                onClick={closeMobileMenu}
-              >
-                Главная
-              </Link>
-              <Link 
-                to="/catalog" 
-                className={`mobile-nav-link ${isActiveLink('/catalog') ? 'active' : ''}`}
-                onClick={closeMobileMenu}
-              >
-                Каталог
-              </Link>
-              <Link 
-                to="/promotions" 
-                className={`mobile-nav-link ${isActiveLink('/promotions') ? 'active' : ''}`}
-                onClick={closeMobileMenu}
-              >
-                Акции
-              </Link>
-              <Link 
-                to="/about" 
-                className={`mobile-nav-link ${location.pathname.startsWith('/about') && !contactsActive && location.hash !== '#contacts' ? 'active' : ''}`}
-                onClick={(e)=>{
-                  e.preventDefault();
-                  closeMobileMenu();
-                  setContactsActive(false);
-                  if (location.pathname.startsWith('/about')) {
-                    navigate('/about', { replace: true });
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  } else {
-                    navigate('/about');
-                    setTimeout(()=> window.scrollTo({ top: 0, behavior: 'smooth' }), 50);
-                  }
-                }}
-              >
-                О компании
-              </Link>
-              <Link
-                to="/about#contacts"
-                className={`mobile-nav-link ${location.pathname.startsWith('/about') && (contactsActive || location.hash === '#contacts') ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  closeMobileMenu();
-                  navigate('/about#contacts');
-                  setTimeout(() => {
-                    const el = document.getElementById('contacts');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 50);
-                }}
-              >
-                Контакты
-              </Link>
-            </nav>
-
-            <div className="mobile-menu-actions">
-              <button className="mobile-action-btn" onClick={() => {
-                closeMobileMenu();
-                handleSearchClick();
-              }}>
-                <FaSearch />
-                Поиск
-              </button>
-              <button className="mobile-action-btn" onClick={() => {
-                closeMobileMenu();
-                handleCartClick();
-              }}>
-                <FaShoppingCart />
-                Корзина
-                {getCartItemsCount() > 0 && (
-                  <span className="mobile-cart-count">{getCartItemsCount()}</span>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <main className="main-content">
         <Outlet />
@@ -318,13 +204,13 @@ function App() {
             <div className="footer-section">
               <h3>{footerData.contactsSection.title}</h3>
               <a href={`tel:${footerData.contactsSection.phone.replace(/[^+\d]/g, '')}`}>
-                <FaPhone className="icon-pulse" /> {footerData.contactsSection.phone}
+                <FaPhone /> {footerData.contactsSection.phone}
               </a>
               <a href={`mailto:${footerData.contactsSection.email}`}>
-                <FaEnvelope className="icon-wobble" /> {footerData.contactsSection.email}
+                <FaEnvelope /> {footerData.contactsSection.email}
               </a>
               <a href="/about#contacts" onClick={(e)=>{e.preventDefault(); navigate('/about#contacts'); setTimeout(()=>{ const el=document.getElementById('contacts'); if(el) el.scrollIntoView({behavior:'smooth'}); },50);}}>
-                <FaMapMarkerAlt className="icon-bounce" /> {footerData.contactsSection.address}
+                <FaMapMarkerAlt /> {footerData.contactsSection.address}
               </a>
             </div>
             <div className="footer-section">
