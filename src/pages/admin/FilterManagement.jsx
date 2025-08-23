@@ -1,76 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminData } from '../../context/AdminDataContext';
-import { FaSave, FaFilter, FaPlus, FaEdit, FaTrash, FaTimes } from 'react-icons/fa';
+import { FaSave, FaFilter } from 'react-icons/fa';
 import './FilterManagement.css';
 
 export default function FilterManagement() {
-  const { filterSettings, updateFilterSettings, addFilter, removeFilter, updateFilter, toggleFilter } = useAdminData();
+  const { filterSettings, updateFilterSettings } = useAdminData();
   
-  // Состояние для нового фильтра
-  const [newFilter, setNewFilter] = useState({
-    name: '',
-    type: 'select',
-    description: ''
+  // Состояние для настроек фильтров
+  const [filterFormData, setFilterFormData] = useState({
+    showBrandFilter: filterSettings.showBrandFilter,
+    showCategoryFilter: filterSettings.showCategoryFilter,
+    showSubcategoryFilter: filterSettings.showSubcategoryFilter,
+    showPriceFilter: filterSettings.showPriceFilter,
+    showStockFilter: filterSettings.showStockFilter
   });
 
-  // Состояние для редактирования фильтра
-  const [editingFilter, setEditingFilter] = useState(null);
+  // Синхронизируем с данными контекста при изменении
+  useEffect(() => {
+    setFilterFormData({
+      showBrandFilter: filterSettings.showBrandFilter,
+      showCategoryFilter: filterSettings.showCategoryFilter,
+      showSubcategoryFilter: filterSettings.showSubcategoryFilter,
+      showPriceFilter: filterSettings.showPriceFilter,
+      showStockFilter: filterSettings.showStockFilter
+    });
+  }, [filterSettings]);
 
-  const handleNewFilterChange = (field, value) => {
-    setNewFilter(prev => ({
+  const handleFilterSettingChange = (setting, value) => {
+    setFilterFormData(prev => ({
       ...prev,
-      [field]: value
+      [setting]: value
     }));
   };
 
-  const handleAddFilter = () => {
-    if (!newFilter.name.trim()) {
-      alert('Введите название фильтра!');
-      return;
+  const saveFilterSettings = () => {
+    try {
+      updateFilterSettings(filterFormData);
+      alert('Настройки фильтров сохранены!');
+    } catch (error) {
+      console.error('FilterManagement: Error saving filter settings:', error);
+      alert('Ошибка при сохранении настроек фильтров!');
     }
-    
-    addFilter(newFilter);
-    setNewFilter({ name: '', type: 'select', description: '' });
-    alert('Фильтр добавлен!');
-  };
-
-  const handleRemoveFilter = (filterId) => {
-    if (window.confirm('Вы уверены, что хотите удалить этот фильтр?')) {
-      removeFilter(filterId);
-      alert('Фильтр удален!');
-    }
-  };
-
-  const handleEditFilter = (filter) => {
-    setEditingFilter(filter);
-  };
-
-  const handleSaveEdit = () => {
-    if (!editingFilter.name.trim()) {
-      alert('Введите название фильтра!');
-      return;
-    }
-    
-    updateFilter(editingFilter.id, editingFilter);
-    setEditingFilter(null);
-    alert('Фильтр обновлен!');
-  };
-
-  const handleCancelEdit = () => {
-    setEditingFilter(null);
   };
 
   const resetToDefaults = () => {
-    const defaultFilters = [
-      { id: 'category', name: 'Категория', key: 'showCategoryFilter', enabled: true, type: 'select', description: 'Основная категория товара (Двигатель, Трансмиссия и т.д.)' },
-      { id: 'subcategory', name: 'Подкатегория', key: 'showSubcategoryFilter', enabled: true, type: 'select', description: 'Подкатегория товара (Основные узлы, Фильтры и т.д.)' },
-      { id: 'brand', name: 'Производитель', key: 'showBrandFilter', enabled: true, type: 'select', description: 'Бренд/производитель товара' },
-      { id: 'price', name: 'Цена', key: 'showPriceFilter', enabled: true, type: 'range', description: 'Диапазон цен товара' },
-      { id: 'stock', name: 'В наличии', key: 'showStockFilter', enabled: true, type: 'checkbox', description: 'Показывать только товары в наличии' }
-    ];
-    
-    updateFilterSettings({ filters: defaultFilters });
-    alert('Фильтры сброшены к значениям по умолчанию!');
+    const defaultSettings = {
+      showBrandFilter: true,
+      showCategoryFilter: true,
+      showSubcategoryFilter: true,
+      showPriceFilter: true,
+      showStockFilter: true
+    };
+    setFilterFormData(defaultSettings);
   };
 
   return (
@@ -110,90 +91,88 @@ export default function FilterManagement() {
 
         <div className="settings-section">
           <div className="section-header">
-            <h3>Управление фильтрами</h3>
+            <h3>Настройки отображения фильтров</h3>
             <button onClick={resetToDefaults} className="reset-btn">
-              Сбросить к умолчанию
+              Включить все фильтры
             </button>
           </div>
-
-          {/* Форма добавления нового фильтра */}
-          <div className="add-filter-form">
-            <h4>Добавить новый фильтр</h4>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Название фильтра:</label>
+          
+          <div className="filter-settings-grid">
+            <div className="filter-setting-item">
+              <label className="filter-setting-label">
                 <input
-                  type="text"
-                  value={newFilter.name}
-                  onChange={(e) => handleNewFilterChange('name', e.target.value)}
-                  placeholder="Например: Размер, Цвет, Материал"
+                  type="checkbox"
+                  checked={filterFormData.showCategoryFilter}
+                  onChange={(e) => handleFilterSettingChange('showCategoryFilter', e.target.checked)}
                 />
-              </div>
-              <div className="form-group">
-                <label>Тип фильтра:</label>
-                <select
-                  value={newFilter.type}
-                  onChange={(e) => handleNewFilterChange('type', e.target.value)}
-                >
-                  <option value="select">Выпадающий список</option>
-                  <option value="checkbox">Чекбокс</option>
-                  <option value="range">Диапазон</option>
-                  <option value="text">Текстовое поле</option>
-                </select>
-              </div>
+                <span className="filter-setting-text">
+                  <strong>Фильтр "Категория"</strong>
+                  <small>Основная категория товара (Двигатель, Трансмиссия и т.д.)</small>
+                </span>
+              </label>
             </div>
-            <div className="form-group">
-              <label>Описание:</label>
-              <textarea
-                value={newFilter.description}
-                onChange={(e) => handleNewFilterChange('description', e.target.value)}
-                placeholder="Краткое описание фильтра"
-                rows={2}
-              />
+
+            <div className="filter-setting-item">
+              <label className="filter-setting-label">
+                <input
+                  type="checkbox"
+                  checked={filterFormData.showSubcategoryFilter}
+                  onChange={(e) => handleFilterSettingChange('showSubcategoryFilter', e.target.checked)}
+                />
+                <span className="filter-setting-text">
+                  <strong>Фильтр "Подкатегория"</strong>
+                  <small>Подкатегория товара (Основные узлы, Фильтры и т.д.)</small>
+                </span>
+              </label>
             </div>
-            <button onClick={handleAddFilter} className="add-btn">
-              <FaPlus /> Добавить фильтр
-            </button>
+
+            <div className="filter-setting-item highlight">
+              <label className="filter-setting-label">
+                <input
+                  type="checkbox"
+                  checked={filterFormData.showBrandFilter}
+                  onChange={(e) => handleFilterSettingChange('showBrandFilter', e.target.checked)}
+                />
+                <span className="filter-setting-text">
+                  <strong>Фильтр "Производитель"</strong>
+                  <small>Бренд/производитель товара</small>
+                </span>
+              </label>
+            </div>
+
+            <div className="filter-setting-item">
+              <label className="filter-setting-label">
+                <input
+                  type="checkbox"
+                  checked={filterFormData.showPriceFilter}
+                  onChange={(e) => handleFilterSettingChange('showPriceFilter', e.target.checked)}
+                />
+                <span className="filter-setting-text">
+                  <strong>Фильтр "Цена"</strong>
+                  <small>Диапазон цен товара</small>
+                </span>
+              </label>
+            </div>
+
+            <div className="filter-setting-item">
+              <label className="filter-setting-label">
+                <input
+                  type="checkbox"
+                  checked={filterFormData.showStockFilter}
+                  onChange={(e) => handleFilterSettingChange('showStockFilter', e.target.checked)}
+                />
+                <span className="filter-setting-text">
+                  <strong>Фильтр "В наличии"</strong>
+                  <small>Показывать только товары в наличии</small>
+                </span>
+              </label>
+            </div>
           </div>
 
-          {/* Список существующих фильтров */}
-          <div className="existing-filters">
-            <h4>Существующие фильтры</h4>
-            <div className="filter-list">
-              {filterSettings.filters.map((filter) => (
-                <div key={filter.id} className={`filter-item ${filter.enabled ? 'enabled' : 'disabled'}`}>
-                  <div className="filter-header">
-                    <div className="filter-info">
-                      <input
-                        type="checkbox"
-                        checked={filter.enabled}
-                        onChange={() => toggleFilter(filter.id)}
-                        className="filter-toggle"
-                      />
-                      <span className="filter-name">{filter.name}</span>
-                      <span className="filter-type">({filter.type})</span>
-                    </div>
-                    <div className="filter-actions">
-                      <button
-                        onClick={() => handleEditFilter(filter)}
-                        className="edit-btn"
-                        title="Редактировать"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        onClick={() => handleRemoveFilter(filter.id)}
-                        className="remove-btn"
-                        title="Удалить"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="filter-description">{filter.description}</div>
-                </div>
-              ))}
-            </div>
+          <div className="filter-settings-actions">
+            <button onClick={saveFilterSettings} className="save-btn">
+              <FaSave /> Сохранить настройки
+            </button>
           </div>
         </div>
 
@@ -203,85 +182,43 @@ export default function FilterManagement() {
           <div className="filter-preview">
             <div className="preview-filters">
               <h4>Фильтры</h4>
-              {filterSettings.filters.filter(f => f.enabled).map((filter) => (
-                <div key={filter.id} className="preview-filter">
-                  <label>{filter.name}</label>
-                  {filter.type === 'select' && (
-                    <div className="preview-select">Все</div>
-                  )}
-                  {filter.type === 'checkbox' && (
-                    <div className="preview-checkbox">
-                      <input type="checkbox" disabled />
-                    </div>
-                  )}
-                  {filter.type === 'range' && (
-                    <div className="preview-price-range">
-                      <span>от</span> - <span>до</span>
-                    </div>
-                  )}
-                  {filter.type === 'text' && (
-                    <div className="preview-text">
-                      <input type="text" disabled placeholder="Введите значение..." />
-                    </div>
-                  )}
+              {filterFormData.showCategoryFilter && (
+                <div className="preview-filter">
+                  <label>Категория</label>
+                  <div className="preview-select">Все</div>
                 </div>
-              ))}
+              )}
+              {filterFormData.showSubcategoryFilter && (
+                <div className="preview-filter">
+                  <label>Подкатегория</label>
+                  <div className="preview-select">Все</div>
+                </div>
+              )}
+              {filterFormData.showBrandFilter && (
+                <div className="preview-filter">
+                  <label>Производитель</label>
+                  <div className="preview-select">Все</div>
+                </div>
+              )}
+              {filterFormData.showPriceFilter && (
+                <div className="preview-filter">
+                  <label>Цена, ₽</label>
+                  <div className="preview-price-range">
+                    <span>от</span> - <span>до</span>
+                  </div>
+                </div>
+              )}
+              {filterFormData.showStockFilter && (
+                <div className="preview-filter">
+                  <label>
+                    <input type="checkbox" disabled /> Только в наличии
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Модальное окно редактирования фильтра */}
-      {editingFilter && (
-        <div className="edit-modal-overlay">
-          <div className="edit-modal">
-            <div className="modal-header">
-              <h3>Редактировать фильтр</h3>
-              <button onClick={handleCancelEdit} className="close-btn">
-                <FaTimes />
-              </button>
-            </div>
-            <div className="modal-content">
-              <div className="form-group">
-                <label>Название фильтра:</label>
-                <input
-                  type="text"
-                  value={editingFilter.name}
-                  onChange={(e) => setEditingFilter(prev => ({ ...prev, name: e.target.value }))}
-                />
-              </div>
-              <div className="form-group">
-                <label>Тип фильтра:</label>
-                <select
-                  value={editingFilter.type}
-                  onChange={(e) => setEditingFilter(prev => ({ ...prev, type: e.target.value }))}
-                >
-                  <option value="select">Выпадающий список</option>
-                  <option value="checkbox">Чекбокс</option>
-                  <option value="range">Диапазон</option>
-                  <option value="text">Текстовое поле</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Описание:</label>
-                <textarea
-                  value={editingFilter.description}
-                  onChange={(e) => setEditingFilter(prev => ({ ...prev, description: e.target.value }))}
-                  rows={3}
-                />
-              </div>
-            </div>
-            <div className="modal-actions">
-              <button onClick={handleCancelEdit} className="cancel-btn">
-                Отмена
-              </button>
-              <button onClick={handleSaveEdit} className="save-btn">
-                <FaSave /> Сохранить
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

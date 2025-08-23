@@ -20,8 +20,8 @@ export default function Catalog() {
   const { addToCartWithNotification } = useCartActions();
 
   // Создаем список категорий и брендов
-  const categoryList = filterSettings.filters.find(f => f.id === 'category')?.enabled ? ['Все', ...Object.keys(categories)] : [];
-  const brandList = filterSettings.filters.find(f => f.id === 'brand')?.enabled ? ['Все', ...brands] : [];
+  const categoryList = filterSettings.showCategoryFilter ? ['Все', ...Object.keys(categories)] : [];
+  const brandList = filterSettings.showBrandFilter ? ['Все', ...brands] : [];
 
   const minPrice = 0;
   const maxPrice = 1000000000; // верхняя граница по умолчанию (1 млрд)
@@ -66,44 +66,44 @@ export default function Catalog() {
   };
 
   const resetFilters = () => {
-    if (filterSettings.filters.find(f => f.id === 'category')?.enabled) {
+    if (filterSettings.showCategoryFilter) {
       setSelectedCategory('Все');
     }
-    if (filterSettings.filters.find(f => f.id === 'subcategory')?.enabled) {
+    if (filterSettings.showSubcategoryFilter) {
       setSelectedSubcategory('Все');
     }
-    if (filterSettings.filters.find(f => f.id === 'brand')?.enabled) {
+    if (filterSettings.showBrandFilter) {
       setSelectedBrand('Все');
     }
-    if (filterSettings.filters.find(f => f.id === 'price')?.enabled) {
+    if (filterSettings.showPriceFilter) {
       setPriceRange([minPrice, maxPrice]);
       setMinPriceInput('');
       setMaxPriceInput('');
     }
-    if (filterSettings.filters.find(f => f.id === 'stock')?.enabled) {
+    if (filterSettings.showStockFilter) {
       setInStock(false);
     }
   };
 
   // Получаем подкатегории для выбранной категории
-  const availableSubcategories = !filterSettings.filters.find(f => f.id === 'category')?.enabled || !filterSettings.filters.find(f => f.id === 'subcategory')?.enabled || selectedCategory === 'Все' 
+  const availableSubcategories = !filterSettings.showCategoryFilter || !filterSettings.showSubcategoryFilter || selectedCategory === 'Все' 
     ? [] 
     : ['Все', ...(categories[selectedCategory] || [])];
 
   // Сброс подкатегории при смене основной категории
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    if (filterSettings.filters.find(f => f.id === 'subcategory')?.enabled) {
+    if (filterSettings.showSubcategoryFilter) {
       setSelectedSubcategory('Все');
     }
   };
 
   const filteredProducts = products.filter((product) => {
-    const byCategory = !filterSettings.filters.find(f => f.id === 'category')?.enabled || selectedCategory === 'Все' || product.category === selectedCategory;
-    const bySubcategory = !filterSettings.filters.find(f => f.id === 'subcategory')?.enabled || selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
-    const byBrand = !filterSettings.filters.find(f => f.id === 'brand')?.enabled || selectedBrand === 'Все' || product.brand === selectedBrand;
-    const byPrice = !filterSettings.filters.find(f => f.id === 'price')?.enabled || (product.price >= priceRange[0] && product.price <= priceRange[1]);
-    const byStock = !filterSettings.filters.find(f => f.id === 'stock')?.enabled || !inStock || product.available;
+    const byCategory = !filterSettings.showCategoryFilter || selectedCategory === 'Все' || product.category === selectedCategory;
+    const bySubcategory = !filterSettings.showSubcategoryFilter || selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
+    const byBrand = !filterSettings.showBrandFilter || selectedBrand === 'Все' || product.brand === selectedBrand;
+    const byPrice = !filterSettings.showPriceFilter || (product.price >= priceRange[0] && product.price <= priceRange[1]);
+    const byStock = !filterSettings.showStockFilter || !inStock || product.available;
     return byCategory && bySubcategory && byBrand && byPrice && byStock;
   });
 
@@ -119,7 +119,7 @@ export default function Catalog() {
     <div className="catalog-wrapper">
       <aside className="catalog-filters">
         <h3>Фильтры</h3>
-        {filterSettings.filters.find(f => f.id === 'category')?.enabled && (
+        {filterSettings.showCategoryFilter && (
           <div className="filter-group">
             <label>Категория</label>
             <select value={selectedCategory} onChange={e => handleCategoryChange(e.target.value)}>
@@ -129,7 +129,7 @@ export default function Catalog() {
             </select>
           </div>
         )}
-        {availableSubcategories.length > 0 && filterSettings.filters.find(f => f.id === 'subcategory')?.enabled && (
+        {availableSubcategories.length > 0 && filterSettings.showSubcategoryFilter && (
           <div className="filter-group">
             <label>Подкатегория</label>
             <select value={selectedSubcategory} onChange={e => setSelectedSubcategory(e.target.value)}>
@@ -139,7 +139,7 @@ export default function Catalog() {
             </select>
           </div>
         )}
-        {filterSettings.filters.find(f => f.id === 'brand')?.enabled && (
+        {filterSettings.showBrandFilter && (
           <div className="filter-group">
             <label>Производитель</label>
             <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
@@ -149,7 +149,7 @@ export default function Catalog() {
             </select>
           </div>
         )}
-        {filterSettings.filters.find(f => f.id === 'price')?.enabled && (
+        {filterSettings.showPriceFilter && (
           <div className="filter-group">
             <label>Цена, ₽</label>
             <div className="price-range" role="group" aria-label="Диапазон цены">
@@ -175,7 +175,7 @@ export default function Catalog() {
             </div>
           </div>
         )}
-        {filterSettings.filters.find(f => f.id === 'stock')?.enabled && (
+        {filterSettings.showStockFilter && (
           <div className="filter-group">
             <label>
               <input

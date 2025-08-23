@@ -95,67 +95,9 @@
   outline: none;
 }
 
-.content-management .form-group input:focus,
-.content-management .form-group textarea:focus,
-.content-management .form-group select:focus {
-  outline: none;
-  border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
-}
-
-/* Стили для select элементов в админке */
-.content-management .form-group select option {
-  background-color: #2a2a2a;
-  color: #ffffff;
-  padding: 8px 12px;
-}
-
-.content-management .form-group select option:hover {
-  background-color: #e6a34a;
-  color: #000000;
-}
-
-.content-management .form-group select option:checked,
-.content-management .form-group select option:selected {
-  background-color: #e6a34a;
-  color: #000000;
-}
-
-/* Стили для input и textarea элементов в админке */
-.content-management .form-group input,
-.content-management .form-group textarea {
-  background-color: #2a2a2a !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
-}
-
-/* Стили для placeholder в input и textarea в админке */
-.content-management .form-group input::placeholder,
-.content-management .form-group textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-  opacity: 1;
-}
-
-/* Стили для webkit placeholder */
-.form-group input::-webkit-input-placeholder,
-.form-group textarea::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-  opacity: 1;
-}
-
-/* Стили для moz placeholder */
-.form-group input::-moz-placeholder,
-.form-group textarea::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-  opacity: 1;
-}
+.form-group textarea:focus,
+.form-group select:focus {
   border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);

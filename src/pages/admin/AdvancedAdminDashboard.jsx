@@ -13,7 +13,6 @@ import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
 import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
-import './GlobalAdminStyles.css';
 import BrandLogo from '../../components/BrandLogo';
 
 function AdvancedAdminDashboard() {
