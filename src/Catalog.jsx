@@ -9,7 +9,7 @@ import BrandMark from './components/BrandMark';
 import './Catalog.css';
 
 export default function Catalog() {
-  const { products, categories, brands } = useAdminData();
+  const { products, categories, brands, filterSettings } = useAdminData();
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
   const [selectedBrand, setSelectedBrand] = useState('Все');
@@ -20,8 +20,8 @@ export default function Catalog() {
   const { addToCartWithNotification } = useCartActions();
 
   // Создаем список категорий и брендов
-  const categoryList = ['Все', ...Object.keys(categories)];
-  const brandList = ['Все', ...brands];
+  const categoryList = filterSettings.showCategoryFilter ? ['Все', ...Object.keys(categories)] : [];
+  const brandList = filterSettings.showBrandFilter ? ['Все', ...brands] : [];
 
   const minPrice = 0;
   const maxPrice = 1000000000; // верхняя граница по умолчанию (1 млрд)
@@ -66,32 +66,44 @@ export default function Catalog() {
   };
 
   const resetFilters = () => {
-    setSelectedCategory('Все');
-    setSelectedSubcategory('Все');
-    setSelectedBrand('Все');
-    setPriceRange([minPrice, maxPrice]);
-    setMinPriceInput('');
-    setMaxPriceInput('');
-    setInStock(false);
+    if (filterSettings.showCategoryFilter) {
+      setSelectedCategory('Все');
+    }
+    if (filterSettings.showSubcategoryFilter) {
+      setSelectedSubcategory('Все');
+    }
+    if (filterSettings.showBrandFilter) {
+      setSelectedBrand('Все');
+    }
+    if (filterSettings.showPriceFilter) {
+      setPriceRange([minPrice, maxPrice]);
+      setMinPriceInput('');
+      setMaxPriceInput('');
+    }
+    if (filterSettings.showStockFilter) {
+      setInStock(false);
+    }
   };
 
   // Получаем подкатегории для выбранной категории
-  const availableSubcategories = selectedCategory === 'Все' 
+  const availableSubcategories = !filterSettings.showCategoryFilter || !filterSettings.showSubcategoryFilter || selectedCategory === 'Все' 
     ? [] 
     : ['Все', ...(categories[selectedCategory] || [])];
 
   // Сброс подкатегории при смене основной категории
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setSelectedSubcategory('Все');
+    if (filterSettings.showSubcategoryFilter) {
+      setSelectedSubcategory('Все');
+    }
   };
 
   const filteredProducts = products.filter((product) => {
-    const byCategory = selectedCategory === 'Все' || product.category === selectedCategory;
-    const bySubcategory = selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
-    const byBrand = selectedBrand === 'Все' || product.brand === selectedBrand;
-    const byPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-    const byStock = !inStock || product.available;
+    const byCategory = !filterSettings.showCategoryFilter || selectedCategory === 'Все' || product.category === selectedCategory;
+    const bySubcategory = !filterSettings.showSubcategoryFilter || selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
+    const byBrand = !filterSettings.showBrandFilter || selectedBrand === 'Все' || product.brand === selectedBrand;
+    const byPrice = !filterSettings.showPriceFilter || (product.price >= priceRange[0] && product.price <= priceRange[1]);
+    const byStock = !filterSettings.showStockFilter || !inStock || product.available;
     return byCategory && bySubcategory && byBrand && byPrice && byStock;
   });
 
@@ -107,15 +119,17 @@ export default function Catalog() {
     <div className="catalog-wrapper">
       <aside className="catalog-filters">
         <h3>Фильтры</h3>
-        <div className="filter-group">
-          <label>Категория</label>
-          <select value={selectedCategory} onChange={e => handleCategoryChange(e.target.value)}>
-            {categoryList.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-        {availableSubcategories.length > 0 && (
+        {filterSettings.showCategoryFilter && (
+          <div className="filter-group">
+            <label>Категория</label>
+            <select value={selectedCategory} onChange={e => handleCategoryChange(e.target.value)}>
+              {categoryList.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        {availableSubcategories.length > 0 && filterSettings.showSubcategoryFilter && (
           <div className="filter-group">
             <label>Подкатегория</label>
             <select value={selectedSubcategory} onChange={e => setSelectedSubcategory(e.target.value)}>
@@ -125,48 +139,54 @@ export default function Catalog() {
             </select>
           </div>
         )}
-        <div className="filter-group">
-          <label>Производитель</label>
-          <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
-            {brandList.map(brand => (
-              <option key={brand} value={brand}>{brand}</option>
-            ))}
-          </select>
-        </div>
-        <div className="filter-group">
-          <label>Цена, ₽</label>
-          <div className="price-range" role="group" aria-label="Диапазон цены">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={minPriceInput}
-              placeholder={String(minPrice)}
-              onChange={handleMinPriceChange}
-              onBlur={normalizeMinOnBlur}
-            />
-            <span>-</span>
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={maxPriceInput}
-              placeholder={String(maxPrice)}
-              onChange={handleMaxPriceChange}
-              onBlur={normalizeMaxOnBlur}
-            />
+        {filterSettings.showBrandFilter && (
+          <div className="filter-group">
+            <label>Производитель</label>
+            <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
+              {brandList.map(brand => (
+                <option key={brand} value={brand}>{brand}</option>
+              ))}
+            </select>
           </div>
-        </div>
-        <div className="filter-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={inStock}
-              onChange={e => setInStock(e.target.checked)}
-            />
-            Только в наличии
-          </label>
-        </div>
+        )}
+        {filterSettings.showPriceFilter && (
+          <div className="filter-group">
+            <label>Цена, ₽</label>
+            <div className="price-range" role="group" aria-label="Диапазон цены">
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={minPriceInput}
+                placeholder={String(minPrice)}
+                onChange={handleMinPriceChange}
+                onBlur={normalizeMinOnBlur}
+              />
+              <span>-</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={maxPriceInput}
+                placeholder={String(maxPrice)}
+                onChange={handleMaxPriceChange}
+                onBlur={normalizeMaxOnBlur}
+              />
+            </div>
+          </div>
+        )}
+        {filterSettings.showStockFilter && (
+          <div className="filter-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={inStock}
+                onChange={e => setInStock(e.target.checked)}
+              />
+              Только в наличии
+            </label>
+          </div>
+        )}
         <div className="filter-actions" style={{ marginTop: '8px' }}>
           <button onClick={resetFilters} className="catalog-reset-btn">
             Сбросить фильтры

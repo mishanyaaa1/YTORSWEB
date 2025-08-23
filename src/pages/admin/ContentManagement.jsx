@@ -147,6 +147,8 @@ export default function ContentManagement() {
     }));
   };
 
+
+
   const handleFooterLinkChange = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -339,6 +341,8 @@ export default function ContentManagement() {
       alert('Ошибка при сохранении контента!');
     }
   };
+
+
 
   const tabs = [
     { id: 'home', label: 'Главная (визуальный блок)' },
@@ -1226,6 +1230,8 @@ export default function ContentManagement() {
             </div>
           </div>
         )}
+
+
       </div>
 
       <div className="form-actions">

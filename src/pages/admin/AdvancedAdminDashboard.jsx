@@ -8,9 +8,10 @@ import ContentManagement from './ContentManagement';
 import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import AdvertisingManagement from './AdvertisingManagement';
+import FilterManagement from './FilterManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -47,6 +48,7 @@ function AdvancedAdminDashboard() {
     { id: 'popular', label: 'Популярные товары', icon: <FaStar /> },
     { id: 'promotions', label: 'Акции', icon: <FaTags /> },
     { id: 'orders', label: 'Заказы', icon: <FaShoppingCart /> },
+    { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
     { id: 'advertising', label: 'Реклама', icon: <FaAd /> }
   ];
@@ -150,6 +152,8 @@ function AdvancedAdminDashboard() {
         return <PromotionManagement />;
       case 'orders':
         return <OrderManagement />;
+      case 'filters':
+        return <FilterManagement />;
       case 'content':
         return <ContentManagement />;
       case 'advertising':

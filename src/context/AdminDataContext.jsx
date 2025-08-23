@@ -174,6 +174,27 @@ export const AdminDataProvider = ({ children }) => {
     return initialAboutContent;
   });
 
+  // Настройки фильтров каталога
+  const [filterSettings, setFilterSettings] = useState(() => {
+    const saved = localStorage.getItem('adminFilterSettings');
+    return saved ? JSON.parse(saved) : {
+      showBrandFilter: true, // По умолчанию фильтр производителя включен
+      showCategoryFilter: true,
+      showSubcategoryFilter: true,
+      showPriceFilter: true,
+      showStockFilter: true
+    };
+  });
+
+  // Сохраняем настройки фильтров в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminFilterSettings', JSON.stringify(filterSettings));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [filterSettings]);
+
   const [popularProductIds, setPopularProductIds] = useState(() => {
     const saved = localStorage.getItem('adminPopularProducts');
     return saved ? JSON.parse(saved) : [11, 1, 8, 2]; // ID популярных товаров по умолчанию
@@ -561,6 +582,12 @@ export const AdminDataProvider = ({ children }) => {
     localStorage.setItem('adminPopularProducts', JSON.stringify(productIds));
   };
 
+  // Функция для обновления настроек фильтров
+  const updateFilterSettings = (newSettings) => {
+    setFilterSettings(newSettings);
+    localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
+  };
+
   const value = {
     // Данные
     products,
@@ -568,6 +595,7 @@ export const AdminDataProvider = ({ children }) => {
     brands,
     promotions,
     aboutContent,
+    filterSettings,
     popularProductIds,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
@@ -615,7 +643,10 @@ export const AdminDataProvider = ({ children }) => {
     updateAboutContent,
     
     // Функции для популярных товаров
-    updatePopularProducts
+    updatePopularProducts,
+
+    // Функция для настроек фильтров
+    updateFilterSettings
   };
 
   return (
