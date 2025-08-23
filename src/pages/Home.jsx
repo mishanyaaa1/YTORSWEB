@@ -147,57 +147,6 @@ function Home() {
         );
       })()}
       
-      {/* Секция выбора каталога */}
-      <section className="catalog-choice">
-        <div className="container">
-          <Reveal type="up">
-            <h2 className="section-title">Что вас интересует?</h2>
-            <p className="section-subtitle">Выберите раздел для просмотра нашего ассортимента</p>
-          </Reveal>
-          
-          <div className="choice-grid">
-            <Reveal type="left" delay={0.1}>
-              <Link to="/catalog" className="choice-card parts-card">
-                <div className="choice-icon">
-                  <FaTools />
-                </div>
-                <div className="choice-content">
-                  <h3>Запчасти для вездеходов</h3>
-                  <p>Широкий ассортимент качественных запчастей и комплектующих для всех типов вездеходов</p>
-                  <div className="choice-features">
-                    <span>• Оригинальные детали</span>
-                    <span>• Быстрая доставка</span>
-                    <span>• Гарантия качества</span>
-                  </div>
-                </div>
-                <div className="choice-arrow">
-                  <FaArrowRight />
-                </div>
-              </Link>
-            </Reveal>
-            
-            <Reveal type="right" delay={0.2}>
-              <Link to="/vehicles" className="choice-card vehicles-card">
-                <div className="choice-icon">
-                  <FaTruck />
-                </div>
-                <div className="choice-content">
-                  <h3>Готовые вездеходы</h3>
-                  <p>Профессиональные вездеходы различных марок и модификаций под любые задачи</p>
-                  <div className="choice-features">
-                    <span>• Проверенная техника</span>
-                    <span>• Полная комплектация</span>
-                    <span>• Техническая поддержка</span>
-                  </div>
-                </div>
-                <div className="choice-arrow">
-                  <FaArrowRight />
-                </div>
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
       <section className="features">
         <div className="container">

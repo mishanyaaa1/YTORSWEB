@@ -1,15 +1,21 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaUpload, FaTrash, FaImage, FaStar, FaRegStar, FaPlus } from 'react-icons/fa';
 import './MultiImageUpload.css';
 
 export default function MultiImageUpload({ 
-  images = [], // Массив изображений
+  value = [], // Массив изображений
   onChange, 
   maxImages = 5,
   placeholder = "Добавить изображения товара" 
 }) {
+  const [images, setImages] = useState(value || []);
   const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Синхронизируем внутреннее состояние с внешним value
+  useEffect(() => {
+    setImages(value || []);
+  }, [value]);
 
   const uploadToServer = async (file) => {
     const form = new FormData();
@@ -55,6 +61,7 @@ export default function MultiImageUpload({
           isMain: images.length === 0
         };
         const updatedImages = [...images, newImage];
+        setImages(updatedImages);
         onChange(updatedImages);
       } catch (e) {
         console.error('Upload failed', e);
@@ -76,6 +83,7 @@ export default function MultiImageUpload({
       updatedImages[0].isMain = true;
     }
     
+    setImages(updatedImages);
     onChange(updatedImages);
   };
 
@@ -84,6 +92,7 @@ export default function MultiImageUpload({
       ...img,
       isMain: img.id === imageId
     }));
+    setImages(updatedImages);
     onChange(updatedImages);
   };
 
