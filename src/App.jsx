@@ -17,6 +17,7 @@ import telegramSetup from './utils/telegramSetup';
 import debugOrders from './utils/debugOrders';
 import './App.css';
 import BrandLogo from './components/BrandLogo';
+import AdvertisingScripts from './components/AdvertisingScripts';
 
 function App() {
   const location = useLocation();
@@ -116,6 +117,7 @@ function App() {
 
   return (
     <div className="app">
+      <AdvertisingScripts />
       <header className="header">
         <div className="container">
           <div className="header-content">

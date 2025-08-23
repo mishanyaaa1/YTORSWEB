@@ -773,6 +773,197 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
   }
 });
 
+// Advertising API endpoints
+app.get('/api/admin/advertising', requireAdmin, async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT platform, enabled, settings_json FROM advertising_settings ORDER BY platform ASC`);
+    const result = {};
+    
+    for (const row of rows) {
+      try {
+        result[row.platform] = {
+          enabled: Boolean(row.enabled),
+          ...JSON.parse(row.settings_json)
+        };
+      } catch (e) {
+        console.error(`Failed to parse settings for ${row.platform}:`, e);
+        result[row.platform] = { enabled: Boolean(row.enabled) };
+      }
+    }
+    
+    res.json(result);
+  } catch (err) {
+    console.error('Failed to fetch advertising settings:', err);
+    res.status(500).json({ error: 'Failed to fetch advertising settings' });
+  }
+});
+
+app.post('/api/admin/advertising', requireAdmin, async (req, res) => {
+  try {
+    const { yandexDirect, googleAds, facebookPixel, vkPixel, telegramPixel, customScripts } = req.body;
+    
+    const platforms = [
+      { name: 'yandexDirect', data: yandexDirect },
+      { name: 'googleAds', data: googleAds },
+      { name: 'facebookPixel', data: facebookPixel },
+      { name: 'vkPixel', data: vkPixel },
+      { name: 'telegramPixel', data: telegramPixel },
+      { name: 'customScripts', data: customScripts }
+    ];
+    
+    for (const platform of platforms) {
+      if (platform.data) {
+        const { enabled, ...settings } = platform.data;
+        const settingsJson = JSON.stringify(settings);
+        
+        await run(
+          db,
+          `UPDATE advertising_settings SET enabled = ?, settings_json = ?, updated_at = datetime('now') WHERE platform = ?`,
+          [enabled ? 1 : 0, settingsJson, platform.name]
+        );
+      }
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Failed to save advertising settings:', err);
+    res.status(500).json({ error: 'Failed to save advertising settings' });
+  }
+});
+
+// Public endpoint for getting advertising scripts (for frontend)
+app.get('/api/advertising/scripts', async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT platform, enabled, settings_json FROM advertising_settings WHERE enabled = 1`);
+    const scripts = {
+      head: [],
+      body: []
+    };
+    
+    for (const row of rows) {
+      try {
+        const settings = JSON.parse(row.settings_json);
+        
+        switch (row.platform) {
+          case 'yandexDirect':
+            if (settings.counterId) {
+              scripts.head.push(`
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(${settings.counterId}, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/${settings.counterId}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->`);
+            }
+            if (settings.remarketingCode) {
+              scripts.head.push(settings.remarketingCode);
+            }
+            break;
+            
+          case 'googleAds':
+            if (settings.gtagCode) {
+              scripts.head.push(`
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${settings.gtagCode}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${settings.gtagCode}');
+</script>`);
+            }
+            if (settings.conversionId && settings.conversionLabel) {
+              scripts.head.push(`
+<!-- Google Ads Conversion Tracking -->
+<script>
+  gtag('event', 'conversion', {
+    'send_to': '${settings.conversionId}/${settings.conversionLabel}'
+  });
+</script>`);
+            }
+            break;
+            
+          case 'facebookPixel':
+            if (settings.pixelId) {
+              scripts.head.push(`
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${settings.pixelId}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=${settings.pixelId}&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->`);
+            }
+            break;
+            
+          case 'vkPixel':
+            if (settings.pixelId) {
+              scripts.head.push(`
+<!-- VK Pixel Code -->
+<script>
+!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?169";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}();
+window.vkAsyncInit=function(){VK.init({apiId:${settings.pixelId}});};
+</script>`);
+            }
+            if (settings.conversionCode) {
+              scripts.head.push(settings.conversionCode);
+            }
+            break;
+            
+          case 'telegramPixel':
+            if (settings.botToken && settings.chatId) {
+              scripts.head.push(`
+<!-- Telegram Pixel Code -->
+<script>
+window.telegramPixel = {
+  botToken: '${settings.botToken}',
+  chatId: '${settings.chatId}'
+};
+</script>`);
+            }
+            break;
+            
+          case 'customScripts':
+            if (settings.headScripts) {
+              scripts.head.push(settings.headScripts);
+            }
+            if (settings.bodyScripts) {
+              scripts.body.push(settings.bodyScripts);
+            }
+            break;
+        }
+      } catch (e) {
+        console.error(`Failed to parse settings for ${row.platform}:`, e);
+      }
+    }
+    
+    res.json(scripts);
+  } catch (err) {
+    console.error('Failed to fetch advertising scripts:', err);
+    res.status(500).json({ error: 'Failed to fetch advertising scripts' });
+  }
+});
+
 // Debug: list registered routes (admin only)
 app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   try {
