@@ -1,0 +1,61 @@
+/* Vehicles Page Styles */
+.vehicles-page {
+  padding: 2rem 0 4rem;
+  min-height: calc(100vh - 140px);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.vehicles-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.vehicles-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffd166, #06ffa5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.vehicles-header p {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .vehicles-page {
+    padding: 1.5rem 0 3rem;
+  }
+  
+  .vehicles-header {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .vehicles-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .vehicles-header p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicles-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .vehicles-header p {
+    font-size: 0.9rem;
+  }
+}

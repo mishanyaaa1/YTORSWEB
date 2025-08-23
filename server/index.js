@@ -795,8 +795,316 @@ app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   }
 });
 
+async function ensureVehiclesTables() {
+  try {
+    // Создаем таблицу vehicles
+    await run(db, `
+      CREATE TABLE IF NOT EXISTS vehicles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        brand_id INTEGER,
+        model TEXT,
+        year INTEGER,
+        engine_power INTEGER,
+        engine_volume REAL,
+        fuel_type TEXT,
+        transmission TEXT,
+        drive_type TEXT,
+        seats INTEGER,
+        weight INTEGER,
+        dimensions TEXT,
+        description TEXT,
+        specifications_json TEXT,
+        features_json TEXT,
+        available INTEGER NOT NULL DEFAULT 1,
+        quantity INTEGER NOT NULL DEFAULT 1,
+        featured INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+        FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE SET NULL
+      )
+    `);
+
+    // Создаем таблицу vehicle_images
+    await run(db, `
+      CREATE TABLE IF NOT EXISTS vehicle_images (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        vehicle_id INTEGER NOT NULL,
+        image_data TEXT NOT NULL,
+        is_main INTEGER NOT NULL DEFAULT 0,
+        sort_order INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+      )
+    `);
+
+    // Создаем индексы
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicles_brand ON vehicles(brand_id)`);
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicles_available ON vehicles(available)`);
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicles_featured ON vehicles(featured)`);
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicle_images_vehicle ON vehicle_images(vehicle_id)`);
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicle_images_main ON vehicle_images(is_main)`);
+    await run(db, `CREATE INDEX IF NOT EXISTS idx_vehicle_images_sort ON vehicle_images(sort_order)`);
+
+    console.log('✅ Таблицы вездеходов созданы успешно!');
+  } catch (error) {
+    console.error('❌ Ошибка создания таблиц вездеходов:', error);
+  }
+}
+
 ensureAdminTableAndDefaultUser()
+  .then(() => ensureVehiclesTables())
   .then(() => {
+    // ========================== VEHICLES API ==========================
+    
+    // Get all vehicles
+    app.get('/api/vehicles', async (req, res) => {
+      try {
+        const rows = await all(
+          db,
+          `SELECT v.*, 
+                  b.name AS brand_name
+           FROM vehicles v
+           LEFT JOIN brands b ON v.brand_id = b.id
+           ORDER BY v.id ASC`
+        );
+
+        // Добавляем изображения
+        const vehicleIds = rows.map(r => r.id);
+        let images = [];
+        if (vehicleIds.length > 0) {
+          images = await all(
+            db,
+            `SELECT * FROM vehicle_images WHERE vehicle_id IN (${vehicleIds.map(() => '?').join(',')}) ORDER BY sort_order ASC`,
+            vehicleIds
+          );
+        }
+        const vehicleIdToImages = new Map();
+        for (const img of images) {
+          if (!vehicleIdToImages.has(img.vehicle_id)) vehicleIdToImages.set(img.vehicle_id, []);
+          vehicleIdToImages.get(img.vehicle_id).push({ 
+            id: img.id, 
+            data: img.image_data, 
+            isMain: !!img.is_main,
+            sortOrder: img.sort_order 
+          });
+        }
+
+        const result = rows.map(r => ({
+          id: r.id,
+          title: r.title,
+          price: r.price,
+          brand: r.brand_name,
+          model: r.model,
+          year: r.year,
+          enginePower: r.engine_power,
+          engineVolume: r.engine_volume,
+          fuelType: r.fuel_type,
+          transmission: r.transmission,
+          driveType: r.drive_type,
+          seats: r.seats,
+          weight: r.weight,
+          dimensions: r.dimensions,
+          available: !!r.available,
+          quantity: r.quantity,
+          featured: !!r.featured,
+          description: r.description,
+          specifications: r.specifications_json ? JSON.parse(r.specifications_json) : undefined,
+          features: r.features_json ? JSON.parse(r.features_json) : undefined,
+          images: vehicleIdToImages.get(r.id) || [],
+          createdAt: r.created_at,
+          updatedAt: r.updated_at
+        }));
+
+        res.json(result);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to fetch vehicles' });
+      }
+    });
+
+    // Get single vehicle
+    app.get('/api/vehicles/:id', async (req, res) => {
+      try {
+        const id = Number(req.params.id);
+        const row = await get(
+          db,
+          `SELECT v.*, 
+                  b.name AS brand_name
+           FROM vehicles v
+           LEFT JOIN brands b ON v.brand_id = b.id
+           WHERE v.id = ?`,
+          [id]
+        );
+
+        if (!row) {
+          return res.status(404).json({ error: 'Vehicle not found' });
+        }
+
+        // Получаем изображения
+        const images = await all(
+          db,
+          `SELECT * FROM vehicle_images WHERE vehicle_id = ? ORDER BY sort_order ASC`,
+          [id]
+        );
+
+        const result = {
+          id: row.id,
+          title: row.title,
+          price: row.price,
+          brand: row.brand_name,
+          model: row.model,
+          year: row.year,
+          enginePower: row.engine_power,
+          engineVolume: row.engine_volume,
+          fuelType: row.fuel_type,
+          transmission: row.transmission,
+          driveType: row.drive_type,
+          seats: row.seats,
+          weight: row.weight,
+          dimensions: row.dimensions,
+          available: !!row.available,
+          quantity: row.quantity,
+          featured: !!row.featured,
+          description: row.description,
+          specifications: row.specifications_json ? JSON.parse(row.specifications_json) : undefined,
+          features: row.features_json ? JSON.parse(row.features_json) : undefined,
+          images: images.map(img => ({
+            id: img.id,
+            data: img.image_data,
+            isMain: !!img.is_main,
+            sortOrder: img.sort_order
+          })),
+          createdAt: row.created_at,
+          updatedAt: row.updated_at
+        };
+
+        res.json(result);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to fetch vehicle' });
+      }
+    });
+
+    // Create vehicle
+    app.post('/api/vehicles', requireAdmin, async (req, res) => {
+      try {
+        const { 
+          title, price, brand, model, year, enginePower, engineVolume, 
+          fuelType, transmission, driveType, seats, weight, dimensions,
+          available = true, quantity = 1, featured = false, 
+          description = null, specifications, features, images 
+        } = req.body;
+
+        const brandId = await ensureBrandByName(brand);
+
+        const specJson = specifications ? JSON.stringify(specifications) : null;
+        const featJson = features ? JSON.stringify(features) : null;
+
+        const r = await run(
+          db,
+          `INSERT INTO vehicles (
+            title, price, brand_id, model, year, engine_power, engine_volume,
+            fuel_type, transmission, drive_type, seats, weight, dimensions,
+            available, quantity, featured, description, specifications_json, features_json
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            title, price, brandId, model, year, enginePower, engineVolume,
+            fuelType, transmission, driveType, seats, weight, dimensions,
+            available ? 1 : 0, quantity, featured ? 1 : 0, description, specJson, featJson
+          ]
+        );
+
+        const vehicleId = r.lastID;
+        if (Array.isArray(images)) {
+          for (let i = 0; i < images.length; i++) {
+            const img = images[i];
+            await run(
+              db, 
+              `INSERT INTO vehicle_images (vehicle_id, image_data, is_main, sort_order) VALUES (?, ?, ?, ?)`, 
+              [vehicleId, img.data, img.isMain ? 1 : 0, img.sortOrder || i]
+            );
+          }
+        }
+
+        res.status(201).json({ id: vehicleId });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to create vehicle' });
+      }
+    });
+
+    // Update vehicle
+    app.put('/api/vehicles/:id', requireAdmin, async (req, res) => {
+      try {
+        const id = Number(req.params.id);
+        const { 
+          title, price, brand, model, year, enginePower, engineVolume, 
+          fuelType, transmission, driveType, seats, weight, dimensions,
+          available = true, quantity = 1, featured = false, 
+          description = null, specifications, features, images 
+        } = req.body;
+
+        const brandId = await ensureBrandByName(brand);
+
+        const specJson = specifications ? JSON.stringify(specifications) : null;
+        const featJson = features ? JSON.stringify(features) : null;
+
+        await run(
+          db,
+          `UPDATE vehicles SET 
+            title=?, price=?, brand_id=?, model=?, year=?, engine_power=?, engine_volume=?,
+            fuel_type=?, transmission=?, drive_type=?, seats=?, weight=?, dimensions=?,
+            available=?, quantity=?, featured=?, description=?, specifications_json=?, features_json=?, 
+            updated_at = datetime('now') 
+           WHERE id=?`,
+          [
+            title, price, brandId, model, year, enginePower, engineVolume,
+            fuelType, transmission, driveType, seats, weight, dimensions,
+            available ? 1 : 0, quantity, featured ? 1 : 0, description, specJson, featJson, id
+          ]
+        );
+
+        // Replace images
+        if (Array.isArray(images)) {
+          await run(db, `DELETE FROM vehicle_images WHERE vehicle_id = ?`, [id]);
+          for (let i = 0; i < images.length; i++) {
+            const img = images[i];
+            await run(
+              db, 
+              `INSERT INTO vehicle_images (vehicle_id, image_data, is_main, sort_order) VALUES (?, ?, ?, ?)`, 
+              [id, img.data, img.isMain ? 1 : 0, img.sortOrder || i]
+            );
+          }
+        }
+
+        res.json({ ok: true });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to update vehicle' });
+      }
+    });
+
+    // Delete vehicle
+    app.delete('/api/vehicles/:id', requireAdmin, async (req, res) => {
+      try {
+        const id = Number(req.params.id);
+        
+        // Удаляем изображения (каскадно через FK)
+        await run(db, `DELETE FROM vehicle_images WHERE vehicle_id = ?`, [id]);
+        
+        // Удаляем сам вездеход
+        await run(db, `DELETE FROM vehicles WHERE id = ?`, [id]);
+        
+        res.json({ ok: true });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to delete vehicle' });
+      }
+    });
+
+    // ========================== END VEHICLES API ==========================
+
     app.listen(PORT, () => {
       console.log(`API server listening on http://localhost:${PORT}`);
     });

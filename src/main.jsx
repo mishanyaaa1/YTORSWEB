@@ -7,6 +7,8 @@ import App from './App.jsx'
 import Home from './pages/Home.jsx'
 import CatalogPage from './pages/CatalogPage.jsx'
 import ProductPage from './pages/ProductPage.jsx'
+import VehiclesPage from './pages/VehiclesPage.jsx'
+import VehiclePage from './pages/VehiclePage.jsx'
 import Cart from './pages/Cart.jsx'
 // Removed Wishlist page
 import About from './pages/About.jsx'
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: "product/:id",
         element: <ProductPage />
+      },
+      {
+        path: "vehicles",
+        element: <VehiclesPage />
+      },
+      {
+        path: "vehicle/:id",
+        element: <VehiclePage />
       },
       {
         path: "cart",

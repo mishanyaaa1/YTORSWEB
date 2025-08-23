@@ -7,9 +7,10 @@ import PromotionManagement from './PromotionManagement';
 import ContentManagement from './ContentManagement';
 import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
+import VehicleManagement from './VehicleManagement';
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaTruck } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -42,6 +43,7 @@ function AdvancedAdminDashboard() {
   const menuItems = [
     { id: 'overview', label: 'Обзор', icon: <FaChartBar /> },
     { id: 'products', label: 'Товары', icon: <FaBox /> },
+    { id: 'vehicles', label: 'Вездеходы', icon: <FaTruck /> },
     { id: 'categories', label: 'Категории', icon: <FaTags /> },
     { id: 'popular', label: 'Популярные товары', icon: <FaStar /> },
     { id: 'promotions', label: 'Акции', icon: <FaTags /> },
@@ -140,6 +142,8 @@ function AdvancedAdminDashboard() {
         return renderOverview();
       case 'products':
         return <ProductManagement />;
+      case 'vehicles':
+        return <VehicleManagement />;
       case 'categories':
         return <CategoryManagement />;
       case 'popular':
