@@ -98,6 +98,73 @@
   gap: 1rem;
 }
 
+/* Глобальные стили для select элементов в обзоре админки */
+.admin-overview select,
+.admin-overview select option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-overview select option {
+  padding: 8px 12px;
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.admin-overview select option:hover {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.admin-overview select option:checked,
+.admin-overview select option:selected {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.admin-overview select:focus {
+  outline: none;
+  border-color: #e6a34a;
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
+}
+
+/* Стили для input и textarea элементов в обзоре админки */
+.admin-overview input,
+.admin-overview textarea {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-overview input:focus,
+.admin-overview textarea:focus {
+  outline: none;
+  border-color: #e6a34a;
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
+}
+
+/* Стили для placeholder в input и textarea */
+.admin-overview input::placeholder,
+.admin-overview textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Стили для webkit placeholder */
+.admin-overview input::-webkit-input-placeholder,
+.admin-overview textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Стили для moz placeholder */
+.admin-overview input::-moz-placeholder,
+.admin-overview textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
 .action-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);

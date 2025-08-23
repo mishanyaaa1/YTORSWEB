@@ -7,7 +7,7 @@ import BrandMark from '../../components/BrandMark';
 import './ProductManagement.css';
 
 export default function ProductManagement() {
-  const { products, categories, brands, addProduct, updateProduct, deleteProduct } = useAdminData();
+  const { products, categories, brands, filterSettings, addProduct, updateProduct, deleteProduct } = useAdminData();
   const [editingProduct, setEditingProduct] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,6 +23,23 @@ export default function ProductManagement() {
     specifications: [{ name: '', value: '' }],
     features: []
   });
+
+  // Инициализируем динамические поля фильтров
+  useEffect(() => {
+    if (filterSettings.filters) {
+      const dynamicFields = {};
+      filterSettings.filters
+        .filter(filter => filter.enabled && filter.type === 'select' && filter.id !== 'category' && filter.id !== 'subcategory' && filter.id !== 'brand')
+        .forEach(filter => {
+          dynamicFields[filter.id] = '';
+        });
+      
+      setFormData(prev => ({
+        ...prev,
+        ...dynamicFields
+      }));
+    }
+  }, [filterSettings.filters]);
 
   const categoryList = Object.keys(categories);
 
@@ -62,7 +79,9 @@ export default function ProductManagement() {
   const startCreating = () => {
     setIsCreating(true);
     setEditingProduct(null);
-    setFormData({
+    
+    // Создаем базовую форму
+    const baseForm = {
       title: '',
       price: '',
       category: '',
@@ -74,7 +93,18 @@ export default function ProductManagement() {
       description: '',
       specifications: [{ name: '', value: '' }],
       features: []
-    });
+    };
+
+    // Добавляем динамические поля фильтров
+    if (filterSettings.filters) {
+      filterSettings.filters
+        .filter(filter => filter.enabled && filter.type === 'select' && filter.id !== 'category' && filter.id !== 'subcategory' && filter.id !== 'brand')
+        .forEach(filter => {
+          baseForm[filter.id] = '';
+        });
+    }
+
+    setFormData(baseForm);
   };
 
   const startEditing = (product) => {
@@ -93,7 +123,9 @@ export default function ProductManagement() {
   const cancelEditing = () => {
     setEditingProduct(null);
     setIsCreating(false);
-    setFormData({
+    
+    // Создаем базовую форму
+    const baseForm = {
       title: '',
       price: '',
       category: '',
@@ -105,7 +137,18 @@ export default function ProductManagement() {
       description: '',
       specifications: [{ name: '', value: '' }],
       features: []
-    });
+    };
+
+    // Добавляем динамические поля фильтров
+    if (filterSettings.filters) {
+      filterSettings.filters
+        .filter(filter => filter.enabled && filter.type === 'select' && filter.id !== 'category' && filter.id !== 'subcategory' && filter.id !== 'brand')
+        .forEach(filter => {
+          baseForm[filter.id] = '';
+        });
+    }
+
+    setFormData(baseForm);
   };
 
   const saveProduct = () => {
@@ -244,6 +287,25 @@ export default function ProductManagement() {
                 ))}
               </select>
             </div>
+
+            {/* Динамические фильтры */}
+            {filterSettings.filters
+              .filter(filter => filter.enabled && filter.type === 'select' && filter.id !== 'category' && filter.id !== 'subcategory' && filter.id !== 'brand')
+              .map(filter => (
+                <div key={filter.id} className="form-group">
+                  <label>{filter.name}</label>
+                  <select
+                    name={filter.id}
+                    value={formData[filter.id] || ''}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Выберите {filter.name.toLowerCase()}</option>
+                    {/* Здесь можно добавить опции для каждого фильтра */}
+                    <option value={`${filter.id}_option_1`}>{filter.name} опция 1</option>
+                    <option value={`${filter.id}_option_2`}>{filter.name} опция 2</option>
+                  </select>
+                </div>
+              ))}
 
             <div className="form-group form-group-full">
               <label>Изображения товара</label>

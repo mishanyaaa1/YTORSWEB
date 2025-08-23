@@ -99,6 +99,73 @@
   flex-shrink: 0;
 }
 
+/* Глобальные стили для select элементов в основной админке */
+.admin-dashboard select,
+.admin-dashboard select option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-dashboard select option {
+  padding: 8px 12px;
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.admin-dashboard select option:hover {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.admin-dashboard select option:checked,
+.admin-dashboard select option:selected {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.admin-dashboard select:focus {
+  outline: none;
+  border-color: #e6a34a;
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
+}
+
+/* Стили для input и textarea элементов в основной админке */
+.admin-dashboard input,
+.admin-dashboard textarea {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-dashboard input:focus,
+.admin-dashboard textarea:focus {
+  outline: none;
+  border-color: #e6a34a;
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
+}
+
+/* Стили для placeholder в input и textarea */
+.admin-dashboard input::placeholder,
+.admin-dashboard textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Стили для webkit placeholder */
+.admin-dashboard input::-webkit-input-placeholder,
+.admin-dashboard textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Стили для moz placeholder */
+.admin-dashboard input::-moz-placeholder,
+.admin-dashboard textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
 .sidebar-footer {
   padding: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

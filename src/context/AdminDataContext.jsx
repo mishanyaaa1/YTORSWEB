@@ -178,11 +178,13 @@ export const AdminDataProvider = ({ children }) => {
   const [filterSettings, setFilterSettings] = useState(() => {
     const saved = localStorage.getItem('adminFilterSettings');
     return saved ? JSON.parse(saved) : {
-      showBrandFilter: true, // По умолчанию фильтр производителя включен
-      showCategoryFilter: true,
-      showSubcategoryFilter: true,
-      showPriceFilter: true,
-      showStockFilter: true
+      filters: [
+        { id: 'category', name: 'Категория', key: 'showCategoryFilter', enabled: true, type: 'select', description: 'Основная категория товара (Двигатель, Трансмиссия и т.д.)' },
+        { id: 'subcategory', name: 'Подкатегория', key: 'showSubcategoryFilter', enabled: true, type: 'select', description: 'Подкатегория товара (Основные узлы, Фильтры и т.д.)' },
+        { id: 'brand', name: 'Производитель', key: 'showBrandFilter', enabled: true, type: 'select', description: 'Бренд/производитель товара' },
+        { id: 'price', name: 'Цена', key: 'showPriceFilter', enabled: true, type: 'range', description: 'Диапазон цен товара' },
+        { id: 'stock', name: 'В наличии', key: 'showStockFilter', enabled: true, type: 'checkbox', description: 'Показывать только товары в наличии' }
+      ]
     };
   });
 
@@ -194,6 +196,32 @@ export const AdminDataProvider = ({ children }) => {
       // ignore storage errors
     }
   }, [filterSettings]);
+
+  // Миграция старых настроек фильтров
+  useEffect(() => {
+    const saved = localStorage.getItem('adminFilterSettings');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Если это старая структура, мигрируем к новой
+        if (parsed.showBrandFilter !== undefined) {
+          const migratedSettings = {
+            filters: [
+              { id: 'category', name: 'Категория', key: 'showCategoryFilter', enabled: parsed.showCategoryFilter || true, type: 'select', description: 'Основная категория товара (Двигатель, Трансмиссия и т.д.)' },
+              { id: 'subcategory', name: 'Подкатегория', key: 'showSubcategoryFilter', enabled: parsed.showSubcategoryFilter || true, type: 'select', description: 'Подкатегория товара (Основные узлы, Фильтры и т.д.)' },
+              { id: 'brand', name: 'Производитель', key: 'showBrandFilter', enabled: parsed.showBrandFilter || true, type: 'select', description: 'Бренд/производитель товара' },
+              { id: 'price', name: 'Цена', key: 'showPriceFilter', enabled: parsed.showPriceFilter || true, type: 'range', description: 'Диапазон цен товара' },
+              { id: 'stock', name: 'В наличии', key: 'showStockFilter', enabled: parsed.showStockFilter || true, type: 'checkbox', description: 'Показывать только товары в наличии' }
+            ]
+          };
+          setFilterSettings(migratedSettings);
+          localStorage.setItem('adminFilterSettings', JSON.stringify(migratedSettings));
+        }
+      } catch (e) {
+        console.warn('Failed to migrate filter settings:', e);
+      }
+    }
+  }, []);
 
   const [popularProductIds, setPopularProductIds] = useState(() => {
     const saved = localStorage.getItem('adminPopularProducts');
@@ -588,6 +616,49 @@ export const AdminDataProvider = ({ children }) => {
     localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
   };
 
+  // Функция для добавления нового фильтра
+  const addFilter = (filter) => {
+    const newFilter = {
+      ...filter,
+      id: filter.id || `filter_${Date.now()}`,
+      key: filter.key || `show${filter.name.replace(/\s+/g, '')}Filter`,
+      enabled: filter.enabled !== undefined ? filter.enabled : true
+    };
+    
+    setFilterSettings(prev => ({
+      ...prev,
+      filters: [...prev.filters, newFilter]
+    }));
+  };
+
+  // Функция для удаления фильтра
+  const removeFilter = (filterId) => {
+    setFilterSettings(prev => ({
+      ...prev,
+      filters: prev.filters.filter(f => f.id !== filterId)
+    }));
+  };
+
+  // Функция для обновления фильтра
+  const updateFilter = (filterId, updates) => {
+    setFilterSettings(prev => ({
+      ...prev,
+      filters: prev.filters.map(f => 
+        f.id === filterId ? { ...f, ...updates } : f
+      )
+    }));
+  };
+
+  // Функция для переключения состояния фильтра
+  const toggleFilter = (filterId) => {
+    setFilterSettings(prev => ({
+      ...prev,
+      filters: prev.filters.map(f => 
+        f.id === filterId ? { ...f, enabled: !f.enabled } : f
+      )
+    }));
+  };
+
   const value = {
     // Данные
     products,
@@ -645,8 +716,12 @@ export const AdminDataProvider = ({ children }) => {
     // Функции для популярных товаров
     updatePopularProducts,
 
-    // Функция для настроек фильтров
-    updateFilterSettings
+    // Функции для настроек фильтров
+    updateFilterSettings,
+    addFilter,
+    removeFilter,
+    updateFilter,
+    toggleFilter
   };
 
   return (

@@ -1,0 +1,169 @@
+/* Глобальные стили для админки - принудительно белый текст */
+
+/* Принудительно белый цвет для всех input элементов в админке */
+.admin-dashboard input[type="text"],
+.admin-dashboard input[type="email"],
+.admin-dashboard input[type="password"],
+.admin-dashboard input[type="number"],
+.admin-dashboard input[type="tel"],
+.admin-dashboard input[type="url"],
+.admin-dashboard input[type="search"],
+.admin-dashboard input[type="date"],
+.admin-dashboard input[type="time"],
+.admin-dashboard input[type="datetime-local"],
+.admin-dashboard textarea,
+.admin-dashboard select,
+.content-management input[type="text"],
+.content-management input[type="email"],
+.content-management input[type="password"],
+.content-management input[type="number"],
+.content-management input[type="tel"],
+.content-management input[type="url"],
+.content-management input[type="search"],
+.content-management input[type="date"],
+.content-management input[type="time"],
+.content-management input[type="datetime-local"],
+.content-management textarea,
+.content-management select,
+.order-management input[type="text"],
+.order-management input[type="email"],
+.order-management input[type="password"],
+.order-management input[type="number"],
+.order-management input[type="tel"],
+.order-management input[type="url"],
+.order-management input[type="search"],
+.order-management input[type="date"],
+.order-management input[type="time"],
+.order-management input[type="datetime-local"],
+.order-management textarea,
+.order-management select,
+.admin-overview input[type="text"],
+.admin-overview input[type="email"],
+.admin-overview input[type="password"],
+.admin-overview input[type="number"],
+.admin-overview input[type="tel"],
+.admin-overview input[type="url"],
+.admin-overview input[type="search"],
+.admin-overview input[type="date"],
+.admin-overview input[type="time"],
+.admin-overview input[type="datetime-local"],
+.admin-overview textarea,
+.admin-overview select,
+.filter-management input[type="text"],
+.filter-management input[type="email"],
+.filter-management input[type="password"],
+.filter-management input[type="number"],
+.filter-management input[type="tel"],
+.filter-management input[type="url"],
+.filter-management input[type="search"],
+.filter-management input[type="date"],
+.filter-management input[type="time"],
+.filter-management input[type="datetime-local"],
+.filter-management textarea,
+.filter-management select {
+  color: #ffffff !important;
+  background-color: #2a2a2a !important;
+}
+
+/* Стили для всех input в админке */
+.admin-dashboard input,
+.admin-dashboard textarea,
+.admin-dashboard select,
+.content-management input,
+.content-management textarea,
+.content-management select,
+.order-management input,
+.order-management textarea,
+.order-management select,
+.admin-overview input,
+.admin-overview textarea,
+.admin-overview select,
+.filter-management input,
+.filter-management textarea,
+.filter-management select {
+  color: #ffffff !important;
+  background-color: #2a2a2a !important;
+}
+
+/* Стили для опций в select в админке */
+.admin-dashboard select option,
+.content-management select option,
+.order-management select option,
+.admin-overview select option,
+.filter-management select option {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+}
+
+/* Стили для placeholder в админке */
+.admin-dashboard input::placeholder,
+.admin-dashboard textarea::placeholder,
+.content-management input::placeholder,
+.content-management textarea::placeholder,
+.order-management input::placeholder,
+.order-management textarea::placeholder,
+.admin-overview input::placeholder,
+.admin-overview textarea::placeholder,
+.filter-management input::placeholder,
+.filter-management textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Webkit placeholder в админке */
+.admin-dashboard input::-webkit-input-placeholder,
+.admin-dashboard textarea::-webkit-input-placeholder,
+.content-management input::-webkit-input-placeholder,
+.content-management textarea::-webkit-input-placeholder,
+.order-management input::-webkit-input-placeholder,
+.order-management textarea::-webkit-input-placeholder,
+.admin-overview input::-webkit-input-placeholder,
+.admin-overview textarea::-webkit-input-placeholder,
+.filter-management input::-webkit-input-placeholder,
+.filter-management textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Mozilla placeholder в админке */
+.admin-dashboard input::-moz-placeholder,
+.admin-dashboard textarea::-moz-placeholder,
+.content-management input::-moz-placeholder,
+.content-management textarea::-moz-placeholder,
+.order-management input::-moz-placeholder,
+.order-management textarea::-moz-placeholder,
+.admin-overview input::-moz-placeholder,
+.admin-overview textarea::-moz-placeholder,
+.filter-management input::-moz-placeholder,
+.filter-management textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+  opacity: 1;
+}
+
+/* Принудительно белый цвет для всех текстовых элементов в админке */
+.admin-dashboard *,
+.content-management *,
+.order-management *,
+.admin-overview *,
+.filter-management * {
+  color: inherit;
+}
+
+/* Специальные правила для input в админке */
+.admin-dashboard input,
+.admin-dashboard textarea,
+.admin-dashboard select,
+.content-management input,
+.content-management textarea,
+.content-management select,
+.order-management input,
+.order-management textarea,
+.order-management select,
+.admin-overview input,
+.admin-overview textarea,
+.admin-overview select,
+.filter-management input,
+.filter-management textarea,
+.filter-management select {
+  color: #ffffff !important;
+}

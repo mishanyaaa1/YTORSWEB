@@ -11,15 +11,20 @@
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
-.header-content {
+.filter-management .header-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  text-align: center;
+  justify-content: center;
+  min-height: 120px;
 }
 
-.header-icon {
+.filter-management .header-icon {
   font-size: 2.5rem;
   color: #e6a34a;
   opacity: 0.8;
@@ -104,6 +109,237 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1.5rem;
+}
+
+/* Форма добавления фильтра */
+.add-filter-form {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.add-filter-form h4 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+/* Стили для placeholder текста */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1;
+}
+
+.form-group input::-webkit-input-placeholder,
+.form-group textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1;
+}
+
+.form-group input::-moz-placeholder,
+.form-group textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1;
+}
+
+/* Глобальные стили для всех input и textarea элементов */
+.filter-management input,
+.filter-management textarea,
+.filter-management select {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Принудительно белый цвет для всех input в админке */
+.filter-management input[type="text"],
+.filter-management input[type="email"],
+.filter-management input[type="password"],
+.filter-management input[type="number"],
+.filter-management input[type="tel"],
+.filter-management input[type="url"],
+.filter-management input[type="search"],
+.filter-management textarea {
+  color: #ffffff !important;
+  background-color: #2a2a2a !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(230, 163, 74, 0.5);
+  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
+}
+
+/* Стили для опций в select элементах */
+.form-group select option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  padding: 8px;
+}
+
+.form-group select option:hover {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.form-group select option:checked {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.add-btn {
+  background: #e6a34a;
+  color: #000000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.add-btn:hover {
+  background: #d4923a;
+  transform: translateY(-1px);
+}
+
+/* Список существующих фильтров */
+.existing-filters h4 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.filter-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.filter-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.filter-item.enabled {
+  border-color: rgba(230, 163, 74, 0.3);
+  background: rgba(230, 163, 74, 0.05);
+}
+
+.filter-item.disabled {
+  opacity: 0.6;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.filter-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filter-toggle {
+  width: 16px;
+  height: 16px;
+  accent-color: #e6a34a;
+}
+
+.filter-name {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.filter-type {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn,
+.remove-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.4rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn:hover {
+  background: rgba(230, 163, 74, 0.2);
+  border-color: rgba(230, 163, 74, 0.5);
+  color: #e6a34a;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.5);
+  color: #ff6b6b;
+}
+
+.filter-description {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .section-header {
@@ -312,6 +548,122 @@
 .preview-filter input[type="checkbox"] {
   margin-right: 0.5rem;
   accent-color: #e6a34a;
+}
+
+.preview-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.preview-text input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+/* Модальное окно редактирования */
+.edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.edit-modal {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.modal-content {
+  margin-bottom: 2rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Дополнительные стили для select в модальном окне */
+.edit-modal .form-group select option {
+  background-color: #2a2a2a;
+  color: #ffffff;
+  padding: 8px;
+}
+
+.edit-modal .form-group select option:hover {
+  background-color: #e6a34a;
+  color: #000000;
+}
+
+.edit-modal .form-group select option:checked {
+  background-color: #e6a34a;
+  color: #000000;
 }
 
 /* Адаптивность */
