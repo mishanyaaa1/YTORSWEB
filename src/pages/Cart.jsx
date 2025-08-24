@@ -21,7 +21,7 @@ function Cart() {
     isInitialized
   } = useCart();
   
-  const { promotions, promocodes, products } = useAdminData();
+  const { promotions, promocodes, products, updatePromocodeUsage } = useAdminData();
   const { createOrder } = useOrders();
   const navigate = useNavigate();
   
@@ -172,7 +172,7 @@ function Cart() {
     setPromocode(e.target.value.toUpperCase());
   };
 
-  const applyPromocode = () => {
+  const applyPromocode = async () => {
     if (!promocode.trim()) {
       alert('Введите код промокода!');
       return;
@@ -207,6 +207,15 @@ function Cart() {
     }
 
     setAppliedPromocode(foundPromocode);
+    
+    // Увеличиваем счетчик использований промокода
+    try {
+      await updatePromocodeUsage(foundPromocode.id);
+      console.log('Счетчик использований промокода обновлен');
+    } catch (error) {
+      console.error('Ошибка при обновлении счетчика использований:', error);
+    }
+    
     alert(`Промокод "${foundPromocode.description}" применен!`);
     setPromocode('');
   };

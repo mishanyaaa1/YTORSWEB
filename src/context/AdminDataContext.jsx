@@ -490,7 +490,8 @@ export const AdminDataProvider = ({ children }) => {
       // Fallback: локально, если API недоступен
       const newPromocode = {
         ...promocode,
-        id: promocodes.length ? Math.max(...promocodes.map(p => p.id)) + 1 : 1
+        id: promocodes.length ? Math.max(...promocodes.map(p => p.id)) + 1 : 1,
+        usedCount: 0
       };
       const updatedPromocodes = [...promocodes, newPromocode];
       setPromocodes(updatedPromocodes);
@@ -511,7 +512,7 @@ export const AdminDataProvider = ({ children }) => {
     } catch (e) {
       // Fallback: локально, если API недоступен
       const updatedPromocodes = promocodes.map(p => 
-        p.id === id ? { ...p, ...updatedPromocode } : p
+        p.id === id ? { ...p, ...updatedPromocode, usedCount: p.usedCount || 0 } : p
       );
       setPromocodes(updatedPromocodes);
       localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
@@ -529,6 +530,36 @@ export const AdminDataProvider = ({ children }) => {
     } catch (e) {
       // Fallback: локально, если API недоступен
       const updatedPromocodes = promocodes.filter(p => p.id !== id);
+      setPromocodes(updatedPromocodes);
+      localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
+    }
+  };
+
+  // Функция для увеличения счетчика использований промокода
+  const updatePromocodeUsage = async (id) => {
+    try {
+      const promocode = promocodes.find(p => p.id === id);
+      if (!promocode) return;
+
+      const updatedPromocode = {
+        ...promocode,
+        usedCount: (promocode.usedCount || 0) + 1
+      };
+
+      const res = await fetch(`/api/promocodes/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedPromocode)
+      });
+      
+      if (!res.ok) throw new Error('Failed to update promocode usage');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback: локально, если API недоступен
+      const updatedPromocodes = promocodes.map(p => 
+        p.id === id ? { ...p, usedCount: (p.usedCount || 0) + 1 } : p
+      );
       setPromocodes(updatedPromocodes);
       localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
     }
@@ -715,6 +746,7 @@ export const AdminDataProvider = ({ children }) => {
     addPromocode,
     updatePromocode,
     deletePromocode,
+    updatePromocodeUsage,
     
     // Функции для акций
     addPromotion,

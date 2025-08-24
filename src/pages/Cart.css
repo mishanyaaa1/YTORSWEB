@@ -942,7 +942,7 @@ input[type="number"].quantity-input,
   align-items: center;
   padding: 18px;
   background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-  color: white;
+  color: #ffffff !important;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
   position: relative;
@@ -979,12 +979,14 @@ input[type="number"].quantity-input,
   font-weight: 700;
   letter-spacing: 2px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffff !important;
 }
 
 .promocode-description {
   font-size: 14px;
   opacity: 0.95;
   font-weight: 500;
+  color: #ffffff !important;
 }
 
 .promocode-remove-btn {
