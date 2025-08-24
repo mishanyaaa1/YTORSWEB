@@ -41,7 +41,16 @@ function SimpleAdminDashboard() {
         alignItems: 'center'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <BrandLogo to="/admin/advanced" size="sm" />
+          <BrandLogo 
+            to="/admin/advanced" 
+            size="sm" 
+            onClick={(e) => {
+              if (window.location.pathname === '/admin/advanced') {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
+          />
           <h1 style={{ margin: 0, fontSize: '1.2rem' }}>Панель администратора</h1>
         </div>
         <div>

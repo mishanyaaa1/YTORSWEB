@@ -9,6 +9,7 @@ import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import AdvertisingManagement from './AdvertisingManagement';
 import FilterManagement from './FilterManagement';
+
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
 import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter } from 'react-icons/fa';
@@ -171,9 +172,13 @@ function AdvancedAdminDashboard() {
             to="/admin/advanced"
             size="sm"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveSection('overview');
-              navigate('/admin/advanced');
+              if (window.location.pathname === '/admin/advanced') {
+                e.preventDefault();
+                window.location.reload();
+              } else {
+                setActiveSection('overview');
+                navigate('/admin/advanced');
+              }
             }}
           />
           <p>Админ панель</p>

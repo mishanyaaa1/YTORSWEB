@@ -57,8 +57,8 @@ export default function FilterManagement() {
   return (
     <div className="filter-management">
       <div className="filter-management-header">
-        <div className="header-content">
-          <FaFilter className="header-icon" />
+        <div className="filter-header-content">
+          <FaFilter className="filter-header-icon" />
           <div>
             <h2>Управление фильтрами каталога</h2>
             <p>Настройте, какие фильтры будут доступны пользователям в каталоге товаров</p>

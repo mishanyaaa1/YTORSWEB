@@ -327,11 +327,13 @@ app.get('/api/products', async (req, res) => {
        LEFT JOIN categories c ON p.category_id = c.id
        LEFT JOIN subcategories s ON p.subcategory_id = s.id
        LEFT JOIN brands b ON p.brand_id = b.id
-       ORDER BY p.id ASC`
+       ORDER BY c.name ASC, s.name ASC, p.title ASC`
     );
 
     // Добавляем изображения
     const productIds = rows.map(r => r.id);
+    console.log('🔍 Загружаем изображения для товаров:', productIds);
+    
     let images = [];
     if (productIds.length > 0) {
       images = await all(
@@ -339,29 +341,40 @@ app.get('/api/products', async (req, res) => {
         `SELECT * FROM product_images WHERE product_id IN (${productIds.map(() => '?').join(',')})`,
         productIds
       );
+      console.log('📸 Найдено изображений:', images.length);
     }
+    
     const productIdToImages = new Map();
     for (const img of images) {
       if (!productIdToImages.has(img.product_id)) productIdToImages.set(img.product_id, []);
       productIdToImages.get(img.product_id).push({ id: img.id, data: img.image_data, isMain: !!img.is_main });
+      console.log(`🖼️ Товар ${img.product_id}: изображение ${img.id}, главное: ${img.is_main}, данные: ${img.image_data.substring(0, 50)}...`);
     }
 
-    const result = rows.map(r => ({
-      id: r.id,
-      title: r.title,
-      price: r.price,
-      category: r.category_name,
-      subcategory: r.subcategory_name,
-      brand: r.brand_name,
-      available: !!r.available,
-      quantity: r.quantity,
-      description: r.description,
-      specifications: r.specifications_json ? JSON.parse(r.specifications_json) : undefined,
-      features: r.features_json ? JSON.parse(r.features_json) : undefined,
-      images: productIdToImages.get(r.id) || [],
-      createdAt: r.created_at,
-      updatedAt: r.updated_at
-    }));
+    const result = rows.map(r => {
+      const productImages = productIdToImages.get(r.id) || [];
+      console.log(`📦 Товар ${r.id} "${r.title}": ${productImages.length} изображений`);
+      if (productImages.length > 0) {
+        console.log(`  🖼️ Изображения:`, productImages.map(img => ({ id: img.id, isMain: img.isMain, dataLength: img.data.length })));
+      }
+      
+      return {
+        id: r.id,
+        title: r.title,
+        price: r.price,
+        category: r.category_name,
+        subcategory: r.subcategory_name,
+        brand: r.brand_name,
+        available: !!r.available,
+        quantity: r.quantity,
+        description: r.description,
+        specifications: r.specifications_json ? JSON.parse(r.specifications_json) : undefined,
+        features: r.features_json ? JSON.parse(r.features_json) : undefined,
+        images: productImages,
+        createdAt: r.created_at,
+        updatedAt: r.updated_at
+      };
+    });
 
     res.json(result);
   } catch (err) {
@@ -964,6 +977,15 @@ window.telegramPixel = {
   }
 });
 
+// Test endpoint to check if server is working
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'Сервер работает!', 
+    timestamp: new Date().toISOString(),
+
+  });
+});
+
 // Debug: list registered routes (admin only)
 app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   try {
@@ -985,6 +1007,17 @@ app.get('/api/_debug/routes', requireAdmin, (req, res) => {
     res.status(500).json({ error: String(e) });
   }
 });
+
+
+
+
+
+// Test import endpoint - импортируем только одну строку для отладки
+
+
+
+
+
 
 ensureAdminTableAndDefaultUser()
   .then(() => {

@@ -98,7 +98,21 @@ export default function Catalog() {
     }
   };
 
-  const filteredProducts = products.filter((product) => {
+  // Сортировка товаров: сначала по категории, потом по подкатегории, потом по названию
+  const sortedProducts = [...products].sort((a, b) => {
+    // Сначала по категории
+    if (a.category !== b.category) {
+      return (a.category || '').localeCompare(b.category || '');
+    }
+    // Потом по подкатегории
+    if (a.subcategory !== b.subcategory) {
+      return (a.subcategory || '').localeCompare(b.subcategory || '');
+    }
+    // Потом по названию
+    return (a.title || '').localeCompare(b.title || '');
+  });
+
+  const filteredProducts = sortedProducts.filter((product) => {
     const byCategory = !filterSettings.showCategoryFilter || selectedCategory === 'Все' || product.category === selectedCategory;
     const bySubcategory = !filterSettings.showSubcategoryFilter || selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
     const byBrand = !filterSettings.showBrandFilter || selectedBrand === 'Все' || product.brand === selectedBrand;
@@ -204,19 +218,34 @@ export default function Catalog() {
                   const migratedProduct = migrateProductImages(product);
                   const mainImage = getMainImage(migratedProduct);
                   
-                  if (mainImage?.data) {
-                    if (
-                      typeof mainImage.data === 'string' &&
-                      (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))
-                    ) {
-                      return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
+                  // Логирование для отладки (можно убрать после тестирования)
+                  // console.log('Product:', product.id, product.images?.length || 0, 'images');
+                  
+                  // Проверяем, есть ли валидное изображение
+                  if (mainImage?.data && 
+                      typeof mainImage.data === 'string' && 
+                      (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
+                    
+                    // Проверяем, что это НЕ изображение "фотография отсутствует"
+                    const imageData = mainImage.data.toLowerCase();
+                    if (imageData.includes('фотография отсутствует') || 
+                        imageData.includes('фото отсутствует') || 
+                        imageData.includes('нет фото') ||
+                        imageData.includes('no-image') ||
+                        imageData.includes('placeholder') ||
+                        imageData.includes('отсутствует')) {
+                      console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
+                      return (
+                        <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <BrandMark alt={product.title} style={{ height: 64 }} />
+                        </span>
+                      );
                     }
-                    return (
-                      <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <BrandMark alt={product.title} style={{ height: 64 }} />
-                      </span>
-                    );
+                    
+                    return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
                   }
+                  
+                  // Если нет изображения или оно невалидное, показываем иконку бренда
                   return (
                     <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <BrandMark alt={product.title} style={{ height: 64 }} />

@@ -93,35 +93,7 @@ export default function ContentManagement() {
     }));
   };
 
-  const addVisualButton = () => {
-    setFormData(prev => ({
-      ...prev,
-      homeHero: {
-        ...prev.homeHero,
-        visualButtons: [...(prev.homeHero.visualButtons || []), { text: '', link: '' }]
-      }
-    }));
-  };
 
-  const updateVisualButton = (index, field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      homeHero: {
-        ...prev.homeHero,
-        visualButtons: (prev.homeHero.visualButtons || []).map((b, i) => i === index ? { ...b, [field]: value } : b)
-      }
-    }));
-  };
-
-  const removeVisualButton = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      homeHero: {
-        ...prev.homeHero,
-        visualButtons: (prev.homeHero.visualButtons || []).filter((_, i) => i !== index)
-      }
-    }));
-  };
 
   const handleContactChange = (e) => {
     const { name, value } = e.target;
@@ -375,20 +347,7 @@ export default function ContentManagement() {
       <div className="tab-content">
         {activeTab === 'home' && (
           <div className="basic-info">
-            <h3>Главная страница — визуальный блок</h3>
-            <div className="form-group">
-              <label>Эффект фона (Hero):</label>
-              <select
-                name="heroEffect"
-                value={formData.homeHero.heroEffect || 'particles'}
-                onChange={handleHomeHeroChange}
-              >
-                <option value="particles">Частицы</option>
-                <option value="sparks">Искры</option>
-                <option value="none">Без эффекта</option>
-              </select>
-              <small>Выберите визуальный эффект фона в верхнем баннере.</small>
-            </div>
+            <h3>Главная страница</h3>
             <div className="form-group">
               <label>Заголовок:</label>
               <input
@@ -431,55 +390,11 @@ export default function ContentManagement() {
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label>Подпись под изображением:</label>
-              <input
-                type="text"
-                name="imageCaption"
-                value={formData.homeHero.imageCaption}
-                onChange={handleHomeHeroChange}
-                placeholder="Надёжные запчасти для вашего вездехода"
-              />
-            </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <div className="section-header" style={{paddingBottom: 0, border: 'none'}}>
-                  <h4>Кнопки визуального блока</h4>
-                  <button type="button" className="add-btn" onClick={addVisualButton}><FaPlus /> Добавить кнопку</button>
-                </div>
-                {(formData.homeHero.visualButtons || []).map((btn, index) => (
-                  <div key={index} className="link-item">
-                    <div className="link-header">
-                      <span>Кнопка #{index + 1}</span>
-                      <button type="button" className="remove-btn" onClick={() => removeVisualButton(index)}><FaTrash /></button>
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label>Текст</label>
-                        <input type="text" value={btn.text} onChange={(e) => updateVisualButton(index, 'text', e.target.value)} placeholder="Например: Подробнее" />
-                      </div>
-                      <div className="form-group">
-                        <label>Ссылка</label>
-                        <input type="text" value={btn.link} onChange={(e) => updateVisualButton(index, 'link', e.target.value)} placeholder="/catalog" />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="form-group">
-              <label>Изображение в визуальном блоке:</label>
-              <input
-                type="text"
-                name="visualImage"
-                value={formData.homeHero.visualImage}
-                onChange={handleHomeHeroChange}
-                placeholder="Вставьте dataURL или ссылку (опционально)"
-              />
-              <small>Если пусто, показывается SVG визуализация по умолчанию.</small>
-            </div>
+
+
+
           </div>
         )}
         {activeTab === 'basic' && (

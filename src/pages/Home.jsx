@@ -11,7 +11,6 @@ import { useAdminData } from '../context/AdminDataContext';
 // wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
-import HeroVisual from '../components/HeroVisual';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 import Reveal from '../components/Reveal';
 import './Home.css';
@@ -95,10 +94,8 @@ function Home() {
   return (
     <div>
       {(() => {
-        const heroEffect = aboutContent?.homeHero?.heroEffect || 'particles';
-        const heroClass = `hero ${heroEffect === 'particles' ? 'hero--particles' : heroEffect === 'sparks' ? 'hero--sparks' : ''}`;
         return (
-          <section className={heroClass}>
+          <section className="hero">
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
@@ -124,22 +121,6 @@ function Home() {
                       Связаться с менеджером
                     </Link>
                   </div>
-                </div>
-                <div className="hero-image">
-                  <div className="hero-placeholder">
-                    {aboutContent?.homeHero?.visualImage ? (
-                      <img src={aboutContent.homeHero.visualImage} alt="Визуальный блок" className="hero-visual" />
-                    ) : (
-                      <HeroVisual />
-                    )}
-                  </div>
-                  <p>{aboutContent?.homeHero?.imageCaption || 'Надёжные запчасти для вашего вездехода'}</p>
-                  {(aboutContent?.homeHero?.visualButtons || []).map((btn, i) => (
-                    <Link key={i} to={btn.link || '/catalog'} className="cta-button" style={{ marginTop: '1rem', marginRight: '0.5rem', display: 'inline-flex' }}>
-                      {btn.text || 'Подробнее'}
-                      <FaArrowRight />
-                    </Link>
-                  ))}
                 </div>
               </div>
             </div>

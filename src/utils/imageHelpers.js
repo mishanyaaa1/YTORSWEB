@@ -62,19 +62,34 @@ const normalizeImagePath = (data) => {
 
 export const isImageUrl = (data) => {
   if (typeof data !== 'string') return false;
-  const s = normalizeImagePath(data);
-  return (
-    /^https?:\/\//i.test(s) ||
-    s.startsWith('/uploads/')
-  );
+  
+  // Простая проверка на HTTP/HTTPS URL
+  if (/^https?:\/\//i.test(data)) {
+    return true;
+  }
+  
+  // Проверка на локальные uploads
+  if (data.startsWith('/uploads/')) {
+    return true;
+  }
+  
+  return false;
 };
 
 // Вернуть нормализованный src, если это URL изображения, иначе null
 export const resolveImageSrc = (data) => {
   if (typeof data !== 'string') return null;
-  const s = normalizeImagePath(data);
-  if (/^https?:\/\//i.test(s)) return s;
-  if (s.startsWith('/uploads/')) return s;
+  
+  // Простая проверка на HTTP/HTTPS URL
+  if (/^https?:\/\//i.test(data)) {
+    return data;
+  }
+  
+  // Проверка на локальные uploads
+  if (data.startsWith('/uploads/')) {
+    return data;
+  }
+  
   return null;
 };
 

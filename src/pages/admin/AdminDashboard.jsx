@@ -82,7 +82,16 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <BrandLogo to="/admin/advanced" size="sm" />
+          <BrandLogo 
+            to="/admin/advanced" 
+            size="sm" 
+            onClick={(e) => {
+              if (window.location.pathname === '/admin/advanced') {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
+          />
           <Link to="/" className="brand-link" style={{ marginLeft: 'auto' }}>
             <FaHome />
             <span>На сайт</span>
@@ -128,7 +137,16 @@ function AdminDashboard() {
           </button>
           
           <div className="admin-brand">
-            <BrandLogo to="/admin/advanced" size="sm" />
+            <BrandLogo 
+              to="/admin/advanced" 
+              size="sm" 
+              onClick={(e) => {
+                if (window.location.pathname === '/admin/advanced') {
+                  e.preventDefault();
+                  window.location.reload();
+                }
+              }}
+            />
             <h1 className="admin-title">Панель администратора</h1>
           </div>
           

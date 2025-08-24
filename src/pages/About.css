@@ -318,6 +318,12 @@
   line-height: 1.6;
 }
 
+.requisites-text {
+  font-family: 'Russo One', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
 /* Особенности */
 .features-list {
   display: flex;

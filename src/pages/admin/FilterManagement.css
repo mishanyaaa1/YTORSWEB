@@ -11,18 +11,25 @@
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.header-content {
+.filter-header-content {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.5rem;
+  text-align: center;
+  max-width: 600px;
 }
 
-.header-icon {
+.filter-header-icon {
   font-size: 2.5rem;
   color: #e6a34a;
   opacity: 0.8;
+  flex-shrink: 0;
 }
 
 .filter-management-header h2 {
@@ -30,6 +37,7 @@
   margin: 0 0 0.5rem 0;
   font-size: 1.8rem;
   font-weight: 600;
+  text-align: center;
 }
 
 .filter-management-header p {
@@ -37,6 +45,7 @@
   margin: 0;
   font-size: 1rem;
   line-height: 1.4;
+  text-align: center;
 }
 
 .filter-management-content {
@@ -324,10 +333,23 @@
     padding: 1.5rem;
   }
   
-  .header-content {
+  .filter-header-content {
     flex-direction: column;
     text-align: center;
     gap: 1rem;
+    max-width: 100%;
+  }
+  
+  .filter-header-icon {
+    font-size: 2rem;
+  }
+  
+  .filter-management-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .filter-management-header p {
+    font-size: 0.9rem;
   }
   
   .section-header {

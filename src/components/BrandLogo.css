@@ -1,6 +1,6 @@
 .brand-logo {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 10px;
   text-decoration: none;
 }
@@ -15,11 +15,39 @@
 }
 
 .brand-logo-text {
-  font-weight: 800;
+  font-family: 'Russo One', sans-serif;
+  font-weight: 400;
   letter-spacing: 0.5px;
   color: #e6a34a;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.brand-logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #e6a34a 0%, #ffd166 50%, #e6a34a 100%);
+  border-radius: 0;
+  transform: translateX(-50%);
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px rgba(230, 163, 74, 0.6);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.brand-logo:hover .brand-logo-text::after {
+  width: 100%;
+  clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+}
+
+.brand-logo:hover .brand-logo-text {
+  color: #ffd166;
+  text-shadow: 0 0 15px rgba(230, 163, 74, 0.4);
 }
 
 /* Встраивание в тёмную шапку */
@@ -35,7 +63,20 @@
 /* Адаптив */
 @media (max-width: 768px) {
   .brand-logo { gap: 8px; }
-  .brand-logo-text { font-size: 1.05rem; }
+  .brand-logo-text { font-size: 1.3rem; }
+}
+
+/* Поддержка мобильных устройств */
+@media (hover: none) and (pointer: coarse) {
+  .brand-logo:active .brand-logo-text::after {
+    width: 100%;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+  }
+  
+  .brand-logo:active .brand-logo-text {
+    color: #ffd166;
+    text-shadow: 0 0 15px rgba(230, 163, 74, 0.4);
+  }
 }
 
 

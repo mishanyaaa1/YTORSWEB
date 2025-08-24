@@ -411,7 +411,7 @@ export default function About() {
                 <div className="advantage-card payment-card">
                   <div className="advantage-icon"><FaFileInvoice /></div>
                   <h4>Реквизиты</h4>
-                  <p>{aboutContent.deliveryAndPayment.payment.requisites}</p>
+                  <p className="requisites-text">{aboutContent.deliveryAndPayment.payment.requisites}</p>
                 </div>
               </div>
               <div className="payment-logos" aria-hidden>
