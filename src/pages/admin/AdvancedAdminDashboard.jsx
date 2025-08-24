@@ -4,6 +4,7 @@ import { useAdminData } from '../../context/AdminDataContext';
 import ProductManagement from './ProductManagement';
 import CategoryManagement from './CategoryManagement';
 import PromotionManagement from './PromotionManagement';
+import PromocodeManagement from './PromocodeManagement';
 import ContentManagement from './ContentManagement';
 import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
@@ -12,13 +13,13 @@ import FilterManagement from './FilterManagement';
 
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
 function AdvancedAdminDashboard() {
   const navigate = useNavigate();
-  const { products, promotions } = useAdminData();
+  const { products, promotions, promocodes } = useAdminData();
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function AdvancedAdminDashboard() {
     { id: 'categories', label: 'Категории', icon: <FaTags /> },
     { id: 'popular', label: 'Популярные товары', icon: <FaStar /> },
     { id: 'promotions', label: 'Акции', icon: <FaTags /> },
+    { id: 'promocodes', label: 'Промокоды', icon: <FaTag /> },
     { id: 'orders', label: 'Заказы', icon: <FaShoppingCart /> },
     { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
@@ -72,6 +74,14 @@ function AdvancedAdminDashboard() {
           <div className="stat-content">
             <div className="stat-number">{promotions.length}</div>
             <div className="stat-label">Акций</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">🎫</div>
+          <div className="stat-content">
+            <div className="stat-number">{promocodes.length}</div>
+            <div className="stat-label">Промокодов</div>
           </div>
         </div>
         
@@ -151,6 +161,8 @@ function AdvancedAdminDashboard() {
         return <PopularProductsManagement />;
       case 'promotions':
         return <PromotionManagement />;
+      case 'promocodes':
+        return <PromocodeManagement />;
       case 'orders':
         return <OrderManagement />;
       case 'filters':

@@ -708,6 +708,31 @@ input[type="number"].quantity-input,
   .form-actions {
     flex-direction: column;
   }
+  
+  .promocode-input-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .promocode-apply-btn {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 16px;
+  }
+  
+  .promocode-input {
+    font-size: 16px;
+    padding: 16px 18px;
+  }
+  
+  .promocode-section {
+    padding: 25px 20px;
+  }
+  
+  .promocode-section h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
 }
 
 /* Стили для скидок */
@@ -758,4 +783,282 @@ input[type="number"].quantity-input,
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Стили для промокода */
+.promocode-section {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: rgba(230, 163, 74, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(230, 163, 74, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.promocode-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e6a34a, #f39c12, #e6a34a);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.promocode-section h4 {
+  margin: 0 0 15px 0;
+  color: #e6a34a;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.promocode-section h4::before {
+  content: '🎫';
+  font-size: 18px;
+}
+
+.promocode-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
+}
+
+.promocode-input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 2px solid rgba(230, 163, 74, 0.3);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.promocode-input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-style: italic;
+}
+
+/* Принудительно устанавливаем цвет текста для всех состояний */
+.promocode-input,
+.promocode-input:focus,
+.promocode-input:active,
+.promocode-input:hover {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для автозаполнения браузера */
+.promocode-input:-webkit-autofill,
+.promocode-input:-webkit-autofill:hover,
+.promocode-input:-webkit-autofill:focus,
+.promocode-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.05) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.promocode-input:focus {
+  outline: none;
+  border-color: #e6a34a;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(230, 163, 74, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.promocode-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+.promocode-apply-btn {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #e6a34a 0%, #f39c12 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(230, 163, 74, 0.3);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+.promocode-apply-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.promocode-apply-btn:hover::before {
+  left: 100%;
+}
+
+.promocode-apply-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 163, 74, 0.4);
+}
+
+.promocode-apply-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.promocode-apply-btn:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.applied-promocode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.applied-promocode::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shine 2s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+.promocode-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.promocode-code {
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.promocode-description {
+  font-size: 14px;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.promocode-remove-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
+}
+
+.promocode-remove-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.promocode-remove-btn:active {
+  transform: scale(0.95);
+}
+
+/* Строка промокода в итогах */
+.promocode-line {
+  color: #27ae60 !important;
+  font-weight: 600;
+}
+
+.promocode-icon {
+  color: #27ae60;
+  margin-right: 0.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.promocode-amount {
+  color: #27ae60 !important;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(39, 174, 96, 0.3);
+}
+
+/* Информация о суммировании промокода */
+.promocode-stackable-info {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid;
+}
+
+.promocode-stackable-info small {
+  color: #cccccc;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Стили для разных типов суммирования */
+.promocode-stackable-info:has(small:contains("✅")) {
+  border-left-color: #27ae60;
+  background: rgba(39, 174, 96, 0.1);
+}
+
+.promocode-stackable-info:has(small:contains("⚠️")) {
+  border-left-color: #f39c12;
+  background: rgba(243, 156, 18, 0.1);
 }

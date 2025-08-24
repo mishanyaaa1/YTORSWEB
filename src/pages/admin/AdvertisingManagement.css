@@ -2,6 +2,18 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Общие стили для всех label в админке */
+.advertising-management label,
+.form-group label,
+.section label,
+.advertising-management .form-group label {
+  color: #ffffff !important;
+  font-weight: 500;
 }
 
 .advertising-header {

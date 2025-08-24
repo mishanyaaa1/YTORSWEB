@@ -44,7 +44,6 @@ function Promotions() {
   const promotions = activePromotions.map(promo => ({
     ...promo,
     image: getCategoryIcon(promo.category),
-    code: promo.code || `SALE${promo.discount || ''}`,
     minPurchase: promo.minPurchase || 15000,
     validUntil: promo.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   }));
@@ -158,10 +157,6 @@ function Promotions() {
                   )}
                   
                   <div className="promo-details">
-                    <div className="promo-code">
-                      <FaTag /> Код: <strong>{promo.code}</strong>
-                    </div>
-                    
                     <div className="promo-expires">
                       <FaCalendarAlt /> До {formatDate(promo.validUntil)}
                     </div>
@@ -267,10 +262,6 @@ function Promotions() {
                     <p>{promo.description}</p>
                     
                     <div className="promo-meta">
-                      <div className="promo-code-small">
-                        <FaTag /> {promo.code}
-                      </div>
-                      
                       <div className="promo-expires-small">
                         <FaClock /> {getDaysLeft(promo.validUntil)} дней
                       </div>
@@ -326,8 +317,8 @@ function Promotions() {
               viewport={{ once: true }}
             >
               <div className="step-number">2</div>
-              <h3>Введите промокод</h3>
-              <p>Укажите код акции при оформлении заказа</p>
+              <h3>Оформите заказ</h3>
+              <p>Перейдите в корзину и оформите заказ</p>
             </motion.div>
             
             <motion.div 
@@ -339,7 +330,7 @@ function Promotions() {
             >
               <div className="step-number">3</div>
               <h3>Получите скидку</h3>
-              <p>Скидка применится автоматически</p>
+              <p>Скидка применится автоматически при достижении минимальной суммы</p>
             </motion.div>
           </div>
         </div>

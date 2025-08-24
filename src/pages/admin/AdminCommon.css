@@ -1,0 +1,157 @@
+/* Общие стили для всех админских компонентов */
+
+/* Принудительно белый цвет для всех label */
+.admin-dashboard label,
+.promocode-management label,
+.product-management label,
+.category-management label,
+.promotion-management label,
+.order-management label,
+.content-management label,
+.advertising-management label,
+.popular-products-management label,
+.filter-management label,
+.form-group label,
+.section label,
+.form label,
+.admin-form label,
+.admin-panel label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+/* Принудительно белый цвет для всех input, select, textarea */
+.admin-dashboard input,
+.admin-dashboard select,
+.admin-dashboard textarea,
+.promocode-management input,
+.promocode-management select,
+.promocode-management textarea,
+.product-management input,
+.product-management select,
+.product-management textarea,
+.category-management input,
+.category-management select,
+.category-management textarea,
+.promotion-management input,
+.promotion-management select,
+.promotion-management textarea,
+.order-management input,
+.order-management select,
+.order-management textarea,
+.content-management input,
+.content-management select,
+.content-management textarea,
+.advertising-management input,
+.advertising-management select,
+.advertising-management textarea,
+.popular-products-management input,
+.popular-products-management select,
+.popular-products-management textarea,
+.filter-management input,
+.filter-management select,
+.filter-management textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для placeholder */
+.admin-dashboard input::placeholder,
+.admin-dashboard textarea::placeholder,
+.promocode-management input::placeholder,
+.promocode-management textarea::placeholder,
+.product-management input::placeholder,
+.product-management textarea::placeholder,
+.category-management input::placeholder,
+.category-management textarea::placeholder,
+.promotion-management input::placeholder,
+.promotion-management textarea::placeholder,
+.order-management input::placeholder,
+.order-management textarea::placeholder,
+.content-management input::placeholder,
+.content-management textarea::placeholder,
+.advertising-management input::placeholder,
+.advertising-management textarea::placeholder,
+.popular-products-management input::placeholder,
+.popular-products-management textarea::placeholder,
+.filter-management input::placeholder,
+.filter-management textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Стили для автозаполнения */
+.admin-dashboard input:-webkit-autofill,
+.admin-dashboard input:-webkit-autofill:hover,
+.admin-dashboard input:-webkit-autofill:focus,
+.admin-dashboard input:-webkit-autofill:active,
+.promocode-management input:-webkit-autofill,
+.promocode-management input:-webkit-autofill:hover,
+.promocode-management input:-webkit-autofill:focus,
+.promocode-management input:-webkit-autofill:active,
+.product-management input:-webkit-autofill,
+.product-management input:-webkit-autofill:hover,
+.product-management input:-webkit-autofill:focus,
+.product-management input:-webkit-autofill:active,
+.category-management input:-webkit-autofill,
+.category-management input:-webkit-autofill:hover,
+.category-management input:-webkit-autofill:focus,
+.category-management input:-webkit-autofill:active,
+.promotion-management input:-webkit-autofill,
+.promotion-management input:-webkit-autofill:hover,
+.promotion-management input:-webkit-autofill:focus,
+.promotion-management input:-webkit-autofill:active,
+.order-management input:-webkit-autofill,
+.order-management input:-webkit-autofill:hover,
+.order-management input:-webkit-autofill:focus,
+.order-management input:-webkit-autofill:active,
+.content-management input:-webkit-autofill,
+.content-management input:-webkit-autofill:hover,
+.content-management input:-webkit-autofill:focus,
+.content-management input:-webkit-autofill:active,
+.advertising-management input:-webkit-autofill,
+.advertising-management input:-webkit-autofill:hover,
+.advertising-management input:-webkit-autofill:focus,
+.advertising-management input:-webkit-autofill:active,
+.popular-products-management input:-webkit-autofill,
+.popular-products-management input:-webkit-autofill:hover,
+.popular-products-management input:-webkit-autofill:focus,
+.popular-products-management input:-webkit-autofill:active,
+.filter-management input:-webkit-autofill,
+.filter-management input:-webkit-autofill:hover,
+.filter-management input:-webkit-autofill:focus,
+.filter-management input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Стили для dropdown меню */
+.admin-dashboard select option,
+.promocode-management select option,
+.product-management select option,
+.category-management select option,
+.promotion-management select option,
+.order-management select option,
+.content-management select option,
+.advertising-management select option,
+.popular-products-management select option,
+.filter-management select option {
+  background: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+/* Темный фон для всех админских компонентов */
+.admin-dashboard,
+.promocode-management,
+.product-management,
+.category-management,
+.promotion-management,
+.order-management,
+.content-management,
+.advertising-management,
+.popular-products-management,
+.filter-management {
+  background: #0a0a0a;
+  color: #ffffff;
+  min-height: 100vh;
+}

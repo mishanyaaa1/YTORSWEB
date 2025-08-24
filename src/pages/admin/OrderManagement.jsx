@@ -190,6 +190,7 @@ function OrderManagement() {
           <div>Номер заказа</div>
           <div>Клиент</div>
           <div>Сумма</div>
+          <div>Скидки</div>
           <div>Статус</div>
           <div>Дата</div>
           <div>Действия</div>
@@ -212,6 +213,21 @@ function OrderManagement() {
               </div>
               <div className="order-total">
                 {order.pricing.total.toLocaleString()} ₽
+              </div>
+              <div className="order-discounts">
+                {order.pricing.discountAmount > 0 && (
+                  <div className="discount-badge promotion">
+                    🎯 -{order.pricing.discountAmount.toLocaleString()} ₽
+                  </div>
+                )}
+                {order.pricing.promocodeDiscount > 0 && (
+                  <div className="discount-badge promocode">
+                    🏷️ -{order.pricing.promocodeDiscount.toLocaleString()} ₽
+                  </div>
+                )}
+                {order.pricing.discountAmount === 0 && order.pricing.promocodeDiscount === 0 && (
+                  <span className="no-discount">Нет скидок</span>
+                )}
               </div>
               <div className="order-status">
                 <span 
@@ -339,18 +355,64 @@ function OrderManagement() {
                       <span>Подытог:</span>
                       <span>{selectedOrder.pricing.subtotal.toLocaleString()} ₽</span>
                     </div>
+                    
+                    {/* Скидка по акции */}
                     {selectedOrder.pricing.discountAmount > 0 && (
                       <div className="total-line discount">
-                        <span>Скидка:</span>
+                        <span>Скидка по акции:</span>
                         <span>-{selectedOrder.pricing.discountAmount.toLocaleString()} ₽</span>
                       </div>
                     )}
+                    
+                    {/* Скидка по промокоду */}
+                    {selectedOrder.pricing.promocodeDiscount > 0 && (
+                      <div className="total-line promocode-discount">
+                        <span>Скидка по промокоду:</span>
+                        <span>-{selectedOrder.pricing.promocodeDiscount.toLocaleString()} ₽</span>
+                      </div>
+                    )}
+                    
                     <div className="total-line final">
                       <span>Итого:</span>
                       <span>{selectedOrder.pricing.total.toLocaleString()} ₽</span>
                     </div>
                   </div>
                 </div>
+
+                {/* Информация о примененных скидках и промокодах */}
+                {(selectedOrder.pricing.discountAmount > 0 || selectedOrder.pricing.promocodeDiscount > 0) && (
+                  <div className="details-section">
+                    <h4>Примененные скидки</h4>
+                    <div className="discounts-info">
+                      {selectedOrder.pricing.appliedPromotion && (
+                        <div className="discount-item">
+                          <div className="discount-type">🎯 Акция</div>
+                          <div className="discount-details">
+                            <div className="discount-title">{selectedOrder.pricing.appliedPromotion.title}</div>
+                            <div className="discount-amount">-{selectedOrder.pricing.discountAmount.toLocaleString()} ₽</div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {selectedOrder.pricing.appliedPromocode && (
+                        <div className="discount-item">
+                          <div className="discount-type">🏷️ Промокод</div>
+                          <div className="discount-details">
+                            <div className="promocode-code">{selectedOrder.pricing.appliedPromocode.code}</div>
+                            <div className="promocode-description">{selectedOrder.pricing.appliedPromocode.description}</div>
+                            <div className="discount-amount">-{selectedOrder.pricing.promocodeDiscount.toLocaleString()} ₽</div>
+                            <div className="stackable-info">
+                              {selectedOrder.pricing.appliedPromocode.stackable 
+                                ? '✅ Суммируется с акциями' 
+                                : '⚠️ Не суммируется с акциями'
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 <div className="details-section">
                   <h4>Заметки</h4>

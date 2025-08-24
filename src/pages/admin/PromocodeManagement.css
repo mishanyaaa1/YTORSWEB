@@ -1,0 +1,499 @@
+/* Стили для управления промокодами */
+.promocode-management {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.management-header {
+  margin-bottom: 30px;
+  text-align: right;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Форма промокода */
+.promocode-form {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid #404040;
+}
+
+.promocode-form h3 {
+  margin: 0 0 25px 0;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 16px;
+  border: 2px solid #404040;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  background: #1a1a1a;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Стили для dropdown меню */
+.form-group select option {
+  background: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+/* Дополнительные стили для разных браузеров */
+.form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Стили для Firefox */
+.form-group select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #ffffff;
+}
+
+/* Стили для IE */
+.form-group select::-ms-expand {
+  display: none;
+}
+
+/* Стили для автозаполнения */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #2d2d2d;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.code-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.code-input-group input {
+  flex: 1;
+}
+
+.btn-generate {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.btn-generate:hover {
+  background: #229954;
+  transform: translateY(-1px);
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+  accent-color: #667eea;
+  transform: scale(1.2);
+}
+
+.form-group label input[type="checkbox"] {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.btn-success,
+.btn-secondary {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-success {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #229954;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #7f8c8d;
+  transform: translateY(-1px);
+}
+
+/* Сетка промокодов */
+.promocodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.no-promocodes {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #cccccc;
+  font-size: 18px;
+}
+
+/* Карточка промокода */
+.promocode-card {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid #404040;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.promocode-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.promocode-card.inactive {
+  opacity: 0.6;
+  background: #1a1a1a;
+}
+
+.promocode-card.expired {
+  border-left: 4px solid #e74c3c;
+}
+
+.promocode-card.not-started {
+  border-left: 4px solid #f39c12;
+}
+
+.promocode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.promocode-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  flex: 1;
+  padding-right: 15px;
+}
+
+.promocode-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-toggle,
+.btn-copy,
+.btn-edit,
+.btn-delete {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-toggle.active {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-toggle.inactive {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-copy {
+  background: #3498db;
+  color: white;
+}
+
+.btn-copy:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+.btn-edit {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #e67e22;
+  transform: scale(1.05);
+}
+
+.btn-delete {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Содержимое карточки */
+.promocode-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.promocode-code {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.code-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.code-value {
+  font-size: 20px;
+  font-family: 'Courier New', monospace;
+}
+
+.promocode-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.promocode-discount,
+.promocode-max-discount,
+.promocode-min-purchase,
+.promocode-validity,
+.promocode-usage {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.discount-label,
+.max-discount-label,
+.min-purchase-label,
+.validity-label,
+.usage-label {
+  font-size: 12px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.discount-value,
+.max-discount-value,
+.min-purchase-value,
+.validity-value,
+.usage-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.discount-value {
+  color: #27ae60;
+  font-size: 18px;
+}
+
+.validity-value.expired {
+  color: #e74c3c;
+}
+
+/* Статус промокода */
+.promocode-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.status-stackable,
+.status-inactive,
+.status-expired,
+.status-not-started,
+.status-active {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-stackable {
+  background: #e8f5e8;
+  color: #27ae60;
+}
+
+.status-inactive {
+  background: #f8f9fa;
+  color: #7f8c8d;
+}
+
+.status-expired {
+  background: #fdf2f2;
+  color: #e74c3c;
+}
+
+.status-not-started {
+  background: #fef9e7;
+  color: #f39c12;
+}
+
+.status-active {
+  background: #e8f5e8;
+  color: #27ae60;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .promocode-management {
+    padding: 15px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .promocodes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .promocode-card {
+    padding: 20px;
+  }
+  
+  .promocode-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .promocode-actions {
+    align-self: flex-end;
+  }
+  
+  .promocode-details {
+    grid-template-columns: 1fr;
+  }
+}

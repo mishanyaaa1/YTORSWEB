@@ -94,6 +94,11 @@ export const AdminDataProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [promocodes, setPromocodes] = useState(() => {
+    const saved = localStorage.getItem('adminPromocodes');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [aboutContent, setAboutContent] = useState(() => {
     const saved = localStorage.getItem('adminAboutContent');
     if (saved) {
@@ -194,6 +199,15 @@ export const AdminDataProvider = ({ children }) => {
       // ignore storage errors
     }
   }, [filterSettings]);
+
+  // Сохраняем промокоды в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminPromocodes', JSON.stringify(promocodes));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [promocodes]);
 
   const [popularProductIds, setPopularProductIds] = useState(() => {
     const saved = localStorage.getItem('adminPopularProducts');
@@ -461,6 +475,65 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
+  // Функции для работы с промокодами
+  const addPromocode = async (promocode) => {
+    try {
+      const res = await fetch('/api/promocodes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(promocode)
+      });
+      if (!res.ok) throw new Error('Failed to create promocode');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback: локально, если API недоступен
+      const newPromocode = {
+        ...promocode,
+        id: promocodes.length ? Math.max(...promocodes.map(p => p.id)) + 1 : 1
+      };
+      const updatedPromocodes = [...promocodes, newPromocode];
+      setPromocodes(updatedPromocodes);
+      localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
+    }
+  };
+
+  const updatePromocode = async (id, updatedPromocode) => {
+    try {
+      const res = await fetch(`/api/promocodes/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedPromocode)
+      });
+      if (!res.ok) throw new Error('Failed to update promocode');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback: локально, если API недоступен
+      const updatedPromocodes = promocodes.map(p => 
+        p.id === id ? { ...p, ...updatedPromocode } : p
+      );
+      setPromocodes(updatedPromocodes);
+      localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
+    }
+  };
+
+  const deletePromocode = async (id) => {
+    try {
+      const res = await fetch(`/api/promocodes/${id}`, { 
+        method: 'DELETE', 
+        credentials: 'include' 
+      });
+      if (!res.ok) throw new Error('Failed to delete promocode');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback: локально, если API недоступен
+      const updatedPromocodes = promocodes.filter(p => p.id !== id);
+      setPromocodes(updatedPromocodes);
+      localStorage.setItem('adminPromocodes', JSON.stringify(updatedPromocodes));
+    }
+  };
+
   // Функции для работы с акциями
   const addPromotion = async (promotion) => {
     try {
@@ -594,16 +667,18 @@ export const AdminDataProvider = ({ children }) => {
     categories,
     brands,
     promotions,
+    promocodes,
     aboutContent,
     filterSettings,
     popularProductIds,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
-      const [p, cRaw, b, pr] = await Promise.all([
+      const [p, cRaw, b, pr, pc] = await Promise.all([
         fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
         fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
         fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
-        fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
+        fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+        fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
       ]);
       const normalized = Array.isArray(p) ? p.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
       const c = normalizeCategories(cRaw);
@@ -611,10 +686,12 @@ export const AdminDataProvider = ({ children }) => {
       setCategories(c);
       setBrands(b);
       setPromotions(pr);
+      setPromocodes(pc);
       localStorage.setItem('adminProducts', JSON.stringify(normalized));
       localStorage.setItem('adminCategories', JSON.stringify(c));
       localStorage.setItem('adminBrands', JSON.stringify(b));
       localStorage.setItem('adminPromotions', JSON.stringify(pr));
+      localStorage.setItem('adminPromocodes', JSON.stringify(pc));
     },
     
     // Функции для товаров
@@ -633,6 +710,11 @@ export const AdminDataProvider = ({ children }) => {
     // Функции для брендов
     addBrand,
     deleteBrand,
+    
+    // Функции для промокодов
+    addPromocode,
+    updatePromocode,
+    deletePromocode,
     
     // Функции для акций
     addPromotion,

@@ -94,10 +94,20 @@
   background: #252525;
   border: 1px solid #444;
   border-radius: 8px;
-  color: #fff;
+  color: #fff !important;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+}
+
+/* Общие стили для всех label в админке */
+.add-category-form label,
+.form-group label,
+.section label,
+.category-management label {
+  color: #ffffff !important;
+  font-weight: 500;
+}
 }
 
 .add-category-form input:focus {

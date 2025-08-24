@@ -10,7 +10,8 @@ import {
   FaSignOutAlt,
   FaBars,
   FaTimes,
-  FaHome
+  FaHome,
+  FaTag
 } from 'react-icons/fa';
 import './AdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
@@ -57,6 +58,11 @@ function AdminDashboard() {
       path: '/admin/dashboard/promotions',
       icon: <FaPercent />,
       label: 'Акции'
+    },
+    {
+      path: '/admin/dashboard/promocodes',
+      icon: <FaTag />,
+      label: 'Промокоды'
     },
     {
       path: '/admin/dashboard/content',

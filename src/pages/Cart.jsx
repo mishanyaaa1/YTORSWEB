@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaPercent, FaTags } from 'react-icons/fa';
+import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaPercent, FaTags, FaTag } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { useAdminData } from '../context/AdminDataContext';
 import { useOrders } from '../context/OrdersContext';
@@ -21,7 +21,7 @@ function Cart() {
     isInitialized
   } = useCart();
   
-  const { promotions, products } = useAdminData();
+  const { promotions, promocodes, products } = useAdminData();
   const { createOrder } = useOrders();
   const navigate = useNavigate();
   
@@ -30,6 +30,8 @@ function Cart() {
   console.log('Cart component: cart state:', { cartItems, isInitialized, cartItemsLength: cartItems?.length });
   
   const [showCheckout, setShowCheckout] = useState(false);
+  const [promocode, setPromocode] = useState('');
+  const [appliedPromocode, setAppliedPromocode] = useState(null);
   const [orderForm, setOrderForm] = useState({
     name: '',
     phone: '',
@@ -77,29 +79,64 @@ function Cart() {
     return activePromotions.sort((a, b) => (b.discount || 0) - (a.discount || 0));
   }, [cartItems, promotions, products, getCartTotal, isInitialized]);
 
-  // Расчет финальных цен с учетом скидок
+  // Расчет финальных цен с учетом скидок и промокода
   const priceCalculation = useMemo(() => {
     if (!isInitialized || !cartItems) {
       return {
         subtotal: 0,
         discountAmount: 0,
+        promocodeDiscount: 0,
         total: 0,
-        appliedPromotion: null
+        appliedPromotion: null,
+        appliedPromocode: null
       };
     }
     
     const subtotal = getCartTotal();
-    const bestDiscount = applicableDiscounts[0];
-    const discountAmount = bestDiscount ? Math.round(subtotal * (bestDiscount.discount / 100)) : 0;
-    const total = subtotal - discountAmount;
+    let bestDiscount = applicableDiscounts[0];
+    let discountAmount = bestDiscount ? Math.round(subtotal * (bestDiscount.discount / 100)) : 0;
+    
+    // Применяем промокод
+    let promocodeDiscount = 0;
+    if (appliedPromocode) {
+      if (appliedPromocode.discountType === 'percent') {
+        promocodeDiscount = Math.round(subtotal * (appliedPromocode.discount / 100));
+        if (appliedPromocode.maxDiscount > 0) {
+          promocodeDiscount = Math.min(promocodeDiscount, appliedPromocode.maxDiscount);
+        }
+      } else {
+        promocodeDiscount = appliedPromocode.discount;
+      }
+    }
+    
+    // Если промокод не суммируется с акциями, выбираем максимальную скидку
+    if (appliedPromocode && !appliedPromocode.stackable && bestDiscount) {
+      const promotionDiscount = discountAmount;
+      const promocodeDiscountAmount = promocodeDiscount;
+      
+      // Выбираем максимальную скидку
+      if (promotionDiscount > promocodeDiscountAmount) {
+        // Применяем только акцию
+        promocodeDiscount = 0;
+        bestDiscount = bestDiscount; // оставляем акцию
+      } else {
+        // Применяем только промокод
+        discountAmount = 0;
+        bestDiscount = null; // убираем акцию
+      }
+    }
+    
+    const total = subtotal - discountAmount - promocodeDiscount;
 
     return {
       subtotal,
       discountAmount,
+      promocodeDiscount,
       total,
-      appliedPromotion: bestDiscount
+      appliedPromotion: bestDiscount,
+      appliedPromocode
     };
-  }, [getCartTotal, applicableDiscounts, isInitialized, cartItems]);
+  }, [getCartTotal, applicableDiscounts, appliedPromocode, isInitialized, cartItems]);
 
   // Показываем загрузку, пока корзина не инициализирована
   if (!isInitialized) {
@@ -129,6 +166,54 @@ function Cart() {
       ...orderForm,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handlePromocodeChange = (e) => {
+    setPromocode(e.target.value.toUpperCase());
+  };
+
+  const applyPromocode = () => {
+    if (!promocode.trim()) {
+      alert('Введите код промокода!');
+      return;
+    }
+
+    const foundPromocode = promocodes.find(p => 
+      p.code === promocode.trim() && 
+      p.active && 
+      (!p.validFrom || new Date(p.validFrom) <= new Date()) &&
+      (!p.validUntil || new Date(p.validUntil) >= new Date()) &&
+      (p.usageLimit === 0 || (p.usedCount || 0) < p.usageLimit)
+    );
+
+    if (!foundPromocode) {
+      alert('Промокод не найден или недействителен!');
+      setPromocode('');
+      return;
+    }
+
+    const cartTotal = getCartTotal();
+    if (foundPromocode.minPurchase > 0 && cartTotal < foundPromocode.minPurchase) {
+      alert(`Минимальная сумма для применения промокода: ${foundPromocode.minPurchase.toLocaleString()} ₽`);
+      setPromocode('');
+      return;
+    }
+
+    // Проверяем, есть ли уже примененный промокод
+    if (appliedPromocode) {
+      alert('Сначала удалите текущий промокод!');
+      setPromocode('');
+      return;
+    }
+
+    setAppliedPromocode(foundPromocode);
+    alert(`Промокод "${foundPromocode.description}" применен!`);
+    setPromocode('');
+  };
+
+  const removePromocode = () => {
+    setAppliedPromocode(null);
+    alert('Промокод удален!');
   };
 
   const handleSubmitOrder = async (e) => {
@@ -324,6 +409,56 @@ function Cart() {
           <div className="cart-summary">
             <div className="summary-card">
               <h3>Итого</h3>
+              
+              {/* Поле для промокода */}
+              <div className="promocode-section">
+                <h4>Промокод</h4>
+                {!appliedPromocode ? (
+                  <div className="promocode-input-group">
+                    <input
+                      type="text"
+                      value={promocode}
+                      onChange={handlePromocodeChange}
+                      placeholder="Введите код промокода"
+                      className="promocode-input"
+                      maxLength="20"
+                    />
+                    <button 
+                      onClick={applyPromocode}
+                      className="promocode-apply-btn"
+                      disabled={!promocode.trim()}
+                    >
+                      Применить
+                    </button>
+                  </div>
+                ) : (
+                  <div className="applied-promocode">
+                    <div className="promocode-info">
+                      <span className="promocode-code">{appliedPromocode.code}</span>
+                      <span className="promocode-description">{appliedPromocode.description}</span>
+                    </div>
+                    <button 
+                      onClick={removePromocode}
+                      className="promocode-remove-btn"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+                
+                                 {/* Информация о суммировании */}
+                 {appliedPromocode && (
+                   <div className="promocode-stackable-info">
+                     <small>
+                       {appliedPromocode.stackable 
+                         ? '✅ Суммируется с акциями' 
+                         : '⚠️ Не суммируется с акциями!'
+                       }
+                     </small>
+                   </div>
+                 )}
+              </div>
+              
               <div className="summary-line">
                 <span>Товары ({cartItems.reduce((sum, item) => sum + item.quantity, 0)} шт):</span>
                 <span>{priceCalculation.subtotal.toLocaleString()} ₽</span>
@@ -341,6 +476,18 @@ function Cart() {
                 </div>
               )}
               
+              {priceCalculation.appliedPromocode && (
+                <div className="summary-line promocode-line">
+                  <span>
+                    <FaTag className="promocode-icon" />
+                    Промокод "{priceCalculation.appliedPromocode.description}":
+                  </span>
+                  <span className="promocode-amount">
+                    -{priceCalculation.promocodeDiscount.toLocaleString()} ₽
+                  </span>
+                </div>
+              )}
+              
               <div className="summary-line">
                 <span>Доставка:</span>
                 <span>Бесплатно</span>
@@ -351,10 +498,19 @@ function Cart() {
                 <span>{priceCalculation.total.toLocaleString()} ₽</span>
               </div>
               
-              {applicableDiscounts.length > 0 && (
+              {(applicableDiscounts.length > 0 || priceCalculation.appliedPromocode) && (
                 <div className="promotions-info">
                   <FaTags className="promo-icon" />
-                  <span>Применены активные акции!</span>
+                  <span>
+                    {priceCalculation.appliedPromocode && !priceCalculation.appliedPromocode.stackable && priceCalculation.appliedPromotion 
+                      ? 'Применен промокод (акции отключены)'
+                      : priceCalculation.appliedPromocode && priceCalculation.appliedPromocode.stackable && priceCalculation.appliedPromotion
+                      ? 'Применены акции и промокод (суммируются)'
+                      : priceCalculation.appliedPromotion && !priceCalculation.appliedPromocode
+                      ? 'Применены активные акции!'
+                      : 'Применен промокод!'
+                    }
+                  </span>
                 </div>
               )}
               
