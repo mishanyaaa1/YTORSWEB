@@ -1,15 +1,12 @@
 .catalog-page {
   padding: 120px 0 60px;
   min-height: 100vh;
-  background: #0a0a0a;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 25%, #2a0a2a 50%, #1a0a1a 75%, #0a0a0a 100%);
   color: #ffffff;
+  position: relative;
 }
 
-/* Убираем анимированный фон для страницы каталога */
-.catalog-page {
-	position: relative;
-}
-
+/* Убираем сложные анимации фона */
 .catalog-page .container {
 	position: relative;
 	z-index: 1;
@@ -18,16 +15,19 @@
 .catalog-header {
   text-align: center;
   margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
 }
 
 .catalog-header h1 {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 50%, #f2b65a 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 30px rgba(230, 163, 74, 0.3);
 }
 
 .catalog-header p {
@@ -36,6 +36,7 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.8;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {
