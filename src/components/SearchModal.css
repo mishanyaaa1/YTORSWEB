@@ -65,6 +65,12 @@
   transform: scale(1.1);
 }
 
+.close-btn:focus,
+.close-btn:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Форма поиска */
 .search-form {
   padding: 2rem;
@@ -100,8 +106,13 @@
 
 .search-input:focus {
   border-color: #e6a34a;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 4px rgba(230, 163, 74, 0.2);
+  box-shadow: 0 0 0 3px rgba(230, 163, 74, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-input:focus,
+.search-input:focus-visible {
+  outline: none;
 }
 
 .search-input::placeholder {
@@ -136,6 +147,12 @@
 .category-select:focus {
   border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.category-select:focus,
+.category-select:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .category-select option {
@@ -355,6 +372,17 @@
 .add-to-cart-btn {
   background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
+}
+
+.add-to-cart-btn svg {
+  color: #000000 !important;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .add-to-cart-btn:hover {

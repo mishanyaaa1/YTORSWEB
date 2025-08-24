@@ -163,36 +163,64 @@
 }
 
 .quantity-controls {
-  display: flex;
-  align-items: center;
-  background: #1a1a1a;
-  border-radius: 25px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex !important;
+  align-items: center !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 25px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(230, 163, 74, 0.3) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+
+
+.quantity-controls:hover {
+  border-color: #e6a34a;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .quantity-btn {
-  background: none;
-  border: none;
-  color: #ffffff;
-  padding: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  padding: 0.6rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  border-right: 1px solid rgba(230, 163, 74, 0.2) !important;
+}
+
+.quantity-btn:last-child {
+  border-right: none !important;
+  border-left: 1px solid rgba(230, 163, 74, 0.2) !important;
+}
+
+.quantity-btn svg {
+  color: #ffffff !important;
+  font-size: 1rem !important;
 }
 
 .quantity-btn:hover:not(:disabled) {
-  background: rgba(230, 163, 74, 0.1);
-  color: #e6a34a;
+  background: transparent !important;
+  color: #ffffff !important;
+  transform: none !important;
+}
+
+.quantity-btn:hover:not(:disabled) svg {
+  color: #ffffff !important;
+  transform: none !important;
 }
 
 .quantity-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 
 .quantity {
@@ -204,34 +232,105 @@
 }
 
 .quantity-input {
-  padding: 0.8rem 1rem;
-  font-weight: 600;
-  min-width: 50px;
-  max-width: 80px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
+  padding: 0.6rem 0.8rem !important;
+  font-weight: 600 !important;
+  min-width: 50px !important;
+  max-width: 70px !important;
+  text-align: center !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-size: 1rem !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
+  cursor: text !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+.quantity-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Принудительно устанавливаем белый цвет для всех состояний */
+.quantity-input,
+.quantity-input:hover,
+.quantity-input:focus,
+.quantity-input:active,
+.quantity-input:visited {
+  color: #ffffff !important;
+}
+
+/* Специфичные селекторы для разных браузеров */
+input.quantity-input,
+input[type="number"].quantity-input,
+.cart-item .quantity-input {
+  color: #ffffff !important;
 }
 
 .quantity-input:focus {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #e6a34a;
-  box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.2);
+  background: rgba(230, 163, 74, 0.15) !important;
+  outline: none !important;
+  box-shadow: inset 0 0 0 2px rgba(230, 163, 74, 0.5) !important;
+  color: #ffffff !important;
 }
 
 .quantity-input::-webkit-outer-spin-button,
 .quantity-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  -webkit-appearance: none !important;
+  margin: 0 !important;
 }
 
 .quantity-input[type=number] {
-  -moz-appearance: textfield;
+  -moz-appearance: textfield !important;
+}
+
+/* Принудительно убираем все ограничения для поля ввода */
+.quantity-input {
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
+  resize: none !important;
+  overflow: visible !important;
+}
+
+/* Дополнительные стили для всех input элементов в корзине */
+.cart-item input,
+.cart-item input[type="number"],
+.cart-item input[type="text"] {
+  color: #ffffff !important;
+}
+
+/* Стили для autofill */
+.quantity-input:-webkit-autofill,
+.quantity-input:-webkit-autofill:hover,
+.quantity-input:-webkit-autofill:focus,
+.quantity-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Дополнительные стили для правильной работы поля ввода */
+.quantity-input:focus {
+  cursor: text !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+/* Стили для выделения текста */
+.quantity-input::selection {
+  background: rgba(230, 163, 74, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.quantity-input::-moz-selection {
+  background: rgba(230, 163, 74, 0.3) !important;
+  color: #ffffff !important;
 }
 
 .item-total {
@@ -314,6 +413,21 @@
   cursor: pointer;
   margin-top: 2rem;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.checkout-btn svg {
+  color: #ffffff !important;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+}
+
+.checkout-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .checkout-btn:hover {
@@ -352,8 +466,22 @@
   padding: 1rem 2rem;
   border-radius: 25px;
   font-weight: 600;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   transition: all 0.3s ease;
+}
+
+.continue-shopping-btn svg {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.continue-shopping-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .continue-shopping-btn:hover {
@@ -513,6 +641,21 @@
 .submit-btn {
   background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.submit-btn svg {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .submit-btn:hover {

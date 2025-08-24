@@ -22,7 +22,7 @@ import AdvertisingScripts from './components/AdvertisingScripts';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { getCartItemsCount } = useCart();
+  const { getCartItemsCount, isInitialized, storageAvailable } = useCart();
   const { aboutContent } = useAdminData();
   // wishlist removed
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -180,10 +180,11 @@ function App() {
               {/* wishlist button removed */}
               <button className="icon-button cart-button" onClick={handleCartClick}>
                 <FaShoppingCart />
-                {getCartItemsCount() > 0 && (
+                {isInitialized && getCartItemsCount() > 0 && (
                   <span className="cart-count">{getCartItemsCount()}</span>
                 )}
               </button>
+
               <button className="mobile-menu-button">
                 <FaBars />
               </button>
@@ -193,6 +194,17 @@ function App() {
       </header>
 
       <main className="main-content">
+        {!storageAvailable && (
+          <div style={{ 
+            background: '#ff6b6b', 
+            color: 'white', 
+            padding: '10px', 
+            textAlign: 'center',
+            fontSize: '14px'
+          }}>
+            ⚠️ Внимание: Корзина может не сохраняться между сессиями. Пожалуйста, включите cookies и localStorage в настройках браузера.
+          </div>
+        )}
         <Outlet />
       </main>
 

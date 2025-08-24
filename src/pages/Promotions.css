@@ -12,27 +12,18 @@
   text-align: center;
 }
 
-/* Общий анимированный фон для блоков акций */
-.promotions-hero,
-.featured-promotions,
-.all-promotions,
-.how-to-use {
+/* Анимированный фон только для hero секции */
+.promotions-hero {
 	position: relative;
 	overflow: hidden;
 }
 
-.promotions-hero .container,
-.featured-promotions .container,
-.all-promotions .container,
-.how-to-use .container {
+.promotions-hero .container {
 	position: relative;
 	z-index: 1;
 }
 
-.promotions-hero::before,
-.featured-promotions::before,
-.all-promotions::before,
-.how-to-use::before {
+.promotions-hero::before {
 	content: "";
 	position: absolute;
 	inset: -10%;
@@ -46,10 +37,7 @@
 	z-index: 0;
 }
 
-.promotions-hero::after,
-.featured-promotions::after,
-.all-promotions::after,
-.how-to-use::after {
+.promotions-hero::after {
 	content: "";
 	position: absolute;
 	inset: 0;
@@ -62,15 +50,23 @@
 	z-index: 0;
 }
 
+/* Убираем анимации для остальных секций */
+.featured-promotions,
+.all-promotions,
+.how-to-use {
+	position: relative;
+}
+
+.featured-promotions .container,
+.all-promotions .container,
+.how-to-use .container {
+	position: relative;
+	z-index: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.promotions-hero::before,
-	.featured-promotions::before,
-	.all-promotions::before,
-	.how-to-use::before,
-	.promotions-hero::after,
-	.featured-promotions::after,
-	.all-promotions::after,
-	.how-to-use::after {
+	.promotions-hero::after {
 		animation: none !important;
 	}
 }
@@ -275,6 +271,17 @@
   justify-content: center;
 }
 
+.promo-button svg {
+  color: #ffffff !important;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.promo-button:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
+}
+
 .promo-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 15px 30px rgba(230, 163, 74, 0.3);
@@ -301,6 +308,18 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
+}
+
+.filter-btn svg {
+  color: #e6a34a !important;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover svg,
+.filter-btn.active svg {
+  color: #000000 !important;
+  transform: scale(1.1);
 }
 
 .filter-btn:hover,
@@ -536,6 +555,20 @@
   margin-top: 1.5rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(230, 163, 74, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-all-btn svg {
+  color: #ffffff !important;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.view-all-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .view-all-btn:hover {

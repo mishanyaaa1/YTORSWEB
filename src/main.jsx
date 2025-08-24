@@ -8,7 +8,7 @@ import Home from './pages/Home.jsx'
 import CatalogPage from './pages/CatalogPage.jsx'
 import ProductPage from './pages/ProductPage.jsx'
 import Cart from './pages/Cart.jsx'
-// Removed Wishlist page
+// Removed CartTest page
 import About from './pages/About.jsx'
 import Promotions from './pages/Promotions.jsx'
 import SimpleAdminLogin from './pages/admin/SimpleAdminLogin.jsx'
@@ -41,9 +41,8 @@ const router = createBrowserRouter([
         path: "cart",
         element: <Cart />
       },
-      {
-        // Removed wishlist route
-      },
+      // Removed cart-test route
+      // Removed wishlist route
       {
         path: "about",
         element: <About />

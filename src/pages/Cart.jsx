@@ -16,7 +16,9 @@ function Cart() {
     removeFromCart, 
     updateQuantity, 
     clearCart, 
-    getCartTotal 
+    getCartTotal,
+    setCartItems,
+    isInitialized
   } = useCart();
   
   const { promotions, products } = useAdminData();
@@ -25,6 +27,8 @@ function Cart() {
   
   // Логирование для диагностики
   console.log('Cart component: useOrders hook result:', { createOrder });
+  console.log('Cart component: cart state:', { cartItems, isInitialized, cartItemsLength: cartItems?.length });
+  
   const [showCheckout, setShowCheckout] = useState(false);
   const [orderForm, setOrderForm] = useState({
     name: '',
@@ -36,8 +40,13 @@ function Cart() {
     comment: ''
   });
 
+  // ВСЕ ХУКИ ДОЛЖНЫ БЫТЬ ВЫЗВАНЫ ДО УСЛОВНЫХ ВОЗВРАТОВ
   // Расчет применимых скидок
   const applicableDiscounts = useMemo(() => {
+    if (!isInitialized || !cartItems || !promotions || !products) {
+      return [];
+    }
+    
     const cartTotal = getCartTotal();
     const cartCategories = [...new Set(cartItems.map(item => {
       const product = products.find(p => p.id === item.id);
@@ -66,10 +75,19 @@ function Cart() {
 
     // Сортируем по убыванию скидки (лучшие сначала)
     return activePromotions.sort((a, b) => (b.discount || 0) - (a.discount || 0));
-  }, [cartItems, promotions, products, getCartTotal]);
+  }, [cartItems, promotions, products, getCartTotal, isInitialized]);
 
   // Расчет финальных цен с учетом скидок
   const priceCalculation = useMemo(() => {
+    if (!isInitialized || !cartItems) {
+      return {
+        subtotal: 0,
+        discountAmount: 0,
+        total: 0,
+        appliedPromotion: null
+      };
+    }
+    
     const subtotal = getCartTotal();
     const bestDiscount = applicableDiscounts[0];
     const discountAmount = bestDiscount ? Math.round(subtotal * (bestDiscount.discount / 100)) : 0;
@@ -81,7 +99,22 @@ function Cart() {
       total,
       appliedPromotion: bestDiscount
     };
-  }, [getCartTotal, applicableDiscounts]);
+  }, [getCartTotal, applicableDiscounts, isInitialized, cartItems]);
+
+  // Показываем загрузку, пока корзина не инициализирована
+  if (!isInitialized) {
+    return (
+      <div className="cart-page">
+        <div className="container">
+          <div className="empty-cart">
+            <FaShoppingCart className="empty-cart-icon" />
+            <h2>Загрузка корзины...</h2>
+            <p>Пожалуйста, подождите</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleQuantityChange = (productId, newQuantity) => {
     updateQuantity(productId, newQuantity);
@@ -236,18 +269,25 @@ function Cart() {
                         value={item.quantity} 
                         onChange={(e) => {
                           const inputValue = e.target.value.replace(/[^0-9]/g, '');
-                          // Разрешаем пустое поле
+                          // Разрешаем пустое поле и любые числа
                           if (inputValue === '') {
-                            // Временно не обновляем состояние
+                            // Устанавливаем пустое значение
+                            setCartItems(prevItems =>
+                              prevItems.map(cartItem =>
+                                cartItem.id === item.id
+                                  ? { ...cartItem, quantity: '' }
+                                  : cartItem
+                              )
+                            );
                             return;
                           }
                           const value = parseInt(inputValue);
-                          if (!isNaN(value) && value >= 1) {
+                          if (!isNaN(value)) {
                             handleQuantityChange(item.id, value);
                           }
                         }}
                         onBlur={(e) => {
-                          // При потере фокуса, если поле пустое, ставим 1
+                          // При потере фокуса, если поле пустое или меньше 1, ставим 1
                           const cleanValue = e.target.value.replace(/[^0-9]/g, '');
                           if (cleanValue === '' || parseInt(cleanValue) < 1) {
                             handleQuantityChange(item.id, 1);

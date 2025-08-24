@@ -82,6 +82,12 @@ html {
   color: #e6a34a;
 }
 
+.nav-link:focus,
+.nav-link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
@@ -104,8 +110,49 @@ html {
   color: #e6a34a;
 }
 
+/* Убираем рамку выделения у всех кнопок в приложении */
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Убираем рамку выделения у ссылок */
+a:focus,
+a:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Убираем рамку выделения у кнопок */
+.icon-button:focus,
+.icon-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Убираем рамку выделения у кнопки корзины */
+.cart-button:focus,
+.cart-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Убираем рамку выделения у кнопки поиска */
+.search-button:focus,
+.search-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .mobile-menu-button {
   display: none;
+}
+
+.mobile-menu-button:focus,
+.mobile-menu-button:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .cart-button {
@@ -236,6 +283,12 @@ html {
   filter: none;
 }
 
+.cta-button:focus,
+.cta-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Группа CTA в hero */
 .hero-cta-group {
   display: flex;
@@ -268,6 +321,12 @@ html {
 
 .cta-button.secondary svg {
   color: #ffffff !important;
+}
+
+.cta-button.secondary:focus,
+.cta-button.secondary:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 
@@ -426,9 +485,15 @@ html {
   box-shadow: 0 10px 20px rgba(230, 163, 74, 0.3);
 }
 
+.product-button:focus,
+.product-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Футер */
 .footer {
-  background: #111111;
+  background: #080808;
   padding: 3rem 0 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
@@ -461,6 +526,12 @@ html {
   color: #e6a34a;
 }
 
+.footer-section a:focus,
+.footer-section a:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .footer-bottom {
   text-align: center;
   padding-top: 2rem;
@@ -482,6 +553,12 @@ html {
   
   .mobile-menu-button {
     display: block;
+  }
+  
+  .mobile-menu-button:focus,
+  .mobile-menu-button:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
   
   .hero-content {

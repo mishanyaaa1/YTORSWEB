@@ -429,6 +429,17 @@
   border: 2px solid #e6a34a;
 }
 
+.add-to-cart-btn svg {
+  color: #e6a34a !important;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover svg {
+  color: #000000 !important;
+  transform: scale(1.1);
+}
+
 .add-to-cart-btn:hover:not(:disabled) {
   background: #e6a34a;
   color: #000000;
@@ -437,6 +448,17 @@
 .buy-now-btn {
   background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
+}
+
+.buy-now-btn svg {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.buy-now-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .buy-now-btn:hover:not(:disabled) {

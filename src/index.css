@@ -51,8 +51,23 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 3px solid rgba(230, 163, 74, 0.6);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Глобально убираем рамки выделения у всех интерактивных элементов */
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible,
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible,
+textarea:focus,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 @media (prefers-color-scheme: light) {

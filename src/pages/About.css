@@ -38,36 +38,21 @@
   padding: 5rem 0;
 }
 
-/* Анимированные фоны для секций страницы "О нас" */
+/* Анимированные фоны только для hero секции и контактов */
 .about-hero,
-.advantages,
-.features-section,
-.team-section,
-.company-story,
-.delivery-payment,
 .contacts-section {
 	position: relative;
 	overflow: hidden;
 }
 
 .about-hero .container,
-.advantages .container,
-.features-section .container,
-.team-section .container,
-.company-story .container,
-.delivery-payment .container,
 .contacts-section .container {
 	position: relative;
 	z-index: 1;
 }
 
-/* Мягкий диагональный шиммер + редкие частицы */
+/* Мягкий диагональный шиммер + редкие частицы только для hero и контактов */
 .about-hero::before,
-.advantages::before,
-.features-section::before,
-.team-section::before,
-.company-story::before,
-.delivery-payment::before,
 .contacts-section::before {
 	content: "";
 	position: absolute;
@@ -83,11 +68,6 @@
 }
 
 .about-hero::after,
-.advantages::after,
-.features-section::after,
-.team-section::after,
-.company-story::after,
-.delivery-payment::after,
 .contacts-section::after {
 	content: "";
 	position: absolute;
@@ -101,21 +81,29 @@
 	z-index: 0;
 }
 
+/* Убираем анимации для остальных секций */
+.advantages,
+.features-section,
+.team-section,
+.company-story,
+.delivery-payment {
+	position: relative;
+}
+
+.advantages .container,
+.features-section .container,
+.team-section .container,
+.company-story .container,
+.delivery-payment .container {
+	position: relative;
+	z-index: 1;
+}
+
 /* Уважение настроек "уменьшить движение" */
 @media (prefers-reduced-motion: reduce) {
 	.about-hero::before,
-	.advantages::before,
-	.features-section::before,
-	.team-section::before,
-	.company-story::before,
-	.delivery-payment::before,
 	.contacts-section::before,
 	.about-hero::after,
-	.advantages::after,
-	.features-section::after,
-	.team-section::after,
-	.company-story::after,
-	.delivery-payment::after,
 	.contacts-section::after {
 		animation: none !important;
 	}
@@ -144,7 +132,7 @@
 /* Доставка и оплата */
 .delivery-payment {
   padding: 5rem 0;
-  background: #0a0a0a;
+  background: #111111;
 }
 
 .steps-grid {

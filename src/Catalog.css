@@ -220,6 +220,21 @@ input[type='number'] {
   width: 100%;
   transition: all 0.3s;
   margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.catalog-card-btn svg {
+  color: #000000 !important;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.catalog-card-btn:hover svg {
+  color: #ffffff !important;
+  transform: scale(1.1);
 }
 
 .catalog-card-btn:hover {
