@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { 
+  FaTruck, 
+  FaCog, 
+  FaSnowflake, 
+  FaMountain, 
+  FaWater, 
+  FaRoad, 
+  FaSearch, 
+  FaFilter, 
+  FaTimes, 
+  FaCheckCircle, 
+  FaTimesCircle,
+  FaShip,
+  FaCar,
+  FaTruckMonster,
+  FaLeaf,
+  FaSun
+} from 'react-icons/fa';
 import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
 import './VehiclesPage.css';
@@ -22,6 +39,40 @@ function VehiclesPage() {
 
   const vehicleTypes = ['Все', 'Гусеничный', 'Колесный', 'Плавающий'];
   const terrainTypes = ['Все', 'Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня'];
+
+  // Функция для получения иконки в зависимости от типа вездехода
+  const getVehicleIcon = (type) => {
+    switch (type) {
+      case 'Гусеничный':
+        return <FaTruckMonster />;
+      case 'Колесный':
+        return <FaCar />;
+      case 'Плавающий':
+        return <FaShip />;
+      default:
+        return <FaTruck />;
+    }
+  };
+
+  // Функция для получения иконки местности
+  const getTerrainIcon = (terrain) => {
+    switch (terrain) {
+      case 'Снег':
+        return <FaSnowflake />;
+      case 'Болото':
+        return <FaWater />;
+      case 'Вода':
+        return <FaWater />;
+      case 'Горы':
+        return <FaMountain />;
+      case 'Лес':
+        return <FaLeaf />;
+      case 'Пустыня':
+        return <FaSun />;
+      default:
+        return <FaRoad />;
+    }
+  };
 
   // Фильтрация вездеходов
   const filteredVehicles = vehicles.filter(vehicle => {
@@ -163,15 +214,19 @@ function VehiclesPage() {
                   className="vehicle-card"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  transition={{ delay: index * 0.1, duration: 0.6 }}
+                  whileHover={{ y: -8 }}
                   onClick={() => handleVehicleClick(vehicle)}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="vehicle-image">
-                    <div className="vehicle-placeholder">
-                      <FaTruck />
-                    </div>
+                    <motion.div 
+                      className="vehicle-placeholder"
+                      whileHover={{ rotate: 5, scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {getVehicleIcon(vehicle.type)}
+                    </motion.div>
                     <div className="vehicle-badge">{vehicle.type}</div>
                   </div>
                   
@@ -182,33 +237,39 @@ function VehiclesPage() {
                       <span className="category">{vehicle.type}</span>
                       <span className="subcategory"> → {vehicle.terrain}</span>
                     </div>
-                                         <div className="vehicle-meta">
-                       <span className="vehicle-type">{vehicle.type}</span>
-                       <span className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
-                         {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
-                       </span>
-                     </div>
-                    <button 
-                      className="vehicle-card-btn"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Предотвращаем всплытие события
-                        handleVehicleClick(vehicle);
-                      }}
-                    >
-                      Подробнее
-                    </button>
+                    <div className="vehicle-bottom-row">
+                      <div className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
+                        {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
+                      </div>
+                      <motion.button 
+                        className="vehicle-card-btn"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Предотвращаем всплытие события
+                          handleVehicleClick(vehicle);
+                        }}
+                      >
+                        Подробнее
+                      </motion.button>
+                    </div>
                   </div>
                 </motion.div>
               ))
             ) : (
-              <div className="no-vehicles">
+              <motion.div 
+                className="no-vehicles"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 <FaTruck />
                 <h3>Вездеходы не найдены</h3>
                 <p>Попробуйте изменить параметры фильтрации</p>
                 <button onClick={resetFilters} className="reset-filters-btn">
                   Сбросить фильтры
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
         </Reveal>
@@ -216,33 +277,39 @@ function VehiclesPage() {
         {totalPages > 1 && (
           <Reveal type="up" delay={0.3}>
             <div className="pagination">
-              <button 
+              <motion.button 
                 className="pagination-btn"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(currentPage - 1)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Назад
-              </button>
+              </motion.button>
               
               <div className="pagination-numbers">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
+                  <motion.button
                     key={page}
                     className={`pagination-number ${currentPage === page ? 'active' : ''}`}
                     onClick={() => setCurrentPage(page)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {page}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
               
-              <button 
+              <motion.button 
                 className="pagination-btn"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(currentPage + 1)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Вперед
-              </button>
+              </motion.button>
             </div>
           </Reveal>
         )}
