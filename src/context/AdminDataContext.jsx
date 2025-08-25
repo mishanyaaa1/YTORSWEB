@@ -68,9 +68,6 @@ export const AdminDataProvider = ({ children }) => {
     return productsData;
   });
 
-  // Добавляем состояние загрузки
-  const [isLoading, setIsLoading] = useState(true);
-
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem('adminCategories');
     const initial = saved ? JSON.parse(saved) : categoryStructure;
@@ -220,104 +217,64 @@ export const AdminDataProvider = ({ children }) => {
   // Первичная загрузка из API (fallback на локальные данные)
   useEffect(() => {
     const bootstrapFromApi = async () => {
-      setIsLoading(true);
-      let retryCount = 0;
-      const maxRetries = 3;
-      
-      const attemptLoad = async () => {
-        try {
-          console.log(`AdminDataContext: Starting API bootstrap... (attempt ${retryCount + 1})`);
-          const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
-            fetch('/api/products', { credentials: 'include' }),
-            fetch('/api/categories', { credentials: 'include' }),
-            fetch('/api/brands', { credentials: 'include' }),
-            fetch('/api/promotions', { credentials: 'include' })
-          ]);
+      try {
+        console.log('AdminDataContext: Starting API bootstrap...');
+        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
+          fetch('/api/products', { credentials: 'include' }),
+          fetch('/api/categories', { credentials: 'include' }),
+          fetch('/api/brands', { credentials: 'include' }),
+          fetch('/api/promotions', { credentials: 'include' })
+        ]);
 
-          let success = true;
-
-          if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
-            const apiProducts = await apiProductsRes.value.json();
-            const normalized = Array.isArray(apiProducts)
-              ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
-              : [];
-            console.log('AdminDataContext: Loaded', normalized.length, 'products from API');
-            setProducts(normalized);
-            localStorage.setItem('adminProducts', JSON.stringify(normalized));
-          } else {
-            console.warn('AdminDataContext: Failed to load products from API:', apiProductsRes.status);
-            success = false;
-          }
-
-          if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
-            const apiCats = await apiCategoriesRes.value.json();
-            const normalizedCats = normalizeCategories(apiCats);
-            if (normalizedCats && typeof normalizedCats === 'object') {
-              console.log('AdminDataContext: Loaded categories from API');
-              setCategories(normalizedCats);
-              localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
-            }
-          } else {
-            console.warn('AdminDataContext: Failed to load categories from API:', apiCategoriesRes.status);
-            success = false;
-          }
-
-          if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
-            const apiBrands = await apiBrandsRes.value.json();
-            if (Array.isArray(apiBrands) && apiBrands.length) {
-              console.log('AdminDataContext: Loaded brands from API');
-              setBrands(apiBrands);
-              localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
-            }
-          } else {
-            console.warn('AdminDataContext: Failed to load brands from API:', apiBrandsRes.status);
-            success = false;
-          }
-
-          if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
-            const apiPromos = await apiPromosRes.value.json();
-            if (Array.isArray(apiPromos)) {
-              console.log('AdminDataContext: Loaded promotions from API');
-              setPromotions(apiPromos);
-              localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
-            }
-          } else {
-            console.warn('AdminDataContext: Failed to load promotions from API:', apiPromosRes.status);
-            success = false;
-          }
-
-          // Если загрузка прошла успешно, завершаем
-          if (success) {
-            console.log('AdminDataContext: Bootstrap completed successfully');
-            return;
-          }
-
-          // Если есть ошибки и не превышен лимит попыток, пробуем еще раз
-          if (retryCount < maxRetries) {
-            retryCount++;
-            console.log(`AdminDataContext: Retrying... (${retryCount}/${maxRetries})`);
-            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount)); // Увеличиваем задержку с каждой попыткой
-            await attemptLoad();
-          } else {
-            console.warn('AdminDataContext: Max retries reached, using local data as fallback');
-          }
-
-        } catch (e) {
-          console.error('AdminDataContext: API bootstrap failed:', e);
-          if (retryCount < maxRetries) {
-            retryCount++;
-            console.log(`AdminDataContext: Retrying after error... (${retryCount}/${maxRetries})`);
-            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-            await attemptLoad();
-          } else {
-            console.warn('AdminDataContext: Using local data as fallback after max retries');
-          }
+        if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
+          const apiProducts = await apiProductsRes.value.json();
+          const normalized = Array.isArray(apiProducts)
+            ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
+            : [];
+          console.log('AdminDataContext: Loaded', normalized.length, 'products from API');
+          setProducts(normalized);
+          localStorage.setItem('adminProducts', JSON.stringify(normalized));
+        } else {
+          console.warn('AdminDataContext: Failed to load products from API:', apiProductsRes.status);
         }
-      };
 
-      await attemptLoad();
-      setIsLoading(false);
-      console.log('AdminDataContext: Bootstrap completed, products count:', products.length);
+        if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
+          const apiCats = await apiCategoriesRes.value.json();
+          const normalizedCats = normalizeCategories(apiCats);
+          if (normalizedCats && typeof normalizedCats === 'object') {
+            console.log('AdminDataContext: Loaded categories from API');
+            setCategories(normalizedCats);
+            localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load categories from API:', apiCategoriesRes.status);
+        }
+
+        if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
+          const apiBrands = await apiBrandsRes.value.json();
+          if (Array.isArray(apiBrands) && apiBrands.length) {
+            console.log('AdminDataContext: Loaded brands from API');
+            setBrands(apiBrands);
+            localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load brands from API:', apiBrandsRes.status);
+        }
+
+        if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
+          const apiPromos = await apiPromosRes.value.json();
+          if (Array.isArray(apiPromos)) {
+            console.log('AdminDataContext: Loaded promotions from API');
+            setPromotions(apiPromos);
+            localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load promotions from API:', apiPromosRes.status);
+        }
+      } catch (e) {
+        console.error('AdminDataContext: API bootstrap failed:', e);
+        console.warn('AdminDataContext: Using local data as fallback');
+      }
     };
     bootstrapFromApi();
   }, []);
@@ -760,9 +717,7 @@ export const AdminDataProvider = ({ children }) => {
     filterSettings,
     popularProductIds,
     data: { categoryStructure: categories },
-    isLoading,
     refreshFromApi: async () => {
-      setIsLoading(true);
       try {
         console.log('AdminDataContext: Refreshing data from API...');
         const [p, cRaw, b, pr, pc] = await Promise.allSettled([
@@ -792,7 +747,7 @@ export const AdminDataProvider = ({ children }) => {
       } catch (error) {
         console.error('AdminDataContext: Error refreshing data:', error);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false); // Удалено
       }
     },
     

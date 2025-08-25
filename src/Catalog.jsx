@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
 import { useCartActions } from './hooks/useCartActions';
@@ -9,7 +9,7 @@ import BrandMark from './components/BrandMark';
 import './Catalog.css';
 
 export default function Catalog() {
-  const { products, categories, brands, filterSettings, isLoading } = useAdminData();
+  const { products, categories, brands, filterSettings } = useAdminData();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
@@ -18,21 +18,13 @@ export default function Catalog() {
   const [minPriceInput, setMinPriceInput] = useState('');
   const [maxPriceInput, setMaxPriceInput] = useState('');
   const [inStock, setInStock] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const { addToCartWithNotification } = useCartActions();
 
   // Обработчик клика по товару
   const handleProductClick = (productId) => {
-    // Проверяем, что товар существует перед переходом
-    const product = products.find(p => p.id === productId);
-    if (product) {
-      console.log('Catalog: Navigating to product:', product.title, 'ID:', productId);
-      // Принудительно переходим на страницу товара
-      navigate(`/product/${productId}`);
-    } else {
-      console.warn('Catalog: Product not found, cannot navigate to:', productId);
-      // Если товар не найден, обновляем страницу
-      window.location.reload();
-    }
+    // Принудительно переходим на страницу товара
+    navigate(`/product/${productId}`);
   };
 
   // Создаем список категорий и брендов
@@ -41,6 +33,7 @@ export default function Catalog() {
 
   const minPrice = 0;
   const maxPrice = 1000000000; // верхняя граница по умолчанию (1 млрд)
+  const ITEMS_PER_PAGE = 15; // количество товаров на странице
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -137,6 +130,41 @@ export default function Catalog() {
     return byCategory && bySubcategory && byBrand && byPrice && byStock;
   });
 
+  // Логика пагинации
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+
+  // Сброс на первую страницу при изменении фильтров
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedSubcategory, selectedBrand, priceRange, inStock]);
+
+  // Функции для навигации по страницам
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToPage = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    scrollToTop();
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      scrollToTop();
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      scrollToTop();
+    }
+  };
+
   const handleAddToCart = (product, e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -224,17 +252,11 @@ export default function Catalog() {
         </div>
       </aside>
       <main className="catalog-main">
-        <h2>Каталог товаров</h2>
+        <h2>Товары</h2>
         
-        {isLoading ? (
-          <div className="catalog-loading">
-            <div className="loading-spinner"></div>
-            <p>Загрузка товаров...</p>
-          </div>
-        ) : (
-          <div className="catalog-grid">
+        <div className="catalog-grid">
             {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
-            {filteredProducts.map(product => (
+            {currentProducts.map(product => (
               <div 
                 className="catalog-card" 
                 key={product.id}
@@ -305,6 +327,63 @@ export default function Catalog() {
                 </div>
               </div>
             ))}
+          </div>
+        
+        {/* Информация о количестве товаров и пагинация */}
+        {filteredProducts.length > 0 && (
+          <div className="catalog-pagination">
+            <div className="pagination-info">
+              Показано {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} из {filteredProducts.length} товаров
+            </div>
+            
+            {totalPages > 1 && (
+              <div className="pagination-controls">
+                <button 
+                  className="pagination-btn prev-btn"
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
+                  aria-label="Предыдущая страница"
+                >
+                  ←
+                </button>
+                
+                <div className="pagination-pages">
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    // Показываем первые 3 страницы, последние 3 страницы и текущую страницу с соседними
+                    if (
+                      pageNumber === 1 ||
+                      pageNumber === totalPages ||
+                      (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={pageNumber}
+                          className={`pagination-page ${pageNumber === currentPage ? 'active' : ''}`}
+                          onClick={() => goToPage(pageNumber)}
+                        >
+                          {pageNumber}
+                        </button>
+                      );
+                    } else if (
+                      pageNumber === currentPage - 2 ||
+                      pageNumber === currentPage + 2
+                    ) {
+                      return <span key={pageNumber} className="pagination-ellipsis">...</span>;
+                    }
+                    return null;
+                  })}
+                </div>
+                
+                <button 
+                  className="pagination-btn next-btn"
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  →
+                </button>
+              </div>
+            )}
           </div>
         )}
       </main>

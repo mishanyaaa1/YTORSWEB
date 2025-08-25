@@ -184,53 +184,50 @@ function Home() {
               </div>
             </div>
           ) : (
-            <div className="promotions-grid">
+            <div className="popular-products-grid">
               {popularProducts.map((product, i) => (
                 <Reveal key={product.id} type="up" delay={i * 0.05}>
-                <Link to={`/product/${product.id}`} className="popular-card">
-                  <div className="promo-header">
-                    <div className="promo-image-small">
-                      {(() => {
-                        const productData = products.find(p => p.id === product.id);
-                        if (!productData) return (
-                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={product.title} style={{ height: 36 }} />
-                          </span>
-                        );
-                        const mainImage = getMainImage(productData);
-                        if (mainImage?.data) {
-                          const resolved = typeof mainImage.data === 'string' ? resolveImageSrc(mainImage.data) : null;
-                          if (
-                            (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
-                            resolved
-                          ) {
-                            return (
-                              <img
-                                src={resolved || mainImage.data}
-                                alt={product.title}
-                                className="product-image-img"
-                                style={{ borderRadius: '8px' }}
-                              />
-                            );
-                          }
+                <Link to={`/product/${product.id}`} className="popular-product-card">
+                  <div className="popular-product-image">
+                    {(() => {
+                      const productData = products.find(p => p.id === product.id);
+                      if (!productData) return (
+                        <span className="popular-product-icon">
+                          <BrandMark alt={product.title} style={{ height: 60 }} />
+                        </span>
+                      );
+                      const mainImage = getMainImage(productData);
+                      if (mainImage?.data) {
+                        const resolved = typeof mainImage.data === 'string' ? resolveImageSrc(mainImage.data) : null;
+                        if (
+                          (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
+                          resolved
+                        ) {
                           return (
-                            <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <BrandMark alt={product.title} style={{ height: 36 }} />
-                            </span>
+                            <img
+                              src={resolved || mainImage.data}
+                              alt={product.title}
+                              className="popular-product-img"
+                            />
                           );
                         }
                         return (
-                          <span className="promo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={product.title} style={{ height: 36 }} />
+                          <span className="popular-product-icon">
+                            <BrandMark alt={product.title} style={{ height: 60 }} />
                           </span>
                         );
-                      })()}
-                    </div>
+                      }
+                      return (
+                        <span className="popular-product-icon">
+                          <BrandMark alt={product.title} style={{ height: 60 }} />
+                        </span>
+                      );
+                    })()}
                   </div>
-                  <div className="promo-info">
+                  <div className="popular-product-info">
                     <h3>{product.title}</h3>
-                    <div className="min-purchase">Цена: {product.price}</div>
-                    <div className="promo-link">
+                    <div className="popular-product-price">{product.price} ₽</div>
+                    <div className="popular-product-link">
                       Подробнее <FaArrowRight />
                     </div>
                   </div>
