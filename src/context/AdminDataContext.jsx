@@ -68,6 +68,9 @@ export const AdminDataProvider = ({ children }) => {
     return productsData;
   });
 
+  // Добавляем состояние загрузки
+  const [isLoading, setIsLoading] = useState(true);
+
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem('adminCategories');
     const initial = saved ? JSON.parse(saved) : categoryStructure;
@@ -217,50 +220,104 @@ export const AdminDataProvider = ({ children }) => {
   // Первичная загрузка из API (fallback на локальные данные)
   useEffect(() => {
     const bootstrapFromApi = async () => {
-      try {
-        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
-          fetch('/api/products', { credentials: 'include' }),
-          fetch('/api/categories', { credentials: 'include' }),
-          fetch('/api/brands', { credentials: 'include' }),
-          fetch('/api/promotions', { credentials: 'include' })
-        ]);
+      setIsLoading(true);
+      let retryCount = 0;
+      const maxRetries = 3;
+      
+      const attemptLoad = async () => {
+        try {
+          console.log(`AdminDataContext: Starting API bootstrap... (attempt ${retryCount + 1})`);
+          const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
+            fetch('/api/products', { credentials: 'include' }),
+            fetch('/api/categories', { credentials: 'include' }),
+            fetch('/api/brands', { credentials: 'include' }),
+            fetch('/api/promotions', { credentials: 'include' })
+          ]);
 
-        if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
-          const apiProducts = await apiProductsRes.value.json();
-          const normalized = Array.isArray(apiProducts)
-            ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
-            : [];
-          setProducts(normalized);
-          localStorage.setItem('adminProducts', JSON.stringify(normalized));
-        }
+          let success = true;
 
-        if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
-          const apiCats = await apiCategoriesRes.value.json();
-          const normalizedCats = normalizeCategories(apiCats);
-          if (normalizedCats && typeof normalizedCats === 'object') {
-            setCategories(normalizedCats);
-            localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
+          if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
+            const apiProducts = await apiProductsRes.value.json();
+            const normalized = Array.isArray(apiProducts)
+              ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
+              : [];
+            console.log('AdminDataContext: Loaded', normalized.length, 'products from API');
+            setProducts(normalized);
+            localStorage.setItem('adminProducts', JSON.stringify(normalized));
+          } else {
+            console.warn('AdminDataContext: Failed to load products from API:', apiProductsRes.status);
+            success = false;
+          }
+
+          if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
+            const apiCats = await apiCategoriesRes.value.json();
+            const normalizedCats = normalizeCategories(apiCats);
+            if (normalizedCats && typeof normalizedCats === 'object') {
+              console.log('AdminDataContext: Loaded categories from API');
+              setCategories(normalizedCats);
+              localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
+            }
+          } else {
+            console.warn('AdminDataContext: Failed to load categories from API:', apiCategoriesRes.status);
+            success = false;
+          }
+
+          if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
+            const apiBrands = await apiBrandsRes.value.json();
+            if (Array.isArray(apiBrands) && apiBrands.length) {
+              console.log('AdminDataContext: Loaded brands from API');
+              setBrands(apiBrands);
+              localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
+            }
+          } else {
+            console.warn('AdminDataContext: Failed to load brands from API:', apiBrandsRes.status);
+            success = false;
+          }
+
+          if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
+            const apiPromos = await apiPromosRes.value.json();
+            if (Array.isArray(apiPromos)) {
+              console.log('AdminDataContext: Loaded promotions from API');
+              setPromotions(apiPromos);
+              localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
+            }
+          } else {
+            console.warn('AdminDataContext: Failed to load promotions from API:', apiPromosRes.status);
+            success = false;
+          }
+
+          // Если загрузка прошла успешно, завершаем
+          if (success) {
+            console.log('AdminDataContext: Bootstrap completed successfully');
+            return;
+          }
+
+          // Если есть ошибки и не превышен лимит попыток, пробуем еще раз
+          if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(`AdminDataContext: Retrying... (${retryCount}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount)); // Увеличиваем задержку с каждой попыткой
+            await attemptLoad();
+          } else {
+            console.warn('AdminDataContext: Max retries reached, using local data as fallback');
+          }
+
+        } catch (e) {
+          console.error('AdminDataContext: API bootstrap failed:', e);
+          if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(`AdminDataContext: Retrying after error... (${retryCount}/${maxRetries})`);
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+            await attemptLoad();
+          } else {
+            console.warn('AdminDataContext: Using local data as fallback after max retries');
           }
         }
+      };
 
-        if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
-          const apiBrands = await apiBrandsRes.value.json();
-          if (Array.isArray(apiBrands) && apiBrands.length) {
-            setBrands(apiBrands);
-            localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
-          }
-        }
-
-        if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
-          const apiPromos = await apiPromosRes.value.json();
-          if (Array.isArray(apiPromos)) {
-            setPromotions(apiPromos);
-            localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
-          }
-        }
-      } catch (e) {
-        console.warn('AdminDataContext: API bootstrap failed, using local data');
-      }
+      await attemptLoad();
+      setIsLoading(false);
+      console.log('AdminDataContext: Bootstrap completed, products count:', products.length);
     };
     bootstrapFromApi();
   }, []);
@@ -703,26 +760,40 @@ export const AdminDataProvider = ({ children }) => {
     filterSettings,
     popularProductIds,
     data: { categoryStructure: categories },
+    isLoading,
     refreshFromApi: async () => {
-      const [p, cRaw, b, pr, pc] = await Promise.all([
-        fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-        fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
-        fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
-        fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-        fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
-      ]);
-      const normalized = Array.isArray(p) ? p.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
-      const c = normalizeCategories(cRaw);
-      setProducts(normalized);
-      setCategories(c);
-      setBrands(b);
-      setPromotions(pr);
-      setPromocodes(pc);
-      localStorage.setItem('adminProducts', JSON.stringify(normalized));
-      localStorage.setItem('adminCategories', JSON.stringify(c));
-      localStorage.setItem('adminBrands', JSON.stringify(b));
-      localStorage.setItem('adminPromotions', JSON.stringify(pr));
-      localStorage.setItem('adminPromocodes', JSON.stringify(pc));
+      setIsLoading(true);
+      try {
+        console.log('AdminDataContext: Refreshing data from API...');
+        const [p, cRaw, b, pr, pc] = await Promise.allSettled([
+          fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
+          fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
+          fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
+        ]);
+        
+        // Обрабатываем результаты
+        const normalized = Array.isArray(p.value) ? p.value.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
+        const c = normalizeCategories(cRaw.value);
+        
+        console.log('AdminDataContext: Refreshed data - products:', normalized.length, 'categories:', Object.keys(c).length);
+        
+        setProducts(normalized);
+        setCategories(c);
+        setBrands(b.value);
+        setPromotions(pr.value);
+        setPromocodes(pc.value);
+        localStorage.setItem('adminProducts', JSON.stringify(normalized));
+        localStorage.setItem('adminCategories', JSON.stringify(c));
+        localStorage.setItem('adminBrands', JSON.stringify(b.value));
+        localStorage.setItem('adminPromotions', JSON.stringify(pr.value));
+        localStorage.setItem('adminPromocodes', JSON.stringify(pc.value));
+      } catch (error) {
+        console.error('AdminDataContext: Error refreshing data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     },
     
     // Функции для товаров

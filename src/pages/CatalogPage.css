@@ -40,6 +40,9 @@
 .catalog-page .container {
   position: relative;
   z-index: 2;
+  max-width: 1400px; /* Увеличиваю максимальную ширину для объема */
+  margin: 0 auto;
+  padding: 0 2rem; /* Добавляю отступы по бокам */
 }
 
 .catalog-header {
@@ -71,6 +74,10 @@
 @media (max-width: 768px) {
   .catalog-page {
     padding: 100px 0 40px;
+  }
+  
+  .catalog-page .container {
+    padding: 0 1rem; /* Уменьшаю отступы на мобильных */
   }
   
   .catalog-header h1 {

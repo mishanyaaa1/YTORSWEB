@@ -4,6 +4,9 @@
   gap: 2rem;
   margin: 3rem 0 5rem 0;
   width: 100%;
+  max-width: 1400px; /* Увеличиваю максимальную ширину для объема */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .catalog-filters {
@@ -11,12 +14,13 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 2rem 1.5rem;
-  min-width: 260px;
-  max-width: 300px;
+  min-width: 240px; /* Уменьшаю минимальную ширину фильтров */
+  max-width: 280px; /* Уменьшаю максимальную ширину фильтров */
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   color: #fff;
   height: fit-content;
   border: 1px solid rgba(230, 163, 74, 0.2);
+  flex-shrink: 0; /* Предотвращаю сжатие фильтров */
 }
 
 .catalog-filters h3 {
@@ -158,8 +162,9 @@ input[type='number'] {
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr); /* Фиксирую три столбца вместо auto-fit */
+  gap: 1.5rem; /* Уменьшаю отступы между карточками для экономии места */
+  width: 100%;
 }
 
 .catalog-card {
@@ -320,10 +325,48 @@ input[type='number'] {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Состояние загрузки */
+.catalog-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+.catalog-loading .loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #e6a34a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.catalog-loading p {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 1200px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr); /* На средних экранах - два столбца */
+  }
+}
+
 @media (max-width: 900px) {
   .catalog-wrapper {
     flex-direction: column;
     gap: 1.5rem;
+    max-width: 100%; /* На мобильных - полная ширина */
   }
   .catalog-filters {
     max-width: 100%;
@@ -336,11 +379,14 @@ input[type='number'] {
   .catalog-main {
     width: 100%;
   }
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr); /* На планшетах - два столбца */
+  }
 }
 
 @media (max-width: 600px) {
   .catalog-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* На мобильных - один столбец */
   }
   .catalog-filters {
     flex-direction: column;

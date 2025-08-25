@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
 import { useCartActions } from './hooks/useCartActions';
 import { useAdminData } from './context/AdminDataContext';
@@ -9,7 +9,8 @@ import BrandMark from './components/BrandMark';
 import './Catalog.css';
 
 export default function Catalog() {
-  const { products, categories, brands, filterSettings } = useAdminData();
+  const { products, categories, brands, filterSettings, isLoading } = useAdminData();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
   const [selectedBrand, setSelectedBrand] = useState('Все');
@@ -18,6 +19,21 @@ export default function Catalog() {
   const [maxPriceInput, setMaxPriceInput] = useState('');
   const [inStock, setInStock] = useState(false);
   const { addToCartWithNotification } = useCartActions();
+
+  // Обработчик клика по товару
+  const handleProductClick = (productId) => {
+    // Проверяем, что товар существует перед переходом
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      console.log('Catalog: Navigating to product:', product.title, 'ID:', productId);
+      // Принудительно переходим на страницу товара
+      navigate(`/product/${productId}`);
+    } else {
+      console.warn('Catalog: Product not found, cannot navigate to:', productId);
+      // Если товар не найден, обновляем страницу
+      window.location.reload();
+    }
+  };
 
   // Создаем список категорий и брендов
   const categoryList = filterSettings.showCategoryFilter ? ['Все', ...Object.keys(categories)] : [];
@@ -209,75 +225,88 @@ export default function Catalog() {
       </aside>
       <main className="catalog-main">
         <h2>Каталог товаров</h2>
-        <div className="catalog-grid">
-          {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
-          {filteredProducts.map(product => (
-            <Link to={`/product/${product.id}`} className="catalog-card" key={product.id}>
-              <div className="catalog-card-image">
-                {(() => {
-                  const migratedProduct = migrateProductImages(product);
-                  const mainImage = getMainImage(migratedProduct);
-                  
-                  // Логирование для отладки (можно убрать после тестирования)
-                  // console.log('Product:', product.id, product.images?.length || 0, 'images');
-                  
-                  // Проверяем, есть ли валидное изображение
-                  if (mainImage?.data && 
-                      typeof mainImage.data === 'string' && 
-                      (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
+        
+        {isLoading ? (
+          <div className="catalog-loading">
+            <div className="loading-spinner"></div>
+            <p>Загрузка товаров...</p>
+          </div>
+        ) : (
+          <div className="catalog-grid">
+            {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
+            {filteredProducts.map(product => (
+              <div 
+                className="catalog-card" 
+                key={product.id}
+                onClick={() => handleProductClick(product.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="catalog-card-image">
+                  {(() => {
+                    const migratedProduct = migrateProductImages(product);
+                    const mainImage = getMainImage(migratedProduct);
                     
-                    // Проверяем, что это НЕ изображение "фотография отсутствует"
-                    const imageData = mainImage.data.toLowerCase();
-                    if (imageData.includes('фотография отсутствует') || 
-                        imageData.includes('фото отсутствует') || 
-                        imageData.includes('нет фото') ||
-                        imageData.includes('no-image') ||
-                        imageData.includes('placeholder') ||
-                        imageData.includes('отсутствует')) {
-                      console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
-                      return (
-                        <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <BrandMark alt={product.title} style={{ height: 64 }} />
-                        </span>
-                      );
+                    // Логирование для отладки (можно убрать после тестирования)
+                    // console.log('Product:', product.id, product.images?.length || 0, 'images');
+                    
+                    // Проверяем, есть ли валидное изображение
+                    if (mainImage?.data && 
+                        typeof mainImage.data === 'string' && 
+                        (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
+                      
+                      // Проверяем, что это НЕ изображение "фотография отсутствует"
+                      const imageData = mainImage.data.toLowerCase();
+                      if (imageData.includes('фотография отсутствует') || 
+                          imageData.includes('фото отсутствует') || 
+                          imageData.includes('нет фото') ||
+                          imageData.includes('no-image') ||
+                          imageData.includes('placeholder') ||
+                          imageData.includes('отсутствует')) {
+                        console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
+                        return (
+                          <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={product.title} style={{ height: 64 }} />
+                          </span>
+                        );
+                      }
+                      
+                      return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
                     }
                     
-                    return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
-                  }
-                  
-                  // Если нет изображения или оно невалидное, показываем иконку бренда
-                  return (
-                    <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <BrandMark alt={product.title} style={{ height: 64 }} />
+                    // Если нет изображения или оно невалидное, показываем иконку бренда
+                    return (
+                      <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <BrandMark alt={product.title} style={{ height: 64 }} />
+                      </span>
+                    );
+                  })()}
+                  {/* wishlist button removed */}
+                </div>
+                <div className="catalog-card-info">
+                  <h3>{product.title}</h3>
+                  <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
+                  <div className="catalog-card-category">
+                    <span className="category">{product.category}</span>
+                    {product.subcategory && <span className="subcategory"> → {product.subcategory}</span>}
+                  </div>
+                  <div className="catalog-card-meta">
+                    <span className="catalog-card-brand">{product.brand}</span>
+                    <span className={product.available ? 'in-stock' : 'out-of-stock'}>
+                      {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
                     </span>
-                  );
-                })()}
-                {/* wishlist button removed */}
-              </div>
-              <div className="catalog-card-info">
-                <h3>{product.title}</h3>
-                <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
-                <div className="catalog-card-category">
-                  <span className="category">{product.category}</span>
-                  {product.subcategory && <span className="subcategory"> → {product.subcategory}</span>}
+                  </div>
+                  <button 
+                    className="catalog-card-btn"
+                    onClick={(e) => handleAddToCart(product, e)}
+                    disabled={!product.available}
+                  >
+                    <FaShoppingCart /> В корзину
+                  </button>
                 </div>
-                <div className="catalog-card-meta">
-                  <span className="catalog-card-brand">{product.brand}</span>
-                  <span className={product.available ? 'in-stock' : 'out-of-stock'}>
-                    {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
-                  </span>
-                </div>
-                <button 
-                  className="catalog-card-btn"
-                  onClick={(e) => handleAddToCart(product, e)}
-                  disabled={!product.available}
-                >
-                  <FaShoppingCart /> В корзину
-                </button>
               </div>
-            </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
