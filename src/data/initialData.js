@@ -346,6 +346,111 @@ export const initialPromotions = [
   }
 ];
 
+export const initialVehicles = [
+  {
+    id: 1,
+    name: 'Вездеход "Буран"',
+    type: 'Гусеничный',
+    terrain: 'Снег',
+    price: 2500000,
+    image: '/img/vehicles/buran.jpg',
+    description: 'Мощный гусеничный вездеход для работы в снежных условиях',
+    specs: {
+      engine: 'Дизель 150 л.с.',
+      weight: '2.5 тонны',
+      capacity: '6 человек',
+      maxSpeed: '45 км/ч'
+    },
+    available: true,
+    quantity: 2
+  },
+  {
+    id: 2,
+    name: 'Вездеход "Трэкол"',
+    type: 'Колесный',
+    terrain: 'Болото',
+    price: 1800000,
+    image: '/img/vehicles/trekol.jpg',
+    description: 'Высокопроходимый колесный вездеход для заболоченной местности',
+    specs: {
+      engine: 'Бензин 120 л.с.',
+      weight: '1.8 тонны',
+      capacity: '4 человека',
+      maxSpeed: '60 км/ч'
+    },
+    available: true,
+    quantity: 3
+  },
+  {
+    id: 3,
+    name: 'Вездеход "Амфибия"',
+    type: 'Плавающий',
+    terrain: 'Вода',
+    price: 3200000,
+    image: '/img/vehicles/amphibian.jpg',
+    description: 'Универсальный вездеход-амфибия для любых условий',
+    specs: {
+      engine: 'Дизель 200 л.с.',
+      weight: '3.2 тонны',
+      capacity: '8 человек',
+      maxSpeed: '35 км/ч (по воде 8 км/ч)'
+    },
+    available: true,
+    quantity: 1
+  },
+  {
+    id: 4,
+    name: 'Вездеход "Горный"',
+    type: 'Гусеничный',
+    terrain: 'Горы',
+    price: 2800000,
+    image: '/img/vehicles/mountain.jpg',
+    description: 'Специализированный вездеход для горной местности',
+    specs: {
+      engine: 'Дизель 180 л.с.',
+      weight: '2.8 тонны',
+      capacity: '5 человек',
+      maxSpeed: '40 км/ч'
+    },
+    available: true,
+    quantity: 2
+  },
+  {
+    id: 5,
+    name: 'Вездеход "Лесник"',
+    type: 'Колесный',
+    terrain: 'Лес',
+    price: 1500000,
+    image: '/img/vehicles/forester.jpg',
+    description: 'Компактный вездеход для лесных работ',
+    specs: {
+      engine: 'Бензин 90 л.с.',
+      weight: '1.2 тонны',
+      capacity: '3 человека',
+      maxSpeed: '50 км/ч'
+    },
+    available: true,
+    quantity: 4
+  },
+  {
+    id: 6,
+    name: 'Вездеход "Арктик"',
+    type: 'Гусеничный',
+    terrain: 'Снег',
+    price: 4500000,
+    image: '/img/vehicles/arctic.jpg',
+    description: 'Профессиональный вездеход для арктических экспедиций',
+    specs: {
+      engine: 'Дизель 250 л.с.',
+      weight: '4.5 тонны',
+      capacity: '10 человек',
+      maxSpeed: '30 км/ч'
+    },
+    available: true,
+    quantity: 1
+  }
+];
+
 export const initialAboutContent = {
   // Тексты главного блока (Hero) на главной странице
   homeHero: {

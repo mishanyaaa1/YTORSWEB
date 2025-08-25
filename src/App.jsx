@@ -136,6 +136,12 @@ function App() {
                 Каталог
               </Link>
               <Link 
+                to="/vehicles" 
+                className={`nav-link ${isActiveLink('/vehicles') ? 'active' : ''}`}
+              >
+                Вездеходы
+              </Link>
+              <Link 
                 to="/promotions" 
                 className={`nav-link ${isActiveLink('/promotions') ? 'active' : ''}`}
               >

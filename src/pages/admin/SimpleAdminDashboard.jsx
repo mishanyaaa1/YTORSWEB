@@ -96,6 +96,7 @@ function SimpleAdminDashboard() {
             <h3>📊 Статистика</h3>
             <div style={{ marginTop: '15px' }}>
               <div>Товаров: 6</div>
+              <div>Вездеходов: 6</div>
               <div>Заказов: 12</div>
               <div>Клиентов: 45</div>
             </div>
@@ -138,11 +139,68 @@ function SimpleAdminDashboard() {
           </div>
         </div>
 
+        {/* Вездеходы */}
+        <div style={{
+          background: '#1a1a1a',
+          padding: '20px',
+          borderRadius: '10px',
+          marginTop: '20px'
+        }}>
+          <h3>🚗 Вездеходы</h3>
+          <div style={{ marginTop: '15px' }}>
+            <div style={{ 
+              padding: '10px', 
+              borderBottom: '1px solid #333',
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+              <span>Вездеход "Буран" - Гусеничный</span>
+              <span style={{ color: '#e6a34a' }}>2,500,000 ₽</span>
+            </div>
+            <div style={{ 
+              padding: '10px', 
+              borderBottom: '1px solid #333',
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+              <span>Вездеход "Трэкол" - Колесный</span>
+              <span style={{ color: '#e6a34a' }}>1,800,000 ₽</span>
+            </div>
+            <div style={{ 
+              padding: '10px',
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
+              <span>Вездеход "Амфибия" - Плавающий</span>
+              <span style={{ color: '#e6a34a' }}>3,200,000 ₽</span>
+            </div>
+          </div>
+          <div style={{ marginTop: '15px' }}>
+            <Link 
+              to="/admin/advanced"
+              style={{
+                background: '#e6a34a',
+                color: 'black',
+                border: 'none',
+                padding: '10px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                textDecoration: 'none',
+                textAlign: 'center',
+                display: 'block'
+              }}
+            >
+              🚀 Управление вездеходами
+            </Link>
+          </div>
+        </div>
+
         {/* Последние заказы */}
         <div style={{
           background: '#1a1a1a',
           padding: '20px',
-          borderRadius: '10px'
+          borderRadius: '10px',
+          marginTop: '20px'
         }}>
           <h3>📦 Последние заказы</h3>
           <div style={{ marginTop: '15px' }}>

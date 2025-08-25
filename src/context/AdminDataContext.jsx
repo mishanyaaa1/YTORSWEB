@@ -4,7 +4,8 @@ import {
   initialProducts, 
   initialBrands, 
   initialPromotions, 
-  initialAboutContent 
+  initialAboutContent,
+  initialVehicles
 } from '../data/initialData.js';
 import { migrateProductImages } from '../utils/imageHelpers';
 
@@ -97,6 +98,11 @@ export const AdminDataProvider = ({ children }) => {
   const [promocodes, setPromocodes] = useState(() => {
     const saved = localStorage.getItem('adminPromocodes');
     return saved ? JSON.parse(saved) : [];
+  });
+
+  const [vehicles, setVehicles] = useState(() => {
+    const saved = localStorage.getItem('adminVehicles');
+    return saved ? JSON.parse(saved) : initialVehicles;
   });
 
   const [aboutContent, setAboutContent] = useState(() => {
@@ -199,6 +205,15 @@ export const AdminDataProvider = ({ children }) => {
       // ignore storage errors
     }
   }, [filterSettings]);
+
+  // Сохраняем вездеходы в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminVehicles', JSON.stringify(vehicles));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [vehicles]);
 
   // Сохраняем промокоды в localStorage
   useEffect(() => {
@@ -706,6 +721,60 @@ export const AdminDataProvider = ({ children }) => {
     localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
   };
 
+  // Функции для работы с вездеходами
+  const addVehicle = async (vehicle) => {
+    try {
+      const res = await fetch('/api/vehicles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(vehicle)
+      });
+      if (!res.ok) throw new Error('Failed to create vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback локально
+      const newVehicle = {
+        ...vehicle,
+        id: vehicles.length ? Math.max(...vehicles.map(v => v.id)) + 1 : 1
+      };
+      const updatedVehicles = [...vehicles, newVehicle];
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const updateVehicle = async (id, updatedVehicle) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedVehicle)
+      });
+      if (!res.ok) throw new Error('Failed to update vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.map(vehicle => 
+        vehicle.id === id ? { ...vehicle, ...updatedVehicle } : vehicle
+      );
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const deleteVehicle = async (id) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to delete vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.filter(vehicle => vehicle.id !== id);
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
   const value = {
     // Данные
     products,
@@ -716,6 +785,7 @@ export const AdminDataProvider = ({ children }) => {
     aboutContent,
     filterSettings,
     popularProductIds,
+    vehicles,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
       try {
@@ -786,7 +856,12 @@ export const AdminDataProvider = ({ children }) => {
     updatePopularProducts,
 
     // Функция для настроек фильтров
-    updateFilterSettings
+    updateFilterSettings,
+
+    // Функции для вездеходов
+    addVehicle,
+    updateVehicle,
+    deleteVehicle
   };
 
   return (
