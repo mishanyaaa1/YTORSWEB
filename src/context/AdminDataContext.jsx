@@ -4,7 +4,8 @@ import {
   initialProducts, 
   initialBrands, 
   initialPromotions, 
-  initialAboutContent 
+  initialAboutContent,
+  initialVehicles
 } from '../data/initialData.js';
 import { migrateProductImages } from '../utils/imageHelpers';
 
@@ -97,6 +98,11 @@ export const AdminDataProvider = ({ children }) => {
   const [promocodes, setPromocodes] = useState(() => {
     const saved = localStorage.getItem('adminPromocodes');
     return saved ? JSON.parse(saved) : [];
+  });
+
+  const [vehicles, setVehicles] = useState(() => {
+    const saved = localStorage.getItem('adminVehicles');
+    return saved ? JSON.parse(saved) : initialVehicles;
   });
 
   const [aboutContent, setAboutContent] = useState(() => {
@@ -200,6 +206,15 @@ export const AdminDataProvider = ({ children }) => {
     }
   }, [filterSettings]);
 
+  // Сохраняем вездеходы в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminVehicles', JSON.stringify(vehicles));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [vehicles]);
+
   // Сохраняем промокоды в localStorage
   useEffect(() => {
     try {
@@ -218,6 +233,7 @@ export const AdminDataProvider = ({ children }) => {
   useEffect(() => {
     const bootstrapFromApi = async () => {
       try {
+        console.log('AdminDataContext: Starting API bootstrap...');
         const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }),
           fetch('/api/categories', { credentials: 'include' }),
@@ -230,36 +246,49 @@ export const AdminDataProvider = ({ children }) => {
           const normalized = Array.isArray(apiProducts)
             ? apiProducts.map(p => migrateProductImages(p)).sort((a, b) => (a.id || 0) - (b.id || 0))
             : [];
+          console.log('AdminDataContext: Loaded', normalized.length, 'products from API');
           setProducts(normalized);
           localStorage.setItem('adminProducts', JSON.stringify(normalized));
+        } else {
+          console.warn('AdminDataContext: Failed to load products from API:', apiProductsRes.status);
         }
 
         if (apiCategoriesRes.status === 'fulfilled' && apiCategoriesRes.value.ok) {
           const apiCats = await apiCategoriesRes.value.json();
           const normalizedCats = normalizeCategories(apiCats);
           if (normalizedCats && typeof normalizedCats === 'object') {
+            console.log('AdminDataContext: Loaded categories from API');
             setCategories(normalizedCats);
             localStorage.setItem('adminCategories', JSON.stringify(normalizedCats));
           }
+        } else {
+          console.warn('AdminDataContext: Failed to load categories from API:', apiCategoriesRes.status);
         }
 
         if (apiBrandsRes.status === 'fulfilled' && apiBrandsRes.value.ok) {
           const apiBrands = await apiBrandsRes.value.json();
           if (Array.isArray(apiBrands) && apiBrands.length) {
+            console.log('AdminDataContext: Loaded brands from API');
             setBrands(apiBrands);
             localStorage.setItem('adminBrands', JSON.stringify(apiBrands));
           }
+        } else {
+          console.warn('AdminDataContext: Failed to load brands from API:', apiBrandsRes.status);
         }
 
         if (apiPromosRes.status === 'fulfilled' && apiPromosRes.value.ok) {
           const apiPromos = await apiPromosRes.value.json();
           if (Array.isArray(apiPromos)) {
+            console.log('AdminDataContext: Loaded promotions from API');
             setPromotions(apiPromos);
             localStorage.setItem('adminPromotions', JSON.stringify(apiPromos));
           }
+        } else {
+          console.warn('AdminDataContext: Failed to load promotions from API:', apiPromosRes.status);
         }
       } catch (e) {
-        console.warn('AdminDataContext: API bootstrap failed, using local data');
+        console.error('AdminDataContext: API bootstrap failed:', e);
+        console.warn('AdminDataContext: Using local data as fallback');
       }
     };
     bootstrapFromApi();
@@ -692,6 +721,60 @@ export const AdminDataProvider = ({ children }) => {
     localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
   };
 
+  // Функции для работы с вездеходами
+  const addVehicle = async (vehicle) => {
+    try {
+      const res = await fetch('/api/vehicles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(vehicle)
+      });
+      if (!res.ok) throw new Error('Failed to create vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback локально
+      const newVehicle = {
+        ...vehicle,
+        id: vehicles.length ? Math.max(...vehicles.map(v => v.id)) + 1 : 1
+      };
+      const updatedVehicles = [...vehicles, newVehicle];
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const updateVehicle = async (id, updatedVehicle) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedVehicle)
+      });
+      if (!res.ok) throw new Error('Failed to update vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.map(vehicle => 
+        vehicle.id === id ? { ...vehicle, ...updatedVehicle } : vehicle
+      );
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const deleteVehicle = async (id) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to delete vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.filter(vehicle => vehicle.id !== id);
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
   const value = {
     // Данные
     products,
@@ -702,27 +785,40 @@ export const AdminDataProvider = ({ children }) => {
     aboutContent,
     filterSettings,
     popularProductIds,
+    vehicles,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
-      const [p, cRaw, b, pr, pc] = await Promise.all([
-        fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-        fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
-        fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
-        fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-        fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
-      ]);
-      const normalized = Array.isArray(p) ? p.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
-      const c = normalizeCategories(cRaw);
-      setProducts(normalized);
-      setCategories(c);
-      setBrands(b);
-      setPromotions(pr);
-      setPromocodes(pc);
-      localStorage.setItem('adminProducts', JSON.stringify(normalized));
-      localStorage.setItem('adminCategories', JSON.stringify(c));
-      localStorage.setItem('adminBrands', JSON.stringify(b));
-      localStorage.setItem('adminPromotions', JSON.stringify(pr));
-      localStorage.setItem('adminPromocodes', JSON.stringify(pc));
+      try {
+        console.log('AdminDataContext: Refreshing data from API...');
+        const [p, cRaw, b, pr, pc] = await Promise.allSettled([
+          fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
+          fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
+          fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
+        ]);
+        
+        // Обрабатываем результаты
+        const normalized = Array.isArray(p.value) ? p.value.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
+        const c = normalizeCategories(cRaw.value);
+        
+        console.log('AdminDataContext: Refreshed data - products:', normalized.length, 'categories:', Object.keys(c).length);
+        
+        setProducts(normalized);
+        setCategories(c);
+        setBrands(b.value);
+        setPromotions(pr.value);
+        setPromocodes(pc.value);
+        localStorage.setItem('adminProducts', JSON.stringify(normalized));
+        localStorage.setItem('adminCategories', JSON.stringify(c));
+        localStorage.setItem('adminBrands', JSON.stringify(b.value));
+        localStorage.setItem('adminPromotions', JSON.stringify(pr.value));
+        localStorage.setItem('adminPromocodes', JSON.stringify(pc.value));
+      } catch (error) {
+        console.error('AdminDataContext: Error refreshing data:', error);
+      } finally {
+        // setIsLoading(false); // Удалено
+      }
     },
     
     // Функции для товаров
@@ -760,7 +856,12 @@ export const AdminDataProvider = ({ children }) => {
     updatePopularProducts,
 
     // Функция для настроек фильтров
-    updateFilterSettings
+    updateFilterSettings,
+
+    // Функции для вездеходов
+    addVehicle,
+    updateVehicle,
+    deleteVehicle
   };
 
   return (

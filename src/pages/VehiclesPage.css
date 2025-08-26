@@ -1,0 +1,571 @@
+.vehicles-page {
+  padding: 120px 0 60px;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Красивый статичный фон */
+.vehicles-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(230, 163, 74, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(230, 163, 74, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0, 204, 102, 0.05) 0%, transparent 60%);
+  z-index: 0;
+}
+
+/* Дополнительный слой для глубины */
+.vehicles-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(90deg, rgba(230, 163, 74, 0.08) 0%, rgba(230, 163, 74, 0.04) 30%, transparent 70%);
+  z-index: 0;
+}
+
+.vehicles-page .container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.vehicles-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.vehicles-header h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e6a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.vehicles-header p {
+  font-size: 1.2rem;
+  color: #cccccc;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+.vehicles-controls {
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.search-section {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #cccccc;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #333;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: #1a1a1a;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #e6a34a;
+  box-shadow: 0 0 0 3px rgba(230, 163, 74, 0.2);
+}
+
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(230, 163, 74, 0.2);
+}
+
+.filter-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(230, 163, 74, 0.3);
+}
+
+.filters-panel {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #333;
+}
+
+.filters-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.close-filters-btn {
+  background: none;
+  border: none;
+  color: #cccccc;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.close-filters-btn:hover {
+  background: #333;
+  color: #ffffff;
+}
+
+.filters-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.filter-group select {
+  padding: 0.75rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #1a1a1a;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #e6a34a;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-inputs input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+.price-inputs input:focus {
+  outline: none;
+  border-color: #e6a34a;
+}
+
+.price-inputs span {
+  color: #cccccc;
+  font-weight: 600;
+}
+
+.reset-filters-btn {
+  grid-column: 1 / -1;
+  padding: 1rem 2rem;
+  background: #333;
+  color: #ffffff;
+  border: 2px solid #444;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.reset-filters-btn:hover {
+  background: #444;
+  color: #ffffff;
+  border-color: #555;
+}
+
+.vehicles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+  align-items: stretch;
+}
+
+.vehicle-card {
+  background: #1a1a1a;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  cursor: pointer;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  border-color: #e6a34a;
+}
+
+.vehicle-card:active {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.vehicle-image {
+  position: relative;
+  height: 150px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.vehicle-placeholder {
+  font-size: 2.5rem;
+  color: #666;
+}
+
+.vehicle-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vehicle-content {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.vehicle-content .vehicle-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+
+.vehicle-content .vehicle-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e6a34a;
+  margin-bottom: 0.4rem;
+}
+
+.vehicle-content .vehicle-category {
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.vehicle-content .vehicle-category .category {
+  color: #e6a34a;
+  font-weight: 600;
+}
+
+.vehicle-content .vehicle-category .subcategory {
+  color: #ccc;
+  font-weight: 400;
+}
+
+.vehicle-content .vehicle-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+  color: #ffffff;
+}
+
+.vehicle-content .vehicle-type {
+  font-weight: 500;
+}
+
+.vehicle-meta .in-stock {
+  color: #e6a34a;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-meta .out-of-stock {
+  color: #ff4d4f;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-content .vehicle-card-btn {
+  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
+  color: #000;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s;
+  margin-top: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(230, 163, 74, 0.3);
+}
+
+.vehicle-content .vehicle-card-btn:hover {
+  background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(230, 163, 74, 0.4);
+}
+
+.no-vehicles {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #cccccc;
+}
+
+.no-vehicles svg {
+  font-size: 4rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.no-vehicles h3 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.no-vehicles p {
+  margin-bottom: 2rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pagination-btn {
+  padding: 0.75rem 1.5rem;
+  background: #1a1a1a;
+  color: #cccccc;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #ffffff;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pagination-number {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  color: #cccccc;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-number:hover {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #ffffff;
+}
+
+.pagination-number.active {
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  color: white;
+  border-color: #e6a34a;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .vehicles-page {
+    padding: 100px 0 40px;
+  }
+  
+  .vehicles-page .container {
+    padding: 0 1rem;
+  }
+  
+  .vehicles-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .vehicles-header p {
+    font-size: 1rem;
+  }
+  
+  .search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input-wrapper {
+    min-width: auto;
+  }
+  
+  .filters-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .vehicles-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .vehicle-specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .pagination-numbers {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicles-page {
+    padding: 1rem 0;
+  }
+  
+  .vehicles-header {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+  }
+  
+  .vehicle-content {
+    padding: 1rem;
+  }
+  
+  .vehicle-name {
+    font-size: 1.25rem;
+  }
+}

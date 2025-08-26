@@ -11,6 +11,8 @@ import Cart from './pages/Cart.jsx'
 // Removed CartTest page
 import About from './pages/About.jsx'
 import Promotions from './pages/Promotions.jsx'
+import VehiclesPage from './pages/VehiclesPage.jsx'
+import VehicleDetailPage from './pages/VehicleDetailPage.jsx'
 import SimpleAdminLogin from './pages/admin/SimpleAdminLogin.jsx'
 import SimpleAdminDashboard from './pages/admin/SimpleAdminDashboard.jsx'
 import AdvancedAdminDashboard from './pages/admin/AdvancedAdminDashboard.jsx'
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: "promotions",
         element: <Promotions />
+      },
+      {
+        path: "vehicles",
+        element: <VehiclesPage />
+      },
+      {
+        path: "vehicle/:id",
+        element: <VehicleDetailPage />
       }
     ]
   },

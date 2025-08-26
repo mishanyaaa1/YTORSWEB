@@ -1,0 +1,427 @@
+.vehicle-detail-page {
+  padding: 120px 0 60px;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Красивый статичный фон */
+.vehicle-detail-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(230, 163, 74, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(230, 163, 74, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0, 204, 102, 0.05) 0%, transparent 60%);
+  z-index: 0;
+}
+
+/* Дополнительный слой для глубины */
+.vehicle-detail-page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(90deg, rgba(230, 163, 74, 0.08) 0%, rgba(230, 163, 74, 0.04) 30%, transparent 70%);
+  z-index: 0;
+}
+
+.vehicle-detail-page .container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #1a1a1a;
+  color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.back-button:hover {
+  background: #2a2a2a;
+  border-color: #e6a34a;
+  transform: translateY(-2px);
+}
+
+.vehicle-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.vehicle-images {
+  position: relative;
+}
+
+.main-image {
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  height: 400px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+  overflow: hidden;
+}
+
+.vehicle-placeholder-large {
+  font-size: 8rem;
+  color: #666;
+}
+
+.vehicle-badge-large {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vehicle-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.vehicle-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.vehicle-meta .type {
+  background: #2a2a2a;
+  color: #e6a34a;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid #333;
+}
+
+.vehicle-meta .terrain {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #2a2a2a;
+  color: #cccccc;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid #333;
+}
+
+.vehicle-meta .terrain svg {
+  color: #e6a34a;
+}
+
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.availability.in-stock {
+  color: #059669;
+}
+
+.availability.out-of-stock {
+  color: #dc2626;
+}
+
+.vehicle-price {
+  margin: 1rem 0;
+}
+
+.current-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #e6a34a;
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.vehicle-description p {
+  color: #cccccc;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.vehicle-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quantity-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quantity-selector label {
+  font-weight: 600;
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-controls button {
+  width: 3rem;
+  height: 3rem;
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-controls button:hover:not(:disabled) {
+  background: #333;
+  border-color: #e6a34a;
+}
+
+.quantity-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 4rem;
+  height: 3rem;
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0;
+}
+
+.quantity-input:focus {
+  outline: none;
+  border-color: #e6a34a;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.add-to-cart-btn,
+.buy-now-btn {
+  flex: 1;
+  min-width: 180px;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-to-cart-btn {
+  background: #333;
+  color: #ffffff;
+  border: 2px solid #444;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #444;
+  border-color: #555;
+  transform: translateY(-2px);
+}
+
+.buy-now-btn {
+  background: linear-gradient(135deg, #e6a34a 0%, #d97706 100%);
+  color: #000000;
+  box-shadow: 0 4px 6px rgba(230, 163, 74, 0.2);
+}
+
+.buy-now-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(230, 163, 74, 0.3);
+}
+
+.add-to-cart-btn:disabled,
+.buy-now-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vehicle-specifications {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid #333;
+}
+
+.vehicle-specifications h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #2a2a2a;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.spec-label {
+  font-weight: 600;
+  color: #cccccc;
+}
+
+.spec-value {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .vehicle-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .image-container {
+    height: 300px;
+  }
+  
+  .vehicle-placeholder-large {
+    font-size: 6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .vehicle-detail-page {
+    padding: 100px 0 40px;
+  }
+  
+  .vehicle-detail-page .container {
+    padding: 0 1rem;
+  }
+  
+  .vehicle-header h1 {
+    font-size: 2rem;
+  }
+  
+  .current-price {
+    font-size: 2rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .add-to-cart-btn,
+  .buy-now-btn {
+    min-width: auto;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-detail-page {
+    padding: 80px 0 20px;
+  }
+  
+  .vehicle-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .current-price {
+    font-size: 1.75rem;
+  }
+  
+  .image-container {
+    height: 250px;
+  }
+  
+  .vehicle-placeholder-large {
+    font-size: 5rem;
+  }
+}

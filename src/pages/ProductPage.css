@@ -52,8 +52,9 @@
 }
 
 .back-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(24, 24, 24, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(230, 163, 74, 0.3);
   color: #ffffff;
   padding: 0.8rem 1.5rem;
   border-radius: 25px;
@@ -65,12 +66,37 @@
   transition: all 0.3s ease;
   font-size: 1rem;
   font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(230, 163, 74, 0.1), transparent);
+  transition: left 0.5s ease;
 }
 
 .back-button:hover {
   background: rgba(230, 163, 74, 0.1);
   border-color: #e6a34a;
   color: #e6a34a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(230, 163, 74, 0.2);
+}
+
+.back-button:hover::before {
+  left: 100%;
+}
+
+.back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(230, 163, 74, 0.3);
 }
 
 .product-content {
@@ -383,9 +409,11 @@
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
   border: none;
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 1rem;
   outline: none;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-color: #ffffff !important;
 }
 
 .quantity-input:focus {
@@ -400,6 +428,70 @@
 
 .quantity-input[type=number] {
   -moz-appearance: textfield;
+  color: #ffffff !important;
+}
+
+/* Дополнительные стили для обеспечения белого цвета */
+.quantity-input,
+.quantity-input:hover,
+.quantity-input:focus,
+.quantity-input:active,
+.quantity-input:visited {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-color: #ffffff !important;
+}
+
+/* Специфичные селекторы для разных браузеров */
+input.quantity-input,
+input[type="number"].quantity-input,
+.product-actions .quantity-input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-color: #ffffff !important;
+}
+
+/* Стили для автозаполнения */
+.quantity-input:-webkit-autofill,
+.quantity-input:-webkit-autofill:hover,
+.quantity-input:-webkit-autofill:focus,
+.quantity-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Дополнительные стили для всех браузеров */
+.quantity-input:-moz-placeholder,
+.quantity-input::-moz-placeholder,
+.quantity-input:-ms-input-placeholder,
+.quantity-input::-ms-input-placeholder,
+.quantity-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Принудительно устанавливаем белый цвет для всех состояний */
+.quantity-input,
+.quantity-input:hover,
+.quantity-input:focus,
+.quantity-input:active,
+.quantity-input:visited,
+.quantity-input:focus-within {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-color: #ffffff !important;
+}
+
+/* Стили для выделения текста */
+.quantity-input::selection {
+  background: rgba(230, 163, 74, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.quantity-input::-moz-selection {
+  background: rgba(230, 163, 74, 0.3) !important;
+  color: #ffffff !important;
 }
 
 .action-buttons {
@@ -514,15 +606,43 @@
 
 .product-not-found {
   text-align: center;
-  padding: 120px 0;
-  color: #ffffff;
+  padding: 50px 20px;
 }
 
 .product-not-found h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #ff4757;
+  color: #e74c3c;
+  margin-bottom: 20px;
 }
+
+.product-not-found p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.product-not-found-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.refresh-button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.refresh-button:hover {
+  background: #2980b9;
+}
+
+
 
 /* Адаптивность */
 @media (max-width: 1024px) {

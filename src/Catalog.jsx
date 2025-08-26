@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
 import { useCartActions } from './hooks/useCartActions';
 import { useAdminData } from './context/AdminDataContext';
@@ -10,6 +10,7 @@ import './Catalog.css';
 
 export default function Catalog() {
   const { products, categories, brands, filterSettings } = useAdminData();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
   const [selectedBrand, setSelectedBrand] = useState('Все');
@@ -17,7 +18,14 @@ export default function Catalog() {
   const [minPriceInput, setMinPriceInput] = useState('');
   const [maxPriceInput, setMaxPriceInput] = useState('');
   const [inStock, setInStock] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const { addToCartWithNotification } = useCartActions();
+
+  // Обработчик клика по товару
+  const handleProductClick = (productId) => {
+    // Принудительно переходим на страницу товара
+    navigate(`/product/${productId}`);
+  };
 
   // Создаем список категорий и брендов
   const categoryList = filterSettings.showCategoryFilter ? ['Все', ...Object.keys(categories)] : [];
@@ -25,6 +33,7 @@ export default function Catalog() {
 
   const minPrice = 0;
   const maxPrice = 1000000000; // верхняя граница по умолчанию (1 млрд)
+  const ITEMS_PER_PAGE = 15; // количество товаров на странице
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
@@ -121,6 +130,41 @@ export default function Catalog() {
     return byCategory && bySubcategory && byBrand && byPrice && byStock;
   });
 
+  // Логика пагинации
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+
+  // Сброс на первую страницу при изменении фильтров
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedSubcategory, selectedBrand, priceRange, inStock]);
+
+  // Функции для навигации по страницам
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToPage = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    scrollToTop();
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      scrollToTop();
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      scrollToTop();
+    }
+  };
+
   const handleAddToCart = (product, e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -208,76 +252,140 @@ export default function Catalog() {
         </div>
       </aside>
       <main className="catalog-main">
-        <h2>Каталог товаров</h2>
+        <h2>Товары</h2>
+        
         <div className="catalog-grid">
-          {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
-          {filteredProducts.map(product => (
-            <Link to={`/product/${product.id}`} className="catalog-card" key={product.id}>
-              <div className="catalog-card-image">
-                {(() => {
-                  const migratedProduct = migrateProductImages(product);
-                  const mainImage = getMainImage(migratedProduct);
-                  
-                  // Логирование для отладки (можно убрать после тестирования)
-                  // console.log('Product:', product.id, product.images?.length || 0, 'images');
-                  
-                  // Проверяем, есть ли валидное изображение
-                  if (mainImage?.data && 
-                      typeof mainImage.data === 'string' && 
-                      (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
+            {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
+            {currentProducts.map(product => (
+              <div 
+                className="catalog-card" 
+                key={product.id}
+                onClick={() => handleProductClick(product.id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="catalog-card-image">
+                  {(() => {
+                    const migratedProduct = migrateProductImages(product);
+                    const mainImage = getMainImage(migratedProduct);
                     
-                    // Проверяем, что это НЕ изображение "фотография отсутствует"
-                    const imageData = mainImage.data.toLowerCase();
-                    if (imageData.includes('фотография отсутствует') || 
-                        imageData.includes('фото отсутствует') || 
-                        imageData.includes('нет фото') ||
-                        imageData.includes('no-image') ||
-                        imageData.includes('placeholder') ||
-                        imageData.includes('отсутствует')) {
-                      console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
-                      return (
-                        <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <BrandMark alt={product.title} style={{ height: 64 }} />
-                        </span>
-                      );
+                    // Логирование для отладки (можно убрать после тестирования)
+                    // console.log('Product:', product.id, product.images?.length || 0, 'images');
+                    
+                    // Проверяем, есть ли валидное изображение
+                    if (mainImage?.data && 
+                        typeof mainImage.data === 'string' && 
+                        (mainImage.data.startsWith('data:image') || isImageUrl(mainImage.data))) {
+                      
+                      // Проверяем, что это НЕ изображение "фотография отсутствует"
+                      const imageData = mainImage.data.toLowerCase();
+                      if (imageData.includes('фотография отсутствует') || 
+                          imageData.includes('фото отсутствует') || 
+                          imageData.includes('нет фото') ||
+                          imageData.includes('no-image') ||
+                          imageData.includes('placeholder') ||
+                          imageData.includes('отсутствует')) {
+                        console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
+                        return (
+                          <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <BrandMark alt={product.title} style={{ height: 64 }} />
+                          </span>
+                        );
+                      }
+                      
+                      return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
                     }
                     
-                    return <img src={mainImage.data} alt={product.title} className="catalog-product-image" />;
-                  }
-                  
-                  // Если нет изображения или оно невалидное, показываем иконку бренда
-                  return (
-                    <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <BrandMark alt={product.title} style={{ height: 64 }} />
+                    // Если нет изображения или оно невалидное, показываем иконку бренда
+                    return (
+                      <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <BrandMark alt={product.title} style={{ height: 64 }} />
+                      </span>
+                    );
+                  })()}
+                  {/* wishlist button removed */}
+                </div>
+                <div className="catalog-card-info">
+                  <h3>{product.title}</h3>
+                  <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
+                  <div className="catalog-card-category">
+                    <span className="category">{product.category}</span>
+                    {product.subcategory && <span className="subcategory"> → {product.subcategory}</span>}
+                  </div>
+                  <div className="catalog-card-meta">
+                    <span className="catalog-card-brand">{product.brand}</span>
+                    <span className={product.available ? 'in-stock' : 'out-of-stock'}>
+                      {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
                     </span>
-                  );
-                })()}
-                {/* wishlist button removed */}
+                  </div>
+                  <button 
+                    className="catalog-card-btn"
+                    onClick={(e) => handleAddToCart(product, e)}
+                    disabled={!product.available}
+                  >
+                    <FaShoppingCart /> В корзину
+                  </button>
+                </div>
               </div>
-              <div className="catalog-card-info">
-                <h3>{product.title}</h3>
-                <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
-                <div className="catalog-card-category">
-                  <span className="category">{product.category}</span>
-                  {product.subcategory && <span className="subcategory"> → {product.subcategory}</span>}
-                </div>
-                <div className="catalog-card-meta">
-                  <span className="catalog-card-brand">{product.brand}</span>
-                  <span className={product.available ? 'in-stock' : 'out-of-stock'}>
-                    {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
-                  </span>
-                </div>
+            ))}
+          </div>
+        
+        {/* Информация о количестве товаров и пагинация */}
+        {filteredProducts.length > 0 && (
+          <div className="catalog-pagination">
+            <div className="pagination-info">
+              Показано {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} из {filteredProducts.length} товаров
+            </div>
+            
+            {totalPages > 1 && (
+              <div className="pagination-controls">
                 <button 
-                  className="catalog-card-btn"
-                  onClick={(e) => handleAddToCart(product, e)}
-                  disabled={!product.available}
+                  className="pagination-btn prev-btn"
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
+                  aria-label="Предыдущая страница"
                 >
-                  <FaShoppingCart /> В корзину
+                  ←
+                </button>
+                
+                <div className="pagination-pages">
+                  {Array.from({ length: totalPages }, (_, index) => {
+                    const pageNumber = index + 1;
+                    // Показываем первые 3 страницы, последние 3 страницы и текущую страницу с соседними
+                    if (
+                      pageNumber === 1 ||
+                      pageNumber === totalPages ||
+                      (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={pageNumber}
+                          className={`pagination-page ${pageNumber === currentPage ? 'active' : ''}`}
+                          onClick={() => goToPage(pageNumber)}
+                        >
+                          {pageNumber}
+                        </button>
+                      );
+                    } else if (
+                      pageNumber === currentPage - 2 ||
+                      pageNumber === currentPage + 2
+                    ) {
+                      return <span key={pageNumber} className="pagination-ellipsis">...</span>;
+                    }
+                    return null;
+                  })}
+                </div>
+                
+                <button 
+                  className="pagination-btn next-btn"
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  →
                 </button>
               </div>
-            </Link>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

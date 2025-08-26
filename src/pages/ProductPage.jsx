@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -168,7 +168,7 @@ function ProductPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCartWithNotification } = useCartActions();
-  const { products } = useAdminData();
+  const { products, categories, brands, filterSettings } = useAdminData();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   // wishlist removed
@@ -179,9 +179,19 @@ function ProductPage() {
     return (
       <div className="product-not-found">
         <h2>Товар не найден</h2>
-        <button onClick={() => navigate('/catalog')} className="back-button">
-          Вернуться в каталог
-        </button>
+        <p>ID товара: {id}</p>
+        <p>Всего товаров: {products.length}</p>
+        <div className="product-not-found-actions">
+          <button 
+            onClick={() => window.location.reload()} 
+            className="refresh-button"
+          >
+            Обновить страницу
+          </button>
+          <button onClick={() => navigate('/catalog')} className="back-button">
+            Вернуться в каталог
+          </button>
+        </div>
       </div>
     );
   }
@@ -304,7 +314,7 @@ function ProductPage() {
             )}
           </div>
 
-            <div className="product-info">
+          <div className="product-info">
             <div className="product-header">
               <h1>{product.title}</h1>
               {/* wishlist button removed */}
@@ -320,12 +330,12 @@ function ProductPage() {
             </div>
 
             <Reveal type="up">
-            <div className="product-price">
-              <span className="current-price">{product.price.toLocaleString()} ₽</span>
-              {product.originalPrice && (
-                <span className="original-price">{product.originalPrice.toLocaleString()} ₽</span>
-              )}
-            </div>
+              <div className="product-price">
+                <span className="current-price">{product.price.toLocaleString()} ₽</span>
+                {product.originalPrice && (
+                  <span className="original-price">{product.originalPrice.toLocaleString()} ₽</span>
+                )}
+              </div>
             </Reveal>
 
             <Reveal type="up" delay={0.05}>
@@ -346,89 +356,89 @@ function ProductPage() {
             )}
 
             <Reveal type="up" delay={0.1}>
-            <div className="product-actions">
-              <div className="quantity-selector">
-                <label>Количество:</label>
-                <div className="quantity-controls">
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
+              <div className="product-actions">
+                <div className="quantity-selector">
+                  <label>Количество:</label>
+                  <div className="quantity-controls">
+                    <button 
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <input 
+                      type="text" 
+                      value={quantity} 
+                      onChange={(e) => {
+                        const inputValue = e.target.value.replace(/[^0-9]/g, '');
+                        // Разрешаем пустое поле
+                        if (inputValue === '') {
+                          return;
+                        }
+                        const value = parseInt(inputValue);
+                        if (!isNaN(value) && value >= 1) {
+                          setQuantity(Math.min(value, product.quantity || 999));
+                        }
+                      }}
+                      onBlur={(e) => {
+                        // При потере фокуса, если поле пустое, ставим 1
+                        const cleanValue = e.target.value.replace(/[^0-9]/g, '');
+                        if (cleanValue === '' || parseInt(cleanValue) < 1) {
+                          setQuantity(1);
+                        }
+                      }}
+                      onFocus={(e) => e.target.select()}
+                      placeholder="1"
+                      className="quantity-input"
+                    />
+                    <button 
+                      onClick={() => setQuantity(Math.min(quantity + 1, product.quantity || 999))}
+                      disabled={quantity >= (product.quantity || 999)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="action-buttons">
+                  <motion.button 
+                    className="add-to-cart-btn"
+                    onClick={handleAddToCart}
+                    disabled={!product.available}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    -
-                  </button>
-                  <input 
-                    type="text" 
-                    value={quantity} 
-                    onChange={(e) => {
-                      const inputValue = e.target.value.replace(/[^0-9]/g, '');
-                      // Разрешаем пустое поле
-                      if (inputValue === '') {
-                        return;
-                      }
-                      const value = parseInt(inputValue);
-                      if (!isNaN(value) && value >= 1) {
-                        setQuantity(Math.min(value, product.quantity || 999));
-                      }
-                    }}
-                    onBlur={(e) => {
-                      // При потере фокуса, если поле пустое, ставим 1
-                      const cleanValue = e.target.value.replace(/[^0-9]/g, '');
-                      if (cleanValue === '' || parseInt(cleanValue) < 1) {
-                        setQuantity(1);
-                      }
-                    }}
-                    onFocus={(e) => e.target.select()}
-                    placeholder="1"
-                    className="quantity-input"
-                  />
-                  <button 
-                    onClick={() => setQuantity(Math.min(quantity + 1, product.quantity || 999))}
-                    disabled={quantity >= (product.quantity || 999)}
+                    <FaShoppingCart /> В корзину
+                  </motion.button>
+
+                  <motion.button 
+                    className="buy-now-btn"
+                    onClick={handleBuyNow}
+                    disabled={!product.available}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    +
-                  </button>
+                    Купить сейчас
+                  </motion.button>
                 </div>
               </div>
-
-              <div className="action-buttons">
-                <motion.button 
-                  className="add-to-cart-btn"
-                  onClick={handleAddToCart}
-                  disabled={!product.available}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <FaShoppingCart /> В корзину
-                </motion.button>
-
-                <motion.button 
-                  className="buy-now-btn"
-                  onClick={handleBuyNow}
-                  disabled={!product.available}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Купить сейчас
-                </motion.button>
-              </div>
-            </div>
             </Reveal>
           </div>
         </div>
 
         {specsArray.length > 0 && (
           <Reveal type="up">
-          <div className="product-specifications">
-            <h3>Технические характеристики</h3>
-            <div className="specs-grid">
-              {specsArray.map((spec, idx) => (
-                <div key={idx} className="spec-item">
-                  <span className="spec-label">{spec.name}:</span>
-                  <span className="spec-value">{String(spec.value)}</span>
-                </div>
-              ))}
+            <div className="product-specifications">
+              <h3>Технические характеристики</h3>
+              <div className="specs-grid">
+                {specsArray.map((spec, idx) => (
+                  <div key={idx} className="spec-item">
+                    <span className="spec-label">{spec.name}:</span>
+                    <span className="spec-value">{String(spec.value)}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
           </Reveal>
         )}
       </div>

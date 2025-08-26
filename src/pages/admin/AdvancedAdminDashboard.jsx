@@ -10,16 +10,17 @@ import PopularProductsManagement from './PopularProductsManagement';
 import OrderManagement from './OrderManagement';
 import AdvertisingManagement from './AdvertisingManagement';
 import FilterManagement from './FilterManagement';
+import VehiclesManagement from './VehiclesManagement';
 
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
 function AdvancedAdminDashboard() {
   const navigate = useNavigate();
-  const { products, promotions, promocodes } = useAdminData();
+  const { products, promotions, promocodes, vehicles } = useAdminData();
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
@@ -51,6 +52,7 @@ function AdvancedAdminDashboard() {
     { id: 'promotions', label: 'Акции', icon: <FaTags /> },
     { id: 'promocodes', label: 'Промокоды', icon: <FaTag /> },
     { id: 'orders', label: 'Заказы', icon: <FaShoppingCart /> },
+    { id: 'vehicles', label: 'Вездеходы', icon: <FaTruck /> },
     { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
     { id: 'advertising', label: 'Реклама', icon: <FaAd /> }
@@ -90,6 +92,14 @@ function AdvancedAdminDashboard() {
           <div className="stat-content">
             <div className="stat-number">{products.filter(p => p.available).length}</div>
             <div className="stat-label">В наличии</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">🚗</div>
+          <div className="stat-content">
+            <div className="stat-number">{vehicles.length}</div>
+            <div className="stat-label">Вездеходов</div>
           </div>
         </div>
         
@@ -165,6 +175,8 @@ function AdvancedAdminDashboard() {
         return <PromocodeManagement />;
       case 'orders':
         return <OrderManagement />;
+      case 'vehicles':
+        return <VehiclesManagement />;
       case 'filters':
         return <FilterManagement />;
       case 'content':
