@@ -847,25 +847,18 @@ input[type="number"].quantity-input,
 .promocode-section::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  border-radius: 12px;
-  padding: 2px;
-  background: conic-gradient(from 0deg, #e6a34a, #f39c12, #e6a34a, #f39c12, #e6a34a);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
-  -webkit-mask-composite: xor;
-  animation: perimeter-spin 3s linear infinite;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e6a34a, #f39c12, #e6a34a);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
 }
 
-@keyframes perimeter-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .promocode-section h4 {
@@ -876,8 +869,6 @@ input[type="number"].quantity-input,
   display: flex;
   align-items: center;
   gap: 8px;
-  position: relative;
-  z-index: 2;
 }
 
 .promocode-section h4::before {
@@ -890,8 +881,6 @@ input[type="number"].quantity-input,
   flex-direction: column;
   gap: 15px;
   align-items: stretch;
-  position: relative;
-  z-index: 2;
 }
 
 .promocode-input {
@@ -1006,7 +995,6 @@ input[type="number"].quantity-input,
   box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
   position: relative;
   overflow: hidden;
-  z-index: 2;
 }
 
 .applied-promocode::before {
@@ -1106,8 +1094,6 @@ input[type="number"].quantity-input,
   background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   border-left: 3px solid;
-  position: relative;
-  z-index: 2;
 }
 
 .promocode-stackable-info small {
