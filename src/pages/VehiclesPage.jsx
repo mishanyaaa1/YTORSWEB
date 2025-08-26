@@ -5,6 +5,7 @@ import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaSearch, FaF
 import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
 import { useCartActions } from '../hooks/useCartActions';
+import { migrateProductImages, getMainImage } from '../utils/imageHelpers';
 import './VehiclesPage.css';
 import '../Catalog.css';
 
@@ -25,11 +26,13 @@ function VehiclesPage() {
 
   const handleAddToCart = (vehicle, e) => {
     e.stopPropagation(); // Предотвращаем всплытие события клика по карточке
+    const migratedVehicle = migrateProductImages(vehicle);
+    const mainImage = getMainImage(migratedVehicle);
     const cartItem = {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: vehicle.image,
+      image: mainImage?.data || null,
       type: 'vehicle',
       brand: vehicle.type,
       available: vehicle.available
@@ -78,101 +81,97 @@ function VehiclesPage() {
           </div>
         </Reveal>
 
-        <Reveal type="up" delay={0.1}>
-          <div className="vehicles-controls">
-            <div className="search-section">
+        <div className="catalog-wrapper">
+          <aside className="catalog-filters">
+            <h3>Фильтры</h3>
+            
+            <div className="filter-group">
+              <label>Поиск</label>
               <div className="search-input-wrapper">
                 <FaSearch className="search-icon" />
                 <input
                   type="text"
                   placeholder="Поиск вездеходов..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1); // Сбрасываем на первую страницу при поиске
+                  }}
                   className="search-input"
                 />
               </div>
-              <button 
-                className="filter-toggle-btn"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <FaFilter />
-                Фильтры
-              </button>
             </div>
 
-            {showFilters && (
-              <motion.div 
-                className="filters-panel"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+            <div className="filter-group">
+              <label>Тип вездехода</label>
+              <select 
+                value={selectedType} 
+                onChange={(e) => {
+                  setSelectedType(e.target.value);
+                  setCurrentPage(1);
+                }}
               >
-                <div className="filters-header">
-                  <h3>Фильтры</h3>
-                  <button 
-                    className="close-filters-btn"
-                    onClick={() => setShowFilters(false)}
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-                
-                <div className="filters-content">
-                  <div className="filter-group">
-                    <label>Тип вездехода:</label>
-                    <select 
-                      value={selectedType} 
-                      onChange={(e) => setSelectedType(e.target.value)}
-                    >
-                      {vehicleTypes.map(type => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
+                {vehicleTypes.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+            </div>
 
-                  <div className="filter-group">
-                    <label>Тип местности:</label>
-                    <select 
-                      value={selectedTerrain} 
-                      onChange={(e) => setSelectedTerrain(e.target.value)}
-                    >
-                      {terrainTypes.map(terrain => (
-                        <option key={terrain} value={terrain}>{terrain}</option>
-                      ))}
-                    </select>
-                  </div>
+            <div className="filter-group">
+              <label>Тип местности</label>
+              <select 
+                value={selectedTerrain} 
+                onChange={(e) => {
+                  setSelectedTerrain(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                {terrainTypes.map(terrain => (
+                  <option key={terrain} value={terrain}>{terrain}</option>
+                ))}
+              </select>
+            </div>
 
-                  <div className="filter-group">
-                    <label>Диапазон цен:</label>
-                    <div className="price-inputs">
-                      <input
-                        type="number"
-                        placeholder="От"
-                        value={priceRange[0] || ''}
-                        onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                      />
-                      <span>-</span>
-                      <input
-                        type="number"
-                        placeholder="До"
-                        value={priceRange[1] || ''}
-                        onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 5000000])}
-                      />
-                    </div>
-                  </div>
+            <div className="filter-group">
+              <label>Цена, ₽</label>
+              <div className="price-range">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="От"
+                  value={priceRange[0] || ''}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '');
+                    setPriceRange([parseInt(value) || 0, priceRange[1]]);
+                    setCurrentPage(1);
+                  }}
+                />
+                <span>-</span>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="До"
+                  value={priceRange[1] || ''}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '');
+                    setPriceRange([priceRange[0], parseInt(value) || 5000000]);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
+            </div>
 
-                  <button className="reset-filters-btn" onClick={resetFilters}>
-                    Сбросить фильтры
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </Reveal>
+            <div className="filter-actions">
+              <button onClick={resetFilters} className="catalog-reset-btn">
+                Сбросить фильтры
+              </button>
+            </div>
+          </aside>
 
-        <Reveal type="up" delay={0.2}>
-          <div className="catalog-grid">
+          <main className="catalog-main">
+            <div className="catalog-grid">
             {paginatedVehicles.length > 0 ? (
               paginatedVehicles.map((vehicle, index) => (
                 <div
@@ -182,9 +181,21 @@ function VehiclesPage() {
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="catalog-card-image">
-                    <div className="vehicle-placeholder">
-                      <FaTruck />
-                    </div>
+                    {(() => {
+                      const migratedVehicle = migrateProductImages(vehicle);
+                      const mainImage = getMainImage(migratedVehicle);
+                      
+                      if (mainImage?.data && 
+                          typeof mainImage.data === 'string' && 
+                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
+                        return <img src={mainImage.data} alt={vehicle.name} className="catalog-product-image" />;
+                      }
+                      return (
+                        <div className="vehicle-placeholder">
+                          <FaTruck />
+                        </div>
+                      );
+                    })()}
                     <div className="vehicle-badge">{vehicle.type}</div>
                   </div>
                   
@@ -211,47 +222,71 @@ function VehiclesPage() {
                 <FaTruck />
                 <h3>Вездеходы не найдены</h3>
                 <p>Попробуйте изменить параметры фильтрации</p>
-                <button onClick={resetFilters} className="reset-filters-btn">
+                <button onClick={resetFilters} className="catalog-reset-btn">
                   Сбросить фильтры
                 </button>
               </div>
             )}
-          </div>
-        </Reveal>
+            </div>
 
-        {totalPages > 1 && (
-          <Reveal type="up" delay={0.3}>
-            <div className="pagination">
-              <button 
-                className="pagination-btn"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                Назад
-              </button>
-              
-              <div className="pagination-numbers">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    className={`pagination-number ${currentPage === page ? 'active' : ''}`}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </button>
-                ))}
+            {filteredVehicles.length > 0 && (
+            <div className="catalog-pagination">
+              <div className="pagination-info">
+                Показано {startIndex + 1}-{Math.min(startIndex + ITEMS_PER_PAGE, filteredVehicles.length)} из {filteredVehicles.length} вездеходов
               </div>
               
-              <button 
-                className="pagination-btn"
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                Вперед
-              </button>
+              {totalPages > 1 && (
+                <div className="pagination-controls">
+                  <button 
+                    className="pagination-btn prev-btn"
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    aria-label="Предыдущая страница"
+                  >
+                    ←
+                  </button>
+                  
+                  <div className="pagination-pages">
+                    {Array.from({ length: totalPages }, (_, index) => {
+                      const pageNumber = index + 1;
+                      // Показываем первые 3 страницы, последние 3 страницы и текущую страницу с соседними
+                      if (
+                        pageNumber === 1 ||
+                        pageNumber === totalPages ||
+                        (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                      ) {
+                        return (
+                          <button
+                            key={pageNumber}
+                            className={`pagination-page ${pageNumber === currentPage ? 'active' : ''}`}
+                            onClick={() => setCurrentPage(pageNumber)}
+                          >
+                            {pageNumber}
+                          </button>
+                        );
+                      } else if (
+                        pageNumber === currentPage - 2 ||
+                        pageNumber === currentPage + 2
+                      ) {
+                        return <span key={pageNumber} className="pagination-ellipsis">...</span>;
+                      }
+                      return null;
+                    })}
+                  </div>
+                  
+                  <button 
+                    className="pagination-btn next-btn"
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    →
+                  </button>
+                </div>
+              )}
             </div>
-          </Reveal>
-        )}
+          )}
+          </main>
+        </div>
       </div>
 
       

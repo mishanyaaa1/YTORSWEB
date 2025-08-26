@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useAdminData } from '../../context/AdminDataContext';
 import { FaPlus, FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import MultiImageUpload from '../../components/MultiImageUpload';
+import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import './VehiclesManagement.css';
 
 function VehiclesManagement() {
@@ -18,7 +20,8 @@ function VehiclesManagement() {
     capacity: '',
     maxSpeed: '',
     available: true,
-    quantity: 1
+    quantity: 1,
+    images: []
   });
 
   const vehicleTypes = ['Гусеничный', 'Колесный', 'Плавающий'];
@@ -60,6 +63,7 @@ function VehiclesManagement() {
 
   const handleEdit = (vehicle) => {
     setEditingVehicle(vehicle);
+    const migratedVehicle = migrateProductImages(vehicle);
     setFormData({
       name: vehicle.name,
       type: vehicle.type,
@@ -71,7 +75,8 @@ function VehiclesManagement() {
       capacity: vehicle.specs.capacity,
       maxSpeed: vehicle.specs.maxSpeed,
       available: vehicle.available,
-      quantity: vehicle.quantity
+      quantity: vehicle.quantity,
+      images: migratedVehicle.images || []
     });
     setIsAddingVehicle(true);
   };
@@ -94,7 +99,8 @@ function VehiclesManagement() {
       capacity: '',
       maxSpeed: '',
       available: true,
-      quantity: 1
+      quantity: 1,
+      images: []
     });
   };
 
@@ -186,6 +192,16 @@ function VehiclesManagement() {
                   required
                   placeholder="Описание вездехода..."
                   rows="3"
+                />
+              </div>
+
+              <div className="form-group form-group-full">
+                <label>Изображения вездехода</label>
+                <MultiImageUpload
+                  value={formData.images}
+                  onChange={(images) => setFormData(prev => ({ ...prev, images }))}
+                  maxImages={5}
+                  placeholder="Добавить изображения вездехода"
                 />
               </div>
 
@@ -298,9 +314,21 @@ function VehiclesManagement() {
             {vehicles.map(vehicle => (
               <div key={vehicle.id} className="vehicle-card">
                 <div className="vehicle-image">
-                  <div className="vehicle-placeholder">
-                    🚗
-                  </div>
+                  {(() => {
+                    const migratedVehicle = migrateProductImages(vehicle);
+                    const mainImage = getMainImage(migratedVehicle);
+                    
+                    if (mainImage?.data && 
+                        typeof mainImage.data === 'string' && 
+                        (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
+                      return <img src={mainImage.data} alt={vehicle.name} className="vehicle-product-image" />;
+                    }
+                    return (
+                      <div className="vehicle-placeholder">
+                        🚗
+                      </div>
+                    );
+                  })()}
                   <div className="vehicle-badge">{vehicle.type}</div>
                   <div className="vehicle-status">
                     {vehicle.available ? '✅ В наличии' : '❌ Нет в наличии'}
@@ -309,46 +337,39 @@ function VehiclesManagement() {
                 
                 <div className="vehicle-content">
                   <h3 className="vehicle-name">{vehicle.name}</h3>
-                  <p className="vehicle-description">{vehicle.description}</p>
                   
-                  <div className="vehicle-specs">
-                    <div className="spec-item">
-                      <strong>Двигатель:</strong> {vehicle.specs.engine}
+                  <div className="vehicle-key-specs">
+                    <div className="spec-compact">
+                      <span className="spec-label">Двигатель:</span>
+                      <span className="spec-value">{vehicle.specs.engine}</span>
                     </div>
-                    <div className="spec-item">
-                      <strong>Вес:</strong> {vehicle.specs.weight}
-                    </div>
-                    <div className="spec-item">
-                      <strong>Вместимость:</strong> {vehicle.specs.capacity}
-                    </div>
-                    <div className="spec-item">
-                      <strong>Скорость:</strong> {vehicle.specs.maxSpeed}
+                    <div className="spec-compact">
+                      <span className="spec-label">Вместимость:</span>
+                      <span className="spec-value">{vehicle.specs.capacity}</span>
                     </div>
                   </div>
                   
-                  <div className="vehicle-terrain">
-                    <span className="terrain-badge">
-                      {vehicle.terrain}
-                    </span>
-                  </div>
-                  
-                  <div className="vehicle-price">
-                    <span className="price">{formatPrice(vehicle.price)} ₽</span>
-                  </div>
-                  
-                  <div className="vehicle-actions">
-                    <button 
-                      className="action-btn edit-btn"
-                      onClick={() => handleEdit(vehicle)}
-                    >
-                      <FaEdit /> Редактировать
-                    </button>
-                    <button 
-                      className="action-btn delete-btn"
-                      onClick={() => handleDelete(vehicle.id)}
-                    >
-                      <FaTrash /> Удалить
-                    </button>
+                  <div className="vehicle-footer">
+                    <div className="vehicle-price">
+                      <span className="price">{formatPrice(vehicle.price)} ₽</span>
+                    </div>
+                    
+                    <div className="vehicle-actions">
+                      <button 
+                        className="action-btn edit-btn-text"
+                        onClick={() => handleEdit(vehicle)}
+                        title="Редактировать вездеход"
+                      >
+                        <FaEdit /> Редактировать
+                      </button>
+                      <button 
+                        className="action-btn delete-btn-text"
+                        onClick={() => handleDelete(vehicle.id)}
+                        title="Удалить вездеход"
+                      >
+                        <FaTrash /> Удалить
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Reveal from '../components/Reveal';
 import { useCartActions } from '../hooks/useCartActions';
 import { useAdminData } from '../context/AdminDataContext';
+import { migrateProductImages, getMainImage } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import './VehicleDetailPage.css';
 
@@ -32,11 +33,13 @@ function VehicleDetailPage() {
 
   const handleAddToCart = () => {
     // Создаем объект товара для корзины
+    const migratedVehicle = migrateProductImages(vehicle);
+    const mainImage = getMainImage(migratedVehicle);
     const cartItem = {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: vehicle.image,
+      image: mainImage?.data || null,
       type: 'vehicle'
     };
     addToCartWithNotification(cartItem, quantity);
@@ -44,11 +47,13 @@ function VehicleDetailPage() {
 
   const handleBuyNow = () => {
     try {
+      const migratedVehicle = migrateProductImages(vehicle);
+      const mainImage = getMainImage(migratedVehicle);
       const cartItem = {
         id: vehicle.id,
         title: vehicle.name,
         price: vehicle.price,
-        image: vehicle.image,
+        image: mainImage?.data || null,
         type: 'vehicle'
       };
       addToCartWithNotification(cartItem, quantity);
@@ -105,9 +110,33 @@ function VehicleDetailPage() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="vehicle-placeholder-large">
-                  <FaTruck />
-                </div>
+                {(() => {
+                  const migratedVehicle = migrateProductImages(vehicle);
+                  const mainImage = getMainImage(migratedVehicle);
+                  
+                  if (mainImage?.data && 
+                      typeof mainImage.data === 'string' && 
+                      (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
+                    return (
+                      <img 
+                        src={mainImage.data} 
+                        alt={vehicle.name} 
+                        className="vehicle-detail-image"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          borderRadius: '14px'
+                        }}
+                      />
+                    );
+                  }
+                  return (
+                    <div className="vehicle-placeholder-large">
+                      <FaTruck />
+                    </div>
+                  );
+                })()}
                 <div className="vehicle-badge-large">{vehicle.type}</div>
               </motion.div>
             </div>
