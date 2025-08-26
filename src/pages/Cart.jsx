@@ -421,6 +421,8 @@ function Cart() {
               
               {/* Поле для промокода */}
               <div className="promocode-section">
+                <div className="border-line-bottom"></div>
+                <div className="border-line-left"></div>
                 <h4>Промокод</h4>
                 {!appliedPromocode ? (
                   <div className="promocode-input-group">

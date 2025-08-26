@@ -844,22 +844,190 @@ input[type="number"].quantity-input,
   overflow: hidden;
 }
 
+/* Анимированная бегущая линия */
 .promocode-section::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 2px;
+  width: 80px;
+  height: 3px;
   background: linear-gradient(90deg, #e6a34a, #f39c12, #e6a34a);
-  background-size: 200% 100%;
-  animation: shimmer 2s linear infinite;
+  border-radius: 6px;
+  animation: runningLine 6s linear infinite;
+  z-index: 10;
+  box-shadow: 0 0 12px rgba(230, 163, 74, 0.8);
 }
 
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+/* Дополнительная линия для создания L-образной формы в углах */
+.promocode-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background: linear-gradient(180deg, #e6a34a, #f39c12, #e6a34a);
+  border-radius: 6px;
+  animation: runningLineCorner 6s linear infinite;
+  z-index: 10;
+  box-shadow: 0 0 12px rgba(230, 163, 74, 0.8);
 }
+
+/* Анимация основной линии - всегда 80px длиной, ломается в углах */
+@keyframes runningLine {
+  /* ВЕРХНЯЯ СТОРОНА */
+  0% {
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    border-radius: 12px 3px 3px 3px;
+  }
+  20% {
+    top: 0;
+    left: calc(100% - 160px);
+    width: 80px;
+    height: 3px;
+    border-radius: 3px 3px 3px 3px;
+  }
+  
+  /* ПОВОРОТ В ПРАВОМ ВЕРХНЕМ УГЛУ - L-образная форма */
+  25% {
+    top: 0;
+    left: calc(100% - 80px);
+    width: 80px;
+    height: 3px;
+    border-radius: 3px 12px 3px 3px;
+  }
+  
+  /* ПРАВАЯ СТОРОНА */
+  30% {
+    top: 0;
+    left: calc(100% - 3px);
+    width: 3px;
+    height: 80px;
+    border-radius: 3px 12px 3px 3px;
+  }
+  45% {
+    top: calc(100% - 160px);
+    left: calc(100% - 3px);
+    width: 3px;
+    height: 80px;
+    border-radius: 3px 3px 3px 3px;
+  }
+  
+  /* ПОВОРОТ В ПРАВОМ НИЖНЕМ УГЛУ - L-образная форма */
+  50% {
+    top: calc(100% - 80px);
+    left: calc(100% - 3px);
+    width: 3px;
+    height: 80px;
+    border-radius: 3px 3px 12px 3px;
+  }
+  
+  /* НИЖНЯЯ СТОРОНА */
+  55% {
+    top: calc(100% - 3px);
+    left: calc(100% - 80px);
+    width: 80px;
+    height: 3px;
+    border-radius: 3px 3px 12px 3px;
+  }
+  70% {
+    top: calc(100% - 3px);
+    left: 80px;
+    width: 80px;
+    height: 3px;
+    border-radius: 3px 3px 3px 3px;
+  }
+  
+  /* ПОВОРОТ В ЛЕВОМ НИЖНЕМ УГЛУ - L-образная форма */
+  75% {
+    top: calc(100% - 3px);
+    left: 0;
+    width: 80px;
+    height: 3px;
+    border-radius: 3px 3px 3px 12px;
+  }
+  
+  /* ЛЕВАЯ СТОРОНА */
+  80% {
+    top: calc(100% - 80px);
+    left: 0;
+    width: 3px;
+    height: 80px;
+    border-radius: 3px 3px 3px 12px;
+  }
+  95% {
+    top: 80px;
+    left: 0;
+    width: 3px;
+    height: 80px;
+    border-radius: 3px 3px 3px 3px;
+  }
+  
+  /* ВОЗВРАТ К НАЧАЛУ */
+  100% {
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 80px;
+    border-radius: 12px 3px 3px 3px;
+  }
+}
+
+/* Анимация дополнительной линии для создания L-формы в углах */
+@keyframes runningLineCorner {
+  /* Скрыта большую часть времени */
+  0%, 23%, 27%, 48%, 52%, 73%, 77%, 98%, 100% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  
+  /* Появляется в правом верхнем углу */
+  24%, 26% {
+    top: 0;
+    left: calc(100% - 3px);
+    width: 3px;
+    height: 80px;
+    opacity: 1;
+    border-radius: 3px 12px 3px 3px;
+  }
+  
+  /* Появляется в правом нижнем углу */
+  49%, 51% {
+    top: calc(100% - 3px);
+    left: calc(100% - 80px);
+    width: 80px;
+    height: 3px;
+    opacity: 1;
+    border-radius: 3px 3px 12px 3px;
+  }
+  
+  /* Появляется в левом нижнем углу */
+  74%, 76% {
+    top: calc(100% - 80px);
+    left: 0;
+    width: 3px;
+    height: 80px;
+    opacity: 1;
+    border-radius: 3px 3px 3px 12px;
+  }
+  
+  /* Появляется в левом верхнем углу */
+  99% {
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    opacity: 1;
+    border-radius: 12px 3px 3px 3px;
+  }
+}
+
+
 
 .promocode-section h4 {
   margin: 0 0 15px 0;
@@ -869,6 +1037,8 @@ input[type="number"].quantity-input,
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
+  z-index: 11;
 }
 
 .promocode-section h4::before {
@@ -881,6 +1051,8 @@ input[type="number"].quantity-input,
   flex-direction: column;
   gap: 15px;
   align-items: stretch;
+  position: relative;
+  z-index: 11;
 }
 
 .promocode-input {
@@ -995,6 +1167,7 @@ input[type="number"].quantity-input,
   box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
   position: relative;
   overflow: hidden;
+  z-index: 11;
 }
 
 .applied-promocode::before {
@@ -1094,6 +1267,8 @@ input[type="number"].quantity-input,
   background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   border-left: 3px solid;
+  position: relative;
+  z-index: 11;
 }
 
 .promocode-stackable-info small {
@@ -1112,3 +1287,4 @@ input[type="number"].quantity-input,
   border-left-color: #f39c12;
   background: rgba(243, 156, 18, 0.1);
 }
+
