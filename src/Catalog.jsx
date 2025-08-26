@@ -14,7 +14,7 @@ export default function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');
   const [selectedBrand, setSelectedBrand] = useState('Все');
-  const [priceRange, setPriceRange] = useState([0, 1000000000]);
+  const [priceRange, setPriceRange] = useState([0, 0]);
   const [minPriceInput, setMinPriceInput] = useState('');
   const [maxPriceInput, setMaxPriceInput] = useState('');
   const [inStock, setInStock] = useState(false);
@@ -65,11 +65,12 @@ export default function Catalog() {
 
   const normalizeMaxOnBlur = () => {
     if (maxPriceInput === '') {
-      setPriceRange(([l, _]) => [l, maxPrice]);
+      // Если поле пустое, устанавливаем 0 для отключения верхней границы
+      setPriceRange(([l, _]) => [l, 0]);
       return;
     }
     const num = parseInt(maxPriceInput, 10);
-    const clamped = clamp(isNaN(num) ? maxPrice : num, priceRange[0], maxPrice);
+    const clamped = clamp(isNaN(num) ? 0 : num, priceRange[0], maxPrice);
     setMaxPriceInput(String(clamped));
     setPriceRange(([l, _]) => [l, clamped]);
   };
@@ -85,7 +86,7 @@ export default function Catalog() {
       setSelectedBrand('Все');
     }
     if (filterSettings.showPriceFilter) {
-      setPriceRange([minPrice, maxPrice]);
+      setPriceRange([minPrice, 0]);
       setMinPriceInput('');
       setMaxPriceInput('');
     }
@@ -125,7 +126,7 @@ export default function Catalog() {
     const byCategory = !filterSettings.showCategoryFilter || selectedCategory === 'Все' || product.category === selectedCategory;
     const bySubcategory = !filterSettings.showSubcategoryFilter || selectedSubcategory === 'Все' || product.subcategory === selectedSubcategory;
     const byBrand = !filterSettings.showBrandFilter || selectedBrand === 'Все' || product.brand === selectedBrand;
-    const byPrice = !filterSettings.showPriceFilter || (product.price >= priceRange[0] && product.price <= priceRange[1]);
+    const byPrice = !filterSettings.showPriceFilter || (product.price >= priceRange[0] && (priceRange[1] === 0 || product.price <= priceRange[1]));
     const byStock = !filterSettings.showStockFilter || !inStock || product.available;
     return byCategory && bySubcategory && byBrand && byPrice && byStock;
   });
@@ -216,7 +217,7 @@ export default function Catalog() {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={minPriceInput}
-                placeholder={String(minPrice)}
+                placeholder="От"
                 onChange={handleMinPriceChange}
                 onBlur={normalizeMinOnBlur}
               />
@@ -226,7 +227,7 @@ export default function Catalog() {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={maxPriceInput}
-                placeholder={String(maxPrice)}
+                placeholder="До"
                 onChange={handleMaxPriceChange}
                 onBlur={normalizeMaxOnBlur}
               />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
+import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
 import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
 import { useCartActions } from '../hooks/useCartActions';
@@ -15,8 +15,8 @@ function VehiclesPage() {
   const { addToCartWithNotification } = useCartActions();
   const [selectedType, setSelectedType] = useState('Все');
   const [selectedTerrain, setSelectedTerrain] = useState('Все');
-  const [priceRange, setPriceRange] = useState([0, 5000000]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [priceRange, setPriceRange] = useState([0, 0]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -47,11 +47,8 @@ function VehiclesPage() {
   const filteredVehicles = vehicles.filter(vehicle => {
     const matchesType = selectedType === 'Все' || vehicle.type === selectedType;
     const matchesTerrain = selectedTerrain === 'Все' || vehicle.terrain === selectedTerrain;
-    const matchesPrice = vehicle.price >= priceRange[0] && vehicle.price <= priceRange[1];
-    const matchesSearch = vehicle.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         vehicle.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    return matchesType && matchesTerrain && matchesPrice && matchesSearch;
+    const matchesPrice = vehicle.price >= priceRange[0] && (priceRange[1] === 0 || vehicle.price <= priceRange[1]);
+    return matchesType && matchesTerrain && matchesPrice;
   });
 
   const ITEMS_PER_PAGE = 6;
@@ -62,8 +59,7 @@ function VehiclesPage() {
   const resetFilters = () => {
     setSelectedType('Все');
     setSelectedTerrain('Все');
-    setPriceRange([0, 5000000]);
-    setSearchQuery('');
+    setPriceRange([0, 0]);
     setCurrentPage(1);
   };
 
@@ -85,22 +81,7 @@ function VehiclesPage() {
           <aside className="catalog-filters">
             <h3>Фильтры</h3>
             
-            <div className="filter-group">
-              <label>Поиск</label>
-              <div className="search-input-wrapper">
-                <FaSearch className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Поиск вездеходов..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setCurrentPage(1); // Сбрасываем на первую страницу при поиске
-                  }}
-                  className="search-input"
-                />
-              </div>
-            </div>
+
 
             <div className="filter-group">
               <label>Тип вездехода</label>
@@ -148,18 +129,18 @@ function VehiclesPage() {
                   }}
                 />
                 <span>-</span>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="До"
-                  value={priceRange[1] || ''}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, '');
-                    setPriceRange([priceRange[0], parseInt(value) || 5000000]);
-                    setCurrentPage(1);
-                  }}
-                />
+                                 <input
+                   type="text"
+                   inputMode="numeric"
+                   pattern="[0-9]*"
+                   placeholder="До"
+                   value={priceRange[1] || ''}
+                   onChange={(e) => {
+                     const value = e.target.value.replace(/\D/g, '');
+                     setPriceRange([priceRange[0], parseInt(value) || 0]);
+                     setCurrentPage(1);
+                   }}
+                 />
               </div>
             </div>
 
