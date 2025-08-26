@@ -177,7 +177,8 @@ function VehiclesPage() {
                         </div>
                       );
                     })()}
-                                       </div>
+                    <div className="vehicle-badge">{vehicle.type}</div>
+                  </div>
                   
                   <div className="catalog-card-info">
                     <h3>{vehicle.name}</h3>
