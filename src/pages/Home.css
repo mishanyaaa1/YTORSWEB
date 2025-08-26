@@ -1,7 +1,7 @@
 .popular-products .popular-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Уменьшаю минимальную ширину */
+  gap: 1.5rem; /* Уменьшаю отступы */
 }
 
 .popular-products .popular-product-card {
@@ -9,7 +9,7 @@
   backdrop-filter: blur(10px);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  padding: 1.5rem;
+  padding: 1.2rem; /* Увеличиваю padding для лучшей пропорции */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +17,7 @@
   border: 1px solid rgba(230, 163, 74, 0.1);
   text-decoration: none;
   color: inherit;
+  height: 100%; /* Фиксированная высота */
 }
 
 .popular-products .popular-product-card:hover {
@@ -28,13 +29,13 @@
 
 .popular-products .popular-product-image {
   width: 100%;
-  height: 140px;
+  height: 120px; /* Увеличиваю высоту изображения для лучшей пропорции */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 2.5rem; /* Увеличиваю размер иконки */
   color: #e6a34a;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem; /* Увеличиваю отступ */
   position: relative;
   overflow: hidden;
   border-radius: 8px;
@@ -63,20 +64,25 @@
 .popular-products .popular-product-info {
   width: 100%;
   text-align: center;
+  flex: 1; /* Занимает оставшееся пространство */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Убираю space-between для устранения пустых мест */
+  gap: 0.4rem; /* Добавляю фиксированные отступы между элементами */
 }
 
 .popular-products .popular-product-info h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0; /* Убираю отступ */
   color: #fff;
 }
 
 .popular-products .popular-product-price {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #e6a34a;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0; /* Убираю отступ */
 }
 
 .popular-products .popular-product-link {

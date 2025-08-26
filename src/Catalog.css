@@ -162,43 +162,95 @@ input[type='number'] {
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Фиксирую три столбца вместо auto-fit */
-  gap: 1.5rem; /* Уменьшаю отступы между карточками для экономии места */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Увеличиваю минимальную ширину с 280px до 320px */
+  gap: 1.5rem; /* Увеличиваю отступы между карточками */
   width: 100%;
 }
 
 .catalog-card {
-  background: rgba(24, 24, 24, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  padding: 1.5rem;
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.9) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.4),
+    0 8px 16px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(230, 163, 74, 0.1);
+  border: 1px solid rgba(230, 163, 74, 0.3);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.catalog-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(230, 163, 74, 0.1) 0%, 
+    transparent 30%, 
+    transparent 70%, 
+    rgba(230, 163, 74, 0.05) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .catalog-card:hover {
-  box-shadow: 0 12px 40px rgba(230, 163, 74, 0.15);
-  border: 1px solid rgba(230, 163, 74, 0.4);
-  transform: translateY(-5px) scale(1.02);
-  background: rgba(24, 24, 24, 0.95);
+  box-shadow: 
+    0 30px 60px rgba(230, 163, 74, 0.3),
+    0 12px 24px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  border: 1px solid rgba(230, 163, 74, 0.6);
+  background: linear-gradient(145deg, rgba(35, 35, 35, 0.98) 0%, rgba(25, 25, 25, 0.95) 100%);
+}
+
+.catalog-card:hover::before {
+  opacity: 1;
 }
 
 .catalog-card-image {
-  width: 100%;
-  height: 140px;
+  width: calc(100% + 4rem);
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: #e6a34a;
-  margin-bottom: 1rem;
+  margin: -2rem -2rem 1.5rem -2rem;
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 24px 24px 0 0;
+  background: linear-gradient(135deg, 
+    rgba(40, 40, 40, 0.8) 0%, 
+    rgba(25, 25, 25, 0.9) 50%,
+    rgba(20, 20, 20, 0.95) 100%);
+  border: 1px solid rgba(230, 163, 74, 0.2);
+  border-bottom: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.catalog-card-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(230, 163, 74, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.catalog-card:hover .catalog-card-image::before {
+  opacity: 1;
 }
 
 /* wishlist toggle removed */
@@ -207,95 +259,134 @@ input[type='number'] {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 24px 24px 0 0;
   transition: transform 0.3s ease;
 }
 
 .catalog-card:hover .catalog-product-image {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .catalog-card-info {
   width: 100%;
   text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.6rem; /* Увеличиваю отступы между элементами с 0.4rem до 0.6rem */
 }
 
 .catalog-card-info h3 {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #fff;
+  margin-bottom: 0.75rem;
+  color: #ffffff;
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: 0.5px;
 }
 
 .catalog-card-price {
-  font-size: 1.3rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #e6a34a;
-  margin-bottom: 0.7rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #e6a34a 0%, #f4b942 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.75rem;
+  text-shadow: none;
+  letter-spacing: 1px;
 }
 
-.catalog-card-category {
-  margin-bottom: 0.8rem;
-  font-size: 0.9rem;
-  color: #888;
-}
 
-.catalog-card-category .category {
-  color: #e6a34a;
-  font-weight: 600;
-}
-
-.catalog-card-category .subcategory {
-  color: #ccc;
-  font-weight: 400;
-}
 
 .catalog-card-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   font-size: 0.95rem;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: #cccccc;
+  padding: 0;
+  text-align: left;
+  width: 100%;
 }
 
-.catalog-card-brand {
-  font-weight: 500;
-}
+
 
 .in-stock {
-  color: #e6a34a;
+  color: #4ade80;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(74, 222, 128, 0.3);
+  font-weight: 500;
+  justify-self: flex-start;
+  text-align: left;
 }
 
 .out-of-stock {
-  color: #ff4d4f;
+  color: #ef4444;
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(239, 68, 68, 0.3);
+  font-weight: 500;
+  justify-self: flex-start;
+  text-align: left;
 }
 
 .catalog-card-btn {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
-  color: #000;
+  background: linear-gradient(135deg, #e6a34a 0%, #f4b942 50%, #d97706 100%);
+  color: #000000;
   border: none;
-  padding: 0.7rem 1.5rem;
-  font-size: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 25px;
+  border-radius: 16px;
   cursor: pointer;
   width: 100%;
-  transition: all 0.3s;
-  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+  margin-top: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(230, 163, 74, 0.3);
+  box-shadow: 
+    0 8px 24px rgba(230, 163, 74, 0.4),
+    0 4px 12px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
+}
+
+.catalog-card-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.catalog-card-btn:hover::before {
+  left: 100%;
+}
+
+.catalog-card-btn:hover {
+  background: linear-gradient(135deg, #f4b942 0%, #e6a34a 50%, #d97706 100%);
+  color: #000000;
+  box-shadow: 
+    0 12px 32px rgba(230, 163, 74, 0.6),
+    0 6px 16px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .catalog-card-btn svg {
@@ -307,13 +398,6 @@ input[type='number'] {
 .catalog-card-btn:hover svg {
   color: #ffffff !important;
   transform: scale(1.1);
-}
-
-.catalog-card-btn:hover {
-  background: linear-gradient(135deg, #c97c1a 0%, #e6a34a 100%);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(230, 163, 74, 0.4);
 }
 
 .no-products {

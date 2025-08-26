@@ -307,12 +307,8 @@ export default function Catalog() {
                 <div className="catalog-card-info">
                   <h3>{product.title}</h3>
                   <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
-                  <div className="catalog-card-category">
-                    <span className="category">{product.category}</span>
-                    {product.subcategory && <span className="subcategory"> → {product.subcategory}</span>}
-                  </div>
+
                   <div className="catalog-card-meta">
-                    <span className="catalog-card-brand">{product.brand}</span>
                     <span className={product.available ? 'in-stock' : 'out-of-stock'}>
                       {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
                     </span>

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
 import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
+import { useCartActions } from '../hooks/useCartActions';
 import './VehiclesPage.css';
+import '../Catalog.css';
 
 function VehiclesPage() {
   const { vehicles } = useAdminData();
   const navigate = useNavigate();
+  const { addToCartWithNotification } = useCartActions();
   const [selectedType, setSelectedType] = useState('Все');
   const [selectedTerrain, setSelectedTerrain] = useState('Все');
   const [priceRange, setPriceRange] = useState([0, 5000000]);
@@ -18,6 +21,20 @@ function VehiclesPage() {
 
   const handleVehicleClick = (vehicle) => {
     navigate(`/vehicle/${vehicle.id}`);
+  };
+
+  const handleAddToCart = (vehicle, e) => {
+    e.stopPropagation(); // Предотвращаем всплытие события клика по карточке
+    const cartItem = {
+      id: vehicle.id,
+      title: vehicle.name,
+      price: vehicle.price,
+      image: vehicle.image,
+      type: 'vehicle',
+      brand: vehicle.type,
+      available: vehicle.available
+    };
+    addToCartWithNotification(cartItem, 1);
   };
 
   const vehicleTypes = ['Все', 'Гусеничный', 'Колесный', 'Плавающий'];
@@ -155,50 +172,39 @@ function VehiclesPage() {
         </Reveal>
 
         <Reveal type="up" delay={0.2}>
-          <div className="vehicles-grid">
+          <div className="catalog-grid">
             {paginatedVehicles.length > 0 ? (
               paginatedVehicles.map((vehicle, index) => (
-                <motion.div
+                <div
                   key={vehicle.id}
-                  className="vehicle-card"
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  className="catalog-card"
                   onClick={() => handleVehicleClick(vehicle)}
                   style={{ cursor: 'pointer' }}
                 >
-                  <div className="vehicle-image">
+                  <div className="catalog-card-image">
                     <div className="vehicle-placeholder">
                       <FaTruck />
                     </div>
                     <div className="vehicle-badge">{vehicle.type}</div>
                   </div>
                   
-                  <div className="vehicle-content">
-                    <h3 className="vehicle-name">{vehicle.name}</h3>
-                    <div className="vehicle-price">{formatPrice(vehicle.price)} ₽</div>
-                    <div className="vehicle-category">
-                      <span className="category">{vehicle.type}</span>
-                      <span className="subcategory"> → {vehicle.terrain}</span>
+                  <div className="catalog-card-info">
+                    <h3>{vehicle.name}</h3>
+                    <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
+                    <div className="catalog-card-meta">
+                      <span className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
+                        {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
+                      </span>
                     </div>
-                                         <div className="vehicle-meta">
-                       <span className="vehicle-type">{vehicle.type}</span>
-                       <span className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
-                         {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
-                       </span>
-                     </div>
                     <button 
-                      className="vehicle-card-btn"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Предотвращаем всплытие события
-                        handleVehicleClick(vehicle);
-                      }}
+                      className="catalog-card-btn"
+                      onClick={(e) => handleAddToCart(vehicle, e)}
+                      disabled={!vehicle.available}
                     >
-                      Подробнее
+                      <FaShoppingCart /> В корзину
                     </button>
                   </div>
-                </motion.div>
+                </div>
               ))
             ) : (
               <div className="no-vehicles">
