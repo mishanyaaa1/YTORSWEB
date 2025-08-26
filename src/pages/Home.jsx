@@ -5,9 +5,13 @@ import {
   FaTools, 
   FaShieldAlt, 
   FaArrowRight,
-  FaStar
+  FaStar,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaShoppingCart
 } from 'react-icons/fa';
 import { useAdminData } from '../context/AdminDataContext';
+import { useCartActions } from '../hooks/useCartActions';
 // wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
@@ -19,8 +23,15 @@ function Home() {
   const navigate = useNavigate();
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds, aboutContent } = useAdminData();
+  const { addToCartWithNotification } = useCartActions();
   
   // wishlist removed
+  
+  const handleAddToCart = (product, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCartWithNotification(product, 1);
+  };
   
   const features = [
     {
@@ -184,56 +195,66 @@ function Home() {
               </div>
             </div>
           ) : (
-            <div className="popular-products-grid">
-              {popularProducts.map((product, i) => (
-                <Reveal key={product.id} type="up" delay={i * 0.05}>
-                <Link to={`/product/${product.id}`} className="popular-product-card">
-                  <div className="popular-product-image">
-                    {(() => {
-                      const productData = products.find(p => p.id === product.id);
-                      if (!productData) return (
-                        <span className="popular-product-icon">
-                          <BrandMark alt={product.title} style={{ height: 60 }} />
-                        </span>
-                      );
-                      const mainImage = getMainImage(productData);
-                      if (mainImage?.data) {
-                        const resolved = typeof mainImage.data === 'string' ? resolveImageSrc(mainImage.data) : null;
-                        if (
-                          (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
-                          resolved
-                        ) {
-                          return (
-                            <img
-                              src={resolved || mainImage.data}
-                              alt={product.title}
-                              className="popular-product-img"
-                            />
+            <div className="catalog-grid">
+              {popularProducts.map((product, i) => {
+                const productData = products.find(p => p.id === product.id);
+                return (
+                  <Reveal key={product.id} type="up" delay={i * 0.05}>
+                    <div 
+                      className="catalog-card"
+                      onClick={() => navigate(`/product/${product.id}`)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div className="catalog-card-image">
+                        {(() => {
+                          if (!productData) return (
+                            <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <BrandMark alt={product.title} style={{ height: 64 }} />
+                            </span>
                           );
-                        }
-                        return (
-                          <span className="popular-product-icon">
-                            <BrandMark alt={product.title} style={{ height: 60 }} />
+                          const mainImage = getMainImage(productData);
+                          if (mainImage?.data) {
+                            const resolved = typeof mainImage.data === 'string' ? resolveImageSrc(mainImage.data) : null;
+                            if (
+                              (typeof mainImage.data === 'string' && mainImage.data.startsWith('data:image')) ||
+                              (resolved && isImageUrl(resolved))
+                            ) {
+                              return (
+                                <img
+                                  src={resolved || mainImage.data}
+                                  alt={product.title}
+                                  className="catalog-product-image"
+                                />
+                              );
+                            }
+                          }
+                          return (
+                            <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <BrandMark alt={product.title} style={{ height: 64 }} />
+                            </span>
+                          );
+                        })()}
+                      </div>
+                      <div className="catalog-card-info">
+                        <h3>{product.title}</h3>
+                        <div className="catalog-card-price">{product.price}</div>
+                        <div className="catalog-card-meta">
+                          <span className={productData?.available ? 'in-stock' : 'out-of-stock'}>
+                            {productData?.available ? <FaCheckCircle /> : <FaTimesCircle />} {productData?.available ? 'В наличии' : 'Нет в наличии'}
                           </span>
-                        );
-                      }
-                      return (
-                        <span className="popular-product-icon">
-                          <BrandMark alt={product.title} style={{ height: 60 }} />
-                        </span>
-                      );
-                    })()}
-                  </div>
-                  <div className="popular-product-info">
-                    <h3>{product.title}</h3>
-                    <div className="popular-product-price">{product.price} ₽</div>
-                    <div className="popular-product-link">
-                      Подробнее <FaArrowRight />
+                        </div>
+                        <button 
+                          className="catalog-card-btn"
+                          onClick={(e) => handleAddToCart(productData, e)}
+                          disabled={!productData?.available}
+                        >
+                          <FaShoppingCart /> В корзину
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-                </Reveal>
-              ))}
+                  </Reveal>
+                );
+              })}
             </div>
           )}
         </div>
