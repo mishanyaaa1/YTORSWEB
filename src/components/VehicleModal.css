@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../global-input-styles.css';
+
+/* Стили для модального окна транспортного средства */
 .vehicle-modal-overlay {
   position: fixed;
   top: 0;

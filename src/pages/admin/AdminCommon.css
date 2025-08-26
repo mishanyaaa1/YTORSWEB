@@ -1,14 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
 /* Общие стили для всех админских компонентов */
-
-/* Глобальные стили для всех полей ввода */
-input, select, textarea {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-input::placeholder, textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
 
 /* Принудительно белый цвет для всех label */
 .admin-dashboard label,
@@ -91,7 +84,7 @@ input::placeholder, textarea::placeholder {
 .filter-management textarea::placeholder,
 .vehicles-management input::placeholder,
 .vehicles-management textarea::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Стили для автозаполнения */

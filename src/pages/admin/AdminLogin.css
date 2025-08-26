@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для входа в админку */
 .admin-login-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
@@ -108,7 +112,7 @@
 }
 
 .input-wrapper input::placeholder {
-  color: #666666;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .password-toggle {

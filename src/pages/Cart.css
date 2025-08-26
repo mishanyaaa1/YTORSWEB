@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../global-input-styles.css';
+
+/* Стили для корзины */
 .cart-page {
   padding: 120px 0 60px;
   min-height: 100vh;
@@ -299,7 +303,7 @@
 }
 
 .quantity-input::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Принудительно устанавливаем белый цвет для всех состояний */
@@ -611,7 +615,7 @@ input[type="number"].quantity-input,
 
 .checkout-content .form-group input::placeholder,
 .checkout-content .form-group textarea::placeholder {
-  color: #eeeeee !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Дополнительная специфичность для checkout формы */
@@ -898,7 +902,7 @@ input[type="number"].quantity-input,
 }
 
 .promocode-input::placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
   font-style: italic;
 }
 
@@ -930,7 +934,7 @@ input[type="number"].quantity-input,
 }
 
 .promocode-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.7);
   font-style: italic;
 }
 

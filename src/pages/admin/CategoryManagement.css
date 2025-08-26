@@ -1,3 +1,6 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
 /* Category Management */
 .category-management {
   max-width: 1200px;
@@ -108,11 +111,14 @@
   color: #ffffff !important;
   font-weight: 500;
 }
-}
 
 .add-category-form input:focus {
   border-color: #e6a34a;
   box-shadow: 0 0 0 2px rgba(230, 163, 74, 0.1);
+}
+
+.add-category-form input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .add-btn {

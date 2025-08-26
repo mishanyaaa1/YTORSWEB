@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для управления транспортными средствами */
 .vehicles-management {
   padding: 2rem;
   background: #0a0a0a;
@@ -144,6 +148,11 @@
   outline: none;
   border-color: #e6a34a;
   box-shadow: 0 0 0 3px rgba(230, 163, 74, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .checkbox-group {

@@ -1,3 +1,6 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
 /* Стили для управления фильтрами */
 .filter-management {
   padding: 1.5rem;
@@ -201,6 +204,11 @@
   margin: 0.1rem 0 0 0;
   cursor: pointer;
   accent-color: #e6a34a;
+}
+
+.filter-setting-label input::placeholder,
+.filter-setting-label textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .filter-setting-text {

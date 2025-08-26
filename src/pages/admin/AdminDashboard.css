@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для админского дашборда */
 .admin-dashboard {
   display: flex;
   min-height: 100vh;

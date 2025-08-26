@@ -1,3 +1,6 @@
+/* Импорт глобальных стилей для полей ввода */
+@import './global-input-styles.css';
+
 /* Каталог товаров */
 .catalog-wrapper {
   display: flex;
@@ -62,7 +65,7 @@
 }
 
 .filter-group input::placeholder {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.7) !important;
 }
 
 /* Убираем стрелочки у number (на всякий случай) */
@@ -90,7 +93,7 @@ input[type='number'] {
 }
 
 .price-range input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .price-range span {
@@ -138,7 +141,7 @@ input[type='number'] {
 }
 
 .search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Стили для кнопки сброса фильтров */

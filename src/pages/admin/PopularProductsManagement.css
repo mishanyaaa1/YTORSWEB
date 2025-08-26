@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для управления популярными продуктами */
 .popular-products-management {
   padding: 2rem;
   background: #0a0a0a;
@@ -117,6 +121,11 @@
 .btn-remove { background: rgba(255, 71, 87, 0.15); border-color: rgba(255, 71, 87, 0.4); color: #ff6b7d; }
 
 .empty-message { text-align: center; color: #aaaaaa; font-style: italic; }
+
+.popular-products-management input::placeholder,
+.popular-products-management textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
 
 .info-panel {
   background: rgba(255, 255, 255, 0.05);

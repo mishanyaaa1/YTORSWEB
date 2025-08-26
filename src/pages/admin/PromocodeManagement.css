@@ -1,3 +1,6 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
 /* Стили для управления промокодами */
 .promocode-management {
   padding: 20px;
@@ -86,7 +89,7 @@
 
 .form-group input::placeholder,
 .form-group select::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Стили для dropdown меню */

@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../global-input-styles.css';
+
+/* Стили для страницы продукта */
 .product-page {
   padding: 120px 0 60px;
   min-height: 100vh;
@@ -468,7 +472,7 @@ input[type="number"].quantity-input,
 .quantity-input:-ms-input-placeholder,
 .quantity-input::-ms-input-placeholder,
 .quantity-input::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 /* Принудительно устанавливаем белый цвет для всех состояний */

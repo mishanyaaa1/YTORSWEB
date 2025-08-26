@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../global-input-styles.css';
+
+/* Стили для селектора иконок */
 .icon-selector {
   position: relative;
   width: 100%;
@@ -77,7 +81,7 @@
 }
 
 .icon-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .icon-grid {

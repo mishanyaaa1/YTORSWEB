@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для управления заказами */
 .order-management {
   padding: 2rem;
   background: #0a0a0a;
@@ -108,10 +112,6 @@
   color: #ffffff !important;
   font-weight: 500;
 }
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
-}
 
 .search-box input:focus {
   border-color: #e6a34a;
@@ -119,7 +119,7 @@
 }
 
 .search-box input::placeholder {
-  color: #888;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .filter-box {
@@ -152,6 +152,10 @@
 .filter-box select:focus {
   border-color: #e6a34a;
   background: rgba(255, 255, 255, 0.08);
+}
+
+.filter-box select::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .filter-box option {

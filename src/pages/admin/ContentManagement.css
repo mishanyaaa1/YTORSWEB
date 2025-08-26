@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../../global-input-styles.css';
+
+/* Стили для управления контентом */
 .content-management {
   padding: 2rem;
   background: #0a0a0a; /* более тёмная подложка, как в остальных разделах админки */
@@ -105,6 +109,11 @@
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.content-management input::placeholder,
+.content-management textarea::placeholder {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 

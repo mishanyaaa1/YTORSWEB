@@ -1,0 +1,278 @@
+/* Глобальные стили для всех полей ввода - белый текст */
+
+/* Принудительно белый цвет для всех input, select, textarea */
+input, select, textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для placeholder */
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для автозаполнения */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Дополнительные стили для разных типов полей */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для select и option */
+select option {
+  background: #2d2d2d !important;
+  color: #ffffff !important;
+}
+
+/* Стили для всех форм */
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form input,
+.form select,
+.form textarea,
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.admin-panel input,
+.admin-panel select,
+.admin-panel textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в формах */
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.form input::placeholder,
+.form textarea::placeholder,
+.admin-form input::placeholder,
+.admin-form textarea::placeholder,
+.admin-panel input::placeholder,
+.admin-panel textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех label */
+label {
+  color: #ffffff !important;
+}
+
+/* Стили для всех input в админке */
+.admin-dashboard input,
+.admin-dashboard select,
+.admin-dashboard textarea,
+.promocode-management input,
+.promocode-management select,
+.promocode-management textarea,
+.product-management input,
+.product-management select,
+.product-management textarea,
+.category-management input,
+.category-management select,
+.category-management textarea,
+.promotion-management input,
+.promotion-management select,
+.promotion-management textarea,
+.order-management input,
+.order-management select,
+.order-management textarea,
+.content-management input,
+.content-management select,
+.content-management textarea,
+.advertising-management input,
+.advertising-management select,
+.advertising-management textarea,
+.popular-products-management input,
+.popular-products-management select,
+.popular-products-management textarea,
+.filter-management input,
+.filter-management select,
+.filter-management textarea,
+.vehicles-management input,
+.vehicles-management select,
+.vehicles-management textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в админке */
+.admin-dashboard input::placeholder,
+.admin-dashboard textarea::placeholder,
+.promocode-management input::placeholder,
+.promocode-management textarea::placeholder,
+.product-management input::placeholder,
+.product-management textarea::placeholder,
+.category-management input::placeholder,
+.category-management textarea::placeholder,
+.promotion-management input::placeholder,
+.promotion-management textarea::placeholder,
+.order-management input::placeholder,
+.order-management textarea::placeholder,
+.content-management input::placeholder,
+.content-management textarea::placeholder,
+.advertising-management input::placeholder,
+.advertising-management textarea::placeholder,
+.popular-products-management input::placeholder,
+.popular-products-management textarea::placeholder,
+.filter-management input::placeholder,
+.filter-management textarea::placeholder,
+.vehicles-management input::placeholder,
+.vehicles-management textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех label в админке */
+.admin-dashboard label,
+.promocode-management label,
+.product-management label,
+.category-management label,
+.promotion-management label,
+.order-management label,
+.content-management label,
+.advertising-management label,
+.popular-products-management label,
+.filter-management label,
+.vehicles-management label {
+  color: #ffffff !important;
+}
+
+/* Стили для всех input в корзине */
+.checkout-content .form-group input,
+.checkout-content .form-group select,
+.checkout-content .form-group textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в корзине */
+.checkout-content .form-group input::placeholder,
+.checkout-content .form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех input в поиске */
+.search-input,
+.search-modal input,
+.search-modal select,
+.search-modal textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в поиске */
+.search-input::placeholder,
+.search-modal input::placeholder,
+.search-modal textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех input в каталоге */
+.catalog-filters input,
+.catalog-filters select,
+.catalog-filters textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в каталоге */
+.catalog-filters input::placeholder,
+.catalog-filters textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех input в транспортных средствах */
+.vehicles-page input,
+.vehicles-page select,
+.vehicles-page textarea,
+.vehicle-detail-page input,
+.vehicle-detail-page select,
+.vehicle-detail-page textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в транспортных средствах */
+.vehicles-page input::placeholder,
+.vehicles-page textarea::placeholder,
+.vehicle-detail-page input::placeholder,
+.vehicle-detail-page textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех input в модальных окнах */
+.vehicle-modal input,
+.vehicle-modal select,
+.vehicle-modal textarea,
+.search-modal input,
+.search-modal select,
+.search-modal textarea {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в модальных окнах */
+.vehicle-modal input::placeholder,
+.vehicle-modal textarea::placeholder,
+.search-modal input::placeholder,
+.search-modal textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Стили для всех input в компонентах */
+.image-upload input,
+.multi-image-upload input,
+.icon-selector input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Стили для всех placeholder в компонентах */
+.image-upload input::placeholder,
+.multi-image-upload input::placeholder,
+.icon-selector input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Дополнительная защита от переопределения цветов */
+*[style*="color: black"],
+*[style*="color:black"],
+*[style*="color: #000"],
+*[style*="color:#000"],
+*[style*="color: #000000"],
+*[style*="color:#000000"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Принудительное применение белого цвета для всех текстовых полей */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}

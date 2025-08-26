@@ -1,3 +1,7 @@
+/* Импорт глобальных стилей для полей ввода */
+@import '../global-input-styles.css';
+
+/* Стили для страницы транспортных средств */
 .vehicles-page {
   padding: 120px 0 60px;
   min-height: 100vh;
@@ -116,6 +120,10 @@
   box-shadow: 0 0 0 3px rgba(230, 163, 74, 0.2);
 }
 
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 .filter-toggle-btn {
   display: flex;
   align-items: center;
@@ -210,6 +218,11 @@
   border-color: #e6a34a;
 }
 
+.filter-group select::placeholder,
+.filter-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 .price-inputs {
   display: flex;
   align-items: center;
@@ -230,6 +243,10 @@
 .price-inputs input:focus {
   outline: none;
   border-color: #e6a34a;
+}
+
+.price-inputs input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .price-inputs span {
