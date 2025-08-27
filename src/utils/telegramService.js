@@ -139,6 +139,22 @@ export const formatOrderMessage = (orderData) => {
     message += `• Скидка "${priceCalculation.appliedPromotion.title}" (${priceCalculation.appliedPromotion.discount}%): -${priceCalculation.discountAmount.toLocaleString()} ₽\n`;
   }
   
+  if (priceCalculation.appliedPromocode) {
+    const promocodeType = priceCalculation.appliedPromocode.discountType === 'percent' ? '%' : '₽';
+    const promocodeValue = priceCalculation.appliedPromocode.discountType === 'percent' 
+      ? `${priceCalculation.appliedPromocode.discount}%` 
+      : `${priceCalculation.appliedPromocode.discount.toLocaleString()} ₽`;
+    
+    message += `• Промокод "${priceCalculation.appliedPromocode.code}" (${promocodeValue}): -${priceCalculation.promocodeDiscount.toLocaleString()} ₽\n`;
+    
+    // Информация о суммировании с акциями
+    if (priceCalculation.appliedPromocode.stackable) {
+      message += `  └ Суммируется с акциями\n`;
+    } else {
+      message += `  └ Не суммируется с акциями\n`;
+    }
+  }
+  
   message += `• Доставка: Бесплатно\n`;
   message += `<b>• ИТОГО К ОПЛАТЕ: ${priceCalculation.total.toLocaleString()} ₽</b>\n\n`;
   
