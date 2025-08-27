@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://vezdehod-zapchasti.ru/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /server/
+Disallow: /node_modules/
+
+# Allow important pages
+Allow: /catalog/
+Allow: /about/
+Allow: /cart/
+Allow: /promotions/
+
+# Crawl delay
+Crawl-delay: 1
+
+# Company location: Челябинск
+# Phone: +7 (351) 21-444-32
+# Email: info@ytors.ru

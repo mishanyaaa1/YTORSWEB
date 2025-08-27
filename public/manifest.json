@@ -1,0 +1,78 @@
+{
+  "name": "ВездеходЗапчасти - Запчасти для вездеходов",
+  "short_name": "ВездеходЗапчасти",
+  "description": "Качественные запчасти для вездеходов всех марок. Быстрая доставка по России.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "categories": ["shopping", "automotive"],
+  "icons": [
+    {
+      "src": "/src/img/лого вектор 2-min.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/img/лого вектор 2-min.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/src/img/лого вектор 2-min.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Каталог",
+      "short_name": "Каталог",
+      "description": "Просмотр каталога запчастей",
+      "url": "/catalog",
+      "icons": [
+        {
+          "src": "/src/img/лого вектор 2-min.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Корзина",
+      "short_name": "Корзина",
+      "description": "Просмотр корзины",
+      "url": "/cart",
+      "icons": [
+        {
+          "src": "/src/img/лого вектор 2-min.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Контакты",
+      "short_name": "Контакты",
+      "description": "Связаться с нами",
+      "url": "/about#contacts",
+      "icons": [
+        {
+          "src": "/src/img/лого вектор 2-min.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "contact_info": {
+    "phone": "+7 (351) 21-444-32",
+    "email": "info@ytors.ru",
+    "city": "Челябинск"
+  }
+}

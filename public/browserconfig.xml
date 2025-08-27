@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/src/img/лого вектор 2-min.png"/>
+            <TileColor>#1a1a1a</TileColor>
+        </tile>
+    </msapplication>
+    <meta name="city" content="Челябинск"/>
+    <meta name="phone" content="+7 (351) 21-444-32"/>
+    <meta name="email" content="info@ytors.ru"/>
+</browserconfig>

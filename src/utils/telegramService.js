@@ -1,12 +1,29 @@
 // Утилита для отправки уведомлений в Telegram
 
-const TELEGRAM_BOT_TOKEN = '8220911923:AAHOV3xvBPioSoBh53bPfceJBBkFYk1aqu0';
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
+// Функция для получения настроек бота из базы данных
+export const getBotSettings = async () => {
+  try {
+    const response = await fetch('/api/admin/bot');
+    if (response.ok) {
+      return await response.json();
+    }
+    return null;
+  } catch (error) {
+    console.error('Ошибка получения настроек бота:', error);
+    return null;
+  }
+};
 
 // Функция для получения информации о боте и его chat_id
 export const getBotInfo = async () => {
   try {
-    const response = await fetch(`${TELEGRAM_API_URL}/getMe`);
+    const settings = await getBotSettings();
+    if (!settings || !settings.bot_token) {
+      console.error('Токен бота не настроен');
+      return null;
+    }
+    
+    const response = await fetch(`https://api.telegram.org/bot${settings.bot_token}/getMe`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -18,7 +35,13 @@ export const getBotInfo = async () => {
 // Функция для получения обновлений (для получения chat_id)
 export const getUpdates = async () => {
   try {
-    const response = await fetch(`${TELEGRAM_API_URL}/getUpdates`);
+    const settings = await getBotSettings();
+    if (!settings || !settings.bot_token) {
+      console.error('Токен бота не настроен');
+      return null;
+    }
+    
+    const response = await fetch(`https://api.telegram.org/bot${settings.bot_token}/getUpdates`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -30,10 +53,22 @@ export const getUpdates = async () => {
 // Функция для отправки сообщения в Telegram
 export const sendTelegramMessage = async (message, chatId = null) => {
   try {
-    // Если chat_id не указан, пытаемся получить его из последних сообщений
-    let targetChatId = chatId;
+    const settings = await getBotSettings();
+    if (!settings || !settings.bot_token) {
+      console.error('Токен бота не настроен');
+      return { success: false, error: 'Токен бота не настроен' };
+    }
+    
+    if (!settings.enabled) {
+      console.log('Бот отключен в настройках');
+      return { success: false, error: 'Бот отключен' };
+    }
+    
+    // Если chat_id не указан, используем из настроек
+    let targetChatId = chatId || settings.chat_id;
     
     if (!targetChatId) {
+      // Пытаемся получить chat_id из последних сообщений
       const updates = await getUpdates();
       if (updates && updates.ok && updates.result.length > 0) {
         // Берем chat_id из последнего сообщения
@@ -44,10 +79,10 @@ export const sendTelegramMessage = async (message, chatId = null) => {
     
     if (!targetChatId) {
       console.error('Не удалось определить chat_id для отправки сообщения');
-      return { success: false, error: 'Chat ID не найден' };
+      return { success: false, error: 'Chat ID не настроен. Сначала настройте бота через админку.' };
     }
 
-    const response = await fetch(`${TELEGRAM_API_URL}/sendMessage`, {
+    const response = await fetch(`https://api.telegram.org/bot${settings.bot_token}/sendMessage`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

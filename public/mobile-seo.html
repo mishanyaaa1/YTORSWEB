@@ -1,0 +1,398 @@
+<!-- Mobile SEO Optimizations -->
+
+<!-- Mobile Viewport and Touch -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ВездеходЗапчасти">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+
+<!-- Mobile Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/src/img/лого вектор 2-min.png">
+
+<!-- Mobile Splash Screens -->
+<link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="/src/img/лого вектор 2-min.png">
+<link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="/src/img/лого вектор 2-min.png">
+
+<!-- Mobile Theme Colors -->
+<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="msapplication-TileColor" content="#1a1a1a">
+<meta name="msapplication-TileImage" content="/src/img/лого вектор 2-min.png">
+
+<!-- Mobile Performance -->
+<link rel="preload" href="/src/main.jsx" as="script" crossorigin>
+<link rel="preload" href="/src/App.css" as="style">
+<link rel="preload" href="/src/index.css" as="style">
+
+<!-- Mobile Fonts -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"></noscript>
+
+<!-- Mobile Touch Icons -->
+<link rel="icon" type="image/png" sizes="32x32" href="/src/img/лого вектор 2-min.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/src/img/лого вектор 2-min.png">
+<link rel="mask-icon" href="/src/img/лого вектор 2-min.png" color="#1a1a1a">
+
+<!-- Mobile Manifest -->
+<link rel="manifest" href="/manifest.json">
+
+<!-- Mobile Schema for App -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ВездеходЗапчасти",
+  "description": "Мобильное приложение для покупки запчастей для вездеходов",
+  "url": "https://vezdehod-zapchasti.ru",
+  "applicationCategory": "ShoppingApplication",
+  "operatingSystem": "Web Browser",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "featureList": [
+    "Каталог запчастей",
+    "Поиск по категориям",
+    "Корзина покупок",
+    "Оформление заказа",
+    "Отслеживание доставки"
+  ],
+  "screenshot": "/src/img/лого вектор 2-min.png",
+  "softwareVersion": "1.0.0",
+  "releaseNotes": "Первая версия мобильного приложения",
+  "installUrl": "https://vezdehod-zapchasti.ru",
+  "downloadUrl": "https://vezdehod-zapchasti.ru",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7 (351) 21-444-32",
+    "email": "info@ytors.ru",
+    "contactType": "customer service"
+  }
+}
+</script>
+
+<!-- Mobile Performance Monitoring -->
+<script>
+// Mobile-specific performance monitoring
+if ('PerformanceObserver' in window) {
+  // Mobile network information
+  if ('connection' in navigator) {
+    const connection = navigator.connection;
+    console.log('Mobile Connection:', {
+      effectiveType: connection.effectiveType,
+      downlink: connection.downlink,
+      rtt: connection.rtt,
+      saveData: connection.saveData
+    });
+    
+    // Adjust loading strategy based on connection
+    if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+      // Load low-quality images for slow connections
+      document.querySelectorAll('img').forEach(img => {
+        if (img.dataset.lowSrc) {
+          img.src = img.dataset.lowSrc;
+        }
+      });
+    }
+  }
+  
+  // Mobile battery information
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then(battery => {
+      console.log('Mobile Battery:', {
+        level: battery.level,
+        charging: battery.charging
+      });
+      
+      // Adjust performance based on battery level
+      if (battery.level < 0.2 && !battery.charging) {
+        // Reduce animations and heavy operations for low battery
+        document.body.classList.add('low-battery-mode');
+      }
+    });
+  }
+  
+  // Mobile device orientation
+  if ('DeviceOrientationEvent' in window) {
+    window.addEventListener('deviceorientation', (event) => {
+      console.log('Device Orientation:', {
+        alpha: event.alpha,
+        beta: event.beta,
+        gamma: event.gamma
+      });
+    });
+  }
+}
+
+// Mobile touch optimization
+if ('ontouchstart' in window) {
+  // Add touch-specific classes
+  document.body.classList.add('touch-device');
+  
+  // Optimize touch targets
+  document.querySelectorAll('button, a, input, select, textarea').forEach(element => {
+    if (element.offsetHeight < 44 || element.offsetWidth < 44) {
+      element.classList.add('touch-target-small');
+    }
+  });
+}
+
+// Mobile viewport optimization
+function optimizeViewport() {
+  const viewport = document.querySelector('meta[name="viewport"]');
+  const isLandscape = window.innerWidth > window.innerHeight;
+  
+  if (isLandscape) {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=0.8, maximum-scale=3.0, user-scalable=yes');
+  } else {
+    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+  }
+}
+
+window.addEventListener('orientationchange', optimizeViewport);
+window.addEventListener('resize', optimizeViewport);
+
+// Mobile gesture support
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+
+document.addEventListener('touchend', (e) => {
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  
+  const diffX = touchStartX - touchEndX;
+  const diffY = touchStartY - touchEndY;
+  
+  // Swipe left/right for navigation
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+    if (diffX > 0) {
+      // Swipe left - go back
+      if (window.history.length > 1) {
+        window.history.back();
+      }
+    } else {
+      // Swipe right - go forward
+      if (window.history.length > 1) {
+        window.history.forward();
+      }
+    }
+  }
+});
+
+// Mobile offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('Mobile SW registered:', registration);
+        
+        // Handle offline/online events
+        window.addEventListener('online', () => {
+          document.body.classList.remove('offline');
+          console.log('Mobile device is online');
+        });
+        
+        window.addEventListener('offline', () => {
+          document.body.classList.add('offline');
+          console.log('Mobile device is offline');
+        });
+      })
+      .catch(error => {
+        console.log('Mobile SW registration failed:', error);
+      });
+  });
+}
+
+// Add mobile contact information
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileContact = document.createElement('div');
+  mobileContact.className = 'mobile-contact-info';
+  mobileContact.innerHTML = `
+    <div class="contact-item">
+      <span class="icon">📞</span>
+      <span class="text">+7 (351) 21-444-32</span>
+    </div>
+    <div class="contact-item">
+      <span class="icon">✉️</span>
+      <span class="text">info@ytors.ru</span>
+    </div>
+    <div class="contact-item">
+      <span class="icon">📍</span>
+      <span class="text">Челябинск</span>
+    </div>
+  `;
+  
+  // Insert at the beginning of body for mobile
+  if (document.body) {
+    document.body.insertBefore(mobileContact, document.body.firstChild);
+  }
+});
+</script>
+
+<!-- Mobile CSS Optimizations -->
+<style>
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  /* Touch-friendly button sizes */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Mobile navigation */
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    z-index: 1000;
+  }
+  
+  /* Mobile search */
+  .mobile-search {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 999;
+  }
+  
+  /* Mobile product cards */
+  .product-card {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Mobile forms */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  /* Mobile contact info */
+  .mobile-contact-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem;
+    margin: 0;
+    border-radius: 0;
+    text-align: center;
+  }
+  
+  .mobile-contact-info .contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    gap: 0.5rem;
+  }
+  
+  .mobile-contact-info .icon {
+    font-size: 1.2rem;
+  }
+  
+  .mobile-contact-info .text {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+}
+
+/* Touch device optimizations */
+.touch-device .touch-target-small {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Low battery mode */
+.low-battery-mode * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Offline mode */
+.offline .offline-hidden {
+  display: none;
+}
+
+.offline .offline-message {
+  display: block;
+  background: #ff6b6b;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+/* Mobile performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile accessibility */
+@media (prefers-contrast: high) {
+  body {
+    background: #000;
+    color: #fff;
+  }
+  
+  a {
+    color: #ffff00;
+  }
+}
+
+/* Mobile dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #fff;
+  }
+  
+  .product-card {
+    background: #2a2a2a;
+    border: 1px solid #444;
+  }
+}
+</style>

@@ -11,10 +11,11 @@ import OrderManagement from './OrderManagement';
 import AdvertisingManagement from './AdvertisingManagement';
 import FilterManagement from './FilterManagement';
 import VehiclesManagement from './VehiclesManagement';
+import BotManagement from './BotManagement';
 
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck, FaRobot } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -55,7 +56,8 @@ function AdvancedAdminDashboard() {
     { id: 'vehicles', label: 'Вездеходы', icon: <FaTruck /> },
     { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
-    { id: 'advertising', label: 'Реклама', icon: <FaAd /> }
+    { id: 'advertising', label: 'Реклама', icon: <FaAd /> },
+    { id: 'bot', label: 'Telegram бот', icon: <FaRobot /> }
   ];
 
   const renderOverview = () => (
@@ -183,6 +185,8 @@ function AdvancedAdminDashboard() {
         return <ContentManagement />;
       case 'advertising':
         return <AdvertisingManagement />;
+      case 'bot':
+        return <BotManagement />;
       default:
         return renderOverview();
     }
