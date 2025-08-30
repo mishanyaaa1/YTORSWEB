@@ -802,19 +802,30 @@ input[type="number"].quantity-input,
 }
 
 .promotions-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  background: rgba(230, 163, 74, 0.1);
-  border-radius: 8px;
-  margin-top: 1rem;
-  color: #e6a34a;
-  font-size: 0.9rem;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.4rem 0.7rem !important;
+  background: rgba(230, 163, 74, 0.1) !important;
+  border-radius: 6px !important;
+  margin-top: 0.5rem !important;
+  color: #e6a34a !important;
+  font-size: 0.85rem !important;
+  width: fit-content !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  line-height: 1.2 !important;
+  height: auto !important;
 }
 
 .promo-icon {
-  color: #e6a34a;
+  color: #e6a34a !important;
+  flex-shrink: 0 !important;
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
 }
 
 .discount-info {
