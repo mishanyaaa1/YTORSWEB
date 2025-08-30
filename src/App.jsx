@@ -36,7 +36,12 @@ function App() {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
   
-  // Закрываем мобильное меню при клике вне его
+  // Дополнительная защита: закрываем мобильное меню при загрузке страницы
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
+  
+  // Закрываем мобильное меню при клике вне его и по Escape
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isMobileMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-button')) {
@@ -44,8 +49,15 @@ function App() {
       }
     };
 
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
     if (isMobileMenuOpen) {
       document.addEventListener('click', handleClickOutside);
+      document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -53,6 +65,7 @@ function App() {
 
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen]);

@@ -204,10 +204,19 @@ textarea:focus-visible {
   background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(10px);
   z-index: 2000;
-  display: flex;
+  display: none;
   flex-direction: column;
   padding: 2rem;
   overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .mobile-menu-header {
@@ -233,14 +242,16 @@ textarea:focus-visible {
   color: #e6a34a;
 }
 
-.mobile-menu-nav {
+.mobile-menu-nav,
+.mobile-nav {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.mobile-menu-link {
+.mobile-menu-link,
+.mobile-nav-link {
   color: #ffffff;
   text-decoration: none;
   font-size: 1.2rem;
@@ -252,7 +263,9 @@ textarea:focus-visible {
 }
 
 .mobile-menu-link:hover,
-.mobile-menu-link.active {
+.mobile-menu-link.active,
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
   color: #e6a34a;
   background: rgba(230, 163, 74, 0.1);
   border-color: rgba(230, 163, 74, 0.3);
@@ -319,6 +332,17 @@ textarea:focus-visible {
   .icon-button {
     font-size: 1rem;
     padding: 0.4rem;
+  }
+}
+
+/* Скрываем мобильное меню на десктопе */
+@media (min-width: 769px) {
+  .mobile-menu {
+    display: none !important;
+  }
+  
+  .mobile-menu-button {
+    display: none !important;
   }
 }
 
