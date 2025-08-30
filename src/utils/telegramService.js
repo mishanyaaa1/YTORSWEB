@@ -1,9 +1,10 @@
 // Утилита для отправки уведомлений в Telegram
+import { apiGet, API_CONFIG } from './api';
 
 // Функция для получения настроек бота из базы данных
 export const getBotSettings = async () => {
   try {
-    const response = await fetch('/api/admin/bot');
+    const response = await apiGet(API_CONFIG.ENDPOINTS.ADMIN_BOT);
     if (response.ok) {
       return await response.json();
     }

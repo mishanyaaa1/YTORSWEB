@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiPost, API_CONFIG } from '../../utils/api';
 import './SimpleAdminLogin.css';
 
 function SimpleAdminLogin() {
@@ -14,17 +15,17 @@ function SimpleAdminLogin() {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ username: credentials.username, password: credentials.password })
+      const res = await apiPost(API_CONFIG.ENDPOINTS.ADMIN_LOGIN, {
+        username: credentials.username,
+        password: credentials.password
       });
-      if (!res.ok) {
+      
+      if (res.ok) {
+        navigate('/admin/dashboard');
+      } else {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Ошибка входа');
       }
-      navigate('/admin/dashboard');
     } catch (err) {
       setError(err.message || 'Ошибка входа');
     }

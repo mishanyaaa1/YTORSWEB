@@ -8,6 +8,7 @@ import {
   initialVehicles
 } from '../data/initialData.js';
 import { migrateProductImages } from '../utils/imageHelpers';
+import { apiGet, API_CONFIG } from '../utils/api';
 
 const AdminDataContext = createContext();
 
@@ -920,13 +921,13 @@ export const AdminDataProvider = ({ children }) => {
       try {
         console.log('AdminDataContext: Refreshing data from API...');
         const [p, cRaw, b, pr, pc, t, v] = await Promise.allSettled([
-          fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-          fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
-          fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
-          fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-          fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-          fetch('/api/terrain-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня']),
-          fetch('/api/vehicle-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Гусеничный', 'Колесный', 'Плавающий'])
+          apiGet(API_CONFIG.ENDPOINTS.PRODUCTS).then(r => r.ok ? r.json() : []),
+          apiGet(API_CONFIG.ENDPOINTS.CATEGORIES).then(r => r.ok ? r.json() : categoryStructure),
+          apiGet(API_CONFIG.ENDPOINTS.BRANDS).then(r => r.ok ? r.json() : initialBrands),
+          apiGet(API_CONFIG.ENDPOINTS.PROMOTIONS).then(r => r.ok ? r.json() : []),
+          apiGet(API_CONFIG.ENDPOINTS.PROMOCODES).then(r => r.ok ? r.json() : []),
+          apiGet(API_CONFIG.ENDPOINTS.TERRAIN_TYPES).then(r => r.ok ? r.json() : ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня']),
+          apiGet(API_CONFIG.ENDPOINTS.VEHICLE_TYPES).then(r => r.ok ? r.json() : ['Гусеничный', 'Колесный', 'Плавающий'])
         ]);
         
         // Обрабатываем результаты

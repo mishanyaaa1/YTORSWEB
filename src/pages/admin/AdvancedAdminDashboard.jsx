@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminData } from '../../context/AdminDataContext';
+import { apiGet, apiPost, API_CONFIG } from '../../utils/api';
 import ProductManagement from './ProductManagement';
 import CategoryManagement from './CategoryManagement';
 import PromotionManagement from './PromotionManagement';
@@ -29,7 +30,7 @@ function AdvancedAdminDashboard() {
     let canceled = false;
     (async () => {
       try {
-        const res = await fetch('/api/admin/me', { credentials: 'include' });
+        const res = await apiGet(API_CONFIG.ENDPOINTS.ADMIN_ME);
         if (!res.ok) throw new Error('unauth');
       } catch (_) {
         if (!canceled) navigate('/admin');
@@ -40,7 +41,7 @@ function AdvancedAdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+      await apiPost(API_CONFIG.ENDPOINTS.ADMIN_LOGOUT);
     } finally {
       navigate('/admin');
     }

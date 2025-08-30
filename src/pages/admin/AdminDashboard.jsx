@@ -13,6 +13,7 @@ import {
   FaHome,
   FaTag
 } from 'react-icons/fa';
+import { apiGet, apiPost, API_CONFIG } from '../../utils/api';
 import './AdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -25,7 +26,7 @@ function AdminDashboard() {
     let canceled = false;
     (async () => {
       try {
-        const res = await fetch('/api/admin/me', { credentials: 'include' });
+        const res = await apiGet(API_CONFIG.ENDPOINTS.ADMIN_ME);
         if (!res.ok) throw new Error('unauth');
       } catch (_) {
         if (!canceled) navigate('/admin');
@@ -36,7 +37,7 @@ function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
+      await apiPost(API_CONFIG.ENDPOINTS.ADMIN_LOGOUT);
     } finally {
       navigate('/admin');
     }

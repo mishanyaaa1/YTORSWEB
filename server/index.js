@@ -31,21 +31,31 @@ const allowedOrigins = new Set([
   'http://localhost:5174',
   'http://127.0.0.1:5174',
   'http://localhost:3001',
-  'https://your-site.netlify.app', // ваш Netlify домен
+  'http://localhost:10000',
+  'https://ytors.netlify.app', // ваш Netlify домен
   'https://*.netlify.app', // все Netlify домены
 ]);
+
 app.use(
   cors({
     origin(origin, callback) {
+      console.log('CORS request from:', origin);
       if (!origin) return callback(null, true);
       if (allowedOrigins.has(origin)) return callback(null, true);
       // Разрешаем все Netlify домены
       if (origin.includes('netlify.app')) return callback(null, true);
+      console.log('CORS blocked origin:', origin);
       return callback(null, false);
     },
     credentials: true,
   })
 );
+
+// Логирование всех запросов для отладки
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  next();
+});
 
 app.use(cookieParser());
 app.use(express.json({ limit: '25mb' }));

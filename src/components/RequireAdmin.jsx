@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { apiGet, API_CONFIG } from '../utils/api';
 
 function RequireAdmin({ children }) {
   const [isChecking, setIsChecking] = useState(true);
@@ -9,7 +10,7 @@ function RequireAdmin({ children }) {
     let isCanceled = false;
     (async () => {
       try {
-        const res = await fetch('/api/admin/me', { credentials: 'include' });
+        const res = await apiGet(API_CONFIG.ENDPOINTS.ADMIN_ME);
         if (!isCanceled) setIsAuthorized(res.ok);
       } catch (_) {
         if (!isCanceled) setIsAuthorized(false);

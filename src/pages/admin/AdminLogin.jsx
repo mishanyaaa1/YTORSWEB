@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { apiPost, API_CONFIG } from '../../utils/api';
 import './AdminLogin.css';
 
 function AdminLogin() {
@@ -27,20 +28,17 @@ function AdminLogin() {
     setIsLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-        })
+      const res = await apiPost(API_CONFIG.ENDPOINTS.ADMIN_LOGIN, {
+        username: credentials.username,
+        password: credentials.password,
       });
-      if (!res.ok) {
+      
+      if (res.ok) {
+        navigate('/admin/dashboard');
+      } else {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Ошибка входа');
       }
-      navigate('/admin/dashboard');
     } catch (err) {
       setError(err.message || 'Ошибка входа');
     } finally {
