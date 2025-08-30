@@ -1,6 +1,9 @@
 /* Импорт глобальных стилей для полей ввода */
 @import '../../global-input-styles.css';
 
+/* Импорт общих стилей для иконок в админке */
+@import './AdminCommon.css';
+
 /* Стили для управления Telegram ботом в темной теме */
 .bot-management {
   padding: 2rem;
@@ -286,10 +289,7 @@
   border-color: rgba(220, 53, 69, 0.3);
 }
 
-/* Стили для иконок */
-.bot-management svg {
-  color: #e6a34a;
-}
+/* Минималистичные стили для иконок применяются из AdminCommon.css */
 
 /* Адаптивность */
 @media (max-width: 768px) {

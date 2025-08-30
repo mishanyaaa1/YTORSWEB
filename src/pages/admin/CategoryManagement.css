@@ -1,6 +1,9 @@
 /* Импорт глобальных стилей для полей ввода */
 @import '../../global-input-styles.css';
 
+/* Импорт общих стилей для иконок в админке */
+@import './AdminCommon.css';
+
 /* Category Management */
 .category-management {
   max-width: 1200px;

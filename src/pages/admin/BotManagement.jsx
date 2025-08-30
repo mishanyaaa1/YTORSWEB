@@ -221,7 +221,7 @@ const BotManagement = () => {
         <div className="bot-actions">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary save-btn"
             onClick={handleSave}
             disabled={saving}
           >
@@ -231,7 +231,7 @@ const BotManagement = () => {
 
           <button
             type="button"
-            className="btn btn-success"
+            className="btn btn-success test-btn"
             onClick={handleTest}
             disabled={testing || !settings.bot_token}
           >

@@ -1,6 +1,9 @@
 /* Импорт глобальных стилей для полей ввода */
 @import '../../global-input-styles.css';
 
+/* Импорт общих стилей для иконок в админке */
+@import './AdminCommon.css';
+
 /* Стили для входа в админку */
 .admin-login-page {
   min-height: 100vh;

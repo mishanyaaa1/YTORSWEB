@@ -1,6 +1,9 @@
 /* Импорт глобальных стилей для полей ввода */
 @import '../../global-input-styles.css';
 
+/* Импорт общих стилей для иконок в админке */
+@import './AdminCommon.css';
+
 /* Стили для управления продуктами */
 .product-management {
   padding: 20px;
@@ -37,9 +40,14 @@
   font-weight: 600;
   transition: background 0.2s;
 }
-.btn-primary svg { color: #0a0a0a !important; }
 
-.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary svg { 
+  color: #0a0a0a !important; 
+}
+
+.btn-primary:hover { 
+  filter: brightness(1.05); 
+}
 
 .product-form {
   background: rgba(255, 255, 255, 0.05);
@@ -49,7 +57,10 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.product-form h3 { margin: 0 0 20px 0; color: #ffffff !important; }
+.product-form h3 { 
+  margin: 0 0 20px 0; 
+  color: #ffffff !important; 
+}
 
 .form-grid {
   display: grid;
@@ -67,7 +78,11 @@
   grid-column: 1 / -1;
 }
 
-.form-group label { margin-bottom: 5px; font-weight: 500; color: #ffffff !important; }
+.form-group label { 
+  margin-bottom: 5px; 
+  font-weight: 500; 
+  color: #ffffff !important; 
+}
 
 .form-group input,
 .form-group select,
@@ -95,76 +110,18 @@
   color: #aaaaaa !important;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder { 
-  color: rgba(255, 255, 255, 0.7) !important; 
-}
-
-.product-management input::placeholder,
-.product-management textarea::placeholder {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
-
-.product-form,
-.product-form * { color: #ffffff !important; }
-
-/* Стили для формы редактирования под товаром */
-.product-edit-form {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 20px;
-  border-radius: 12px;
-  margin: 10px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.product-edit-form h4 {
-  margin: 0 0 20px 0;
-  color: #e6a34a !important;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.product-edit-form .form-grid {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.product-edit-form .form-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.form-group input[type="checkbox"] {
-  width: auto;
-  margin-right: 8px;
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 .form-actions {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.btn-success {
-  background: #e6a34a;
-  color: #0a0a0a;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background 0.2s;
-}
-.btn-success svg { color: #0a0a0a !important; }
-
-.btn-success:hover { filter: brightness(1.05); }
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.1);
@@ -173,21 +130,20 @@
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   font-size: 14px;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
-.btn-secondary:hover { background: rgba(255, 255, 255, 0.18); }
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
 
 .products-table {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .products-table table {
@@ -195,41 +151,52 @@
   border-collapse: collapse;
 }
 
-.products-table th,
-.products-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-
 .products-table th {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 15px;
+  text-align: left;
   font-weight: 600;
   color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.products-table tr:hover { background: rgba(255, 255, 255, 0.06); }
+.products-table td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
 
-.product-title { display: flex; align-items: center; gap: 8px; color: #ffffff; }
+.products-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
 
-/* Ensure the product title text in the table is strictly black on light background */
-.products-table td .product-title,
-.products-table td .product-title * { color: #ffffff !important; }
+.product-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.product-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
 .product-icon {
-  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.product-image { width: 32px; height: 32px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.2); }
-
-.status-available { color: #28e07a; font-weight: 500; }
-
-.status-unavailable { color: #ff6b7d; font-weight: 500; }
 
 .action-buttons {
   display: flex;
   gap: 8px;
+  justify-content: center;
 }
 
 .btn-edit {
@@ -243,7 +210,9 @@
   transition: background 0.2s;
 }
 
-.btn-edit:hover { background: rgba(230, 163, 74, 0.22); }
+.btn-edit:hover { 
+  background: rgba(230, 163, 74, 0.22); 
+}
 
 .btn-delete {
   background: rgba(255, 71, 87, 0.15);
@@ -256,7 +225,9 @@
   transition: background 0.2s;
 }
 
-.btn-delete:hover { background: rgba(255, 71, 87, 0.22); }
+.btn-delete:hover { 
+  background: rgba(255, 71, 87, 0.22); 
+}
 
 .quantity-badge {
   padding: 4px 8px;
@@ -268,11 +239,46 @@
   display: inline-block;
 }
 
-.quantity-badge.in-stock { background: rgba(40, 224, 122, 0.15); color: #28e07a; border: 1px solid rgba(40, 224, 122, 0.4); }
+.quantity-badge.in-stock { 
+  background: rgba(40, 224, 122, 0.15); 
+  color: #28e07a; 
+  border: 1px solid rgba(40, 224, 122, 0.4); 
+}
 
-.quantity-badge.low-stock { background: rgba(255, 193, 7, 0.15); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.4); }
+.quantity-badge.low-stock { 
+  background: rgba(255, 193, 7, 0.15); 
+  color: #ffc107; 
+  border: 1px solid rgba(255, 193, 7, 0.4); 
+}
 
-.quantity-badge.out-of-stock { background: rgba(255, 107, 125, 0.15); color: #ff6b7d; border: 1px solid rgba(255, 107, 125, 0.4); }
+.quantity-badge.out-of-stock { 
+  background: rgba(255, 107, 125, 0.15); 
+  color: #ff6b7d; 
+  border: 1px solid rgba(255, 107, 125, 0.4); 
+}
+
+.status-available {
+  color: #28e07a;
+  font-weight: 500;
+}
+
+.status-unavailable {
+  color: #ff6b7d;
+  font-weight: 500;
+}
+
+.product-edit-form {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-edit-form h4 {
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  font-size: 16px;
+}
 
 /* Размер иконок в кнопках действий */
 .btn-edit svg,

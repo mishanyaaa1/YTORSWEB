@@ -163,3 +163,170 @@
   color: #ffffff;
   min-height: 100vh;
 }
+
+/* Стили для иконок внутри кнопок */
+.admin-dashboard .btn-edit svg,
+.admin-dashboard .btn-delete svg,
+.admin-dashboard .btn-add svg,
+.admin-dashboard .btn-save svg,
+.admin-dashboard .btn-cancel svg,
+.admin-dashboard .btn-view svg,
+.admin-dashboard .btn-upload svg,
+.product-management .btn-edit svg,
+.product-management .btn-delete svg,
+.product-management .btn-add svg,
+.product-management .btn-save svg,
+.product-management .btn-cancel svg,
+.order-management .btn-edit svg,
+.order-management .btn-delete svg,
+.order-management .btn-view svg,
+.category-management .btn-edit svg,
+.category-management .btn-delete svg,
+.category-management .btn-add svg,
+.category-management .btn-save svg,
+.category-management .btn-cancel svg,
+.content-management .btn-edit svg,
+.content-management .btn-delete svg,
+.content-management .btn-add svg,
+.content-management .btn-save svg,
+.content-management .btn-cancel svg,
+.content-management .btn-upload svg {
+  color: #e6a34a;
+  opacity: 0.8;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.admin-dashboard .btn-edit:hover svg,
+.admin-dashboard .btn-delete:hover svg,
+.admin-dashboard .btn-add:hover svg,
+.admin-dashboard .btn-save:hover svg,
+.admin-dashboard .btn-cancel:hover svg,
+.admin-dashboard .btn-view:hover svg,
+.admin-dashboard .btn-upload:hover svg,
+.product-management .btn-edit:hover svg,
+.product-management .btn-delete:hover svg,
+.product-management .btn-add:hover svg,
+.product-management .btn-save:hover svg,
+.product-management .btn-cancel:hover svg,
+.order-management .btn-edit:hover svg,
+.order-management .btn-delete:hover svg,
+.order-management .btn-view:hover svg,
+.category-management .btn-edit:hover svg,
+.category-management .btn-delete:hover svg,
+.category-management .btn-add:hover svg,
+.category-management .btn-save:hover svg,
+.category-management .btn-cancel:hover svg,
+.content-management .btn-edit:hover svg,
+.content-management .btn-delete:hover svg,
+.content-management .btn-add:hover svg,
+.content-management .btn-save:hover svg,
+.content-management .btn-cancel:hover svg,
+.content-management .btn-upload:hover svg {
+  color: #e6a34a;
+  opacity: 1;
+}
+
+/* Стили для кнопок-иконок в минималистичном стиле */
+
+/* Базовые стили для всех кнопок-иконок */
+.btn-edit,
+.btn-delete,
+.btn-add,
+.btn-save,
+.btn-cancel,
+.btn-view,
+.btn-upload {
+  background: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 8px;
+  margin: 0 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-add:hover,
+.btn-save:hover,
+.btn-cancel:hover,
+.btn-view:hover,
+.btn-upload:hover {
+  background: #4a4a4a;
+  border-color: #666;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Иконки внутри кнопок */
+.btn-edit svg,
+.btn-delete svg,
+.btn-add svg,
+.btn-save svg,
+.btn-cancel svg,
+.btn-view svg,
+.btn-upload svg {
+  color: #e6a34a;
+  opacity: 0.8;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-edit:hover svg,
+.btn-delete:hover svg,
+.btn-add:hover svg,
+.btn-save:hover svg,
+.btn-cancel:hover svg,
+.btn-view:hover svg,
+.btn-upload:hover svg {
+  opacity: 1;
+}
+
+/* Специальные стили для разных типов кнопок */
+.btn-delete {
+  background: #5a2a2a;
+  border-color: #6a3a3a;
+}
+
+.btn-delete:hover {
+  background: #6a3a3a;
+  border-color: #7a4a4a;
+}
+
+.btn-add,
+.btn-save {
+  background: #2a4a2a;
+  border-color: #3a5a3a;
+}
+
+.btn-add:hover,
+.btn-save:hover {
+  background: #3a5a3a;
+  border-color: #4a6a4a;
+}
+
+.btn-view {
+  background: #2a3a4a;
+  border-color: #3a4a5a;
+}
+
+.btn-view:hover {
+  background: #3a4a5a;
+  border-color: #4a5a6a;
+}
+
+.btn-upload {
+  background: #2a3a4a;
+  border-color: #3a4a5a;
+}
+
+.btn-upload:hover {
+  background: #3a4a5a;
+  border-color: #4a5a6a;
+}
