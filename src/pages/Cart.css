@@ -811,6 +811,10 @@ input[type="number"].quantity-input,
   margin-top: 1rem;
   color: #e6a34a;
   font-size: 0.9rem;
+  max-width: 100%;
+  box-sizing: border-box;
+  width: fit-content;
+  flex-shrink: 0;
 }
 
 .promo-icon {
