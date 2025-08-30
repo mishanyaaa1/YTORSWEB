@@ -7,10 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "replace:colors": "node scripts/replaceColors.js",
-    "logo:convert": "node scripts/convertLogo.js",
-    "netlify-build": "vite build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "framer-motion": "^12.23.12",
