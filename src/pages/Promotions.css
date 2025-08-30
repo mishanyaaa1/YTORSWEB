@@ -193,11 +193,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60px;
+  min-height: 120px;
 }
 
 .promo-icon {
-  font-size: 2.5rem;
+  font-size: 5rem !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,6 +220,22 @@
   display: inline-block !important;
   width: auto !important;
   height: auto !important;
+}
+
+/* Принудительное увеличение всех иконок */
+.promo-icon * {
+  font-size: inherit !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Стили для React Icons */
+.promo-icon svg {
+  width: 1.2em !important;
+  height: 1.2em !important;
+  font-size: inherit !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
 }
 
 .promo-content h3 {
@@ -388,24 +404,37 @@
 }
 
 .promotions-page .promo-image-small {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   position: relative;
-  padding-top: 0.2rem;
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.08) 0%, rgba(201, 124, 26, 0.08) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(230, 163, 74, 0.15);
+  margin-right: 1.2rem;
+  transition: all 0.3s ease;
 }
 
 .promotions-page .promo-image-small .promo-icon {
-  font-size: 1.8rem;
+  font-size: 2.8rem !important;
   line-height: 1;
   color: #e6a34a;
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Стили для React Icons в маленьких карточках */
+.promotions-page .promo-image-small .promo-icon svg {
+  width: 1.2em !important;
+  height: 1.2em !important;
+  font-size: inherit !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
 }
 
 .discount-badge-small {
@@ -697,10 +726,10 @@
   }
   
   .promo-icon {
-    font-size: 2.2rem;
+    font-size: 4rem !important;
   }
   
   .promotions-page .promo-image-small .promo-icon {
-    font-size: 1.6rem;
+    font-size: 3.5rem !important;
   }
 }

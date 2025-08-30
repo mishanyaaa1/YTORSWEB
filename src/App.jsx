@@ -7,27 +7,55 @@ import {
   FaMapMarkerAlt,
   FaShoppingCart,
   FaSearch,
-  FaBars
+  FaBars,
+  FaTimes
 } from 'react-icons/fa';
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
-// removed wishlist import
 import SearchModal from './components/SearchModal';
 import telegramSetup from './utils/telegramSetup';
 import debugOrders from './utils/debugOrders';
 import './App.css';
+import './index.css';
 import './global-input-styles.css';
 import BrandLogo from './components/BrandLogo';
 import AdvertisingScripts from './components/AdvertisingScripts';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const { getCartItemsCount, isInitialized, storageAvailable } = useCart();
   const { aboutContent } = useAdminData();
-  // wishlist removed
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [contactsActive, setContactsActive] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Закрываем мобильное меню при смене маршрута
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+  
+  // Закрываем мобильное меню при клике вне его
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-button')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
   
   useEffect(() => {
     // Отслеживаем, в зоне видимости ли блок контактов на странице 
@@ -99,14 +127,11 @@ function App() {
   const isActiveLink = (path) => {
     if (path === '/' && location.pathname === '/') return true;
     if (path !== '/' && location.pathname.startsWith(path)) return true;
+    if (path === '/about' && contactsActive) return true;
     return false;
   };
 
-  const handleCartClick = () => {
-    navigate('/cart');
-  };
-
-  const handleSearchClick = () => {
+  const openSearchModal = () => {
     setIsSearchModalOpen(true);
   };
 
@@ -114,89 +139,55 @@ function App() {
     setIsSearchModalOpen(false);
   };
 
-  // wishlist removed
-
   return (
     <div className="app">
       <AdvertisingScripts />
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <BrandLogo to="/" className="logo" size="md" text="ЮТОРС" />
+            <Link to="/" className="logo">
+              <BrandLogo />
+            </Link>
+
             <nav className="nav">
-              <Link 
-                to="/" 
-                className={`nav-link ${isActiveLink('/') ? 'active' : ''}`}
-              >
+              <Link to="/" className={isActiveLink('/') ? 'nav-link active' : 'nav-link'}>
                 Главная
               </Link>
-              <Link 
-                to="/catalog" 
-                className={`nav-link ${isActiveLink('/catalog') ? 'active' : ''}`}
-              >
+              <Link to="/catalog" className={isActiveLink('/catalog') ? 'nav-link active' : 'nav-link'}>
                 Каталог
               </Link>
-              <Link 
-                to="/vehicles" 
-                className={`nav-link ${isActiveLink('/vehicles') ? 'active' : ''}`}
-              >
+              <Link to="/vehicles" className={isActiveLink('/vehicles') ? 'nav-link active' : 'nav-link'}>
                 Вездеходы
               </Link>
-              <Link 
-                to="/promotions" 
-                className={`nav-link ${isActiveLink('/promotions') ? 'active' : ''}`}
-              >
+              <Link to="/promotions" className={isActiveLink('/promotions') ? 'nav-link active' : 'nav-link'}>
                 Акции
               </Link>
-              <Link 
-                to="/about" 
-                className={`nav-link ${location.pathname.startsWith('/about') && !contactsActive && location.hash !== '#contacts' ? 'active' : ''}`}
-                onClick={(e)=>{
-                  e.preventDefault();
-                  setContactsActive(false);
-                  if (location.pathname.startsWith('/about')) {
-                    navigate('/about', { replace: true });
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  } else {
-                    navigate('/about');
-                    setTimeout(()=> window.scrollTo({ top: 0, behavior: 'smooth' }), 50);
-                  }
-                }}
-              >
+              <Link to="/about" className={isActiveLink('/about') ? 'nav-link active' : 'nav-link'}>
                 О компании
               </Link>
-              <Link
-                to="/about#contacts"
-                className={`nav-link ${location.pathname.startsWith('/about') && (contactsActive || location.hash === '#contacts') ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/about#contacts');
-                  setTimeout(() => {
-                    const el = document.getElementById('contacts');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }, 50);
-                }}
-              >
-                Контакты
-              </Link>
             </nav>
+
             <div className="header-actions">
               <button 
-                className="icon-button" 
-                onClick={handleSearchClick}
-                title="Поиск товаров и вездеходов"
+                className="icon-button search-button" 
+                onClick={openSearchModal}
+                aria-label="Поиск"
               >
                 <FaSearch />
               </button>
-              {/* wishlist button removed */}
-              <button className="icon-button cart-button" onClick={handleCartClick}>
+
+              <Link to="/cart" className="icon-button cart-button" aria-label="Корзина">
                 <FaShoppingCart />
-                {isInitialized && getCartItemsCount() > 0 && (
+                {isInitialized && storageAvailable && getCartItemsCount() > 0 && (
                   <span className="cart-count">{getCartItemsCount()}</span>
                 )}
-              </button>
+              </Link>
 
-              <button className="mobile-menu-button">
+              <button 
+                className="mobile-menu-button" 
+                onClick={() => setIsMobileMenuOpen(true)}
+                aria-label="Открыть меню"
+              >
                 <FaBars />
               </button>
             </div>
@@ -299,6 +290,84 @@ function App() {
         isOpen={isSearchModalOpen} 
         onClose={closeSearchModal} 
       />
+
+      {/* Мобильное меню */}
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-header">
+          <button 
+            className="mobile-menu-close" 
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Закрыть меню"
+          >
+            <FaTimes />
+          </button>
+        </div>
+        
+        <nav className="mobile-nav">
+          <Link 
+            to="/" 
+            className={`mobile-nav-link ${location.pathname === '/' ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Главная
+          </Link>
+          <Link 
+            to="/catalog" 
+            className={`mobile-nav-link ${location.pathname === '/catalog' ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Каталог
+          </Link>
+          <Link 
+            to="/vehicles" 
+            className={`mobile-nav-link ${location.pathname === '/vehicles' ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Вездеходы
+          </Link>
+          <Link 
+            to="/promotions" 
+            className={`mobile-nav-link ${location.pathname === '/promotions' ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Акции
+          </Link>
+          <Link 
+            to="/about" 
+            className={`mobile-nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            О компании
+          </Link>
+        </nav>
+        
+        <div className="mobile-menu-actions">
+          <button 
+            className="icon-button"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setIsSearchModalOpen(true);
+            }}
+            aria-label="Поиск"
+          >
+            <FaSearch />
+          </button>
+          <Link 
+            to="/cart" 
+            className="icon-button cart-button"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Корзина"
+          >
+            <FaShoppingCart />
+            {isInitialized && storageAvailable && getCartItemsCount() > 0 && (
+              <span className="cart-count">{getCartItemsCount()}</span>
+            )}
+          </Link>
+        </div>
+      </div>
+
+      {/* Компонент прокрутки наверх */}
+      <ScrollToTop />
     </div>
   );
 }

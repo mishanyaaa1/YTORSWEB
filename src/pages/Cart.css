@@ -54,6 +54,15 @@
 	}
 }
 
+/* Скрытие иконок корзины на мобильных устройствах */
+@media (max-width: 768px) {
+  .add-to-cart-btn svg,
+  .add-to-cart-btn .fa-shopping-cart,
+  .add-to-cart-btn .FaShoppingCart {
+    display: none !important;
+  }
+}
+
 .cart-header {
   display: flex;
   justify-content: space-between;
@@ -784,6 +793,284 @@ input[type="number"].quantity-input,
   .promocode-section h4 {
     font-size: 18px;
     margin-bottom: 20px;
+  }
+  
+  /* Улучшенная адаптация для мобильных */
+  .cart-page {
+    padding: 100px 0 40px;
+  }
+  
+  .cart-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+  }
+  
+  .cart-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .cart-items {
+    gap: 1rem;
+  }
+  
+  .cart-item {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .item-image {
+    width: 60px;
+    height: 60px;
+    align-self: center;
+  }
+  
+  .item-info {
+    text-align: center;
+  }
+  
+  .item-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .item-brand {
+    font-size: 0.85rem;
+  }
+  
+  .item-price {
+    font-size: 1rem;
+  }
+  
+  .quantity-controls {
+    align-self: center;
+  }
+  
+  .item-total {
+    font-size: 1.1rem;
+    text-align: center;
+    min-width: auto;
+  }
+  
+  .remove-btn {
+    align-self: center;
+  }
+  
+  .summary-card {
+    position: static;
+    top: auto;
+    margin-top: 1rem;
+  }
+  
+  .summary-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .checkout-btn {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+  
+  .empty-cart {
+    padding: 3rem 0;
+  }
+  
+  .empty-cart-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-cart h2 {
+    font-size: 1.8rem;
+  }
+  
+  .empty-cart p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-page {
+    padding: 90px 0 30px;
+  }
+  
+  .cart-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .cart-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .cart-header .back-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .clear-cart-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .cart-item {
+    padding: 0.8rem;
+    gap: 0.8rem;
+  }
+  
+  .item-image {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .item-icon {
+    font-size: 1.5rem;
+  }
+  
+  .item-info h3 {
+    font-size: 1rem;
+  }
+  
+  .item-brand {
+    font-size: 0.8rem;
+  }
+  
+  .item-price {
+    font-size: 0.9rem;
+  }
+  
+  .quantity-controls {
+    margin: 0.5rem 0;
+  }
+  
+  .quantity-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0.5rem !important;
+  }
+  
+  .quantity-input {
+    min-width: 45px !important;
+    max-width: 60px !important;
+    padding: 0.5rem 0.6rem !important;
+  }
+  
+  .item-total {
+    font-size: 1rem;
+  }
+  
+  .remove-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0.6rem;
+  }
+  
+  .summary-card {
+    padding: 1.5rem;
+  }
+  
+  .summary-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .summary-line {
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .summary-total {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  
+  .checkout-btn {
+    padding: 1rem;
+    font-size: 0.95rem;
+    margin-top: 1.5rem;
+  }
+  
+  .checkout-modal {
+    padding: 0.5rem;
+  }
+  
+  .checkout-content {
+    padding: 1rem;
+    max-height: 95vh;
+  }
+  
+  .checkout-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-form {
+    gap: 1rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px; /* Предотвращает zoom на iOS */
+    padding: 0.8rem;
+  }
+  
+  .order-summary {
+    padding: 1rem;
+    margin: 0.8rem 0;
+  }
+  
+  .order-summary h4 {
+    margin-bottom: 0.8rem;
+  }
+  
+  .order-items {
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .order-item {
+    font-size: 0.9rem;
+  }
+  
+  .order-total {
+    padding-top: 0.8rem;
+    font-size: 1rem;
+  }
+  
+  .form-actions {
+    margin-top: 0.8rem;
+    gap: 0.8rem;
+  }
+  
+  .cancel-btn,
+  .submit-btn {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .promocode-section {
+    padding: 20px 15px;
+  }
+  
+  .promocode-input {
+    padding: 12px 14px;
+  }
+  
+  .promocode-apply-btn {
+    padding: 13px 18px;
+    font-size: 14px;
+  }
+  
+  .empty-cart-icon {
+    font-size: 3.5rem;
+  }
+  
+  .empty-cart h2 {
+    font-size: 1.4rem;
+  }
+  
+  .empty-cart p {
+    font-size: 0.9rem;
   }
 }
 

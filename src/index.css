@@ -73,6 +73,218 @@ textarea:focus-visible {
   box-shadow: none;
 }
 
+/* Общие стили для контейнеров */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+/* Стили для шапки сайта */
+.header {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #e6a34a;
+}
+
+.nav-link:focus,
+.nav-link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e6a34a;
+}
+
+.cart-button {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* Мобильное меню */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e6a34a;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e6a34a;
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-menu-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.mobile-menu-link:hover,
+.mobile-menu-link.active {
+  color: #e6a34a;
+  background: rgba(230, 163, 74, 0.1);
+  border-color: rgba(230, 163, 74, 0.3);
+}
+
+.mobile-menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.mobile-menu-action {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.mobile-menu-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #e6a34a;
+  color: #e6a34a;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -83,5 +295,129 @@ textarea:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  
+  .mobile-menu-button {
+    display: block;
+  }
+  
+  .header-content {
+    padding: 0.5rem 0;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .icon-button {
+    font-size: 1rem;
+    padding: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    padding: 0.3rem 0;
+  }
+  
+  .logo {
+    font-size: 1rem;
+  }
+  
+  .icon-button {
+    font-size: 0.9rem;
+    padding: 0.3rem;
+  }
+  
+  .cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.6rem;
+  }
+}
+
+/* ТОЧНОЕ скрытие иконок корзины только в кнопках товаров на мобильных устройствах */
+@media (max-width: 768px) {
+  /* Скрываем иконки корзины только в кнопках товаров */
+  .add-to-cart-btn svg,
+  .add-to-cart-btn i,
+  .add-to-cart-btn .fa-shopping-cart,
+  .add-to-cart-btn .FaShoppingCart,
+  .add-to-cart-btn [class*="shopping-cart"],
+  .add-to-cart-btn [class*="cart"],
+  .add-to-cart-btn [class*="Cart"],
+  .add-to-cart-btn [class*="shopping"],
+  .add-to-cart-btn [class*="react-icons"],
+  .add-to-cart-btn [data-testid="icon"],
+  .add-to-cart-btn [data-icon="shopping-cart"] {
+    display: none !important;
+  }
+  
+  /* Скрываем иконки корзины только в кнопках товаров */
+  .product-button svg,
+  .product-button i,
+  .product-button .fa-shopping-cart,
+  .product-button .FaShoppingCart,
+  .product-button [class*="shopping-cart"],
+  .product-button [class*="cart"],
+  .product-button [class*="Cart"],
+  .product-button [class*="shopping"],
+  .product-button [class*="react-icons"],
+  .product-button [data-testid="icon"],
+  .product-button [data-icon="shopping-cart"] {
+    display: none !important;
+  }
+  
+  /* Скрываем иконки корзины только в кнопках "Купить сейчас" */
+  .buy-now-btn svg,
+  .buy-now-btn i,
+  .buy-now-btn .fa-shopping-cart,
+  .buy-now-btn .FaShoppingCart,
+  .buy-now-btn [class*="shopping-cart"],
+  .buy-now-btn [class*="cart"],
+  .buy-now-btn [class*="Cart"],
+  .buy-now-btn [class*="shopping"],
+  .buy-now-btn [class*="react-icons"],
+  .buy-now-btn [data-testid="icon"],
+  .buy-now-btn [data-icon="shopping-cart"] {
+    display: none !important;
+  }
+  
+  /* Дополнительные правила для кнопок товаров */
+  button.add-to-cart-btn svg,
+  button.product-button svg,
+  button.buy-now-btn svg {
+    display: none !important;
+  }
+  
+  /* Скрываем все иконки в кнопках с текстом "В корзину" */
+  button:contains("В корзину") svg,
+  button:contains("В корзину") i {
+    display: none !important;
+  }
+  
+  /* Скрываем все иконки в кнопках с текстом "Add to cart" */
+  button:contains("Add to cart") svg,
+  button:contains("Add to cart") i {
+    display: none !important;
+  }
+  
+  /* Скрываем все иконки в кнопках с текстом "Купить" */
+  button:contains("Купить") svg,
+  button:contains("Купить") i {
+    display: none !important;
+  }
+  
+  /* Скрываем все иконки в кнопках с текстом "Buy" */
+  button:contains("Buy") svg,
+  button:contains("Buy") i {
+    display: none !important;
   }
 }

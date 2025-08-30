@@ -429,3 +429,17 @@
     font-size: 5rem;
   }
 }
+
+/* Скрытие иконок корзины на мобильных устройствах */
+@media (max-width: 768px) {
+  .add-to-cart-btn svg,
+  .add-to-cart-btn i,
+  .add-to-cart-btn .fa-shopping-cart,
+  .add-to-cart-btn .FaShoppingCart,
+  .buy-now-btn svg,
+  .buy-now-btn i,
+  .buy-now-btn .fa-shopping-cart,
+  .buy-now-btn .FaShoppingCart {
+    display: none !important;
+  }
+}
