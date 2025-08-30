@@ -341,6 +341,100 @@ app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) =>
   }
 });
 
+// API для типов местности
+app.get('/api/terrain-types', async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT id, name FROM terrain_types ORDER BY name ASC`);
+    res.json(rows.map(r => r.name));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch terrain types' });
+  }
+});
+
+app.post('/api/terrain-types', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Terrain type name is required' });
+    }
+    
+    const trimmedName = name.trim();
+    await run(db, `INSERT INTO terrain_types (name) VALUES (?)`, [trimmedName]);
+    res.status(201).json({ ok: true, name: trimmedName });
+  } catch (err) {
+    if (err.message && err.message.includes('UNIQUE constraint failed')) {
+      res.status(409).json({ error: 'Terrain type already exists' });
+    } else {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to create terrain type' });
+    }
+  }
+});
+
+app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const name = req.params.name;
+    const result = await run(db, `DELETE FROM terrain_types WHERE name = ?`, [name]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Terrain type not found' });
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete terrain type' });
+  }
+});
+
+// API для типов вездеходов
+app.get('/api/vehicle-types', async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT id, name FROM vehicle_types ORDER BY name ASC`);
+    res.json(rows.map(r => r.name));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch vehicle types' });
+  }
+});
+
+app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Vehicle type name is required' });
+    }
+    
+    const trimmedName = name.trim();
+    await run(db, `INSERT INTO vehicle_types (name) VALUES (?)`, [trimmedName]);
+    res.status(201).json({ ok: true, name: trimmedName });
+  } catch (err) {
+    if (err.message && err.message.includes('UNIQUE constraint failed')) {
+      res.status(409).json({ error: 'Vehicle type already exists' });
+    } else {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to create vehicle type' });
+    }
+  }
+});
+
+app.delete('/api/vehicle-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const name = req.params.name;
+    const result = await run(db, `DELETE FROM vehicle_types WHERE name = ?`, [name]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Vehicle type not found' });
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete vehicle type' });
+  }
+});
+
 // Products
 app.get('/api/products', async (req, res) => {
   try {

@@ -6,7 +6,9 @@ import {
   FaSave, 
   FaTimes,
   FaTags,
-  FaList
+  FaList,
+  FaMountain,
+  FaCar
 } from 'react-icons/fa';
 import { useAdminData } from '../../context/AdminDataContext';
 import './CategoryManagement.css';
@@ -19,7 +21,14 @@ function CategoryManagement() {
     deleteCategory,
     addSubcategory,
     updateSubcategory,
-    deleteSubcategory
+    deleteSubcategory,
+    terrainTypes,
+    vehicleTypes,
+    addTerrainType,
+    deleteTerrainType,
+    addVehicleType,
+    deleteVehicleType,
+    refreshFromApi
   } = useAdminData();
 
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -32,6 +41,16 @@ function CategoryManagement() {
   const [editingSubcategory, setEditingSubcategory] = useState(null);
   const [editSubcategoryName, setEditSubcategoryName] = useState('');
   const [selectedCategoryForSub, setSelectedCategoryForSub] = useState('');
+
+  // Состояния для типов местности
+  const [newTerrainType, setNewTerrainType] = useState('');
+  const [editingTerrainType, setEditingTerrainType] = useState(null);
+  const [editTerrainTypeName, setEditTerrainTypeName] = useState('');
+
+  // Состояния для типов вездеходов
+  const [newVehicleType, setNewVehicleType] = useState('');
+  const [editingVehicleType, setEditingVehicleType] = useState(null);
+  const [editVehicleTypeName, setEditVehicleTypeName] = useState('');
 
   // Добавление новой категории
   const handleAddCategory = () => {
@@ -118,6 +137,106 @@ function CategoryManagement() {
   const handleDeleteSubcategory = (categoryName, subcategoryName) => {
     if (confirm(`Удалить подкатегорию "${subcategoryName}" и все её товары?`)) {
       deleteSubcategory(categoryName, subcategoryName);
+    }
+  };
+
+  // Функции для управления типами местности
+  const handleAddTerrainType = async () => {
+    if (newTerrainType.trim() && !terrainTypes.includes(newTerrainType.trim())) {
+      try {
+        await addTerrainType(newTerrainType.trim());
+        await refreshFromApi();
+        setNewTerrainType('');
+      } catch (error) {
+        console.error('Error adding terrain type:', error);
+      }
+    }
+  };
+
+  const startEditTerrainType = (typeName) => {
+    setEditingTerrainType(typeName);
+    setEditTerrainTypeName(typeName);
+  };
+
+  const saveEditTerrainType = async () => {
+    if (editTerrainTypeName.trim() && editTerrainTypeName !== editingTerrainType) {
+      try {
+        // Удаляем старый тип и добавляем новый
+        await deleteTerrainType(editingTerrainType);
+        await addTerrainType(editTerrainTypeName.trim());
+        // Обновляем данные из API
+        await refreshFromApi();
+      } catch (error) {
+        console.error('Error updating terrain type:', error);
+      }
+    }
+    setEditingTerrainType(null);
+    setEditTerrainTypeName('');
+  };
+
+  const cancelEditTerrainType = () => {
+    setEditingTerrainType(null);
+    setEditTerrainTypeName('');
+  };
+
+  const handleDeleteTerrainType = async (typeName) => {
+    if (confirm(`Удалить тип местности "${typeName}"?`)) {
+      try {
+        await deleteTerrainType(typeName);
+        await refreshFromApi();
+      } catch (error) {
+        console.error('Error deleting terrain type:', error);
+      }
+    }
+  };
+
+  // Функции для управления типами вездеходов
+  const handleAddVehicleType = async () => {
+    if (newVehicleType.trim() && !vehicleTypes.includes(newVehicleType.trim())) {
+      try {
+        await addVehicleType(newVehicleType.trim());
+        await refreshFromApi();
+        setNewVehicleType('');
+      } catch (error) {
+        console.error('Error adding vehicle type:', error);
+      }
+    }
+  };
+
+  const startEditVehicleType = (typeName) => {
+    setEditingVehicleType(typeName);
+    setEditVehicleTypeName(typeName);
+  };
+
+  const saveEditVehicleType = async () => {
+    if (editVehicleTypeName.trim() && editVehicleTypeName !== editingVehicleType) {
+      try {
+        // Удаляем старый тип и добавляем новый
+        await deleteVehicleType(editingVehicleType);
+        await addVehicleType(editVehicleTypeName.trim());
+        // Обновляем данные из API
+        await refreshFromApi();
+      } catch (error) {
+        console.error('Error updating vehicle type:', error);
+      }
+    }
+    setEditingVehicleType(null);
+    setEditVehicleTypeName('');
+  };
+
+  const cancelEditVehicleType = () => {
+    setEditingVehicleType(null);
+    setEditVehicleTypeName('');
+  };
+
+  const handleDeleteVehicleType = async (typeName) => {
+    if (confirm(`Удалить тип вездехода "${typeName}"?`)) {
+      try {
+        await deleteVehicleType(typeName);
+        await refreshFromApi();
+      } catch (error) {
+        console.error('Error deleting vehicle type:', error);
+      }
     }
   };
 
@@ -287,7 +406,139 @@ function CategoryManagement() {
           </div>
         </div>
 
-        {/* Блок отдельного добавления подкатегории убран по требованию */}
+        {/* Управление типами местности */}
+        <div className="section">
+          <h3>
+            <FaMountain /> Типы местности ({terrainTypes.length})
+          </h3>
+          <div className="add-type-form">
+            <input
+              type="text"
+              placeholder="Новый тип местности"
+              value={newTerrainType}
+              onChange={(e) => setNewTerrainType(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddTerrainType()}
+            />
+            <button 
+              onClick={handleAddTerrainType}
+              disabled={!newTerrainType.trim()}
+              className="add-btn"
+            >
+              <FaPlus /> Добавить
+            </button>
+          </div>
+
+          <div className="types-list">
+            {terrainTypes.map((typeName) => (
+              <div key={typeName} className="type-item">
+                {editingTerrainType === typeName ? (
+                  <div className="edit-form">
+                    <input
+                      type="text"
+                      value={editTerrainTypeName}
+                      onChange={(e) => setEditTerrainTypeName(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && saveEditTerrainType()}
+                      autoFocus
+                    />
+                    <button onClick={saveEditTerrainType} className="save-btn">
+                      <FaSave />
+                    </button>
+                    <button onClick={cancelEditTerrainType} className="cancel-btn">
+                      <FaTimes />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <span className="type-name">{typeName}</span>
+                    <div className="type-actions">
+                      <button 
+                        onClick={() => startEditTerrainType(typeName)}
+                        className="edit-btn"
+                        title="Редактировать"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteTerrainType(typeName)}
+                        className="delete-btn"
+                        title="Удалить"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Управление типами вездеходов */}
+        <div className="section">
+          <h3>
+            <FaCar /> Типы вездеходов ({vehicleTypes.length})
+          </h3>
+          <div className="add-type-form">
+            <input
+              type="text"
+              placeholder="Новый тип вездехода"
+              value={newVehicleType}
+              onChange={(e) => setNewVehicleType(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddVehicleType()}
+            />
+            <button 
+              onClick={handleAddVehicleType}
+              disabled={!newVehicleType.trim()}
+              className="add-btn"
+            >
+              <FaPlus /> Добавить
+            </button>
+          </div>
+
+          <div className="types-list">
+            {vehicleTypes.map((typeName) => (
+              <div key={typeName} className="type-item">
+                {editingVehicleType === typeName ? (
+                  <div className="edit-form">
+                    <input
+                      type="text"
+                      value={editVehicleTypeName}
+                      onChange={(e) => setEditVehicleTypeName(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && saveEditVehicleType()}
+                      autoFocus
+                    />
+                    <button onClick={saveEditVehicleType} className="save-btn">
+                      <FaSave />
+                    </button>
+                    <button onClick={cancelEditVehicleType} className="cancel-btn">
+                      <FaTimes />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <span className="type-name">{typeName}</span>
+                    <div className="type-actions">
+                      <button 
+                        onClick={() => startEditVehicleType(typeName)}
+                        className="edit-btn"
+                        title="Редактировать"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteVehicleType(typeName)}
+                        className="delete-btn"
+                        title="Удалить"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

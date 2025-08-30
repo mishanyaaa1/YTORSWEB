@@ -40,8 +40,9 @@ function VehiclesPage() {
     addToCartWithNotification(cartItem, 1);
   };
 
-  const vehicleTypes = ['Все', 'Гусеничный', 'Колесный', 'Плавающий'];
-  const terrainTypes = ['Все', 'Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня'];
+  const { vehicleTypes: adminVehicleTypes, terrainTypes: adminTerrainTypes } = useAdminData();
+  const vehicleTypes = ['Все', ...adminVehicleTypes];
+  const terrainTypes = ['Все', ...adminTerrainTypes];
 
   // Фильтрация вездеходов
   const filteredVehicles = vehicles.filter(vehicle => {

@@ -105,6 +105,17 @@ export const AdminDataProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : initialVehicles;
   });
 
+  // Типы местности и вездеходов
+  const [terrainTypes, setTerrainTypes] = useState(() => {
+    const saved = localStorage.getItem('adminTerrainTypes');
+    return saved ? JSON.parse(saved) : ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня'];
+  });
+
+  const [vehicleTypes, setVehicleTypes] = useState(() => {
+    const saved = localStorage.getItem('adminVehicleTypes');
+    return saved ? JSON.parse(saved) : ['Гусеничный', 'Колесный', 'Плавающий'];
+  });
+
   const [aboutContent, setAboutContent] = useState(() => {
     const saved = localStorage.getItem('adminAboutContent');
     if (saved) {
@@ -215,6 +226,24 @@ export const AdminDataProvider = ({ children }) => {
     }
   }, [vehicles]);
 
+  // Сохраняем типы местности в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminTerrainTypes', JSON.stringify(terrainTypes));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [terrainTypes]);
+
+  // Сохраняем типы вездеходов в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('adminVehicleTypes', JSON.stringify(vehicleTypes));
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, [vehicleTypes]);
+
   // Сохраняем промокоды в localStorage
   useEffect(() => {
     try {
@@ -234,11 +263,13 @@ export const AdminDataProvider = ({ children }) => {
     const bootstrapFromApi = async () => {
       try {
         console.log('AdminDataContext: Starting API bootstrap...');
-        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes] = await Promise.allSettled([
+        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }),
           fetch('/api/categories', { credentials: 'include' }),
           fetch('/api/brands', { credentials: 'include' }),
-          fetch('/api/promotions', { credentials: 'include' })
+          fetch('/api/promotions', { credentials: 'include' }),
+          fetch('/api/terrain-types', { credentials: 'include' }),
+          fetch('/api/vehicle-types', { credentials: 'include' })
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
@@ -285,6 +316,28 @@ export const AdminDataProvider = ({ children }) => {
           }
         } else {
           console.warn('AdminDataContext: Failed to load promotions from API:', apiPromosRes.status);
+        }
+
+        if (apiTerrainTypesRes.status === 'fulfilled' && apiTerrainTypesRes.value.ok) {
+          const apiTerrainTypes = await apiTerrainTypesRes.value.json();
+          if (Array.isArray(apiTerrainTypes)) {
+            console.log('AdminDataContext: Loaded terrain types from API');
+            setTerrainTypes(apiTerrainTypes);
+            localStorage.setItem('adminTerrainTypes', JSON.stringify(apiTerrainTypes));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load terrain types from API:', apiTerrainTypesRes.status);
+        }
+
+        if (apiVehicleTypesRes.status === 'fulfilled' && apiVehicleTypesRes.value.ok) {
+          const apiVehicleTypes = await apiVehicleTypesRes.value.json();
+          if (Array.isArray(apiVehicleTypes)) {
+            console.log('AdminDataContext: Loaded vehicle types from API');
+            setVehicleTypes(apiVehicleTypes);
+            localStorage.setItem('adminVehicleTypes', JSON.stringify(apiVehicleTypes));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load vehicle types from API:', apiVehicleTypesRes.status);
         }
       } catch (e) {
         console.error('AdminDataContext: API bootstrap failed:', e);
@@ -775,6 +828,80 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
+  // Функции для управления типами местности
+  const addTerrainType = async (typeName) => {
+    try {
+      const response = await fetch('/api/terrain-types', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: typeName })
+      });
+      
+      if (response.ok) {
+        setTerrainTypes(prev => [...prev, typeName]);
+      }
+    } catch (error) {
+      console.error('Error adding terrain type:', error);
+      // Fallback на локальное добавление
+      setTerrainTypes(prev => [...prev, typeName]);
+    }
+  };
+
+  const deleteTerrainType = async (typeName) => {
+    try {
+      const response = await fetch(`/api/terrain-types/${encodeURIComponent(typeName)}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        setTerrainTypes(prev => prev.filter(t => t !== typeName));
+      }
+    } catch (error) {
+      console.error('Error deleting terrain type:', error);
+      // Fallback на локальное удаление
+      setTerrainTypes(prev => prev.filter(t => t !== typeName));
+    }
+  };
+
+  // Функции для управления типами вездеходов
+  const addVehicleType = async (typeName) => {
+    try {
+      const response = await fetch('/api/vehicle-types', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: typeName })
+      });
+      
+      if (response.ok) {
+        setVehicleTypes(prev => [...prev, typeName]);
+      }
+    } catch (error) {
+      console.error('Error adding vehicle type:', error);
+      // Fallback на локальное добавление
+      setVehicleTypes(prev => [...prev, typeName]);
+    }
+  };
+
+  const deleteVehicleType = async (typeName) => {
+    try {
+      const response = await fetch(`/api/vehicle-types/${encodeURIComponent(typeName)}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        setVehicleTypes(prev => prev.filter(t => t !== typeName));
+      }
+    } catch (error) {
+      console.error('Error deleting vehicle type:', error);
+      // Fallback на локальное удаление
+      setVehicleTypes(prev => prev.filter(t => t !== typeName));
+    }
+  };
+
   const value = {
     // Данные
     products,
@@ -786,16 +913,20 @@ export const AdminDataProvider = ({ children }) => {
     filterSettings,
     popularProductIds,
     vehicles,
+    terrainTypes,
+    vehicleTypes,
     data: { categoryStructure: categories },
     refreshFromApi: async () => {
       try {
         console.log('AdminDataContext: Refreshing data from API...');
-        const [p, cRaw, b, pr, pc] = await Promise.allSettled([
+        const [p, cRaw, b, pr, pc, t, v] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
           fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
           fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
           fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
-          fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : [])
+          fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/terrain-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня']),
+          fetch('/api/vehicle-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Гусеничный', 'Колесный', 'Плавающий'])
         ]);
         
         // Обрабатываем результаты
@@ -809,11 +940,15 @@ export const AdminDataProvider = ({ children }) => {
         setBrands(b.value);
         setPromotions(pr.value);
         setPromocodes(pc.value);
+        setTerrainTypes(t.value);
+        setVehicleTypes(v.value);
         localStorage.setItem('adminProducts', JSON.stringify(normalized));
         localStorage.setItem('adminCategories', JSON.stringify(c));
         localStorage.setItem('adminBrands', JSON.stringify(b.value));
         localStorage.setItem('adminPromotions', JSON.stringify(pr.value));
         localStorage.setItem('adminPromocodes', JSON.stringify(pc.value));
+        localStorage.setItem('adminTerrainTypes', JSON.stringify(t.value));
+        localStorage.setItem('adminVehicleTypes', JSON.stringify(v.value));
       } catch (error) {
         console.error('AdminDataContext: Error refreshing data:', error);
       } finally {
@@ -861,7 +996,15 @@ export const AdminDataProvider = ({ children }) => {
     // Функции для вездеходов
     addVehicle,
     updateVehicle,
-    deleteVehicle
+    deleteVehicle,
+
+    // Функции для типов местности
+    addTerrainType,
+    deleteTerrainType,
+
+    // Функции для типов вездеходов
+    addVehicleType,
+    deleteVehicleType
   };
 
   return (

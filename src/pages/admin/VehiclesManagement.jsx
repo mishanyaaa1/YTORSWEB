@@ -24,8 +24,7 @@ function VehiclesManagement() {
     images: []
   });
 
-  const vehicleTypes = ['Гусеничный', 'Колесный', 'Плавающий'];
-  const terrainTypes = ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня'];
+  const { vehicleTypes, terrainTypes } = useAdminData();
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
