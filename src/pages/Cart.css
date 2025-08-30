@@ -785,35 +785,6 @@ input[type="number"].quantity-input,
     font-size: 18px;
     margin-bottom: 20px;
   }
-
-  /* Компактная версия на мобильных */
-  .applied-promocode-compact {
-    padding: 6px 10px;
-    margin-bottom: 8px;
-  }
-
-  .promocode-info-compact {
-    gap: 6px;
-  }
-
-  .promocode-code-compact {
-    font-size: 12px;
-    letter-spacing: 0.3px;
-  }
-
-  .promocode-description-compact {
-    font-size: 11px;
-  }
-
-  .promocode-stackable-compact {
-    font-size: 12px;
-  }
-
-  .promocode-remove-btn-compact {
-    width: 20px;
-    height: 20px;
-    font-size: 10px;
-  }
 }
 
 /* Стили для скидок */
@@ -1017,92 +988,6 @@ input[type="number"].quantity-input,
   box-shadow: none;
 }
 
-/* Компактная версия примененного промокода */
-.applied-promocode-compact {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-  color: #ffffff !important;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-.applied-promocode-compact::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-  animation: shine 2s ease-in-out infinite;
-}
-
-.promocode-info-compact {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 1;
-  flex: 1;
-}
-
-.promocode-code-compact {
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  color: #ffffff !important;
-}
-
-.promocode-description-compact {
-  font-size: 12px;
-  opacity: 0.95;
-  font-weight: 500;
-  color: #ffffff !important;
-  flex: 1;
-}
-
-.promocode-stackable-compact {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.promocode-remove-btn-compact {
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
-  backdrop-filter: blur(10px);
-  flex-shrink: 0;
-}
-
-.promocode-remove-btn-compact:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1) rotate(90deg);
-}
-
-.promocode-remove-btn-compact:active {
-  transform: scale(0.95);
-}
-
-/* Оригинальные стили для обратной совместимости */
 .applied-promocode {
   display: flex;
   justify-content: space-between;
