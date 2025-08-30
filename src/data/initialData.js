@@ -553,7 +553,7 @@ export const initialAboutContent = {
   contacts: {
     phone: '+7 (800) 123-45-67',
     email: 'info@vezdehod-zapchasti.ru',
-    address: 'г. Москва, ул. Примерная, 123',
+    address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100',
     workingHours: 'Пн-Пт: 9:00-18:00, Сб: 10:00-16:00'
   },
   statistics: {
@@ -776,7 +776,7 @@ export const initialAboutContent = {
       title: 'Контакты',
       phone: '+7 (800) 123-45-67',
       email: 'info@vezdehod-zapchasti.ru',
-      address: 'г. Москва, ул. Примерная, 123'
+      address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'
     },
     informationSection: {
       title: 'Информация',

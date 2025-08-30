@@ -82,7 +82,7 @@ function App() {
       title: 'Контакты',
       phone: '+7 (800) 123-45-67',
       email: 'info@vezdehod-zapchasti.ru',
-      address: 'г. Москва, ул. Примерная, 123'
+      address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'
     },
     informationSection: {
       title: 'Информация',
@@ -181,7 +181,11 @@ function App() {
               </Link>
             </nav>
             <div className="header-actions">
-              <button className="icon-button" onClick={handleSearchClick}>
+              <button 
+                className="icon-button" 
+                onClick={handleSearchClick}
+                title="Поиск товаров и вездеходов"
+              >
                 <FaSearch />
               </button>
               {/* wishlist button removed */}
@@ -230,7 +234,15 @@ function App() {
               <a href={`mailto:${footerData.contactsSection.email}`}>
                 <FaEnvelope /> {footerData.contactsSection.email}
               </a>
-              <a href="/about#contacts" onClick={(e)=>{e.preventDefault(); navigate('/about#contacts'); setTimeout(()=>{ const el=document.getElementById('contacts'); if(el) el.scrollIntoView({behavior:'smooth'}); },50);}}>
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  const address = encodeURIComponent('40-летия Победы, 16а, Курчатовский район, Челябинск, 454100');
+                  window.open(`https://yandex.ru/maps/?text=${address}`, '_blank');
+                }}
+                style={{ cursor: 'pointer' }}
+              >
                 <FaMapMarkerAlt /> {footerData.contactsSection.address}
               </a>
             </div>

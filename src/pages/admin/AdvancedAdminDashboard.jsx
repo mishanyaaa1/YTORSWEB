@@ -11,11 +11,12 @@ import OrderManagement from './OrderManagement';
 import AdvertisingManagement from './AdvertisingManagement';
 import FilterManagement from './FilterManagement';
 import VehiclesManagement from './VehiclesManagement';
+import VehicleTypesManagement from './VehicleTypesManagement';
 import BotManagement from './BotManagement';
 
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck, FaRobot } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck, FaRobot, FaCog } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -54,6 +55,7 @@ function AdvancedAdminDashboard() {
     { id: 'promocodes', label: 'Промокоды', icon: <FaTag /> },
     { id: 'orders', label: 'Заказы', icon: <FaShoppingCart /> },
     { id: 'vehicles', label: 'Вездеходы', icon: <FaTruck /> },
+    { id: 'vehicleTypes', label: 'Типы вездеходов', icon: <FaCog /> },
     { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
     { id: 'advertising', label: 'Реклама', icon: <FaAd /> },
@@ -179,6 +181,8 @@ function AdvancedAdminDashboard() {
         return <OrderManagement />;
       case 'vehicles':
         return <VehiclesManagement />;
+      case 'vehicleTypes':
+        return <VehicleTypesManagement />;
       case 'filters':
         return <FilterManagement />;
       case 'content':

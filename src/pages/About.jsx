@@ -100,7 +100,7 @@ export default function About() {
     {
       icon: <FaMapMarkerAlt />,
       title: "Адрес",
-      info: contactsData.address || "г. Москва, ул. Примерная, 123",
+      info: contactsData.address || "40-летия Победы, 16а, Курчатовский район, Челябинск, 454100",
       link: "#"
     },
     {
@@ -453,7 +453,20 @@ export default function About() {
                   {contact.icon}
                 </div>
                 <h3>{contact.title}</h3>
-                {contact.link ? (
+                {contact.title === "Адрес" ? (
+                  <a 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const address = encodeURIComponent('40-летия Победы, 16а, Курчатовский район, Челябинск, 454100');
+                      window.open(`https://yandex.ru/maps/?text=${address}`, '_blank');
+                    }}
+                    className="contact-info"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {contact.info}
+                  </a>
+                ) : contact.link ? (
                   <a href={contact.link} className="contact-info">
                     {contact.info}
                   </a>
