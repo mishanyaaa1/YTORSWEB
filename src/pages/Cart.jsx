@@ -441,31 +441,22 @@ function Cart() {
                     </button>
                   </div>
                 ) : (
-                  <div className="applied-promocode">
-                    <div className="promocode-info">
-                      <span className="promocode-code">{appliedPromocode.code}</span>
-                      <span className="promocode-description">{appliedPromocode.description}</span>
+                  <div className="applied-promocode-compact">
+                    <div className="promocode-info-compact">
+                      <span className="promocode-code-compact">{appliedPromocode.code}</span>
+                      <span className="promocode-description-compact">{appliedPromocode.description}</span>
+                      <span className="promocode-stackable-compact">
+                        {appliedPromocode.stackable ? '✅' : '⚠️'}
+                      </span>
                     </div>
                     <button 
                       onClick={removePromocode}
-                      className="promocode-remove-btn"
+                      className="promocode-remove-btn-compact"
                     >
                       ✕
                     </button>
                   </div>
                 )}
-                
-                                 {/* Информация о суммировании */}
-                 {appliedPromocode && (
-                   <div className="promocode-stackable-info">
-                     <small>
-                       {appliedPromocode.stackable 
-                         ? '✅ Суммируется с акциями' 
-                         : '⚠️ Не суммируется с акциями!'
-                       }
-                     </small>
-                   </div>
-                 )}
               </div>
               
               <div className="summary-line">
