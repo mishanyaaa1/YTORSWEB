@@ -13,7 +13,8 @@ import {
   FaHome,
   FaTag
 } from 'react-icons/fa';
-import { apiGet, apiPost, API_CONFIG } from '../../utils/api';
+import { apiGet, apiPost } from '../../utils/api';
+import { API_CONFIG } from '../../config/api';
 import './AdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 

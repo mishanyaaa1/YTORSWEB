@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminData } from '../../context/AdminDataContext';
-import { apiGet, apiPost, API_CONFIG } from '../../utils/api';
+import { apiGet, apiPost } from '../../utils/api';
+import { API_CONFIG } from '../../config/api';
 import ProductManagement from './ProductManagement';
 import CategoryManagement from './CategoryManagement';
 import PromotionManagement from './PromotionManagement';

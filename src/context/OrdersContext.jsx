@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { apiGet, apiPost, apiPatch, apiDelete, API_CONFIG } from '../utils/api';
+import { apiGet, apiPost, apiPatch, apiDelete } from '../utils/api';
+import { API_CONFIG } from '../config/api';
 
 const OrdersContext = createContext();
 

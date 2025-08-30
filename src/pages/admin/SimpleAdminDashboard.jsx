@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { apiGet, apiPost, API_CONFIG } from '../../utils/api';
+import { apiGet, apiPost } from '../../utils/api';
+import { API_CONFIG } from '../../config/api';
 import BrandLogo from '../../components/BrandLogo';
 
 function SimpleAdminDashboard() {

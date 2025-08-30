@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { apiGet, API_CONFIG } from '../utils/api';
+import { apiGet } from '../utils/api';
+import { API_CONFIG } from '../config/api';
 
 function RequireAdmin({ children }) {
   const [isChecking, setIsChecking] = useState(true);

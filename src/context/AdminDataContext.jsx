@@ -8,7 +8,8 @@ import {
   initialVehicles
 } from '../data/initialData.js';
 import { migrateProductImages } from '../utils/imageHelpers';
-import { apiGet, API_CONFIG } from '../utils/api';
+import { apiGet } from '../utils/api';
+import { API_CONFIG } from '../config/api';
 
 const AdminDataContext = createContext();
 

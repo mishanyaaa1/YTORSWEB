@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiPost, API_CONFIG } from '../../utils/api';
+import { apiPost } from '../../utils/api';
+import { API_CONFIG } from '../../config/api';
 import './SimpleAdminLogin.css';
 
 function SimpleAdminLogin() {
