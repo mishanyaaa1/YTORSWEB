@@ -136,7 +136,6 @@ function Promotions() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
               >
                 <div className="featured-badge">
                   <FaFire /> ХИТ
@@ -243,7 +242,6 @@ function Promotions() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -3 }}
                 >
                   <div className="promo-header">
                     <div className="promo-image-small">
