@@ -13,11 +13,10 @@ import FilterManagement from './FilterManagement';
 import VehiclesManagement from './VehiclesManagement';
 import VehicleTypesManagement from './VehicleTypesManagement';
 import BotManagement from './BotManagement';
-import EmailManagement from './EmailManagement';
 
 import { migrateProductImages, getMainImage } from '../../utils/imageHelpers';
 import BrandMark from '../../components/BrandMark';
-import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck, FaRobot, FaCog, FaEnvelope } from 'react-icons/fa';
+import { FaHome, FaBox, FaTags, FaUsers, FaChartBar, FaSignOutAlt, FaEdit, FaStar, FaShoppingCart, FaAd, FaFilter, FaTag, FaTruck, FaRobot, FaCog } from 'react-icons/fa';
 import './AdvancedAdminDashboard.css';
 import BrandLogo from '../../components/BrandLogo';
 
@@ -60,8 +59,7 @@ function AdvancedAdminDashboard() {
     { id: 'filters', label: 'Фильтры', icon: <FaFilter /> },
     { id: 'content', label: 'Контент', icon: <FaEdit /> },
     { id: 'advertising', label: 'Реклама', icon: <FaAd /> },
-    { id: 'bot', label: 'Telegram бот', icon: <FaRobot /> },
-    { id: 'email', label: 'Email уведомления', icon: <FaEnvelope /> }
+    { id: 'bot', label: 'Telegram бот', icon: <FaRobot /> }
   ];
 
   const renderOverview = () => (
@@ -193,8 +191,6 @@ function AdvancedAdminDashboard() {
         return <AdvertisingManagement />;
       case 'bot':
         return <BotManagement />;
-      case 'email':
-        return <EmailManagement />;
       default:
         return renderOverview();
     }

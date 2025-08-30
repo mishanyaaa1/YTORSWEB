@@ -11,7 +11,6 @@ const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer'); // Added for email functionality
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -773,24 +772,7 @@ app.post('/api/orders', async (req, res) => {
       }
     }
 
-          // Отправляем email уведомление
-      try {
-        const emailSubject = `Новый заказ #${orderNumber}`;
-        const emailMessage = formatOrderEmailMessage({ orderForm, cartItems, priceCalculation, orderNumber });
-        
-        // Получаем email получателя из настроек
-        const emailSettings = await db.get("SELECT recipient_email FROM email_settings WHERE id = 1");
-        const recipientEmail = emailSettings?.recipient_email;
-        
-        if (recipientEmail) {
-          await sendEmailNotification(emailSubject, emailMessage, recipientEmail);
-        }
-      } catch (emailError) {
-        console.error('Ошибка отправки email уведомления:', emailError);
-        // Не прерываем создание заказа из-за ошибки email
-      }
-
-      res.status(201).json({ ok: true, id, orderNumber });
+    res.status(201).json({ ok: true, id, orderNumber });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to create order' });
@@ -1216,70 +1198,6 @@ app.post('/api/admin/bot/test', requireAdmin, async (req, res) => {
   }
 });
 
-// Email settings
-app.get('/api/admin/email', async (req, res) => {
-  try {
-    const emailSettings = await get(db, `SELECT recipient_email, enabled FROM email_settings WHERE id = 1`);
-    res.json({
-      recipient_email: emailSettings?.recipient_email || '',
-      enabled: emailSettings?.enabled || false
-    });
-  } catch (error) {
-    console.error('Ошибка при получении email настроек:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
-});
-
-app.post('/api/admin/email', async (req, res) => {
-  try {
-    const { recipient_email, enabled } = req.body;
-    
-    await run(db, `
-      UPDATE email_settings 
-      SET recipient_email = ?, enabled = ?, updated_at = datetime('now')
-      WHERE id = 1
-    `, [recipient_email, enabled ? 1 : 0]);
-    
-    res.json({ success: true, message: 'Настройки сохранены' });
-  } catch (error) {
-    console.error('Ошибка при сохранении email настроек:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
-});
-
-app.post('/api/admin/email/test', async (req, res) => {
-  try {
-    const emailSettings = await get(db, `SELECT recipient_email, enabled FROM email_settings WHERE id = 1`);
-    
-    if (!emailSettings || !emailSettings.enabled) {
-      return res.status(400).json({ error: 'Email уведомления отключены' });
-    }
-    
-    if (!emailSettings.recipient_email) {
-      return res.status(400).json({ error: 'Email получателя не указан' });
-    }
-    
-    const testMessage = `
-      Это тестовое сообщение от системы уведомлений.
-      
-      Время отправки: ${new Date().toLocaleString('ru-RU')}
-      
-      Если вы получили это сообщение, значит настройки SMTP работают корректно.
-    `;
-    
-    const success = await sendEmailNotification('Тестовое сообщение', testMessage, emailSettings.recipient_email);
-    
-    if (success) {
-      res.json({ success: true, message: 'Тестовое сообщение отправлено' });
-    } else {
-      res.status(500).json({ error: 'Ошибка при отправке тестового сообщения' });
-    }
-  } catch (error) {
-    console.error('Ошибка при тестировании email:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
-});
-
 // Debug: list registered routes (admin only)
 app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   try {
@@ -1302,182 +1220,20 @@ app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   }
 });
 
-// SMTP настройки для отправки email
-const SMTP_CONFIG = require('./smtp-config');
 
-// Функция для создания таблицы email настроек
-async function ensureEmailSettingsTable() {
-  try {
-    await run(db, `
-      CREATE TABLE IF NOT EXISTS email_settings (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        recipient_email TEXT NOT NULL DEFAULT '',
-        enabled INTEGER NOT NULL DEFAULT 1,
-        created_at TEXT NOT NULL DEFAULT (datetime('now')),
-        updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-      )
-    `);
-    
-    // Проверяем, есть ли записи в таблице
-    const existingSettings = await db.all("SELECT * FROM email_settings");
-    if (existingSettings.length === 0) {
-      await run(db, "INSERT INTO email_settings (recipient_email, enabled) VALUES ('', 1)");
-    }
-    
-    console.log('Таблица email_settings готова');
-  } catch (error) {
-    console.error('Ошибка при создании таблицы email_settings:', error);
-  }
-}
 
-// Функция для форматирования данных заказа в email сообщение
-function formatOrderEmailMessage(orderData) {
-  const {
-    orderForm,
-    cartItems,
-    priceCalculation,
-    orderNumber
-  } = orderData;
 
-  const orderDate = new Date().toLocaleString('ru-RU', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
 
-  let message = `НОВЫЙ ЗАКАЗ #${orderNumber}\n\n`;
-  
-  // Информация о клиенте
-  message += `ДАННЫЕ КЛИЕНТА:\n`;
-  message += `• Имя: ${orderForm.name}\n`;
-  message += `• Телефон: ${orderForm.phone}\n`;
-  if (orderForm.email) {
-    message += `• Email: ${orderForm.email}\n`;
-  }
-  
-  // Способ получения
-  message += `\nСПОСОБ ПОЛУЧЕНИЯ: ${orderForm.deliveryMethod === 'pickup' ? 'Самовывоз' : 'Доставка'}\n`;
-  if (orderForm.deliveryMethod === 'delivery' && orderForm.address) {
-    message += `АДРЕС ДОСТАВКИ: ${orderForm.address}\n`;
-  }
-  
-  // Способ оплаты
-  const paymentMethods = {
-    'cash': 'Наличными',
-    'card': 'Банковской картой',
-    'transfer': 'Банковский перевод'
-  };
-  message += `СПОСОБ ОПЛАТЫ: ${paymentMethods[orderForm.paymentMethod]}\n`;
-  
-  // Комментарий
-  if (orderForm.comment) {
-    message += `КОММЕНТАРИЙ: ${orderForm.comment}\n`;
-  }
-  
-  // Список товаров
-  message += `\nЗАКАЗАННЫЕ ТОВАРЫ:\n`;
-  cartItems.forEach((item, index) => {
-    const total = item.price * item.quantity;
-    message += `${index + 1}. ${item.title}\n`;
-    if (item.brand) {
-      message += `   Бренд: ${item.brand}\n`;
-    }
-    message += `   Цена: ${item.price.toLocaleString()} ₽ × ${item.quantity} шт = ${total.toLocaleString()} ₽\n\n`;
-  });
-  
-  // Итоговая стоимость
-  message += `РАСЧЕТ СТОИМОСТИ:\n`;
-  message += `• Подытог: ${priceCalculation.subtotal.toLocaleString()} ₽\n`;
-  
-  if (priceCalculation.appliedPromotion) {
-    message += `• Скидка "${priceCalculation.appliedPromotion.title}" (${priceCalculation.appliedPromotion.discount}%): -${priceCalculation.discountAmount.toLocaleString()} ₽\n`;
-  }
-  
-  if (priceCalculation.appliedPromocode) {
-    const promocodeType = priceCalculation.appliedPromocode.discountType === 'percent' ? '%' : '₽';
-    const promocodeValue = priceCalculation.appliedPromocode.discountType === 'percent' 
-      ? `${priceCalculation.appliedPromocode.discount}%` 
-      : `${priceCalculation.appliedPromocode.discount.toLocaleString()} ₽`;
-    
-    message += `• Промокод "${priceCalculation.appliedPromocode.code}" (${promocodeValue}): -${priceCalculation.promocodeDiscount.toLocaleString()} ₽\n`;
-    
-    // Информация о суммировании с акциями
-    if (priceCalculation.appliedPromocode.stackable) {
-      message += `  └ Суммируется с акциями\n`;
-    } else {
-      message += `  └ Не суммируется с акциями\n`;
-    }
-  }
-  
-  message += `• Доставка: Бесплатно\n`;
-  message += `ИТОГО К ОПЛАТЕ: ${priceCalculation.total.toLocaleString()} ₽\n\n`;
-  
-  message += `ДАТА ЗАКАЗА: ${orderDate}\n`;
-  message += `НОМЕР ЗАКАЗА: ${orderNumber}`;
-  
-  return message;
-}
+// Test import endpoint - импортируем только одну строку для отладки
 
-// Функция для отправки email уведомлений
-async function sendEmailNotification(subject, message, recipientEmail = null) {
-  try {
-    console.log('Начинаю отправку email уведомления...');
-    
-    // Получаем настройки из базы данных
-    const emailSettings = await db.get("SELECT recipient_email, enabled FROM email_settings WHERE id = 1");
-    console.log('Email настройки из БД:', emailSettings);
-    
-    if (!emailSettings || !emailSettings.enabled) {
-      console.log('Email уведомления отключены');
-      return false;
-    }
-    
-    const targetEmail = recipientEmail || emailSettings.recipient_email;
-    if (!targetEmail) {
-      console.log('Email получателя не указан');
-      return false;
-    }
-    
-    console.log('Отправляю email на:', targetEmail);
-    console.log('SMTP настройки:', {
-      host: SMTP_CONFIG.host,
-      port: SMTP_CONFIG.port,
-      secure: SMTP_CONFIG.secure,
-      user: SMTP_CONFIG.auth.user
-    });
-    
-    // Создаем транспортер с захардкоженными настройками
-    const transporter = nodemailer.createTransporter(SMTP_CONFIG);
-    
-    // Отправляем email
-    const info = await transporter.sendMail({
-      from: SMTP_CONFIG.auth.user,
-      to: targetEmail,
-      subject: subject,
-      text: message,
-      html: message.replace(/\n/g, '<br>')
-    });
-    
-    console.log('Email отправлен успешно:', info.messageId);
-    return true;
-  } catch (error) {
-    console.error('Ошибка при отправке email:', error);
-    console.error('Детали ошибки:', {
-      message: error.message,
-      code: error.code,
-      command: error.command
-    });
-    return false;
-  }
-}
+
+
+
 
 
 Promise.all([
   ensureAdminTableAndDefaultUser(),
-  ensureBotSettingsTable(),
-  ensureEmailSettingsTable() // Added email settings table
+  ensureBotSettingsTable()
 ])
   .then(() => {
     app.listen(PORT, () => {
