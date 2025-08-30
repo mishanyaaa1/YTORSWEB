@@ -802,19 +802,44 @@ input[type="number"].quantity-input,
 }
 
 .promotions-info {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
-  background: rgba(230, 163, 74, 0.1);
-  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  background: #1a1a2e;
+  border-radius: 6px;
   margin-top: 1rem;
-  color: #e6a34a;
-  font-size: 0.9rem;
+  color: #64b5f6;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: none;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.promotions-info:hover {
+  background: #252547;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
 }
 
 .promo-icon {
-  color: #e6a34a;
+  color: #64b5f6;
+  font-size: 0.9rem;
+  opacity: 0.95;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.promotions-info:hover .promo-icon {
+  opacity: 1;
+  transform: scale(1.05);
+  color: #90caf9;
 }
 
 .discount-info {
