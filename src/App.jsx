@@ -238,8 +238,7 @@ function App() {
                 href="#" 
                 onClick={(e) => {
                   e.preventDefault();
-                  const address = encodeURIComponent('40-летия Победы, 16а, Курчатовский район, Челябинск, 454100');
-                  window.open(`https://yandex.ru/maps/?text=${address}`, '_blank');
+                  window.open('https://yandex.ru/maps/org/yutors/164193756613/?indoorLevel=1&ll=61.295870%2C55.187646&z=17', '_blank');
                 }}
                 style={{ cursor: 'pointer' }}
               >
