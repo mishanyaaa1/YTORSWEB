@@ -26,17 +26,21 @@ app.use(
   })
 );
 
-// CORS (ограничим источники)
+// Обновляем CORS для продакшена
 const allowedOrigins = new Set([
   'http://localhost:5174',
   'http://127.0.0.1:5174',
-  'http://localhost:3001', // через прокси changeOrigin
+  'http://localhost:3001',
+  'https://your-site.netlify.app', // ваш Netlify домен
+  'https://*.netlify.app', // все Netlify домены
 ]);
 app.use(
   cors({
     origin(origin, callback) {
       if (!origin) return callback(null, true);
       if (allowedOrigins.has(origin)) return callback(null, true);
+      // Разрешаем все Netlify домены
+      if (origin.includes('netlify.app')) return callback(null, true);
       return callback(null, false);
     },
     credentials: true,

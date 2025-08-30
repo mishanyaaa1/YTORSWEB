@@ -10,7 +10,9 @@
     "start": "node index.js",
     "dev": "node index.js",
     "normalize:products": "node scripts/normalize_products.js",
-    "set-admin-pass": "node scripts/set_admin_password.js"
+    "set-admin-pass": "node scripts/set_admin_password.js",
+    "build": "echo 'No build step required'",
+    "postinstall": "npm run migrate"
   },
   "keywords": [],
   "author": "",
