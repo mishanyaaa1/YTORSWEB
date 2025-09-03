@@ -385,6 +385,27 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Test endpoint works', timestamp: new Date().toISOString() });
 });
 
+// Check tables endpoint
+app.get('/api/check-tables', async (req, res) => {
+  try {
+    const tables = ['promotions', 'terrain_types', 'vehicle_types'];
+    const results = {};
+    
+    for (const table of tables) {
+      try {
+        const count = await get(`SELECT COUNT(*) as count FROM ${table}`);
+        results[table] = { exists: true, count: count.count };
+      } catch (error) {
+        results[table] = { exists: false, error: error.message };
+      }
+    }
+    
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Simple bootstrap test
 app.get('/api/bootstrap-test', (req, res) => {
   console.log('Bootstrap test endpoint called');
@@ -648,7 +669,8 @@ app.get('/api/promotions', async (req, res) => {
     res.json(promotions);
   } catch (error) {
     console.error('Promotions endpoint error:', error);
-    res.status(500).json({ error: 'Failed to fetch promotions' });
+    console.error('Error details:', error.message);
+    res.status(500).json({ error: 'Failed to fetch promotions', details: error.message });
   }
 });
 
