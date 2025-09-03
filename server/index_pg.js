@@ -183,6 +183,52 @@ app.post('/api/reset-db', async (req, res) => {
   }
 });
 
+// Create admin user
+app.post('/api/admin/create', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    
+    if (!username || !password) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Username and password are required' 
+      });
+    }
+    
+    // Проверяем, есть ли уже админ
+    const existingAdmin = await get('SELECT * FROM admins WHERE username = $1', [username]);
+    if (existingAdmin) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Admin already exists' 
+      });
+    }
+    
+    // Хешируем пароль
+    const bcrypt = require('bcryptjs');
+    const passwordHash = await bcrypt.hash(password, 10);
+    
+    // Создаем админа
+    const result = await run(
+      'INSERT INTO admins (username, password_hash, created_at) VALUES ($1, $2, $3)',
+      [username, passwordHash, new Date().toISOString()]
+    );
+    
+    res.json({ 
+      success: true,
+      message: 'Admin created successfully',
+      adminId: result.lastID
+    });
+    
+  } catch (error) {
+    console.error('Admin creation failed:', error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Upload data to PostgreSQL
 app.post('/api/upload-data', async (req, res) => {
   try {
