@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getApiUrl } from '../config/api';
 import { 
   categoryStructure, 
   initialProducts, 
@@ -266,12 +267,12 @@ export const AdminDataProvider = ({ children }) => {
       try {
         console.log('AdminDataContext: Starting API bootstrap...');
         const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes] = await Promise.allSettled([
-          fetch('/api/products', { credentials: 'include' }),
-          fetch('/api/categories', { credentials: 'include' }),
-          fetch('/api/brands', { credentials: 'include' }),
-          fetch('/api/promotions', { credentials: 'include' }),
-          fetch('/api/terrain-types', { credentials: 'include' }),
-          fetch('/api/vehicle-types', { credentials: 'include' })
+          fetch(getApiUrl('/api/products'), { credentials: 'include' }),
+          fetch(getApiUrl('/api/categories'), { credentials: 'include' }),
+          fetch(getApiUrl('/api/brands'), { credentials: 'include' }),
+          fetch(getApiUrl('/api/promotions'), { credentials: 'include' }),
+          fetch(getApiUrl('/api/terrain-types'), { credentials: 'include' }),
+          fetch(getApiUrl('/api/vehicle-types'), { credentials: 'include' })
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
@@ -352,7 +353,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для работы с товарами
   const addProduct = async (product) => {
     try {
-      const res = await fetch('/api/products', {
+      const res = await fetch(getApiUrl('/api/products'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -406,7 +407,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для работы с категориями
   const addCategory = async (categoryName, subcategories = []) => {
     try {
-      const res = await fetch('/api/categories', {
+      const res = await fetch(getApiUrl('/api/categories'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -530,7 +531,7 @@ export const AdminDataProvider = ({ children }) => {
   const addBrand = async (brandName) => {
     if (!brandName) return;
     try {
-      const res = await fetch('/api/brands', {
+      const res = await fetch(getApiUrl('/api/brands'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -562,7 +563,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для работы с промокодами
   const addPromocode = async (promocode) => {
     try {
-      const res = await fetch('/api/promocodes', {
+      const res = await fetch(getApiUrl('/api/promocodes'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -656,7 +657,7 @@ export const AdminDataProvider = ({ children }) => {
         ...promotion,
         category: promotion.category && promotion.category !== 'Все категории' ? promotion.category : null,
       };
-      const res = await fetch('/api/promotions', {
+      const res = await fetch(getApiUrl('/api/promotions'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -779,7 +780,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для работы с вездеходами
   const addVehicle = async (vehicle) => {
     try {
-      const res = await fetch('/api/vehicles', {
+      const res = await fetch(getApiUrl('/api/vehicles'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -833,7 +834,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для управления типами местности
   const addTerrainType = async (typeName) => {
     try {
-      const response = await fetch('/api/terrain-types', {
+      const response = await fetch(getApiUrl('/api/terrain-types'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -870,7 +871,7 @@ export const AdminDataProvider = ({ children }) => {
   // Функции для управления типами вездеходов
   const addVehicleType = async (typeName) => {
     try {
-      const response = await fetch('/api/vehicle-types', {
+      const response = await fetch(getApiUrl('/api/vehicle-types'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

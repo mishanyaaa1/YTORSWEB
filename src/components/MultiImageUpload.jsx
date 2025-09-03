@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaUpload, FaTrash, FaImage, FaStar, FaRegStar, FaPlus } from 'react-icons/fa';
+import { getApiUrl } from '../config/api';
 import './MultiImageUpload.css';
 
 export default function MultiImageUpload({ 
@@ -20,7 +21,7 @@ export default function MultiImageUpload({
   const uploadToServer = async (file) => {
     const form = new FormData();
     form.append('image', file);
-    const res = await fetch('/api/upload/image', { method: 'POST', body: form, credentials: 'include' });
+    const res = await fetch(getApiUrl('/api/upload/image'), { method: 'POST', body: form, credentials: 'include' });
     if (!res.ok) throw new Error('upload failed');
     const data = await res.json();
     return data.url; // '/uploads/xxx.ext'

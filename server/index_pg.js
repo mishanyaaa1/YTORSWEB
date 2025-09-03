@@ -400,9 +400,23 @@ app.get('/api/bootstrap-test', (req, res) => {
   });
 });
 
+// Handle OPTIONS requests for bootstrap
+app.options('/api/bootstrap', (req, res) => {
+  console.log('OPTIONS request for bootstrap');
+  res.set({
+    'Access-Control-Allow-Origin': req.headers.origin || '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
+    'Access-Control-Allow-Credentials': 'true'
+  });
+  res.sendStatus(200);
+});
+
 // Bootstrap endpoint for admin panel
 app.get('/api/bootstrap', async (req, res) => {
   console.log('=== BOOTSTRAP ENDPOINT CALLED ===');
+  console.log('Request headers:', req.headers);
+  console.log('Request origin:', req.headers.origin);
   
   try {
     // Устанавливаем заголовки для предотвращения кэширования
@@ -410,7 +424,9 @@ app.get('/api/bootstrap', async (req, res) => {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       'Pragma': 'no-cache',
       'Expires': '0',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'Access-Control-Allow-Credentials': 'true'
     });
     
     console.log('Headers set, starting data loading...');

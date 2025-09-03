@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../../config/api';
 import { FaRobot, FaSave, FaFlask, FaInfoCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import './BotManagement.css';
 
@@ -23,7 +24,7 @@ const BotManagement = () => {
   const loadBotSettings = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/bot');
+      const response = await fetch(getApiUrl('/api/admin/bot'));
       if (response.ok) {
         const data = await response.json();
         setSettings(data);
@@ -48,7 +49,7 @@ const BotManagement = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      const response = await fetch('/api/admin/bot', {
+      const response = await fetch(getApiUrl('/api/admin/bot'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ const BotManagement = () => {
 
     try {
       setTesting(true);
-      const response = await fetch('/api/admin/bot/test', {
+      const response = await fetch(getApiUrl('/api/admin/bot/test'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getApiUrl } from '../config/api';
 
 function AdvertisingScripts() {
   const [scripts, setScripts] = useState({ head: [], body: [] });
@@ -6,7 +7,7 @@ function AdvertisingScripts() {
   useEffect(() => {
     const loadAdvertisingScripts = async () => {
       try {
-        const response = await fetch('/api/advertising/scripts');
+        const response = await fetch(getApiUrl('/api/advertising/scripts'));
         if (response.ok) {
           const data = await response.json();
           setScripts(data);

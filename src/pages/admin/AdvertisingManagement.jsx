@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../../config/api';
 import { FaAd, FaYandex, FaGoogle, FaFacebook, FaVk, FaTelegram, FaSave, FaTrash, FaEye, FaEyeSlash } from 'react-icons/fa';
 import './AdvertisingManagement.css';
 
@@ -49,7 +50,7 @@ function AdvertisingManagement() {
 
   const loadAdvertisingData = async () => {
     try {
-      const response = await fetch('/api/admin/advertising', {
+      const response = await fetch(getApiUrl('/api/admin/advertising'), {
         credentials: 'include'
       });
       if (response.ok) {
@@ -66,7 +67,7 @@ function AdvertisingManagement() {
     setMessage('');
     
     try {
-      const response = await fetch('/api/admin/advertising', {
+      const response = await fetch(getApiUrl('/api/admin/advertising'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
