@@ -4,6 +4,71 @@
 /* Импорт стилей каталога для популярных товаров */
 @import '../Catalog.css';
 
+/* Стили для фонового изображения героя */
+.hero-visual-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.hero-background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjM2MCIgdmlld0JveD0iMCAwIDYwMCAzNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iMzYwIiBmaWxsPSIjZjVmNWY1Ii8+Cjx0ZXh0IHg9IjMwMCIgeT0iMTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBmb250LXNpemU9IjE4cHgiPk9mZnJvYWQgVmVoaWNsZSBpbiBTbm93PC90ZXh0Pgo8L3N2Zz4K');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+/* Анимация для шестеренок */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.gear-large {
+  animation: rotate 20s linear infinite;
+}
+
+.gear-small {
+  animation: rotate 15s linear infinite reverse;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .hero-visual-container {
+    min-height: 300px;
+  }
+  
+  .hero-background-image {
+    background-size: cover;
+  }
+}
+
 .popular-products .catalog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
