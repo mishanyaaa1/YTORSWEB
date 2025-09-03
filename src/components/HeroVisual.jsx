@@ -6,6 +6,12 @@ export default function HeroVisual() {
       {/* Фоновое изображение внедорожника */}
       <div className="hero-background-image">
         <div className="hero-overlay">
+          {/* Текст на фоне */}
+          <div className="hero-text">
+            <h1>Запчасти для внедорожников</h1>
+            <p>Качественные детали для вашего транспорта</p>
+          </div>
+          
           {/* SVG элементы поверх изображения */}
           <svg
             className="hero-visual-svg"

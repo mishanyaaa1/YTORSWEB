@@ -652,7 +652,24 @@ app.get('/api/products', async (req, res) => {
     });
     
     const result = rows.map(p => ({
-      ...p,
+      id: p.id,
+      title: p.title,
+      price: p.price,
+      description: p.description,
+      available: p.available,
+      quantity: p.quantity,
+      specifications_json: p.specifications_json,
+      features_json: p.features_json,
+      created_at: p.created_at,
+      updated_at: p.updated_at,
+      // Нормализуем поля для фронтенда
+      category: p.category_name,
+      subcategory: null, // Добавим позже если нужно
+      brand: p.brand_name,
+      // Оставляем ID для внутреннего использования
+      category_id: p.category_id,
+      subcategory_id: p.subcategory_id,
+      brand_id: p.brand_id,
       images: imageMap.get(p.id) || []
     }));
     

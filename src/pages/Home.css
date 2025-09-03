@@ -20,7 +20,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjM2MCIgdmlld0JveD0iMCAwIDYwMCAzNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iMzYwIiBmaWxsPSIjZjVmNWY1Ii8+Cjx0ZXh0IHg9IjMwMCIgeT0iMTgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBmb250LXNpemU9IjE4cHgiPk9mZnJvYWQgVmVoaWNsZSBpbiBTbm93PC90ZXh0Pgo8L3N2Zz4K');
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -36,6 +36,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.hero-text {
+  text-align: center;
+  color: white;
+  z-index: 10;
+  margin-bottom: 2rem;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .hero-visual-svg {
