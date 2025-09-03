@@ -27,9 +27,9 @@ async function run(sql, params = []) {
   try {
     const result = await client.query(sql, params);
     return { 
-      lastID: result.rows[0]?.id || null, 
+      lastID: result.rows && result.rows[0]?.id || null, 
       changes: result.rowCount || 0,
-      rows: result.rows 
+      rows: result.rows || []
     };
   } finally {
     client.release();
@@ -40,7 +40,7 @@ async function get(sql, params = []) {
   const client = await pool.connect();
   try {
     const result = await client.query(sql, params);
-    return result.rows[0] || null;
+    return result.rows && result.rows[0] || null;
   } finally {
     client.release();
   }
@@ -50,7 +50,7 @@ async function all(sql, params = []) {
   const client = await pool.connect();
   try {
     const result = await client.query(sql, params);
-    return result.rows;
+    return result.rows || [];
   } finally {
     client.release();
   }
