@@ -33,7 +33,8 @@ const allowedOrigins = new Set([
   'http://localhost:3001',
   'http://localhost:10000',
   'https://ytors.netlify.app', // ваш Netlify домен
-  'https://*.netlify.app', // все Netlify домены
+  'https://ytorsweb.netlify.app', // возможный домен
+  'https://ytorsweb-backend.onrender.com', // для тестирования
 ]);
 
 app.use(
@@ -43,7 +44,15 @@ app.use(
       if (!origin) return callback(null, true);
       if (allowedOrigins.has(origin)) return callback(null, true);
       // Разрешаем все Netlify домены
-      if (origin.includes('netlify.app')) return callback(null, true);
+      if (origin && origin.includes('netlify.app')) {
+        console.log('CORS allowing Netlify domain:', origin);
+        return callback(null, true);
+      }
+      // Разрешаем localhost для разработки
+      if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+        console.log('CORS allowing localhost:', origin);
+        return callback(null, true);
+      }
       console.log('CORS blocked origin:', origin);
       return callback(null, false);
     },
@@ -142,18 +151,25 @@ function signAdminToken(payload) {
 
 function parseAdminFromCookie(req, res, next) {
   const token = req.cookies && req.cookies.admin_token;
+  console.log('parseAdminFromCookie - token present:', !!token);
   if (!token) return next();
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.admin = { id: decoded.id, username: decoded.username };
-  } catch (_) {
+    console.log('parseAdminFromCookie - admin set:', req.admin.username);
+  } catch (err) {
+    console.log('parseAdminFromCookie - token verification failed:', err.message);
     // ignore invalid/expired token
   }
   next();
 }
 
 function requireAdmin(req, res, next) {
-  if (!req.admin) return res.status(401).json({ error: 'Unauthorized' });
+  console.log('requireAdmin - admin present:', !!req.admin);
+  if (!req.admin) {
+    console.log('requireAdmin - unauthorized, no admin');
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   next();
 }
 
@@ -203,7 +219,7 @@ app.post('/api/admin/login', loginLimiter, async (req, res) => {
     res.cookie('admin_token', token, {
       httpOnly: true,
       secure: NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: NODE_ENV === 'production' ? 'none' : 'lax',
       path: '/',
       maxAge: 12 * 60 * 60 * 1000,
     });
@@ -221,6 +237,20 @@ app.post('/api/admin/logout', requireAdmin, (req, res) => {
 
 app.get('/api/admin/me', requireAdmin, (req, res) => {
   res.json({ id: req.admin.id, username: req.admin.username });
+});
+
+// Тестовый эндпоинт для отладки
+app.get('/api/admin/debug', (req, res) => {
+  res.json({
+    cookies: req.cookies,
+    headers: {
+      origin: req.headers.origin,
+      referer: req.headers.referer,
+      cookie: req.headers.cookie
+    },
+    admin: req.admin || null,
+    jwtSecret: JWT_SECRET ? 'set' : 'not set'
+  });
 });
 
 // Backup DB (download)
