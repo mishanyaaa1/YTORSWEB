@@ -390,6 +390,14 @@ app.get('/api/bootstrap', async (req, res) => {
   try {
     console.log('Bootstrap endpoint called');
     
+    // Устанавливаем заголовки для предотвращения кэширования
+    res.set({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Content-Type': 'application/json'
+    });
+    
     // Простой bootstrap с минимальными данными
     const bootstrapData = {
       categories: [],
