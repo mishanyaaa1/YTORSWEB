@@ -1031,6 +1031,205 @@ app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
   }
 });
 
+// --- Full data migration endpoint ---
+app.post('/api/migrate-all-data', async (req, res) => {
+  try {
+    console.log('Starting full data migration...');
+    
+    // Читаем экспортированные данные
+    const fs = require('fs');
+    const path = require('path');
+    const dataPath = path.join(__dirname, 'exported-data.json');
+    
+    if (!fs.existsSync(dataPath)) {
+      return res.status(404).json({ error: 'Exported data file not found' });
+    }
+    
+    const exportedData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    console.log('Loaded exported data:', Object.keys(exportedData));
+    
+    let results = {
+      categories: 0,
+      subcategories: 0,
+      brands: 0,
+      products: 0,
+      productImages: 0,
+      promotions: 0,
+      customers: 0,
+      orders: 0,
+      orderItems: 0,
+      orderNotes: 0
+    };
+    
+    // Мигрируем категории
+    if (exportedData.categories) {
+      for (const category of exportedData.categories) {
+        try {
+          await run('INSERT INTO categories (id, name) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET name = $2', [category.id, category.name]);
+          results.categories++;
+        } catch (error) {
+          console.error('Error migrating category:', category, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем подкатегории
+    if (exportedData.subcategories) {
+      for (const subcategory of exportedData.subcategories) {
+        try {
+          await run('INSERT INTO subcategories (id, category_id, name) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name = $3', [subcategory.id, subcategory.category_id, subcategory.name]);
+          results.subcategories++;
+        } catch (error) {
+          console.error('Error migrating subcategory:', subcategory, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем бренды
+    if (exportedData.brands) {
+      for (const brand of exportedData.brands) {
+        try {
+          await run('INSERT INTO brands (id, name) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET name = $2', [brand.id, brand.name]);
+          results.brands++;
+        } catch (error) {
+          console.error('Error migrating brand:', brand, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем товары
+    if (exportedData.products) {
+      for (const product of exportedData.products) {
+        try {
+          await run(`
+            INSERT INTO products (id, title, price, category_id, subcategory_id, brand_id, available, quantity, description, specifications_json, features_json, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+            ON CONFLICT (id) DO UPDATE SET 
+              title = $2, price = $3, category_id = $4, subcategory_id = $5, brand_id = $6, 
+              available = $7, quantity = $8, description = $9, specifications_json = $10, 
+              features_json = $11, updated_at = $13
+          `, [
+            product.id, product.title, product.price, product.category_id, product.subcategory_id, 
+            product.brand_id, product.available, product.quantity, product.description, 
+            product.specifications_json, product.features_json, product.created_at, product.updated_at
+          ]);
+          results.products++;
+        } catch (error) {
+          console.error('Error migrating product:', product, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем изображения товаров
+    if (exportedData.productImages) {
+      for (const image of exportedData.productImages) {
+        try {
+          await run(`
+            INSERT INTO product_images (id, product_id, image_data, is_main)
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (id) DO UPDATE SET image_data = $3, is_main = $4
+          `, [image.id, image.product_id, image.image_data, image.is_main]);
+          results.productImages++;
+        } catch (error) {
+          console.error('Error migrating product image:', image, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем акции
+    if (exportedData.promotions) {
+      for (const promotion of exportedData.promotions) {
+        try {
+          await run(`
+            INSERT INTO promotions (id, title, description, discount_percent, category, start_date, end_date)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            ON CONFLICT (id) DO UPDATE SET 
+              title = $2, description = $3, discount_percent = $4, category = $5, 
+              start_date = $6, end_date = $7
+          `, [promotion.id, promotion.title, promotion.description, promotion.discount_percent, promotion.category, promotion.start_date, promotion.end_date]);
+          results.promotions++;
+        } catch (error) {
+          console.error('Error migrating promotion:', promotion, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем клиентов
+    if (exportedData.customers) {
+      for (const customer of exportedData.customers) {
+        try {
+          await run(`
+            INSERT INTO customers (id, name, phone, email, address, created_at)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            ON CONFLICT (id) DO UPDATE SET 
+              name = $2, phone = $3, email = $4, address = $5
+          `, [customer.id, customer.name, customer.phone, customer.email, customer.address, customer.created_at]);
+          results.customers++;
+        } catch (error) {
+          console.error('Error migrating customer:', customer, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем заказы
+    if (exportedData.orders) {
+      for (const order of exportedData.orders) {
+        try {
+          await run(`
+            INSERT INTO orders (id, customer_id, status, total_amount, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            ON CONFLICT (id) DO UPDATE SET 
+              status = $3, total_amount = $4, updated_at = $6
+          `, [order.id, order.customer_id, order.status, order.total_amount, order.created_at, order.updated_at]);
+          results.orders++;
+        } catch (error) {
+          console.error('Error migrating order:', order, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем элементы заказов
+    if (exportedData.orderItems) {
+      for (const item of exportedData.orderItems) {
+        try {
+          await run(`
+            INSERT INTO order_items (id, order_id, product_id, quantity, price)
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (id) DO UPDATE SET 
+              quantity = $4, price = $5
+          `, [item.id, item.order_id, item.product_id, item.quantity, item.price]);
+          results.orderItems++;
+        } catch (error) {
+          console.error('Error migrating order item:', item, error.message);
+        }
+      }
+    }
+    
+    // Мигрируем заметки заказов
+    if (exportedData.orderNotes) {
+      for (const note of exportedData.orderNotes) {
+        try {
+          await run(`
+            INSERT INTO order_notes (id, order_id, note, created_at)
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (id) DO UPDATE SET note = $3
+          `, [note.id, note.order_id, note.note, note.created_at]);
+          results.orderNotes++;
+        } catch (error) {
+          console.error('Error migrating order note:', note, error.message);
+        }
+      }
+    }
+    
+    console.log('Migration completed:', results);
+    res.json({ message: 'Full data migration completed', results });
+    
+  } catch (error) {
+    console.error('Error in full data migration:', error);
+    res.status(500).json({ error: 'Failed to migrate data', details: error.message });
+  }
+});
+
 // --- Load sample images endpoint ---
 app.post('/api/load-sample-images', async (req, res) => {
   try {
