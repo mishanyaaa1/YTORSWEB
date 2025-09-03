@@ -639,6 +639,45 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+// --- Promotions routes ---
+app.get('/api/promotions', async (req, res) => {
+  try {
+    console.log('Promotions endpoint called');
+    const promotions = await all('SELECT * FROM promotions ORDER BY created_at DESC');
+    console.log(`Returning ${promotions.length} promotions`);
+    res.json(promotions);
+  } catch (error) {
+    console.error('Promotions endpoint error:', error);
+    res.status(500).json({ error: 'Failed to fetch promotions' });
+  }
+});
+
+// --- Terrain types routes ---
+app.get('/api/terrain-types', async (req, res) => {
+  try {
+    console.log('Terrain types endpoint called');
+    const terrainTypes = await all('SELECT * FROM terrain_types ORDER BY name');
+    console.log(`Returning ${terrainTypes.length} terrain types`);
+    res.json(terrainTypes);
+  } catch (error) {
+    console.error('Terrain types endpoint error:', error);
+    res.status(500).json({ error: 'Failed to fetch terrain types' });
+  }
+});
+
+// --- Vehicle types routes ---
+app.get('/api/vehicle-types', async (req, res) => {
+  try {
+    console.log('Vehicle types endpoint called');
+    const vehicleTypes = await all('SELECT * FROM vehicle_types ORDER BY name');
+    console.log(`Returning ${vehicleTypes.length} vehicle types`);
+    res.json(vehicleTypes);
+  } catch (error) {
+    console.error('Vehicle types endpoint error:', error);
+    res.status(500).json({ error: 'Failed to fetch vehicle types' });
+  }
+});
+
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await all(`SELECT * FROM orders ORDER BY created_at DESC`);
