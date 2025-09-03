@@ -380,6 +380,46 @@ app.post('/api/upload-data', async (req, res) => {
   }
 });
 
+// Bootstrap endpoint for admin panel
+app.get('/api/bootstrap', async (req, res) => {
+  try {
+    console.log('Bootstrap endpoint called');
+    
+    // Получаем все данные для админки
+    const [categories, brands, products, promotions, orders, customers] = await Promise.all([
+      all('SELECT * FROM categories ORDER BY name'),
+      all('SELECT * FROM brands ORDER BY name'),
+      all('SELECT * FROM products ORDER BY created_at DESC'),
+      all('SELECT * FROM promotions ORDER BY created_at DESC'),
+      all('SELECT * FROM orders ORDER BY created_at DESC'),
+      all('SELECT * FROM customers ORDER BY created_at DESC')
+    ]);
+    
+    const bootstrapData = {
+      categories,
+      brands,
+      products,
+      promotions,
+      orders,
+      customers,
+      stats: {
+        totalProducts: products.length,
+        totalOrders: orders.length,
+        totalCustomers: customers.length,
+        totalPromotions: promotions.length
+      }
+    };
+    
+    res.json(bootstrapData);
+  } catch (error) {
+    console.error('Bootstrap error:', error);
+    res.status(500).json({ 
+      error: 'Failed to load bootstrap data',
+      message: error.message
+    });
+  }
+});
+
 // --- Auth routes ---
 app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
