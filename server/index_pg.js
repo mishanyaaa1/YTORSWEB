@@ -229,6 +229,55 @@ app.post('/api/admin/create', async (req, res) => {
   }
 });
 
+// Upload images from uploads folder
+app.post('/api/upload-images', async (req, res) => {
+  try {
+    console.log('Starting image upload from uploads folder...');
+    const fs = require('fs');
+    const path = require('path');
+    
+    const uploadsDir = path.join(__dirname, 'uploads');
+    const files = fs.readdirSync(uploadsDir);
+    
+    let results = [];
+    
+    for (const file of files) {
+      if (file.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+        try {
+          const filePath = path.join(uploadsDir, file);
+          const imageData = fs.readFileSync(filePath);
+          const base64Data = imageData.toString('base64');
+          
+          // Находим товар по имени файла или создаем новый
+          const productId = 1; // Временно используем ID 1
+          
+          await run(
+            'INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING',
+            [productId, base64Data, true]
+          );
+          
+          results.push(`✅ Загружено изображение: ${file}`);
+        } catch (error) {
+          results.push(`❌ Ошибка при загрузке ${file}: ${error.message}`);
+        }
+      }
+    }
+    
+    res.json({ 
+      success: true,
+      message: 'Image upload completed!',
+      results: results
+    });
+    
+  } catch (error) {
+    console.error('Image upload failed:', error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Upload data to PostgreSQL
 app.post('/api/upload-data', async (req, res) => {
   try {
