@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { run, get, all } = require('./db');
+const { run, get, all, waitForConnection } = require('./db');
 const fs = require('fs');
 const multer = require('multer');
 const helmet = require('helmet');
@@ -319,9 +319,97 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
   }
 });
 
+// Функция для применения миграций
+async function applyMigrations() {
+  try {
+    console.log('Применяю миграции для PostgreSQL...');
+    
+    // Список миграций в порядке применения
+    const migrations = [
+      '001_init_pg.sql',
+      '002_advertising_pg.sql', 
+      '003_terrain_vehicle_types_pg.sql',
+      '004_bot_settings_pg.sql'
+    ];
+    
+    // Создаем таблицу для отслеживания примененных миграций
+    await run(`
+      CREATE TABLE IF NOT EXISTS migrations (
+        id SERIAL PRIMARY KEY,
+        filename VARCHAR(255) NOT NULL UNIQUE,
+        applied_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+      )
+    `);
+    
+    for (const migrationFile of migrations) {
+      // Проверяем, была ли уже применена эта миграция
+      const result = await get(
+        'SELECT id FROM migrations WHERE filename = $1',
+        [migrationFile]
+      );
+      
+      if (result) {
+        console.log(`Миграция ${migrationFile} уже применена, пропускаем...`);
+        continue;
+      }
+      
+      console.log(`Применяю миграцию: ${migrationFile}`);
+      
+      // Читаем файл миграции
+      const migrationPath = path.join(__dirname, 'migrations', migrationFile);
+      const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
+      
+      // Разбиваем SQL на отдельные команды
+      const statements = migrationSQL
+        .split(';')
+        .map(stmt => stmt.trim())
+        .filter(stmt => stmt.length > 0 && !stmt.startsWith('--'));
+      
+      // Применяем каждую команду в транзакции
+      await run('BEGIN');
+      
+      try {
+        for (const statement of statements) {
+          if (statement.trim()) {
+            console.log('Выполняю:', statement.substring(0, 50) + '...');
+            await run(statement);
+          }
+        }
+        
+        // Отмечаем миграцию как примененную
+        await run(
+          'INSERT INTO migrations (filename) VALUES ($1)',
+          [migrationFile]
+        );
+        
+        await run('COMMIT');
+        console.log(`Миграция ${migrationFile} успешно применена!`);
+        
+      } catch (error) {
+        await run('ROLLBACK');
+        throw error;
+      }
+    }
+    
+    console.log('Все миграции успешно применены!');
+    
+  } catch (error) {
+    console.error('Ошибка при применении миграций:', error);
+    throw error;
+  }
+}
+
 // Инициализация
 async function startServer() {
   try {
+    // Ждем подключения к базе данных
+    console.log('Waiting for database connection...');
+    await waitForConnection();
+    
+    // Применяем миграции
+    await applyMigrations();
+    
+    // Создаем админа по умолчанию
     await ensureAdminTableAndDefaultUser();
     
     app.listen(PORT, () => {

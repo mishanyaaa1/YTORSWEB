@@ -7,7 +7,7 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   max: 20,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000, // Увеличиваем время ожидания подключения
 });
 
 // Проверка подключения
@@ -76,6 +76,24 @@ async function transaction(callback) {
   }
 }
 
+// Функция для ожидания подключения к базе данных
+async function waitForConnection(maxRetries = 30, delay = 2000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const client = await pool.connect();
+      client.release();
+      console.log('Database connection established');
+      return true;
+    } catch (error) {
+      console.log(`Attempt ${i + 1}/${maxRetries} to connect to database failed:`, error.message);
+      if (i === maxRetries - 1) {
+        throw new Error(`Failed to connect to database after ${maxRetries} attempts`);
+      }
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
 // Функция для закрытия пула соединений
 async function close() {
   await pool.end();
@@ -87,5 +105,6 @@ module.exports = {
   get,
   all,
   transaction,
+  waitForConnection,
   close
 };

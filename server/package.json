@@ -12,7 +12,7 @@
     "normalize:products": "node scripts/normalize_products.js",
     "set-admin-pass": "node scripts/set_admin_password.js",
     "build": "echo 'No build step required'",
-    "postinstall": "npm run migrate"
+    "postinstall": "echo 'Dependencies installed successfully'"
   },
   "keywords": [],
   "author": "",
