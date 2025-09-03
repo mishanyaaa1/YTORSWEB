@@ -710,9 +710,9 @@ app.get('/api/promotions', async (req, res) => {
 app.get('/api/terrain-types', async (req, res) => {
   try {
     console.log('Terrain types endpoint called');
-    const terrainTypes = await all('SELECT * FROM terrain_types ORDER BY name');
+    const terrainTypes = await all('SELECT name FROM terrain_types ORDER BY name');
     console.log(`Returning ${terrainTypes.length} terrain types`);
-    res.json(terrainTypes);
+    res.json(terrainTypes.map(t => t.name));
   } catch (error) {
     console.error('Terrain types endpoint error:', error);
     res.status(500).json({ error: 'Failed to fetch terrain types' });
@@ -723,9 +723,9 @@ app.get('/api/terrain-types', async (req, res) => {
 app.get('/api/vehicle-types', async (req, res) => {
   try {
     console.log('Vehicle types endpoint called');
-    const vehicleTypes = await all('SELECT * FROM vehicle_types ORDER BY name');
+    const vehicleTypes = await all('SELECT name FROM vehicle_types ORDER BY name');
     console.log(`Returning ${vehicleTypes.length} vehicle types`);
-    res.json(vehicleTypes);
+    res.json(vehicleTypes.map(t => t.name));
   } catch (error) {
     console.error('Vehicle types endpoint error:', error);
     res.status(500).json({ error: 'Failed to fetch vehicle types' });
