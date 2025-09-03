@@ -159,6 +159,30 @@ app.get('/api/db-status', async (req, res) => {
   }
 });
 
+// Reset database (for development only)
+app.post('/api/reset-db', async (req, res) => {
+  try {
+    console.log('Resetting database...');
+    
+    // Удаляем все таблицы
+    await run('DROP SCHEMA public CASCADE');
+    await run('CREATE SCHEMA public');
+    await run('GRANT ALL ON SCHEMA public TO postgres');
+    await run('GRANT ALL ON SCHEMA public TO public');
+    
+    res.json({ 
+      success: true,
+      message: 'Database reset successfully. Restart the server to apply migrations.'
+    });
+  } catch (error) {
+    console.error('Database reset failed:', error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // --- Auth routes ---
 app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
@@ -383,22 +407,12 @@ async function applyMigrations() {
       const migrationPath = path.join(__dirname, 'migrations', migrationFile);
       const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
       
-      // Разбиваем SQL на отдельные команды
-      const statements = migrationSQL
-        .split(';')
-        .map(stmt => stmt.trim())
-        .filter(stmt => stmt.length > 0 && !stmt.startsWith('--'));
-      
-      // Применяем каждую команду в транзакции
+      // Выполняем весь SQL файл целиком в транзакции
       await run('BEGIN');
       
       try {
-        for (const statement of statements) {
-          if (statement.trim()) {
-            console.log('Выполняю:', statement.substring(0, 50) + '...');
-            await run(statement);
-          }
-        }
+        console.log('Выполняю SQL миграцию...');
+        await run(migrationSQL);
         
         // Отмечаем миграцию как примененную
         await run(
