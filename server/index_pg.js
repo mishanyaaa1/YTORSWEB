@@ -666,7 +666,7 @@ app.get('/api/promotions', async (req, res) => {
     console.log('=== PROMOTIONS ENDPOINT CALLED ===');
     console.log('Attempting to query promotions table...');
     
-    const promotions = await all('SELECT * FROM promotions ORDER BY created_at DESC');
+    const promotions = await all('SELECT * FROM promotions ORDER BY id DESC');
     console.log(`✅ Successfully fetched ${promotions.length} promotions`);
     console.log('Promotions data:', promotions);
     
