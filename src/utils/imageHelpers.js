@@ -2,9 +2,32 @@
 
 // Миграция старых данных: icon -> images
 export const migrateProductImages = (product) => {
-  // Если у товара уже есть images, возвращаем как есть
+  // Если у товара уже есть images, нормализуем их структуру
   if (product.images && Array.isArray(product.images)) {
-    return product;
+    const normalizedImages = product.images.map((img, index) => {
+      // Если это уже объект с полями data, isMain - возвращаем как есть
+      if (img && typeof img === 'object' && img.data) {
+        return {
+          id: img.id || index + 1,
+          data: img.data,
+          isMain: img.isMain || index === 0
+        };
+      }
+      // Если это строка (старый формат) - оборачиваем в объект
+      if (typeof img === 'string') {
+        return {
+          id: index + 1,
+          data: img,
+          isMain: index === 0
+        };
+      }
+      return img;
+    });
+    
+    return {
+      ...product,
+      images: normalizedImages
+    };
   }
   
   // Если есть только icon, создаем массив images
@@ -31,14 +54,14 @@ export const migrateProductImages = (product) => {
 // Получить основное изображение товара
 export const getMainImage = (product) => {
   const migratedProduct = migrateProductImages(product);
-  const mainImage = migratedProduct.images.find(img => img.isMain);
-  return mainImage || null;
+  const mainImage = migratedProduct.images.find(img => img && img.isMain);
+  return mainImage || (migratedProduct.images.length > 0 ? migratedProduct.images[0] : null);
 };
 
 // Получить все изображения товара
 export const getAllImages = (product) => {
   const migratedProduct = migrateProductImages(product);
-  return migratedProduct.images || [];
+  return (migratedProduct.images || []).filter(img => img && img.data);
 };
 
 // Проверить, является ли изображение Base64
