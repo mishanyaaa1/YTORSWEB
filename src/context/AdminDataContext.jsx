@@ -375,7 +375,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const updateProduct = async (id, updatedProduct) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(getApiUrl(`/api/products/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -394,7 +394,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const res = await fetch(`/api/products/${id}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(getApiUrl(`/api/products/${id}`), { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete product');
       await refreshFromApi();
     } catch (e) {
@@ -429,7 +429,7 @@ export const AdminDataProvider = ({ children }) => {
     try {
       const subs = Array.isArray(subcategories) ? subcategories : (categories[oldName] || []);
       if (oldName !== newName) {
-        const r1 = await fetch(`/api/categories/${encodeURIComponent(oldName)}`, {
+        const r1 = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(oldName)}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -437,7 +437,7 @@ export const AdminDataProvider = ({ children }) => {
         });
         if (!r1.ok) throw new Error('Failed to rename category');
       }
-      const r2 = await fetch(`/api/categories/${encodeURIComponent(newName)}/subcategories`, {
+      const r2 = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(newName)}/subcategories`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -683,7 +683,7 @@ export const AdminDataProvider = ({ children }) => {
         ...updatedPromotion,
         category: updatedPromotion.category && updatedPromotion.category !== 'Все категории' ? updatedPromotion.category : null,
       };
-      const res = await fetch(`/api/promotions/${id}`, {
+      const res = await fetch(getApiUrl(`/api/promotions/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -703,7 +703,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deletePromotion = async (id) => {
     try {
-      const res = await fetch(`/api/promotions/${id}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(getApiUrl(`/api/promotions/${id}`), { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete promotion');
       await refreshFromApi();
     } catch (e) {
@@ -802,7 +802,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const updateVehicle = async (id, updatedVehicle) => {
     try {
-      const res = await fetch(`/api/vehicles/${id}`, {
+      const res = await fetch(getApiUrl(`/api/vehicles/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -821,7 +821,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteVehicle = async (id) => {
     try {
-      const res = await fetch(`/api/vehicles/${id}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(getApiUrl(`/api/vehicles/${id}`), { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete vehicle');
       await refreshFromApi();
     } catch (e) {

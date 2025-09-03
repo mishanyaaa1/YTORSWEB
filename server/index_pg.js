@@ -732,6 +732,265 @@ app.get('/api/advertising/scripts', async (req, res) => {
   }
 });
 
+// --- Product management routes ---
+app.post('/api/products', requireAdmin, async (req, res) => {
+  try {
+    console.log('Creating new product:', req.body);
+    const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type, images } = req.body;
+    
+    const result = await run(`
+      INSERT INTO products (title, description, price, category, subcategory, brand, terrain_type, vehicle_type)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING *
+    `, [title, description, price, category, subcategory, brand, terrain_type, vehicle_type]);
+    
+    const product = result.rows[0];
+    
+    // Добавляем изображения если есть
+    if (images && Array.isArray(images)) {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        await run(`
+          INSERT INTO product_images (product_id, image_data, is_main)
+          VALUES ($1, $2, $3)
+        `, [product.id, image.data, i === 0]);
+      }
+    }
+    
+    res.json(product);
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).json({ error: 'Failed to create product' });
+  }
+});
+
+app.put('/api/products/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type } = req.body;
+    
+    const result = await run(`
+      UPDATE products 
+      SET title = $1, description = $2, price = $3, category = $4, subcategory = $5, brand = $6, terrain_type = $7, vehicle_type = $8
+      WHERE id = $9
+      RETURNING *
+    `, [title, description, price, category, subcategory, brand, terrain_type, vehicle_type, id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ error: 'Failed to update product' });
+  }
+});
+
+app.delete('/api/products/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Удаляем изображения товара
+    await run('DELETE FROM product_images WHERE product_id = $1', [id]);
+    
+    // Удаляем товар
+    const result = await run('DELETE FROM products WHERE id = $1 RETURNING *', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Failed to delete product' });
+  }
+});
+
+// --- Category management routes ---
+app.post('/api/categories', requireAdmin, async (req, res) => {
+  try {
+    const { name, subcategories } = req.body;
+    
+    // Проверяем, существует ли категория
+    const existing = await get('SELECT * FROM categories WHERE name = $1', [name]);
+    if (existing) {
+      return res.status(400).json({ error: 'Category already exists' });
+    }
+    
+    // Создаем категорию
+    await run('INSERT INTO categories (name) VALUES ($1)', [name]);
+    
+    // Добавляем подкатегории если есть
+    if (subcategories && Array.isArray(subcategories)) {
+      for (const subcategory of subcategories) {
+        await run('INSERT INTO subcategories (name, category_name) VALUES ($1, $2)', [subcategory, name]);
+      }
+    }
+    
+    res.json({ message: 'Category created successfully' });
+  } catch (error) {
+    console.error('Error creating category:', error);
+    res.status(500).json({ error: 'Failed to create category' });
+  }
+});
+
+app.put('/api/categories/:name', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.params;
+    const { newName } = req.body;
+    
+    if (newName && newName !== name) {
+      // Переименовываем категорию
+      await run('UPDATE categories SET name = $1 WHERE name = $2', [newName, name]);
+      await run('UPDATE subcategories SET category_name = $1 WHERE category_name = $2', [newName, name]);
+      await run('UPDATE products SET category = $1 WHERE category = $2', [newName, name]);
+    }
+    
+    res.json({ message: 'Category updated successfully' });
+  } catch (error) {
+    console.error('Error updating category:', error);
+    res.status(500).json({ error: 'Failed to update category' });
+  }
+});
+
+app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.params;
+    const { subcategories } = req.body;
+    
+    // Удаляем старые подкатегории
+    await run('DELETE FROM subcategories WHERE category_name = $1', [name]);
+    
+    // Добавляем новые подкатегории
+    if (subcategories && Array.isArray(subcategories)) {
+      for (const subcategory of subcategories) {
+        await run('INSERT INTO subcategories (name, category_name) VALUES ($1, $2)', [subcategory, name]);
+      }
+    }
+    
+    res.json({ message: 'Subcategories updated successfully' });
+  } catch (error) {
+    console.error('Error updating subcategories:', error);
+    res.status(500).json({ error: 'Failed to update subcategories' });
+  }
+});
+
+// --- Brand management routes ---
+app.post('/api/brands', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.body;
+    
+    // Проверяем, существует ли бренд
+    const existing = await get('SELECT * FROM brands WHERE name = $1', [name]);
+    if (existing) {
+      return res.status(400).json({ error: 'Brand already exists' });
+    }
+    
+    // Создаем бренд
+    const result = await run('INSERT INTO brands (name) VALUES ($1) RETURNING *', [name]);
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating brand:', error);
+    res.status(500).json({ error: 'Failed to create brand' });
+  }
+});
+
+app.put('/api/brands/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    
+    const result = await run('UPDATE brands SET name = $1 WHERE id = $2 RETURNING *', [name, id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Brand not found' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating brand:', error);
+    res.status(500).json({ error: 'Failed to update brand' });
+  }
+});
+
+app.delete('/api/brands/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await run('DELETE FROM brands WHERE id = $1 RETURNING *', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Brand not found' });
+    }
+    
+    res.json({ message: 'Brand deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting brand:', error);
+    res.status(500).json({ error: 'Failed to delete brand' });
+  }
+});
+
+// --- Promotion management routes ---
+app.post('/api/promotions', requireAdmin, async (req, res) => {
+  try {
+    const { title, description, discount_percent, category, start_date, end_date } = req.body;
+    
+    const result = await run(`
+      INSERT INTO promotions (title, description, discount_percent, category, start_date, end_date)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `, [title, description, discount_percent, category, start_date, end_date]);
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating promotion:', error);
+    res.status(500).json({ error: 'Failed to create promotion' });
+  }
+});
+
+app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, discount_percent, category, start_date, end_date } = req.body;
+    
+    const result = await run(`
+      UPDATE promotions 
+      SET title = $1, description = $2, discount_percent = $3, category = $4, start_date = $5, end_date = $6
+      WHERE id = $7
+      RETURNING *
+    `, [title, description, discount_percent, category, start_date, end_date, id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Promotion not found' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating promotion:', error);
+    res.status(500).json({ error: 'Failed to update promotion' });
+  }
+});
+
+app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await run('DELETE FROM promotions WHERE id = $1 RETURNING *', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Promotion not found' });
+    }
+    
+    res.json({ message: 'Promotion deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting promotion:', error);
+    res.status(500).json({ error: 'Failed to delete promotion' });
+  }
+});
+
 // --- Load sample images endpoint ---
 app.post('/api/load-sample-images', async (req, res) => {
   try {
