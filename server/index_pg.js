@@ -738,11 +738,31 @@ app.post('/api/products', async (req, res) => {
     console.log('Creating new product:', req.body);
     const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type, images } = req.body;
     
+    // Получаем ID категории, подкатегории и бренда
+    let categoryId = null;
+    let subcategoryId = null;
+    let brandId = null;
+    
+    if (category) {
+      const catResult = await get('SELECT id FROM categories WHERE name = $1', [category]);
+      if (catResult) categoryId = catResult.id;
+    }
+    
+    if (subcategory && categoryId) {
+      const subResult = await get('SELECT id FROM subcategories WHERE name = $1 AND category_id = $2', [subcategory, categoryId]);
+      if (subResult) subcategoryId = subResult.id;
+    }
+    
+    if (brand) {
+      const brandResult = await get('SELECT id FROM brands WHERE name = $1', [brand]);
+      if (brandResult) brandId = brandResult.id;
+    }
+    
     const result = await run(`
-      INSERT INTO products (title, description, price, category, subcategory, brand, terrain_type, vehicle_type)
+      INSERT INTO products (title, description, price, category_id, subcategory_id, brand_id, terrain_type, vehicle_type)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
-    `, [title, description, price, category, subcategory, brand, terrain_type, vehicle_type]);
+    `, [title, description, price, categoryId, subcategoryId, brandId, terrain_type, vehicle_type]);
     
     const product = result.rows[0];
     
@@ -769,12 +789,32 @@ app.put('/api/products/:id', async (req, res) => {
     const { id } = req.params;
     const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type } = req.body;
     
+    // Получаем ID категории, подкатегории и бренда
+    let categoryId = null;
+    let subcategoryId = null;
+    let brandId = null;
+    
+    if (category) {
+      const catResult = await get('SELECT id FROM categories WHERE name = $1', [category]);
+      if (catResult) categoryId = catResult.id;
+    }
+    
+    if (subcategory && categoryId) {
+      const subResult = await get('SELECT id FROM subcategories WHERE name = $1 AND category_id = $2', [subcategory, categoryId]);
+      if (subResult) subcategoryId = subResult.id;
+    }
+    
+    if (brand) {
+      const brandResult = await get('SELECT id FROM brands WHERE name = $1', [brand]);
+      if (brandResult) brandId = brandResult.id;
+    }
+    
     const result = await run(`
       UPDATE products 
-      SET title = $1, description = $2, price = $3, category = $4, subcategory = $5, brand = $6, terrain_type = $7, vehicle_type = $8
+      SET title = $1, description = $2, price = $3, category_id = $4, subcategory_id = $5, brand_id = $6, terrain_type = $7, vehicle_type = $8
       WHERE id = $9
       RETURNING *
-    `, [title, description, price, category, subcategory, brand, terrain_type, vehicle_type, id]);
+    `, [title, description, price, categoryId, subcategoryId, brandId, terrain_type, vehicle_type, id]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Product not found' });
