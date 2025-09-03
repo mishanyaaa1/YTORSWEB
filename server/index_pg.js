@@ -385,11 +385,26 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Test endpoint works', timestamp: new Date().toISOString() });
 });
 
+// Simple bootstrap test
+app.get('/api/bootstrap-test', (req, res) => {
+  console.log('Bootstrap test endpoint called');
+  res.json({ 
+    message: 'Bootstrap test works', 
+    timestamp: new Date().toISOString(),
+    data: {
+      categories: [],
+      brands: [],
+      products: [],
+      stats: { totalProducts: 0 }
+    }
+  });
+});
+
 // Bootstrap endpoint for admin panel
 app.get('/api/bootstrap', async (req, res) => {
+  console.log('=== BOOTSTRAP ENDPOINT CALLED ===');
+  
   try {
-    console.log('Bootstrap endpoint called');
-    
     // Устанавливаем заголовки для предотвращения кэширования
     res.set({
       'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -397,6 +412,8 @@ app.get('/api/bootstrap', async (req, res) => {
       'Expires': '0',
       'Content-Type': 'application/json'
     });
+    
+    console.log('Headers set, starting data loading...');
     
     // Простой bootstrap с минимальными данными
     const bootstrapData = {
@@ -414,41 +431,55 @@ app.get('/api/bootstrap', async (req, res) => {
       }
     };
     
+    console.log('Initial bootstrap data structure created');
+    
     // Пытаемся загрузить товары
     try {
+      console.log('Attempting to load products...');
       const products = await all('SELECT * FROM products ORDER BY created_at DESC LIMIT 100');
       bootstrapData.products = products;
       bootstrapData.stats.totalProducts = products.length;
-      console.log(`Loaded ${products.length} products`);
+      console.log(`✅ Loaded ${products.length} products`);
     } catch (e) {
-      console.log('Products table error:', e.message);
+      console.log('❌ Products table error:', e.message);
     }
     
     // Пытаемся загрузить категории
     try {
+      console.log('Attempting to load categories...');
       const categories = await all('SELECT * FROM categories ORDER BY name');
       bootstrapData.categories = categories;
-      console.log(`Loaded ${categories.length} categories`);
+      console.log(`✅ Loaded ${categories.length} categories`);
     } catch (e) {
-      console.log('Categories table error:', e.message);
+      console.log('❌ Categories table error:', e.message);
     }
     
     // Пытаемся загрузить бренды
     try {
+      console.log('Attempting to load brands...');
       const brands = await all('SELECT * FROM brands ORDER BY name');
       bootstrapData.brands = brands;
-      console.log(`Loaded ${brands.length} brands`);
+      console.log(`✅ Loaded ${brands.length} brands`);
     } catch (e) {
-      console.log('Brands table error:', e.message);
+      console.log('❌ Brands table error:', e.message);
     }
     
-    console.log('Bootstrap data prepared successfully');
+    console.log('=== BOOTSTRAP DATA PREPARED SUCCESSFULLY ===');
+    console.log('Sending response...');
+    
     res.json(bootstrapData);
+    
+    console.log('=== BOOTSTRAP RESPONSE SENT ===');
   } catch (error) {
-    console.error('Bootstrap error:', error);
+    console.error('=== BOOTSTRAP ERROR ===');
+    console.error('Error details:', error);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
     res.status(500).json({ 
       error: 'Failed to load bootstrap data',
-      message: error.message
+      message: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
