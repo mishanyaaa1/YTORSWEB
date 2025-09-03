@@ -1,0 +1,2649 @@
+{
+  "categories": [
+    {
+      "id": 3,
+      "name": "Ходовая часть"
+    },
+    {
+      "id": 13,
+      "name": "Электрооборудование"
+    },
+    {
+      "id": 16,
+      "name": "Трансмиссия и привод"
+    },
+    {
+      "id": 19,
+      "name": "Инструмент и оборудование"
+    },
+    {
+      "id": 20,
+      "name": "Двигатель и топливная система"
+    },
+    {
+      "id": 26,
+      "name": "Двигатель"
+    },
+    {
+      "id": 27,
+      "name": "Трансмиссия"
+    },
+    {
+      "id": 28,
+      "name": "Электрика"
+    },
+    {
+      "id": 29,
+      "name": "Кабина"
+    }
+  ],
+  "subcategories": [
+    {
+      "id": 49,
+      "category_id": 13,
+      "name": "Блоки управления"
+    },
+    {
+      "id": 50,
+      "category_id": 19,
+      "name": "Крепежные элементы"
+    },
+    {
+      "id": 51,
+      "category_id": 13,
+      "name": "Генераторы"
+    },
+    {
+      "id": 66,
+      "category_id": 16,
+      "name": "Приводные ремни и цепи"
+    },
+    {
+      "id": 69,
+      "category_id": 3,
+      "name": "Гусеницы и траки"
+    },
+    {
+      "id": 70,
+      "category_id": 3,
+      "name": "Колеса и диски"
+    },
+    {
+      "id": 71,
+      "category_id": 3,
+      "name": "Подвеска и амортизаторы"
+    },
+    {
+      "id": 99,
+      "category_id": 20,
+      "name": "Блоки и головки цилиндров"
+    },
+    {
+      "id": 100,
+      "category_id": 21,
+      "name": "Воздушные фильтры"
+    },
+    {
+      "id": 101,
+      "category_id": 21,
+      "name": "Топливные фильтры"
+    },
+    {
+      "id": 102,
+      "category_id": 21,
+      "name": "Масляные фильтры"
+    },
+    {
+      "id": 103,
+      "category_id": 21,
+      "name": "Масла и жидкости"
+    },
+    {
+      "id": 104,
+      "category_id": 21,
+      "name": "Антифризы"
+    },
+    {
+      "id": 105,
+      "category_id": 21,
+      "name": "Свечи и запалы"
+    },
+    {
+      "id": 106,
+      "category_id": 20,
+      "name": "Система охлаждения"
+    },
+    {
+      "id": 107,
+      "category_id": 20,
+      "name": "Топливная система"
+    },
+    {
+      "id": 108,
+      "category_id": 20,
+      "name": "Двигатели"
+    },
+    {
+      "id": 109,
+      "category_id": 16,
+      "name": "Коробки передач"
+    },
+    {
+      "id": 110,
+      "category_id": 16,
+      "name": "Сцепление"
+    },
+    {
+      "id": 111,
+      "category_id": 22,
+      "name": "Основные узлы"
+    },
+    {
+      "id": 112,
+      "category_id": 22,
+      "name": "Фильтры"
+    },
+    {
+      "id": 113,
+      "category_id": 22,
+      "name": "Масла и жидкости"
+    },
+    {
+      "id": 114,
+      "category_id": 22,
+      "name": "Система охлаждения"
+    },
+    {
+      "id": 115,
+      "category_id": 23,
+      "name": "Коробка передач"
+    },
+    {
+      "id": 116,
+      "category_id": 23,
+      "name": "Приводы"
+    },
+    {
+      "id": 117,
+      "category_id": 23,
+      "name": "Сцепление"
+    },
+    {
+      "id": 118,
+      "category_id": 23,
+      "name": "Дифференциал"
+    },
+    {
+      "id": 119,
+      "category_id": 3,
+      "name": "Гусеницы"
+    },
+    {
+      "id": 120,
+      "category_id": 3,
+      "name": "Подвеска"
+    },
+    {
+      "id": 121,
+      "category_id": 3,
+      "name": "Колеса"
+    },
+    {
+      "id": 122,
+      "category_id": 3,
+      "name": "Тормозная система"
+    },
+    {
+      "id": 123,
+      "category_id": 24,
+      "name": "Освещение"
+    },
+    {
+      "id": 124,
+      "category_id": 24,
+      "name": "Проводка"
+    },
+    {
+      "id": 125,
+      "category_id": 24,
+      "name": "Аккумуляторы"
+    },
+    {
+      "id": 126,
+      "category_id": 24,
+      "name": "Стартеры и генераторы"
+    },
+    {
+      "id": 127,
+      "category_id": 25,
+      "name": "Сиденья"
+    },
+    {
+      "id": 128,
+      "category_id": 25,
+      "name": "Приборы"
+    },
+    {
+      "id": 129,
+      "category_id": 25,
+      "name": "Отопление"
+    },
+    {
+      "id": 130,
+      "category_id": 25,
+      "name": "Стекла"
+    },
+    {
+      "id": 131,
+      "category_id": 26,
+      "name": "Основные узлы"
+    },
+    {
+      "id": 132,
+      "category_id": 26,
+      "name": "Фильтры"
+    },
+    {
+      "id": 133,
+      "category_id": 26,
+      "name": "Масла и жидкости"
+    },
+    {
+      "id": 134,
+      "category_id": 26,
+      "name": "Система охлаждения"
+    },
+    {
+      "id": 135,
+      "category_id": 27,
+      "name": "Коробка передач"
+    },
+    {
+      "id": 136,
+      "category_id": 27,
+      "name": "Приводы"
+    },
+    {
+      "id": 137,
+      "category_id": 27,
+      "name": "Сцепление"
+    },
+    {
+      "id": 138,
+      "category_id": 27,
+      "name": "Дифференциал"
+    },
+    {
+      "id": 139,
+      "category_id": 28,
+      "name": "Освещение"
+    },
+    {
+      "id": 140,
+      "category_id": 28,
+      "name": "Проводка"
+    },
+    {
+      "id": 141,
+      "category_id": 28,
+      "name": "Аккумуляторы"
+    },
+    {
+      "id": 142,
+      "category_id": 28,
+      "name": "Стартеры и генераторы"
+    },
+    {
+      "id": 143,
+      "category_id": 29,
+      "name": "Сиденья"
+    },
+    {
+      "id": 144,
+      "category_id": 29,
+      "name": "Приборы"
+    },
+    {
+      "id": 145,
+      "category_id": 29,
+      "name": "Отопление"
+    },
+    {
+      "id": 146,
+      "category_id": 29,
+      "name": "Стекла"
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "name": "Вездеход-Мастер"
+    },
+    {
+      "id": 2,
+      "name": "ТехноМотор"
+    },
+    {
+      "id": 3,
+      "name": "СуперТрек"
+    },
+    {
+      "id": 4,
+      "name": "DrivePro"
+    },
+    {
+      "id": 5,
+      "name": "FilterPro"
+    },
+    {
+      "id": 6,
+      "name": "LubeMax"
+    },
+    {
+      "id": 7,
+      "name": "CoolMax"
+    },
+    {
+      "id": 8,
+      "name": "ClutchMax"
+    },
+    {
+      "id": 9,
+      "name": "WheelTech"
+    },
+    {
+      "id": 10,
+      "name": "LightMax"
+    },
+    {
+      "id": 11,
+      "name": "PowerMax"
+    },
+    {
+      "id": 12,
+      "name": "WirePro"
+    },
+    {
+      "id": 13,
+      "name": "ComfortSeat"
+    },
+    {
+      "id": 14,
+      "name": "InstrumentPro"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Кольцо 46764",
+      "price": 20,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Кольцо для форкамеры, применяется для комплектации и ремонта двигателей тракторов Т-130, Т-170.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 2,
+      "title": "Вал карданный 18-14-77-1",
+      "price": 2490,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Карданный вал служит для передачи крутящего момента от коробки передач на муфту сцепления трактора. \r\nПрименяется для серийных модификаций тракторов Т-130, Т-170",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 3,
+      "title": "Кольцо 700-58-2251",
+      "price": 490,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Кольцо 700-58-2251 применяется в муфте сцепления трактора",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 4,
+      "title": "Кольцо 21363",
+      "price": 30,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Кольцо применяется в муфте сцепления трактора.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 5,
+      "title": "Кольцо 50-19-152",
+      "price": 360,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Кольцо — запасная часть для ремонта и обслуживания техники ЧТЗ.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 6,
+      "title": "Ремкомплект малого сервомеханизма к 50-15-118",
+      "price": 250,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Ремкомплект малого сервомеханизма трактора Т-130, Т-170 \r\n— Манжета — 1 шт. — 3-48Х28-6 \r\n— Кольцо — 2 шт. — 40911 \r\n— Кольцо — 4 шт. — 40912 \r\n— Кольцо — 1 шт. — 40920 \r\n— Кольцо — 1 шт. — 46588 \r\n— Кольцо — 2 шт. — 46764 \r\n— Воротник — 1 шт. — 700-40-4032-1 \r\n— Кольцо — 1 шт. — 700-40-7374 \r\n— Кольцо — 1 шт. — 700-40-7375",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 7,
+      "title": "Планка 50-21-42",
+      "price": 240,
+      "category_id": 3,
+      "subcategory_id": 69,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Планка применяется для крепления концевых подшипников, бортовых редукторов тракторов Т-130. \r\nДополнительно возможна комплектация планок другими запчастями Т-130.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 8,
+      "title": "Тарелка пружины клапана 0489",
+      "price": 90,
+      "category_id": 20,
+      "subcategory_id": 99,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Деталь является составным механизмом клапанов, предназначенная для герметизации цилиндра.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 9,
+      "title": "Шайба 700-31-2550",
+      "price": 20,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Шайба применяется для ремонта и обслуживания техники ЧТЗ.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 10,
+      "title": "Амортизатор 700-40-7216",
+      "price": 649,
+      "category_id": 3,
+      "subcategory_id": 71,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Амортизаторы – небольшие виброгасительные детали-прокладки весом 189 г, в конструкции опор кабины их предусмотрено 4 шт. \r\nАмортизаторы предназначены для такой техники, как Т-170 и Б-10.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 11,
+      "title": "Амортизатор под радиатор 700-40-4915-1",
+      "price": 190,
+      "category_id": 20,
+      "subcategory_id": 106,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Предназначен для поглощения энергии, которая возникает в ходе эксплуатации трактора и бульдозеры Т-130, Т-170, Б10.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 12,
+      "title": "Амортизатор 700-40-7217",
+      "price": 260,
+      "category_id": 3,
+      "subcategory_id": 71,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Амортизаторы – небольшие виброгасительные детали-прокладки весом не более 189 г, в конструкции опор кабины их предусмотрено 4 шт. \r\nПредназначены для такой техники, как Т-170 и Б-10.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 13,
+      "title": "Бак радиатора верхний 130У.13.030",
+      "price": 15490,
+      "category_id": 20,
+      "subcategory_id": 106,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Устанавливается на радиатор сверху. Имеет плотно закрытую крышку. В верхний бак радиатора через горловину система охлаждения заливается водой. \r\nБак радиатора верхний применяется в системе охлаждения двигателей Д-160, Д-180.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 14,
+      "title": "Амортизатор под радиатор 700-40-4923",
+      "price": 250,
+      "category_id": 20,
+      "subcategory_id": 106,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Амортизатор предназначен для установки радиатора.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:45"
+    },
+    {
+      "id": 15,
+      "title": "Бак топливный 50-25-182",
+      "price": 22490,
+      "category_id": 20,
+      "subcategory_id": 107,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Предназначен для хранения и снабжения трактора дизелем. \r\nПрименяется для комплектации и ремонта тракторов и бульдозеров Т-130, Т-170, Б10.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 16,
+      "title": "Бак радиатора нижний 130У.13.090 (050)",
+      "price": 10290,
+      "category_id": 20,
+      "subcategory_id": 106,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Бак радиатора нижний применяется для установки на водяной радиатор тракторов Т-130,Т-170. \r\nНа 1 водяной радиатор Т-130,Т-170 ставится 1 бак.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 17,
+      "title": "Барабан зубчатый 18-14-104",
+      "price": 10490,
+      "category_id": 3,
+      "subcategory_id": 70,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Барабан зубчатый входит в состав муфты сцепления Т-170. \r\nСлужит для сцепления дисков.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 18,
+      "title": "Барабан внутренний 24-16-5",
+      "price": 16490,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "В составе конструкции бортового фрикциона главной передачи бульдозера Б10М внутренний барабан является важной деталью, его функция заключается в передаче крутящего момента ведущим фрикционным дискам 16121 от вала 24-16-1 главной передачи.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 19,
+      "title": "Барабан наружный 28-16-15",
+      "price": 19490,
+      "category_id": 3,
+      "subcategory_id": 70,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Наружный барабан представляет собой «полый цилиндр» с гладкой внешней поверхностью и зубчатой внутренней, для сопряжения с зубцами по внешнему контуру дисков.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 20,
+      "title": "Башмак серийный 66-22-1",
+      "price": 4590,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Башмак гусеничный на трактор выполнен из проката башмачной полосы и является сборочной единицей ходовой части гусеницы трактора. \r\nПодлежит последующей сборочной операции по установке на цепь гусеничную при помощи крепежных соединений болтов и гаек.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 21,
+      "title": "Блок двигателя 51-01-109",
+      "price": 194390,
+      "category_id": 20,
+      "subcategory_id": 108,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Блок двигателя — это основная деталь двигателей Д-160, Д-180. Является цельнолитой деталью, объединяющей собой цилиндры двигателя. В блоке цилиндров установлен коленчатый вал, к верхней части блока, как правило, крепится головка блока цилиндров, нижняя часть является частью картера. Таким образом, блок цилиндров является основой деталью двигателя Д-180, Д-160, к которой, так или иначе крепятся остальные его агрегаты и узлы.",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 22,
+      "title": "Башмак трубоукладчика (L=690 мм) 66-22-1-02",
+      "price": 3310,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "",
+      "specifications_json": "[{\"name\":\"Вес\",\"value\":\" 20,6\"},{\"name\":\"L\",\"value\":\"690 мм\"}]",
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-27 19:12:28"
+    },
+    {
+      "id": 23,
+      "title": "Блок картера 17-01-164СП",
+      "price": 22740,
+      "category_id": 20,
+      "subcategory_id": 108,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 51,8",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:41",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 24,
+      "title": "Блок передач 64-12-200СП",
+      "price": 12000,
+      "category_id": 16,
+      "subcategory_id": 109,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 10",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 25,
+      "title": "Болт 700-28-2312",
+      "price": 100,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,56",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 26,
+      "title": "Боковина 50-55-324",
+      "price": 2520,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 11,4",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 27,
+      "title": "Болт 700-28-2378",
+      "price": 85,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,32",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 28,
+      "title": "Болт 700-28-2480",
+      "price": 90,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,275",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 29,
+      "title": "Болт (28579) 28556",
+      "price": 10,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,053",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 30,
+      "title": "Болт (700-28-2587) шаг 2 М24*2*160",
+      "price": 95,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,67",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 31,
+      "title": "Болт (М10*25.58.019) М10*25",
+      "price": 11,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,026",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 32,
+      "title": "Болт (крепл. 19216) 700-28-2098",
+      "price": 67,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,193",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 33,
+      "title": "Болт (М12*1,25*35) 700-28-2173",
+      "price": 18,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,043",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 34,
+      "title": "Болт (М10*40.58.019) М10*40",
+      "price": 6,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,035",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 35,
+      "title": "Болт (М12*45.58.019) М12*45",
+      "price": 11,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,054",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 36,
+      "title": "Болт (М12*25.58.019) муфты сцепл. М12*25",
+      "price": 11,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,037",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 37,
+      "title": "Болт + г,гровер 28565",
+      "price": 150,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,368",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 38,
+      "title": "Болт 18-14-131",
+      "price": 200,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,46",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 39,
+      "title": "Болт 12304",
+      "price": 3,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,025",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 40,
+      "title": "Болт 28452",
+      "price": 42,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,032",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 41,
+      "title": "Болт 16103",
+      "price": 95,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,104",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 42,
+      "title": "Болт 28428",
+      "price": 10,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,013",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 43,
+      "title": "Болт 28504",
+      "price": 100,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,197",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 44,
+      "title": "Болт 28582",
+      "price": 38,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,219",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 45,
+      "title": "Болт 700-28-2379",
+      "price": 38,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,496",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 46,
+      "title": "Болт 700-28-2509 (16137)",
+      "price": 38,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,092",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 47,
+      "title": "Болт 700-28-2622 (28554)",
+      "price": 30,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,106",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 48,
+      "title": "Болт 700-28-2546",
+      "price": 85,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,103",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 49,
+      "title": "Болт 700-41-3306",
+      "price": 70,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,124",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 50,
+      "title": "Болт 700-28-2625",
+      "price": 42,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,278",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 51,
+      "title": "Болт башмачный М16*1,5*60",
+      "price": 28,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,14",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 52,
+      "title": "Болт башмачный (ММК) М20*1,5*62",
+      "price": 45,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,244",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 53,
+      "title": "Болт БЕЗ гайки(средний нож) 700-28-2492",
+      "price": 27,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,081",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 54,
+      "title": "Болт БЕЗ гайки(боковой нож) 700-28-2517",
+      "price": 38,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,16",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 55,
+      "title": "Болт бугеля 700-28-2296",
+      "price": 160,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,673",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 56,
+      "title": "Болт бендикса М8*12 СМД 8-1994, 700-28-2584",
+      "price": 16,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,01",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 57,
+      "title": "Болт Завод 700-28-2546",
+      "price": 180,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,103",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 58,
+      "title": "Болт и гайка 18-14-130/131",
+      "price": 240,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,64",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 59,
+      "title": "Болт и гайка 700-28-2518",
+      "price": 220,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 1,05",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 60,
+      "title": "Болт и гайка(средний нож) и гровером 700-28-2492",
+      "price": 30,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,128",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 61,
+      "title": "Болт и гайка(боковой нож) и гровером 700-28-2517",
+      "price": 50,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,254",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 62,
+      "title": "Болт М10*35",
+      "price": 8,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,032",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 63,
+      "title": "Болт крепления катка 700-28-2527(2316)",
+      "price": 45,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,278",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 64,
+      "title": "Болт М12*30 2816 (М12*30)",
+      "price": 20,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,042",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 65,
+      "title": "Болт М10*45",
+      "price": 7,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,038",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 66,
+      "title": "Болт М12*50 2856",
+      "price": 18,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,059",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 67,
+      "title": "Болт М12*35 28558",
+      "price": 12,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,046",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 68,
+      "title": "Болт М16*35 28431(700-28-2621)",
+      "price": 20,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,086",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 69,
+      "title": "Болт М12*55.58.019",
+      "price": 12,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,063",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 70,
+      "title": "Болт М20*60 28234 (М20*60)",
+      "price": 30,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,212",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 71,
+      "title": "Болт М16*50 2837 (700-28-2618)",
+      "price": 25,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,109",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 72,
+      "title": "Болт М8*35",
+      "price": 5,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,019",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 73,
+      "title": "Болт М8*16",
+      "price": 2,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,012",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 74,
+      "title": "Болт усиленный (40Х 8.8) 700-28-2379",
+      "price": 95,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,49",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 75,
+      "title": "Болт полый 700-41-2716",
+      "price": 14,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,044",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 76,
+      "title": "Бонка (шаг 2) 700-51-2080",
+      "price": 40,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,153",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 77,
+      "title": "Болт(700-28-2620) 28417 (М-16*1,5*70.58.019",
+      "price": 33,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,14",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 78,
+      "title": "Вал (1 промежут.) 60-12-10",
+      "price": 2220,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 9,92",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 79,
+      "title": "Вал 71-44-280",
+      "price": 10560,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 80,
+      "title": "Вал 50-26-814",
+      "price": 3480,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 6,8",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 81,
+      "title": "Вал 24-16-1",
+      "price": 2640,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 21,7",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 82,
+      "title": "Вал верхний 18-12-132",
+      "price": 8400,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 16,5",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 83,
+      "title": "Вал 71-44-326",
+      "price": 52,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 84,
+      "title": "Вал карданный 18-14-77 (50-14-23)",
+      "price": 1560,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 3,95",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 85,
+      "title": "Вал кардан. болотн.(20-14-24) 20-14-8",
+      "price": 5820,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 9,09",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 86,
+      "title": "Вал коленчатый ПД-23 (ЧТЗ) 17-03-26 СП",
+      "price": 7920,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 16",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 87,
+      "title": "Вал коленчатый 16-03-112СП",
+      "price": 195000,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 139,11",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 88,
+      "title": "Вал кулачковый (ТНВД) 51-67-23",
+      "price": 4020,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 1,5",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 89,
+      "title": "Вал коленчатый ПД-23 Н1 17-03-26 СП",
+      "price": 5580,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 16",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 90,
+      "title": "Вал нижний с шестерней 24-12-105СП",
+      "price": 34080,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 35,4",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 91,
+      "title": "Вал нижний 18-12-156",
+      "price": 31200,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 6,7",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 92,
+      "title": "Вал сцепления 41-2103",
+      "price": 1590,
+      "category_id": 16,
+      "subcategory_id": 110,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 7,53",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 93,
+      "title": "Вал распределительный 4230",
+      "price": 40895,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 2,533",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 94,
+      "title": "Валик 20-12-79",
+      "price": 900,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 2",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 95,
+      "title": "Вал-комплект (ТТ) 50-14-113",
+      "price": 3600,
+      "category_id": 16,
+      "subcategory_id": 66,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 10,38",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:32:46"
+    },
+    {
+      "id": 96,
+      "title": "Гайка М30*2 (завод, шаг 2) 30230",
+      "price": 84,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,225",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 97,
+      "title": "Генератор 14В 461.3701 1000В",
+      "price": 3840,
+      "category_id": 13,
+      "subcategory_id": 51,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 5",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:23:50"
+    },
+    {
+      "id": 98,
+      "title": "Гайка к болту 700-28-2517 3015",
+      "price": 11,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,072",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 99,
+      "title": "Гайка700-30-2238 700-30-2327",
+      "price": 44,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 0,06",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    },
+    {
+      "id": 100,
+      "title": "Гидрозамок гидроцилиндра 50-50-195",
+      "price": 6000,
+      "category_id": 19,
+      "subcategory_id": 50,
+      "brand_id": null,
+      "available": 1,
+      "quantity": 10,
+      "description": "Вес \r\n 3",
+      "specifications_json": null,
+      "features_json": null,
+      "created_at": "2025-08-23 23:12:42",
+      "updated_at": "2025-08-23 23:28:42"
+    }
+  ],
+  "productImages": [
+    {
+      "id": 1539,
+      "product_id": 24,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1540,
+      "product_id": 25,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1541,
+      "product_id": 38,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1542,
+      "product_id": 42,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1543,
+      "product_id": 50,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1544,
+      "product_id": 52,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1545,
+      "product_id": 54,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1546,
+      "product_id": 57,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1547,
+      "product_id": 61,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1548,
+      "product_id": 62,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1549,
+      "product_id": 65,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1550,
+      "product_id": 78,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1551,
+      "product_id": 86,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1552,
+      "product_id": 88,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1553,
+      "product_id": 90,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1554,
+      "product_id": 92,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1555,
+      "product_id": 93,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1556,
+      "product_id": 94,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1557,
+      "product_id": 95,
+      "image_data": "⚙️",
+      "is_main": 1
+    },
+    {
+      "id": 1558,
+      "product_id": 96,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1559,
+      "product_id": 97,
+      "image_data": "⚡",
+      "is_main": 1
+    },
+    {
+      "id": 1560,
+      "product_id": 98,
+      "image_data": "🔩",
+      "is_main": 1
+    },
+    {
+      "id": 1561,
+      "product_id": 100,
+      "image_data": "🔧",
+      "is_main": 1
+    },
+    {
+      "id": 1562,
+      "product_id": 101,
+      "image_data": "/uploads/1755993576200-333904918.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1563,
+      "product_id": 1,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/zl646hlrrcu76bqhlfwgos375vs6exst-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1564,
+      "product_id": 2,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/item_6503-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1565,
+      "product_id": 3,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/m37ig1i7i9vi3vu1pnqlkanvamwb7uzh-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1566,
+      "product_id": 4,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/8ajhq3jg0vt1ebajx14t5fd9xgt0l523-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1567,
+      "product_id": 5,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/l1x7nert3fwg0i9na7aiwq49h4e0gbmg-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1568,
+      "product_id": 6,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/owy8xucosi1bfdiceh84sgtt582u65mf-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1569,
+      "product_id": 7,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/6nvbw0b13pu09r7w3t9n1smlm0l7vspz-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1570,
+      "product_id": 8,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/z0m1uk2qgc88zuxzaietjau88p2y835s-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1571,
+      "product_id": 9,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/p70hs05liqko63lo6groh6yb3m5hzke6-xreei7lf8-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1572,
+      "product_id": 10,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/ja2kp4fbb5lc0xqoaazqswpkryafrh2f_1-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1573,
+      "product_id": 11,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/r3uaqgb2hd5ade1hh871j3p38kjaiwk9-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1574,
+      "product_id": 12,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/msgcrcptfuujgo7xxf8fxnlvfxzcqjpk-nawrn_0lu-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1575,
+      "product_id": 13,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/6k4tl5h7ryruppyrytuvv2j3w0u9llm3-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1576,
+      "product_id": 14,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/qhnc1scm446b7pass8sbqdqdxgz7l2t0-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1577,
+      "product_id": 15,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/dewatermark.ai_1726483236334.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1578,
+      "product_id": 16,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/c4kaxiwaz2ji0rnhx7lkzfx8hbbgyitc-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1579,
+      "product_id": 17,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/yzpep438ih1penk4v1l74yk9sc5awv6p-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1580,
+      "product_id": 18,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/bn037zj7aoyo269ymhwy2s18shzxxn74-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1581,
+      "product_id": 19,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/svmtvr1edms2hui82kljfxbvcpv3sa21-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1582,
+      "product_id": 20,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/5697sytuuantev8kcl4hreokxnk43z9n-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1583,
+      "product_id": 21,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/9kxt33j3im2znegb1m35yl3qhts0hhkk-transformed.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1584,
+      "product_id": 39,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/bolt12304.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1585,
+      "product_id": 48,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/bolt700-28-2546.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1586,
+      "product_id": 63,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/boltkreplenijakatka700-28-2527.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1587,
+      "product_id": 64,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/boltm12-min-scaled.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1588,
+      "product_id": 67,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/boltm12-min-scaled.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1589,
+      "product_id": 71,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/boltm16m6g85.58.019-min-scaled.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1590,
+      "product_id": 84,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/valkardannyj18-14-77-min.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1591,
+      "product_id": 87,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/valkolenchtyj16-03-112-scaled.jpeg",
+      "is_main": 1
+    },
+    {
+      "id": 1592,
+      "product_id": 99,
+      "image_data": "https://ytors.ru/wp-content/uploads/2023/07/gajka700-30-2327.jpg",
+      "is_main": 1
+    },
+    {
+      "id": 1593,
+      "product_id": 22,
+      "image_data": "🔧",
+      "is_main": 1
+    }
+  ],
+  "promotions": [
+    {
+      "id": 19,
+      "title": "Скидка на двигатель",
+      "description": "Скидка на двигатель при покупке от 15 000р",
+      "discount": 15,
+      "category_id": null,
+      "valid_until": "2025-12-12",
+      "active": 1,
+      "featured": 1,
+      "min_purchase": 15000
+    },
+    {
+      "id": 24,
+      "title": "Скидка на подвеску",
+      "description": "Скидка при покупке от 15 000р",
+      "discount": 20,
+      "category_id": 3,
+      "valid_until": "2025-12-12",
+      "active": 1,
+      "featured": 1,
+      "min_purchase": 15000
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 2,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 3,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "i.am31827@gmail.com",
+      "address": "Nonono\nNonono"
+    },
+    {
+      "id": 4,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 5,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 6,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": "Nonono\nNonono"
+    },
+    {
+      "id": 7,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 8,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 9,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 10,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 11,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 12,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 13,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 14,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 15,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 16,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 17,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 18,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 19,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 20,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 21,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 22,
+      "name": "sGzdsrg",
+      "phone": "546345345345",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 23,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 24,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 25,
+      "name": "[weq",
+      "phone": "sxc",
+      "email": "wsx@ya.ru",
+      "address": "fgdf"
+    },
+    {
+      "id": 26,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 27,
+      "name": "Кирилл Шубин",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 28,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 29,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 30,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 31,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 32,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 33,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 34,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 35,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 36,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 37,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 38,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 39,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    }
+  ],
+  "orders": [
+    {
+      "id": "26528261",
+      "order_number": "26528261",
+      "customer_id": 39,
+      "status": "new",
+      "pricing_json": "{\"subtotal\":194390,\"discountAmount\":29159,\"promocodeDiscount\":0,\"total\":165231,\"appliedPromotion\":{\"id\":19,\"title\":\"Скидка на двигатель\",\"description\":\"Скидка на двигатель при покупке от 15 000р\",\"discount\":15,\"category\":null,\"validUntil\":\"2025-12-12\",\"active\":true,\"featured\":true,\"minPurchase\":15000},\"appliedPromocode\":null}",
+      "created_at": "2025-08-30 10:28:46",
+      "updated_at": "2025-08-30 10:28:46"
+    }
+  ],
+  "orderItems": [
+    {
+      "id": 44,
+      "order_id": "26528261",
+      "product_id": 21,
+      "title": "Блок двигателя 51-01-109",
+      "price": 194390,
+      "quantity": 1
+    }
+  ],
+  "orderNotes": [],
+  "advertisingSettings": [
+    {
+      "id": 1,
+      "platform": "yandexDirect",
+      "enabled": 0,
+      "settings_json": "{\"counterId\":\"\",\"remarketingCode\":\"\",\"conversionCode\":\"\",\"pixelCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 2,
+      "platform": "googleAds",
+      "enabled": 0,
+      "settings_json": "{\"conversionId\":\"\",\"conversionLabel\":\"\",\"remarketingCode\":\"\",\"gtagCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 3,
+      "platform": "facebookPixel",
+      "enabled": 0,
+      "settings_json": "{\"pixelId\":\"\",\"conversionCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 4,
+      "platform": "vkPixel",
+      "enabled": 0,
+      "settings_json": "{\"pixelId\":\"\",\"conversionCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 5,
+      "platform": "telegramPixel",
+      "enabled": 0,
+      "settings_json": "{\"botToken\":\"\",\"chatId\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 6,
+      "platform": "customScripts",
+      "enabled": 0,
+      "settings_json": "{\"headScripts\":\"\",\"bodyScripts\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    }
+  ],
+  "botSettings": [
+    {
+      "id": 1,
+      "bot_token": "8220911923:AAHOV3xvBPioSoBh53bPfceJBBkFYk1aqu0",
+      "chat_id": "",
+      "enabled": 1,
+      "created_at": "2025-08-27 20:20:49",
+      "updated_at": "2025-08-27 20:58:11"
+    }
+  ],
+  "terrainTypes": [
+    {
+      "id": 1,
+      "name": "Снег",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 2,
+      "name": "Болото",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 3,
+      "name": "Вода",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 4,
+      "name": "Горы",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 5,
+      "name": "Лес",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 6,
+      "name": "Пустыня",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 7,
+      "name": "Лучший",
+      "created_at": "2025-08-30 09:20:23"
+    }
+  ],
+  "vehicleTypes": [
+    {
+      "id": 1,
+      "name": "Гусеничный",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 2,
+      "name": "Колесный",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 3,
+      "name": "Плавающий",
+      "created_at": "2025-08-30 09:16:54"
+    },
+    {
+      "id": 4,
+      "name": "Лучший",
+      "created_at": "2025-08-30 09:20:09"
+    }
+  ]
+}

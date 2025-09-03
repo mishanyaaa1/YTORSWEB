@@ -183,50 +183,101 @@ app.post('/api/reset-db', async (req, res) => {
   }
 });
 
-// Migrate data from SQLite to PostgreSQL
-app.post('/api/migrate-data', async (req, res) => {
+// Upload data to PostgreSQL
+app.post('/api/upload-data', async (req, res) => {
   try {
-    console.log('Starting data migration from SQLite to PostgreSQL...');
+    console.log('Starting data upload to PostgreSQL...');
+    const data = req.body;
     
-    // Запускаем миграцию данных
-    const { spawn } = require('child_process');
-    const migrateProcess = spawn('node', ['migrate-data.js'], { 
-      cwd: __dirname,
-      env: { ...process.env }
-    });
+    let results = [];
     
-    let output = '';
-    let errorOutput = '';
-    
-    migrateProcess.stdout.on('data', (data) => {
-      output += data.toString();
-      console.log(data.toString());
-    });
-    
-    migrateProcess.stderr.on('data', (data) => {
-      errorOutput += data.toString();
-      console.error(data.toString());
-    });
-    
-    migrateProcess.on('close', (code) => {
-      if (code === 0) {
-        res.json({ 
-          success: true,
-          message: 'Data migration completed successfully!',
-          output: output
-        });
-      } else {
-        res.status(500).json({ 
-          success: false,
-          error: 'Migration failed',
-          output: output,
-          errorOutput: errorOutput
-        });
+    // Загружаем категории
+    if (data.categories && data.categories.length > 0) {
+      for (const category of data.categories) {
+        await run(
+          'INSERT INTO categories (id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING',
+          [category.id, category.name]
+        );
       }
+      results.push(`✅ Загружено ${data.categories.length} категорий`);
+    }
+    
+    // Загружаем подкатегории
+    if (data.subcategories && data.subcategories.length > 0) {
+      for (const subcategory of data.subcategories) {
+        await run(
+          'INSERT INTO subcategories (id, category_id, name) VALUES ($1, $2, $3) ON CONFLICT (id) DO NOTHING',
+          [subcategory.id, subcategory.category_id, subcategory.name]
+        );
+      }
+      results.push(`✅ Загружено ${data.subcategories.length} подкатегорий`);
+    }
+    
+    // Загружаем бренды
+    if (data.brands && data.brands.length > 0) {
+      for (const brand of data.brands) {
+        await run(
+          'INSERT INTO brands (id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING',
+          [brand.id, brand.name]
+        );
+      }
+      results.push(`✅ Загружено ${data.brands.length} брендов`);
+    }
+    
+    // Загружаем товары
+    if (data.products && data.products.length > 0) {
+      for (const product of data.products) {
+        await run(
+          `INSERT INTO products (id, title, price, category_id, subcategory_id, brand_id, 
+           available, quantity, description, specifications_json, features_json, 
+           created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+           ON CONFLICT (id) DO NOTHING`,
+          [
+            product.id, product.title, product.price, product.category_id, 
+            product.subcategory_id, product.brand_id, 
+            product.available === 1, product.quantity, product.description, 
+            product.specifications_json, product.features_json, 
+            product.created_at, product.updated_at
+          ]
+        );
+      }
+      results.push(`✅ Загружено ${data.products.length} товаров`);
+    }
+    
+    // Загружаем изображения товаров
+    if (data.productImages && data.productImages.length > 0) {
+      for (const image of data.productImages) {
+        await run(
+          'INSERT INTO product_images (id, product_id, image_data, is_main) VALUES ($1, $2, $3, $4) ON CONFLICT (id) DO NOTHING',
+          [image.id, image.product_id, image.image_data, image.is_main === 1]
+        );
+      }
+      results.push(`✅ Загружено ${data.productImages.length} изображений`);
+    }
+    
+    // Загружаем настройки бота
+    if (data.botSettings && data.botSettings.length > 0) {
+      for (const setting of data.botSettings) {
+        await run(
+          `INSERT INTO bot_settings (id, bot_token, chat_id, enabled, created_at, updated_at) 
+           VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (id) DO NOTHING`,
+          [
+            setting.id, setting.bot_token, setting.chat_id, 
+            setting.enabled === 1, setting.created_at, setting.updated_at
+          ]
+        );
+      }
+      results.push(`✅ Загружено ${data.botSettings.length} настроек бота`);
+    }
+    
+    res.json({ 
+      success: true,
+      message: 'Data upload completed successfully!',
+      results: results
     });
     
   } catch (error) {
-    console.error('Migration failed:', error);
+    console.error('Data upload failed:', error);
     res.status(500).json({ 
       success: false,
       error: error.message
