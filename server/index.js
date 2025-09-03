@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { db, run, get, all } = require('./db');
+const { run, get, all } = require('./db');
 const fs = require('fs');
 const multer = require('multer');
 const helmet = require('helmet');
@@ -85,47 +85,26 @@ const upload = multer({
 
 // --- Auth helpers ---
 async function ensureAdminTableAndDefaultUser() {
-  await run(
-    db,
-    `CREATE TABLE IF NOT EXISTS admins (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )`
-  );
-  const row = await get(db, `SELECT COUNT(1) as cnt FROM admins`);
+  // Проверяем, есть ли админы в базе
+  const row = await get(`SELECT COUNT(1) as cnt FROM admins`);
   if (!row || !row.cnt) {
     const username = process.env.ADMIN_USERNAME || 'admin';
-    const password = process.env.ADMIN_PASSWORD || 'admin123';
+    const password = process.env.ADMIN_PASSWORD || 'admin31827'; // Используем ваш пароль
     const hash = await bcrypt.hash(password, 12);
-    await run(db, `INSERT INTO admins (username, password_hash) VALUES (?, ?)`, [username, hash]);
+    await run(`INSERT INTO admins (username, password_hash) VALUES ($1, $2)`, [username, hash]);
     console.log('Created default admin user:', username);
   }
 }
 
 // Создаем таблицу для настроек бота
 async function ensureBotSettingsTable() {
-  await run(
-    db,
-    `CREATE TABLE IF NOT EXISTS bot_settings (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      bot_token TEXT,
-      chat_id TEXT,
-      enabled INTEGER DEFAULT 1,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-    )`
-  );
-  
   // Проверяем, есть ли уже настройки
-  const row = await get(db, `SELECT COUNT(1) as cnt FROM bot_settings`);
+  const row = await get(`SELECT COUNT(1) as cnt FROM bot_settings`);
   if (!row || !row.cnt) {
     // Вставляем дефолтные настройки (текущий токен из кода)
     await run(
-      db,
-      `INSERT INTO bot_settings (bot_token, chat_id, enabled) VALUES (?, ?, ?)`,
-      ['8220911923:AAHOV3xvBPioSoBh53bPfceJBBkFYk1aqu0', '', 1]
+      `INSERT INTO bot_settings (bot_token, chat_id, enabled) VALUES ($1, $2, $3)`,
+      ['8220911923:AAHOV3xvBPioSoBh53bPfceJBBkFYk1aqu0', '', true]
     );
     console.log('Created default bot settings');
   }
@@ -184,7 +163,7 @@ app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
     const { username, password } = req.body || {};
     if (!username || !password) return res.status(400).json({ error: 'Missing credentials' });
-    const admin = await get(db, `SELECT id, username, password_hash FROM admins WHERE username=?`, [username]);
+    const admin = await get(`SELECT id, username, password_hash FROM admins WHERE username=$1`, [username]);
     if (!admin) return res.status(401).json({ error: 'Неверный логин или пароль' });
     const ok = await bcrypt.compare(password, admin.password_hash);
     if (!ok) return res.status(401).json({ error: 'Неверный логин или пароль' });
@@ -236,9 +215,9 @@ app.post('/api/admin/reset-password', async (req, res) => {
     }
     
     const hash = await bcrypt.hash(newPassword, 12);
-    await run(db, `UPDATE admins SET password_hash = ? WHERE username = ?`, [hash, username]);
+    await run(`UPDATE admins SET password_hash = $1 WHERE username = $2`, [hash, username]);
     
-    const updated = await get(db, `SELECT id, username FROM admins WHERE username = ?`, [username]);
+    const updated = await get(`SELECT id, username FROM admins WHERE username = $1`, [username]);
     if (updated) {
       res.json({ success: true, message: 'Password updated successfully' });
     } else {

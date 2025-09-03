@@ -1,53 +1,91 @@
-// SQLite подключение и промисификация
-const path = require('path');
-const fs = require('fs');
-const sqlite3 = require('sqlite3').verbose();
+// PostgreSQL подключение и промисификация
+const { Pool } = require('pg');
 
-const DB_DIR = path.join(__dirname);
-const DB_FILE = path.join(DB_DIR, 'db.sqlite3');
+// Конфигурация подключения к PostgreSQL
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 
-if (!fs.existsSync(DB_DIR)) {
-  fs.mkdirSync(DB_DIR, { recursive: true });
-}
+// Проверка подключения
+pool.on('connect', () => {
+  console.log('Connected to PostgreSQL database');
+});
 
-const db = new sqlite3.Database(DB_FILE);
+pool.on('error', (err) => {
+  console.error('PostgreSQL connection error:', err);
+});
 
 /**
- * Обертки промисов поверх sqlite3
+ * Обертки промисов для работы с PostgreSQL
  */
-function run(dbInstance, sql, params = []) {
-  return new Promise((resolve, reject) => {
-    dbInstance.run(sql, params, function onRun(err) {
-      if (err) return reject(err);
-      resolve({ lastID: this.lastID, changes: this.changes });
-    });
-  });
+async function run(sql, params = []) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(sql, params);
+    return { 
+      lastID: result.rows[0]?.id || null, 
+      changes: result.rowCount || 0,
+      rows: result.rows 
+    };
+  } finally {
+    client.release();
+  }
 }
 
-function get(dbInstance, sql, params = []) {
-  return new Promise((resolve, reject) => {
-    dbInstance.get(sql, params, (err, row) => {
-      if (err) return reject(err);
-      resolve(row);
-    });
-  });
+async function get(sql, params = []) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(sql, params);
+    return result.rows[0] || null;
+  } finally {
+    client.release();
+  }
 }
 
-function all(dbInstance, sql, params = []) {
-  return new Promise((resolve, reject) => {
-    dbInstance.all(sql, params, (err, rows) => {
-      if (err) return reject(err);
-      resolve(rows);
+async function all(sql, params = []) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(sql, params);
+    return result.rows;
+  } finally {
+    client.release();
+  }
+}
+
+// Функция для выполнения транзакций
+async function transaction(callback) {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const result = await callback({
+      run: (sql, params) => client.query(sql, params).then(r => ({ lastID: r.rows[0]?.id, changes: r.rowCount, rows: r.rows })),
+      get: (sql, params) => client.query(sql, params).then(r => r.rows[0] || null),
+      all: (sql, params) => client.query(sql, params).then(r => r.rows)
     });
-  });
+    await client.query('COMMIT');
+    return result;
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Функция для закрытия пула соединений
+async function close() {
+  await pool.end();
 }
 
 module.exports = {
-  db,
+  pool,
   run,
   get,
   all,
-  DB_FILE
+  transaction,
+  close
 };
-
-
