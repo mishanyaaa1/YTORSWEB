@@ -183,6 +183,57 @@ app.post('/api/reset-db', async (req, res) => {
   }
 });
 
+// Migrate data from SQLite to PostgreSQL
+app.post('/api/migrate-data', async (req, res) => {
+  try {
+    console.log('Starting data migration from SQLite to PostgreSQL...');
+    
+    // Запускаем миграцию данных
+    const { spawn } = require('child_process');
+    const migrateProcess = spawn('node', ['migrate-data.js'], { 
+      cwd: __dirname,
+      env: { ...process.env }
+    });
+    
+    let output = '';
+    let errorOutput = '';
+    
+    migrateProcess.stdout.on('data', (data) => {
+      output += data.toString();
+      console.log(data.toString());
+    });
+    
+    migrateProcess.stderr.on('data', (data) => {
+      errorOutput += data.toString();
+      console.error(data.toString());
+    });
+    
+    migrateProcess.on('close', (code) => {
+      if (code === 0) {
+        res.json({ 
+          success: true,
+          message: 'Data migration completed successfully!',
+          output: output
+        });
+      } else {
+        res.status(500).json({ 
+          success: false,
+          error: 'Migration failed',
+          output: output,
+          errorOutput: errorOutput
+        });
+      }
+    });
+    
+  } catch (error) {
+    console.error('Migration failed:', error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // --- Auth routes ---
 app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
