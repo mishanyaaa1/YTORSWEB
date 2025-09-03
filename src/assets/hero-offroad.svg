@@ -1,0 +1,62 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="snow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5"/>
+      <stop offset="50%" stop-color="#e8e8e8"/>
+      <stop offset="100%" stop-color="#d0d0d0"/>
+    </linearGradient>
+    <linearGradient id="vehicle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0f0f0"/>
+    </linearGradient>
+    <linearGradient id="trees" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Snow background -->
+  <rect width="1200" height="800" fill="url(#snow)"/>
+  
+  <!-- Trees in background -->
+  <rect x="50" y="200" width="30" height="400" fill="url(#trees)" opacity="0.8"/>
+  <rect x="200" y="150" width="25" height="450" fill="url(#trees)" opacity="0.8"/>
+  <rect x="350" y="180" width="28" height="420" fill="url(#trees)" opacity="0.8"/>
+  <rect x="500" y="160" width="32" height="440" fill="url(#trees)" opacity="0.8"/>
+  <rect x="650" y="170" width="26" height="430" fill="url(#trees)" opacity="0.8"/>
+  <rect x="800" y="140" width="30" height="460" fill="url(#trees)" opacity="0.8"/>
+  <rect x="950" y="180" width="28" height="420" fill="url(#trees)" opacity="0.8"/>
+  <rect x="1100" y="160" width="25" height="440" fill="url(#trees)" opacity="0.8"/>
+  
+  <!-- Off-road vehicle -->
+  <!-- Vehicle body -->
+  <rect x="400" y="350" width="350" height="120" fill="url(#vehicle)" stroke="#333" stroke-width="2" rx="10"/>
+  
+  <!-- Vehicle front -->
+  <rect x="400" y="380" width="80" height="60" fill="url(#vehicle)" stroke="#333" stroke-width="2" rx="5"/>
+  
+  <!-- Headlights -->
+  <circle cx="420" cy="400" r="8" fill="#ffff00" opacity="0.8"/>
+  <circle cx="420" cy="420" r="8" fill="#ffff00" opacity="0.8"/>
+  
+  <!-- Wheels -->
+  <circle cx="480" cy="500" r="35" fill="#333"/>
+  <circle cx="480" cy="500" r="25" fill="#666"/>
+  <circle cx="480" cy="500" r="15" fill="#999"/>
+  
+  <circle cx="680" cy="500" r="35" fill="#333"/>
+  <circle cx="680" cy="500" r="25" fill="#666"/>
+  <circle cx="680" cy="500" r="15" fill="#999"/>
+  
+  <!-- Snow splash -->
+  <circle cx="480" cy="540" r="20" fill="#f5f5f5" opacity="0.7"/>
+  <circle cx="680" cy="540" r="25" fill="#f5f5f5" opacity="0.7"/>
+  <circle cx="500" cy="560" r="15" fill="#f5f5f5" opacity="0.6"/>
+  <circle cx="700" cy="560" r="18" fill="#f5f5f5" opacity="0.6"/>
+  
+  <!-- Additional snow particles -->
+  <circle cx="450" cy="580" r="8" fill="#f5f5f5" opacity="0.5"/>
+  <circle cx="720" cy="580" r="10" fill="#f5f5f5" opacity="0.5"/>
+  <circle cx="520" cy="600" r="6" fill="#f5f5f5" opacity="0.4"/>
+  <circle cx="750" cy="600" r="8" fill="#f5f5f5" opacity="0.4"/>
+</svg>
