@@ -663,14 +663,26 @@ app.get('/api/products', async (req, res) => {
 // --- Promotions routes ---
 app.get('/api/promotions', async (req, res) => {
   try {
-    console.log('Promotions endpoint called');
+    console.log('=== PROMOTIONS ENDPOINT CALLED ===');
+    console.log('Attempting to query promotions table...');
+    
     const promotions = await all('SELECT * FROM promotions ORDER BY created_at DESC');
-    console.log(`Returning ${promotions.length} promotions`);
+    console.log(`✅ Successfully fetched ${promotions.length} promotions`);
+    console.log('Promotions data:', promotions);
+    
     res.json(promotions);
   } catch (error) {
-    console.error('Promotions endpoint error:', error);
-    console.error('Error details:', error.message);
-    res.status(500).json({ error: 'Failed to fetch promotions', details: error.message });
+    console.error('=== PROMOTIONS ENDPOINT ERROR ===');
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error.message);
+    console.error('Error code:', error.code);
+    console.error('Error stack:', error.stack);
+    
+    res.status(500).json({ 
+      error: 'Failed to fetch promotions', 
+      details: error.message,
+      code: error.code
+    });
   }
 });
 
