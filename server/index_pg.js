@@ -388,7 +388,7 @@ app.get('/api/test', (req, res) => {
 // Check tables endpoint
 app.get('/api/check-tables', async (req, res) => {
   try {
-    const tables = ['promotions', 'terrain_types', 'vehicle_types', 'product_images'];
+    const tables = ['promotions', 'terrain_types', 'vehicle_types', 'product_images', 'products', 'categories', 'brands'];
     const results = {};
     
     for (const table of tables) {
