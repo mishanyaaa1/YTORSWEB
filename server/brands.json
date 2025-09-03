@@ -1,0 +1,60 @@
+{
+  "brands": [
+    {
+      "id": 1,
+      "name": "Вездеход-Мастер"
+    },
+    {
+      "id": 2,
+      "name": "ТехноМотор"
+    },
+    {
+      "id": 3,
+      "name": "СуперТрек"
+    },
+    {
+      "id": 4,
+      "name": "DrivePro"
+    },
+    {
+      "id": 5,
+      "name": "FilterPro"
+    },
+    {
+      "id": 6,
+      "name": "LubeMax"
+    },
+    {
+      "id": 7,
+      "name": "CoolMax"
+    },
+    {
+      "id": 8,
+      "name": "ClutchMax"
+    },
+    {
+      "id": 9,
+      "name": "WheelTech"
+    },
+    {
+      "id": 10,
+      "name": "LightMax"
+    },
+    {
+      "id": 11,
+      "name": "PowerMax"
+    },
+    {
+      "id": 12,
+      "name": "WirePro"
+    },
+    {
+      "id": 13,
+      "name": "ComfortSeat"
+    },
+    {
+      "id": 14,
+      "name": "InstrumentPro"
+    }
+  ]
+}

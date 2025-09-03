@@ -1,0 +1,277 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 2,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 3,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "i.am31827@gmail.com",
+      "address": "Nonono\nNonono"
+    },
+    {
+      "id": 4,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 5,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 6,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": "Nonono\nNonono"
+    },
+    {
+      "id": 7,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 8,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 9,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 10,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 11,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 12,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 13,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 14,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 15,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 16,
+      "name": "Тестовый клиент",
+      "phone": "+7 (999) 123-45-67",
+      "email": "test@example.com",
+      "address": null
+    },
+    {
+      "id": 17,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 18,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 19,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 20,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 21,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 22,
+      "name": "sGzdsrg",
+      "phone": "546345345345",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 23,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 24,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 25,
+      "name": "[weq",
+      "phone": "sxc",
+      "email": "wsx@ya.ru",
+      "address": "fgdf"
+    },
+    {
+      "id": 26,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 27,
+      "name": "Кирилл Шубин",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 28,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 29,
+      "name": "Кирилл",
+      "phone": "89506715774",
+      "email": "m.e.g.a.t.r.o.n.753951@gmail.com",
+      "address": ""
+    },
+    {
+      "id": 30,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 31,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 32,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 33,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 34,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 35,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 36,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 37,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 38,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    },
+    {
+      "id": 39,
+      "name": "QIWI CARD",
+      "phone": "89224762214",
+      "email": "",
+      "address": ""
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "advertisingSettings": [
+    {
+      "id": 1,
+      "platform": "yandexDirect",
+      "enabled": 0,
+      "settings_json": "{\"counterId\":\"\",\"remarketingCode\":\"\",\"conversionCode\":\"\",\"pixelCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 2,
+      "platform": "googleAds",
+      "enabled": 0,
+      "settings_json": "{\"conversionId\":\"\",\"conversionLabel\":\"\",\"remarketingCode\":\"\",\"gtagCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 3,
+      "platform": "facebookPixel",
+      "enabled": 0,
+      "settings_json": "{\"pixelId\":\"\",\"conversionCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 4,
+      "platform": "vkPixel",
+      "enabled": 0,
+      "settings_json": "{\"pixelId\":\"\",\"conversionCode\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 5,
+      "platform": "telegramPixel",
+      "enabled": 0,
+      "settings_json": "{\"botToken\":\"\",\"chatId\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    },
+    {
+      "id": 6,
+      "platform": "customScripts",
+      "enabled": 0,
+      "settings_json": "{\"headScripts\":\"\",\"bodyScripts\":\"\"}",
+      "created_at": "2025-08-23 18:31:53",
+      "updated_at": "2025-08-23 18:48:17"
+    }
+  ]
+}

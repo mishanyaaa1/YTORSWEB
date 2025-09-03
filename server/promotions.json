@@ -1,0 +1,26 @@
+{
+  "promotions": [
+    {
+      "id": 19,
+      "title": "Скидка на двигатель",
+      "description": "Скидка на двигатель при покупке от 15 000р",
+      "discount": 15,
+      "category_id": null,
+      "valid_until": "2025-12-12",
+      "active": 1,
+      "featured": 1,
+      "min_purchase": 15000
+    },
+    {
+      "id": 24,
+      "title": "Скидка на подвеску",
+      "description": "Скидка при покупке от 15 000р",
+      "discount": 20,
+      "category_id": 3,
+      "valid_until": "2025-12-12",
+      "active": 1,
+      "featured": 1,
+      "min_purchase": 15000
+    }
+  ]
+}

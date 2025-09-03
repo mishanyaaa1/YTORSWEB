@@ -1,0 +1,13 @@
+{
+  "orders": [
+    {
+      "id": "26528261",
+      "order_number": "26528261",
+      "customer_id": 39,
+      "status": "new",
+      "pricing_json": "{\"subtotal\":194390,\"discountAmount\":29159,\"promocodeDiscount\":0,\"total\":165231,\"appliedPromotion\":{\"id\":19,\"title\":\"Скидка на двигатель\",\"description\":\"Скидка на двигатель при покупке от 15 000р\",\"discount\":15,\"category\":null,\"validUntil\":\"2025-12-12\",\"active\":true,\"featured\":true,\"minPurchase\":15000},\"appliedPromocode\":null}",
+      "created_at": "2025-08-30 10:28:46",
+      "updated_at": "2025-08-30 10:28:46"
+    }
+  ]
+}
