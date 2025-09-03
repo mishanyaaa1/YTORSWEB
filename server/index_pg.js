@@ -135,6 +135,30 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });
 
+// Database status check
+app.get('/api/db-status', async (req, res) => {
+  try {
+    await get('SELECT 1');
+    res.json({ 
+      status: 'connected',
+      message: 'Database is connected and working'
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      status: 'disconnected',
+      message: 'Database is not available',
+      error: error.message,
+      instructions: [
+        '1. Go to Render Dashboard',
+        '2. Create a new PostgreSQL database',
+        '3. Copy the connection string',
+        '4. Add it as DATABASE_URL environment variable',
+        '5. Redeploy the service'
+      ]
+    });
+  }
+});
+
 // --- Auth routes ---
 app.post('/api/admin/login', loginLimiter, async (req, res) => {
   try {
@@ -418,7 +442,27 @@ async function startServer() {
     });
   } catch (error) {
     console.error('Failed to start server:', error);
-    process.exit(1);
+    
+    // Если база данных недоступна, запускаем сервер в режиме ожидания
+    if (error.message.includes('Failed to connect to database')) {
+      console.log('\n=== DATABASE SETUP REQUIRED ===');
+      console.log('PostgreSQL database is not available.');
+      console.log('Please follow these steps:');
+      console.log('1. Go to Render Dashboard');
+      console.log('2. Create a new PostgreSQL database');
+      console.log('3. Copy the connection string');
+      console.log('4. Add it as DATABASE_URL environment variable');
+      console.log('5. Redeploy the service');
+      console.log('===============================\n');
+      
+      // Запускаем сервер с ограниченным функционалом
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT} (Database unavailable)`);
+        console.log(`Environment: ${NODE_ENV}`);
+      });
+    } else {
+      process.exit(1);
+    }
   }
 }
 

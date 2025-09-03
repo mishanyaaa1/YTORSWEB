@@ -13,12 +13,4 @@ services:
         value: admin
       - key: ADMIN_PASSWORD
         value: admin31827
-      - key: DATABASE_URL
-        fromDatabase:
-          name: ytorsweb-db
-          property: connectionString
-
-databases:
-  - name: ytorsweb-db
-    databaseName: ytorsweb
-    user: ytorsweb_user
+      # DATABASE_URL will be set manually after creating PostgreSQL database

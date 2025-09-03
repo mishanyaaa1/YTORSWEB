@@ -78,6 +78,8 @@ async function transaction(callback) {
 
 // Функция для ожидания подключения к базе данных
 async function waitForConnection(maxRetries = 30, delay = 2000) {
+  console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Set' : 'Not set');
+  
   for (let i = 0; i < maxRetries; i++) {
     try {
       const client = await pool.connect();
@@ -86,8 +88,12 @@ async function waitForConnection(maxRetries = 30, delay = 2000) {
       return true;
     } catch (error) {
       console.log(`Attempt ${i + 1}/${maxRetries} to connect to database failed:`, error.message);
+      console.log('Error code:', error.code);
+      console.log('Error details:', error);
+      
       if (i === maxRetries - 1) {
-        throw new Error(`Failed to connect to database after ${maxRetries} attempts`);
+        console.error('DATABASE_URL value:', process.env.DATABASE_URL);
+        throw new Error(`Failed to connect to database after ${maxRetries} attempts. Please check if PostgreSQL database is created on Render.`);
       }
       await new Promise(resolve => setTimeout(resolve, delay));
     }
