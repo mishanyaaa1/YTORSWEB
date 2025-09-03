@@ -759,10 +759,10 @@ app.post('/api/products', async (req, res) => {
     }
     
     const result = await run(`
-      INSERT INTO products (title, description, price, category_id, subcategory_id, brand_id, terrain_type, vehicle_type)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO products (title, description, price, category_id, subcategory_id, brand_id)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
-    `, [title, description, price, categoryId, subcategoryId, brandId, terrain_type, vehicle_type]);
+    `, [title, description, price, categoryId, subcategoryId, brandId]);
     
     const product = result.rows[0];
     
@@ -811,10 +811,10 @@ app.put('/api/products/:id', async (req, res) => {
     
     const result = await run(`
       UPDATE products 
-      SET title = $1, description = $2, price = $3, category_id = $4, subcategory_id = $5, brand_id = $6, terrain_type = $7, vehicle_type = $8
-      WHERE id = $9
+      SET title = $1, description = $2, price = $3, category_id = $4, subcategory_id = $5, brand_id = $6
+      WHERE id = $7
       RETURNING *
-    `, [title, description, price, categoryId, subcategoryId, brandId, terrain_type, vehicle_type, id]);
+    `, [title, description, price, categoryId, subcategoryId, brandId, id]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Product not found' });
