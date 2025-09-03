@@ -733,7 +733,7 @@ app.get('/api/advertising/scripts', async (req, res) => {
 });
 
 // --- Product management routes ---
-app.post('/api/products', requireAdmin, async (req, res) => {
+app.post('/api/products', async (req, res) => {
   try {
     console.log('Creating new product:', req.body);
     const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type, images } = req.body;
@@ -764,7 +764,7 @@ app.post('/api/products', requireAdmin, async (req, res) => {
   }
 });
 
-app.put('/api/products/:id', requireAdmin, async (req, res) => {
+app.put('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type } = req.body;
@@ -787,7 +787,7 @@ app.put('/api/products/:id', requireAdmin, async (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', requireAdmin, async (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
     
