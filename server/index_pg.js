@@ -380,66 +380,61 @@ app.post('/api/upload-data', async (req, res) => {
   }
 });
 
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Test endpoint works', timestamp: new Date().toISOString() });
+});
+
 // Bootstrap endpoint for admin panel
 app.get('/api/bootstrap', async (req, res) => {
   try {
     console.log('Bootstrap endpoint called');
     
-    // Получаем все данные для админки с обработкой ошибок
-    let categories = [], brands = [], products = [], promotions = [], orders = [], customers = [];
-    
-    try {
-      categories = await all('SELECT * FROM categories ORDER BY name');
-    } catch (e) {
-      console.log('Categories table not found or empty');
-    }
-    
-    try {
-      brands = await all('SELECT * FROM brands ORDER BY name');
-    } catch (e) {
-      console.log('Brands table not found or empty');
-    }
-    
-    try {
-      products = await all('SELECT * FROM products ORDER BY created_at DESC');
-    } catch (e) {
-      console.log('Products table not found or empty');
-    }
-    
-    try {
-      promotions = await all('SELECT * FROM promotions ORDER BY created_at DESC');
-    } catch (e) {
-      console.log('Promotions table not found or empty');
-    }
-    
-    try {
-      orders = await all('SELECT * FROM orders ORDER BY created_at DESC');
-    } catch (e) {
-      console.log('Orders table not found or empty');
-    }
-    
-    try {
-      customers = await all('SELECT * FROM customers ORDER BY created_at DESC');
-    } catch (e) {
-      console.log('Customers table not found or empty');
-    }
-    
+    // Простой bootstrap с минимальными данными
     const bootstrapData = {
-      categories,
-      brands,
-      products,
-      promotions,
-      orders,
-      customers,
+      categories: [],
+      brands: [],
+      products: [],
+      promotions: [],
+      orders: [],
+      customers: [],
       stats: {
-        totalProducts: products.length,
-        totalOrders: orders.length,
-        totalCustomers: customers.length,
-        totalPromotions: promotions.length
+        totalProducts: 0,
+        totalOrders: 0,
+        totalCustomers: 0,
+        totalPromotions: 0
       }
     };
     
-    console.log(`Bootstrap data loaded: ${products.length} products, ${categories.length} categories, ${brands.length} brands`);
+    // Пытаемся загрузить товары
+    try {
+      const products = await all('SELECT * FROM products ORDER BY created_at DESC LIMIT 100');
+      bootstrapData.products = products;
+      bootstrapData.stats.totalProducts = products.length;
+      console.log(`Loaded ${products.length} products`);
+    } catch (e) {
+      console.log('Products table error:', e.message);
+    }
+    
+    // Пытаемся загрузить категории
+    try {
+      const categories = await all('SELECT * FROM categories ORDER BY name');
+      bootstrapData.categories = categories;
+      console.log(`Loaded ${categories.length} categories`);
+    } catch (e) {
+      console.log('Categories table error:', e.message);
+    }
+    
+    // Пытаемся загрузить бренды
+    try {
+      const brands = await all('SELECT * FROM brands ORDER BY name');
+      bootstrapData.brands = brands;
+      console.log(`Loaded ${brands.length} brands`);
+    } catch (e) {
+      console.log('Brands table error:', e.message);
+    }
+    
+    console.log('Bootstrap data prepared successfully');
     res.json(bootstrapData);
   } catch (error) {
     console.error('Bootstrap error:', error);
