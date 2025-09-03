@@ -712,6 +712,23 @@ app.get('/api/vehicle-types', async (req, res) => {
   }
 });
 
+// --- Advertising scripts routes ---
+app.get('/api/advertising/scripts', async (req, res) => {
+  try {
+    console.log('Advertising scripts endpoint called');
+    // Возвращаем пустой объект для скриптов рекламы
+    const scripts = {
+      head: [],
+      body: []
+    };
+    console.log('Returning advertising scripts');
+    res.json(scripts);
+  } catch (error) {
+    console.error('Advertising scripts endpoint error:', error);
+    res.status(500).json({ error: 'Failed to fetch advertising scripts' });
+  }
+});
+
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await all(`SELECT * FROM orders ORDER BY created_at DESC`);
