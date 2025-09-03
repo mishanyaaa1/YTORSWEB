@@ -729,6 +729,45 @@ app.get('/api/advertising/scripts', async (req, res) => {
   }
 });
 
+// --- Load sample images endpoint ---
+app.post('/api/load-sample-images', async (req, res) => {
+  try {
+    console.log('Loading sample images...');
+    
+    // Загружаем несколько тестовых изображений для товаров
+    const sampleImages = [
+      {
+        product_id: 1,
+        image_data: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A',
+        is_main: true
+      },
+      {
+        product_id: 2,
+        image_data: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A',
+        is_main: true
+      }
+    ];
+    
+    let results = [];
+    for (const image of sampleImages) {
+      try {
+        await run(
+          'INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING',
+          [image.product_id, image.image_data, image.is_main]
+        );
+        results.push(`✅ Загружено изображение для товара ${image.product_id}`);
+      } catch (error) {
+        results.push(`❌ Ошибка загрузки изображения для товара ${image.product_id}: ${error.message}`);
+      }
+    }
+    
+    res.json({ success: true, message: 'Sample images loaded', results: results });
+  } catch (error) {
+    console.error('Load sample images error:', error);
+    res.status(500).json({ error: 'Failed to load sample images', details: error.message });
+  }
+});
+
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await all(`SELECT * FROM orders ORDER BY created_at DESC`);
