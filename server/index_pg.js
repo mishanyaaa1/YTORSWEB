@@ -385,15 +385,44 @@ app.get('/api/bootstrap', async (req, res) => {
   try {
     console.log('Bootstrap endpoint called');
     
-    // Получаем все данные для админки
-    const [categories, brands, products, promotions, orders, customers] = await Promise.all([
-      all('SELECT * FROM categories ORDER BY name'),
-      all('SELECT * FROM brands ORDER BY name'),
-      all('SELECT * FROM products ORDER BY created_at DESC'),
-      all('SELECT * FROM promotions ORDER BY created_at DESC'),
-      all('SELECT * FROM orders ORDER BY created_at DESC'),
-      all('SELECT * FROM customers ORDER BY created_at DESC')
-    ]);
+    // Получаем все данные для админки с обработкой ошибок
+    let categories = [], brands = [], products = [], promotions = [], orders = [], customers = [];
+    
+    try {
+      categories = await all('SELECT * FROM categories ORDER BY name');
+    } catch (e) {
+      console.log('Categories table not found or empty');
+    }
+    
+    try {
+      brands = await all('SELECT * FROM brands ORDER BY name');
+    } catch (e) {
+      console.log('Brands table not found or empty');
+    }
+    
+    try {
+      products = await all('SELECT * FROM products ORDER BY created_at DESC');
+    } catch (e) {
+      console.log('Products table not found or empty');
+    }
+    
+    try {
+      promotions = await all('SELECT * FROM promotions ORDER BY created_at DESC');
+    } catch (e) {
+      console.log('Promotions table not found or empty');
+    }
+    
+    try {
+      orders = await all('SELECT * FROM orders ORDER BY created_at DESC');
+    } catch (e) {
+      console.log('Orders table not found or empty');
+    }
+    
+    try {
+      customers = await all('SELECT * FROM customers ORDER BY created_at DESC');
+    } catch (e) {
+      console.log('Customers table not found or empty');
+    }
     
     const bootstrapData = {
       categories,
@@ -410,6 +439,7 @@ app.get('/api/bootstrap', async (req, res) => {
       }
     };
     
+    console.log(`Bootstrap data loaded: ${products.length} products, ${categories.length} categories, ${brands.length} brands`);
     res.json(bootstrapData);
   } catch (error) {
     console.error('Bootstrap error:', error);
