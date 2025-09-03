@@ -632,11 +632,14 @@ app.get('/api/products', async (req, res) => {
     let images = [];
     if (rows.length > 0) {
       const productIds = rows.map(p => p.id);
-      images = await all(`
-        SELECT product_id, image_data, is_main 
-        FROM product_images 
-        WHERE product_id = ANY($1)
-      `, [productIds]);
+      if (productIds.length > 0) {
+        const placeholders = productIds.map((_, i) => `$${i + 1}`).join(',');
+        images = await all(`
+          SELECT product_id, image_data, is_main 
+          FROM product_images 
+          WHERE product_id IN (${placeholders})
+        `, productIds);
+      }
     }
     
     const imageMap = new Map();
