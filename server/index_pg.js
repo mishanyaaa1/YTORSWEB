@@ -388,7 +388,7 @@ app.get('/api/test', (req, res) => {
 // Check tables endpoint
 app.get('/api/check-tables', async (req, res) => {
   try {
-    const tables = ['promotions', 'terrain_types', 'vehicle_types', 'product_images', 'products', 'categories', 'brands'];
+    const tables = ['promotions', 'terrain_types', 'vehicle_types', 'product_images', 'products', 'categories', 'brands', 'vehicles'];
     const results = {};
     
     for (const table of tables) {
@@ -729,6 +729,77 @@ app.get('/api/vehicle-types', async (req, res) => {
   } catch (error) {
     console.error('Vehicle types endpoint error:', error);
     res.status(500).json({ error: 'Failed to fetch vehicle types' });
+  }
+});
+
+// --- Vehicles routes ---
+app.get('/api/vehicles', async (req, res) => {
+  try {
+    console.log('Vehicles endpoint called');
+    const rows = await all('SELECT * FROM vehicles ORDER BY id');
+    console.log('Vehicles found:', rows.length);
+    res.json(rows);
+  } catch (error) {
+    console.error('Vehicles endpoint error:', error);
+    res.status(500).json({ error: 'Failed to fetch vehicles' });
+  }
+});
+
+app.post('/api/vehicles', async (req, res) => {
+  try {
+    console.log('Creating new vehicle:', req.body);
+    const { name, description, terrain_type, vehicle_type, specifications } = req.body;
+    
+    const result = await run(`
+      INSERT INTO vehicles (name, description, terrain_type, vehicle_type, specifications)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `, [name, description, terrain_type, vehicle_type, specifications]);
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error creating vehicle:', error);
+    res.status(500).json({ error: 'Failed to create vehicle' });
+  }
+});
+
+app.put('/api/vehicles/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, terrain_type, vehicle_type, specifications } = req.body;
+    
+    const result = await run(`
+      UPDATE vehicles 
+      SET name = $1, description = $2, terrain_type = $3, vehicle_type = $4, specifications = $5
+      WHERE id = $6
+      RETURNING *
+    `, [name, description, terrain_type, vehicle_type, specifications, id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Vehicle not found' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating vehicle:', error);
+    res.status(500).json({ error: 'Failed to update vehicle' });
+  }
+});
+
+app.delete('/api/vehicles/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await run('DELETE FROM vehicles WHERE id = $1 RETURNING *', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Vehicle not found' });
+    }
+    
+    res.json({ message: 'Vehicle deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting vehicle:', error);
+    res.status(500).json({ error: 'Failed to delete vehicle' });
   }
 });
 
@@ -1341,7 +1412,8 @@ async function applyMigrations() {
       '001_init_pg.sql',
       '002_advertising_pg.sql', 
       '003_terrain_vehicle_types_pg.sql',
-      '004_bot_settings_pg.sql'
+      '004_bot_settings_pg.sql',
+      '005_vehicles_pg.sql'
     ];
     
     // Создаем таблицу для отслеживания примененных миграций
