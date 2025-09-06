@@ -146,19 +146,76 @@ function DiagnosticPage() {
           {diagnostics.debugInfo.database && (
             <div className="database-info">
               <h3>📊 База данных</h3>
+              <div><strong>Статус:</strong> 
+                <span className={`status ${diagnostics.debugInfo.database.status}`}>
+                  {diagnostics.debugInfo.database.status === 'connected' ? '✅ Подключена' : '❌ Ошибка'}
+                </span>
+              </div>
+              
               {diagnostics.debugInfo.database.error ? (
-                <div className="error">Ошибка БД: {diagnostics.debugInfo.database.error}</div>
+                <div className="error">
+                  <strong>Ошибка:</strong> {diagnostics.debugInfo.database.error}
+                  {diagnostics.debugInfo.database.stack && (
+                    <details>
+                      <summary>Детали ошибки</summary>
+                      <pre>{diagnostics.debugInfo.database.stack}</pre>
+                    </details>
+                  )}
+                </div>
               ) : (
                 <>
-                  <div><strong>Таблицы:</strong> {diagnostics.debugInfo.database.tables?.join(', ')}</div>
-                  <div><strong>Количество записей:</strong></div>
-                  <ul>
-                    {Object.entries(diagnostics.debugInfo.database.recordCounts || {}).map(([table, count]) => (
-                      <li key={table}>{table}: {count}</li>
-                    ))}
-                  </ul>
+                  <div><strong>Таблицы ({diagnostics.debugInfo.database.tables?.length || 0}):</strong> 
+                    {diagnostics.debugInfo.database.tables?.length ? 
+                      diagnostics.debugInfo.database.tables.join(', ') : 
+                      'Таблицы не найдены'
+                    }
+                  </div>
+                  
+                  {diagnostics.debugInfo.database.recordCounts && (
+                    <div>
+                      <strong>Количество записей:</strong>
+                      <ul>
+                        {Object.entries(diagnostics.debugInfo.database.recordCounts).map(([table, count]) => (
+                          <li key={table}>
+                            {table}: {typeof count === 'string' && count.startsWith('Error') ? 
+                              <span className="error">{count}</span> : 
+                              count
+                            }
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {diagnostics.debugInfo.database.migrations && (
+                    <div>
+                      <strong>Миграции ({diagnostics.debugInfo.database.migrations.length}):</strong>
+                      {diagnostics.debugInfo.database.migrations.length === 0 ? (
+                        <span className="warning"> Не применены</span>
+                      ) : diagnostics.debugInfo.database.migrations[0]?.error ? (
+                        <span className="error"> Ошибка: {diagnostics.debugInfo.database.migrations[0].error}</span>
+                      ) : (
+                        <ul>
+                          {diagnostics.debugInfo.database.migrations.slice(0, 3).map((migration, idx) => (
+                            <li key={idx}>{migration.filename} ({new Date(migration.applied_at).toLocaleString()})</li>
+                          ))}
+                          {diagnostics.debugInfo.database.migrations.length > 3 && 
+                            <li>... и еще {diagnostics.debugInfo.database.migrations.length - 3}</li>
+                          }
+                        </ul>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
+            </div>
+          )}
+          
+          {diagnostics.debugInfo.environment && (
+            <div className="environment-info">
+              <h3>🌍 Окружение</h3>
+              <div><strong>NODE_ENV:</strong> {diagnostics.debugInfo.environment.NODE_ENV || 'не установлено'}</div>
+              <div><strong>DATABASE_URL:</strong> {diagnostics.debugInfo.environment.DATABASE_URL === 'set' ? '✅ Установлено' : '❌ Не установлено'}</div>
             </div>
           )}
           

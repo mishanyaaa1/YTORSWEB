@@ -140,3 +140,35 @@ summary {
 summary:hover {
   color: #007bff;
 }
+
+.status.connected {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status.error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.warning {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.environment-info {
+  background: #fff9c4;
+  border: 1px solid #f0e68c;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.environment-info h3 {
+  margin-top: 0;
+  color: #8b7d00;
+}
+
+.environment-info div {
+  margin-bottom: 8px;
+}

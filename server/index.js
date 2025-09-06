@@ -211,14 +211,39 @@ app.get('/api/admin/me', requireAdmin, (req, res) => {
 
 // Тестовый эндпоинт для отладки
 app.get('/api/admin/debug', async (req, res) => {
+  const debugInfo = {
+    cookies: req.cookies,
+    headers: {
+      origin: req.headers.origin,
+      referer: req.headers.referer,
+      cookie: req.headers.cookie
+    },
+    admin: req.admin || null,
+    jwtSecret: JWT_SECRET ? 'set' : 'not set',
+    environment: {
+      NODE_ENV: process.env.NODE_ENV,
+      DATABASE_URL: process.env.DATABASE_URL ? 'set' : 'not set'
+    }
+  };
+
   try {
+    console.log('🔍 Debug endpoint called');
+    
+    // Тест подключения к базе данных
+    console.log('🔌 Testing database connection...');
+    const { pool } = require('./db');
+    const client = await pool.connect();
+    console.log('✅ Database connection successful');
+    
     // Проверяем таблицы в базе данных
+    console.log('📋 Checking tables...');
     const tables = await all(`
       SELECT table_name 
       FROM information_schema.tables 
       WHERE table_schema = 'public'
       ORDER BY table_name
     `);
+    console.log('📋 Found tables:', tables.map(t => t.table_name));
     
     // Проверяем количество записей в основных таблицах
     const counts = {};
@@ -226,42 +251,50 @@ app.get('/api/admin/debug', async (req, res) => {
     
     for (const table of tablesToCheck) {
       try {
+        console.log(`📊 Checking count for table: ${table}`);
         const result = await get(`SELECT COUNT(*) as count FROM ${table}`);
         counts[table] = result?.count || 0;
+        console.log(`📊 Table ${table}: ${counts[table]} records`);
       } catch (error) {
+        console.error(`❌ Error checking table ${table}:`, error.message);
         counts[table] = `Error: ${error.message}`;
       }
     }
     
-    res.json({
-      cookies: req.cookies,
-      headers: {
-        origin: req.headers.origin,
-        referer: req.headers.referer,
-        cookie: req.headers.cookie
-      },
-      admin: req.admin || null,
-      jwtSecret: JWT_SECRET ? 'set' : 'not set',
-      database: {
-        tables: tables.map(t => t.table_name),
-        recordCounts: counts
-      }
-    });
+    // Проверяем миграции
+    let migrations = [];
+    try {
+      console.log('🔄 Checking migrations...');
+      migrations = await all(`SELECT filename, applied_at FROM migrations ORDER BY applied_at DESC`);
+      console.log('🔄 Applied migrations:', migrations.length);
+    } catch (error) {
+      console.error('❌ Error checking migrations:', error.message);
+      migrations = [{ error: error.message }];
+    }
+    
+    client.release();
+    
+    debugInfo.database = {
+      status: 'connected',
+      tables: tables.map(t => t.table_name),
+      recordCounts: counts,
+      migrations: migrations
+    };
+    
+    console.log('✅ Debug info collected successfully');
+    
   } catch (error) {
-    res.json({
-      cookies: req.cookies,
-      headers: {
-        origin: req.headers.origin,
-        referer: req.headers.referer,
-        cookie: req.headers.cookie
-      },
-      admin: req.admin || null,
-      jwtSecret: JWT_SECRET ? 'set' : 'not set',
-      database: {
-        error: error.message
-      }
-    });
+    console.error('❌ Database debug error:', error);
+    console.error('❌ Error stack:', error.stack);
+    
+    debugInfo.database = {
+      status: 'error',
+      error: error.message,
+      stack: error.stack
+    };
   }
+  
+  res.json(debugInfo);
 });
 
 // Эндпоинт для сброса пароля админа (только для разработки)
