@@ -1868,7 +1868,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
         timestamp: n.timestamp // Используем timestamp как в PostgreSQL
       });
     }
-
+    
     const result = [];
     for (const o of orders) {
       const customer = o.customer_id ? await get(`SELECT * FROM customers WHERE id = $1`, [o.customer_id]) : null;
