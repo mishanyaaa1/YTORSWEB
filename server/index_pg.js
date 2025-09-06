@@ -705,6 +705,20 @@ app.post('/api/admin/reset-password', async (req, res) => {
   }
 });
 
+// Upload image (admin only)
+app.post('/api/upload/image', requireAdmin, upload.single('image'), (req, res) => {
+  try {
+    console.log('🔥 Uploading image:', req.file?.filename);
+    if (!req.file) return res.status(400).json({ error: 'No file' });
+    const url = `/uploads/${req.file.filename}`;
+    console.log('✅ Image uploaded:', url);
+    res.status(201).json({ url });
+  } catch (error) {
+    console.error('❌ Error uploading image:', error);
+    res.status(500).json({ error: 'Failed to upload image', details: error.message });
+  }
+});
+
 // Простые эндпоинты для тестирования
 app.get('/api/brands', async (req, res) => {
   try {
@@ -832,6 +846,47 @@ app.get('/api/terrain-types', async (req, res) => {
   }
 });
 
+app.post('/api/terrain-types', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔥 Creating terrain type:', req.body);
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Terrain type name is required' });
+    }
+    
+    const trimmedName = name.trim();
+    await run(`INSERT INTO terrain_types (name) VALUES ($1)`, [trimmedName]);
+    console.log('✅ Terrain type created:', trimmedName);
+    res.status(201).json({ ok: true, name: trimmedName });
+  } catch (error) {
+    console.error('❌ Error creating terrain type:', error);
+    if (error.message && error.message.includes('duplicate key value')) {
+      res.status(409).json({ error: 'Terrain type already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to create terrain type', details: error.message });
+    }
+  }
+});
+
+app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const name = req.params.name;
+    console.log('🗑️ Deleting terrain type:', name);
+    const result = await run(`DELETE FROM terrain_types WHERE name = $1`, [name]);
+    
+    if (result.changes === 0) {
+      console.log('❌ Terrain type not found:', name);
+      return res.status(404).json({ error: 'Terrain type not found' });
+    }
+    
+    console.log('✅ Terrain type deleted successfully:', name);
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting terrain type:', error);
+    res.status(500).json({ error: 'Failed to delete terrain type', details: error.message });
+  }
+});
+
 // --- Vehicle types routes ---
 app.get('/api/vehicle-types', async (req, res) => {
   try {
@@ -842,6 +897,47 @@ app.get('/api/vehicle-types', async (req, res) => {
   } catch (error) {
     console.error('Vehicle types endpoint error:', error);
     res.status(500).json({ error: 'Failed to fetch vehicle types' });
+  }
+});
+
+app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔥 Creating vehicle type:', req.body);
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Vehicle type name is required' });
+    }
+    
+    const trimmedName = name.trim();
+    await run(`INSERT INTO vehicle_types (name) VALUES ($1)`, [trimmedName]);
+    console.log('✅ Vehicle type created:', trimmedName);
+    res.status(201).json({ ok: true, name: trimmedName });
+  } catch (error) {
+    console.error('❌ Error creating vehicle type:', error);
+    if (error.message && error.message.includes('duplicate key value')) {
+      res.status(409).json({ error: 'Vehicle type already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to create vehicle type', details: error.message });
+    }
+  }
+});
+
+app.delete('/api/vehicle-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const name = req.params.name;
+    console.log('🗑️ Deleting vehicle type:', name);
+    const result = await run(`DELETE FROM vehicle_types WHERE name = $1`, [name]);
+    
+    if (result.changes === 0) {
+      console.log('❌ Vehicle type not found:', name);
+      return res.status(404).json({ error: 'Vehicle type not found' });
+    }
+    
+    console.log('✅ Vehicle type deleted successfully:', name);
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting vehicle type:', error);
+    res.status(500).json({ error: 'Failed to delete vehicle type', details: error.message });
   }
 });
 
@@ -916,15 +1012,88 @@ app.delete('/api/vehicles/:id', requireAdmin, async (req, res) => {
   }
 });
 
-// --- Advertising scripts routes ---
+// --- Advertising routes ---
+app.get('/api/admin/advertising', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔥 Getting advertising settings');
+    const rows = await all(`SELECT platform, enabled, settings_json FROM advertising_settings ORDER BY platform ASC`);
+    const result = {};
+    
+    for (const row of rows) {
+      try {
+        result[row.platform] = {
+          enabled: Boolean(row.enabled),
+          ...JSON.parse(row.settings_json)
+        };
+      } catch (e) {
+        console.error(`Failed to parse settings for ${row.platform}:`, e);
+        result[row.platform] = { enabled: Boolean(row.enabled) };
+      }
+    }
+    
+    console.log('✅ Advertising settings fetched');
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Failed to fetch advertising settings:', error);
+    res.status(500).json({ error: 'Failed to fetch advertising settings', details: error.message });
+  }
+});
+
+app.post('/api/admin/advertising', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔥 Saving advertising settings:', req.body);
+    const { yandexDirect, googleAds, facebookPixel, vkPixel, telegramPixel, customScripts } = req.body;
+    
+    const platforms = [
+      { name: 'yandexDirect', data: yandexDirect },
+      { name: 'googleAds', data: googleAds },
+      { name: 'facebookPixel', data: facebookPixel },
+      { name: 'vkPixel', data: vkPixel },
+      { name: 'telegramPixel', data: telegramPixel },
+      { name: 'customScripts', data: customScripts }
+    ];
+    
+    for (const platform of platforms) {
+      if (platform.data) {
+        const { enabled, ...settings } = platform.data;
+        const settingsJson = JSON.stringify(settings);
+        
+        await run(
+          `UPDATE advertising_settings SET enabled = $1, settings_json = $2, updated_at = NOW() WHERE platform = $3`,
+          [enabled ? true : false, settingsJson, platform.name]
+        );
+        console.log(`✅ Updated ${platform.name} settings`);
+      }
+    }
+    
+    console.log('✅ Advertising settings saved successfully');
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Failed to save advertising settings:', error);
+    res.status(500).json({ error: 'Failed to save advertising settings', details: error.message });
+  }
+});
+
+// Public endpoint for getting advertising scripts (for frontend)
 app.get('/api/advertising/scripts', async (req, res) => {
   try {
     console.log('Advertising scripts endpoint called');
-    // Возвращаем пустой объект для скриптов рекламы
+    const rows = await all(`SELECT platform, enabled, settings_json FROM advertising_settings WHERE enabled = true`);
     const scripts = {
       head: [],
       body: []
     };
+    
+    for (const row of rows) {
+      try {
+        const settings = JSON.parse(row.settings_json);
+        // Здесь можно добавить логику генерации скриптов на основе настроек
+        console.log(`Processing scripts for ${row.platform}`);
+      } catch (e) {
+        console.error(`Failed to parse settings for ${row.platform}:`, e);
+      }
+    }
+    
     console.log('Returning advertising scripts');
     res.json(scripts);
   } catch (error) {
@@ -1219,6 +1388,39 @@ app.delete('/api/brands/:id', requireAdmin, async (req, res) => {
     res.json({ message: 'Brand deleted successfully', deletedBrand: result.rows[0] });
   } catch (error) {
     console.error('❌ Error deleting brand:', error);
+    res.status(500).json({ error: 'Failed to delete brand', details: error.message });
+  }
+});
+
+// Delete brand by name (for backward compatibility)
+app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
+  try {
+    const { name } = req.params;
+    console.log('🗑️ Deleting brand by name:', name);
+    
+    // Проверяем если это число (ID), то перенаправляем на удаление по ID
+    const maybeId = parseInt(name, 10);
+    if (!isNaN(maybeId)) {
+      // Это ID, используем удаление по ID
+      const result = await run('DELETE FROM brands WHERE id = $1 RETURNING *', [maybeId]);
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Brand not found' });
+      }
+      console.log('✅ Brand deleted by ID:', maybeId);
+      return res.json({ ok: true });
+    }
+    
+    // Это имя, удаляем по имени
+    const result = await run('DELETE FROM brands WHERE name = $1 RETURNING *', [name]);
+    if (result.rows.length === 0) {
+      console.log('❌ Brand not found by name:', name);
+      return res.status(404).json({ error: 'Brand not found' });
+    }
+    
+    console.log('✅ Brand deleted by name:', name);
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting brand by name:', error);
     res.status(500).json({ error: 'Failed to delete brand', details: error.message });
   }
 });
