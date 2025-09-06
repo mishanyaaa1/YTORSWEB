@@ -1,4 +1,3 @@
-/* eslint-disable */
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -43,18 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Обработка preflight OPTIONS запросов для всех API эндпоинтов
-app.options('/api/*', (req, res) => {
-  console.log(`OPTIONS ${req.path} - Origin: ${req.headers.origin || 'none'}`);
-  res.set({
-    'Access-Control-Allow-Origin': req.headers.origin || '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
-    'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Expose-Headers': 'Set-Cookie'
-  });
-  res.sendStatus(200);
-});
+// Убираем проблемный OPTIONS обработчик - CORS middleware должен справляться сам
 
 app.use(cookieParser());
 app.use(express.json({ limit: '25mb' }));
@@ -1414,8 +1402,8 @@ app.delete('/api/brands/:id', requireAdmin, async (req, res) => {
   }
 });
 
-// Delete brand by name (for backward compatibility)
-app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
+// Delete brand by name (for backward compatibility) - using different route to avoid conflicts
+app.delete('/api/brands/by-name/:name', requireAdmin, async (req, res) => {
   try {
     const { name } = req.params;
     console.log('🗑️ Deleting brand by name:', name);
