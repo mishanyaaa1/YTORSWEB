@@ -230,11 +230,10 @@
       
       /* Critical CSS for better performance */
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui, sans-serif;
+        font-family: 'Russo One', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         line-height: 1.6;
         color: #333;
         background-color: #0a0a0a;
-        font-weight: 400;
       }
       
       /* Prevent layout shift during loading */
@@ -256,16 +255,16 @@
       }
       
       /* Critical header styles */
-      .header {
-        background: rgba(10, 10, 10, 0.95);
+      header {
+        background: rgba(26, 26, 26, 0.95);
         backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        position: fixed;
+        border-bottom: 1px solid rgba(230, 163, 74, 0.3);
+        position: sticky;
         top: 0;
-        left: 0;
-        right: 0;
         z-index: 1000;
-        min-height: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
       }
       
       /* Critical logo styles */
@@ -292,28 +291,81 @@
       }
       
       .brand-logo-text {
-        font-family: 'Russo One', cursive;
         font-size: 1.2rem;
-        font-weight: 400;
+        font-weight: 600;
         color: #e6a34a;
         letter-spacing: 0.5px;
-      }
-      
-      /* Russo One только для заголовков и логотипа */
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Russo One', cursive;
-        font-weight: 400;
       }
       
       /* Header content layout */
       .header-content {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding: 1rem 0;
-        width: 100%;
+        justify-content: space-between;
+        height: 70px;
         max-width: 1200px;
         margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      /* Critical navigation styles */
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-left: auto;
+        height: 70px;
+      }
+      
+      nav a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+        white-space: nowrap;
+        padding: 0.5rem 0;
+        display: block;
+      }
+      
+      /* Critical button styles */
+      .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: transparent;
+        color: #ffffff;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+      }
+      
+      .cart-button-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #e6a34a;
+        color: #000;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 0.7rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 18px;
       }
       
       /* Loading state */
