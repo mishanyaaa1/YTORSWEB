@@ -31,8 +31,9 @@ app.use(
   cors({
     origin: true, // Разрешаем все домены для отладки
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Добавлен PATCH
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    exposedHeaders: ['Set-Cookie']
   })
 );
 
@@ -40,6 +41,19 @@ app.use(
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
   next();
+});
+
+// Обработка preflight OPTIONS запросов для всех API эндпоинтов
+app.options('/api/*', (req, res) => {
+  console.log(`OPTIONS ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  res.set({
+    'Access-Control-Allow-Origin': req.headers.origin || '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Expose-Headers': 'Set-Cookie'
+  });
+  res.sendStatus(200);
 });
 
 app.use(cookieParser());
@@ -439,17 +453,7 @@ app.get('/api/bootstrap-test', (req, res) => {
   });
 });
 
-// Handle OPTIONS requests for bootstrap
-app.options('/api/bootstrap', (req, res) => {
-  console.log('OPTIONS request for bootstrap');
-  res.set({
-    'Access-Control-Allow-Origin': req.headers.origin || '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, Cookie',
-    'Access-Control-Allow-Credentials': 'true'
-  });
-  res.sendStatus(200);
-});
+// Удален дублирующий обработчик OPTIONS для bootstrap - теперь используется общий обработчик
 
 // Bootstrap endpoint for admin panel
 app.get('/api/bootstrap', async (req, res) => {
