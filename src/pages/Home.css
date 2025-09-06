@@ -13,6 +13,7 @@
   background-image: url('/hero-offroad.jpg');
   background-size: cover;
 <<<<<<< HEAD
+<<<<<<< HEAD
   background-position: right center;
   isolation: isolate;
 }
@@ -24,6 +25,8 @@
   background: rgba(0,0,0,0.65);
   z-index: 0;
 =======
+=======
+>>>>>>> parent of 574ed81 (Update Home.css)
   background-position: 70% center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -53,6 +56,7 @@
 .hero .container {
   position: relative;
   z-index: 2;
+<<<<<<< HEAD
 <<<<<<< HEAD
   max-width: 1200px;
   margin: 0 auto;
@@ -109,12 +113,41 @@
 }
 
 .hero-text p {
+=======
+  width: 100%;
+  max-width: 1400px;
+  margin: 0;
+  padding: 0 4rem 0 2rem;
+}
+
+.hero-content {
+  max-width: 500px;
+  margin: 0;
+  text-align: left;
+  padding-left: 0;
+}
+
+.hero-text h1 {
+  font-size: 3.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-shadow: 3px 3px 10px rgba(0,0,0,0.9);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.hero-text p {
+>>>>>>> parent of 574ed81 (Update Home.css)
   font-size: 1.4rem;
   margin-bottom: 2.5rem;
   color: white;
   text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
   line-height: 1.5;
   font-weight: 400;
+<<<<<<< HEAD
+>>>>>>> parent of 574ed81 (Update Home.css)
+=======
 >>>>>>> parent of 574ed81 (Update Home.css)
 }
 
@@ -125,6 +158,9 @@
 =======
   gap: 1rem;
   justify-content: flex-start;
+<<<<<<< HEAD
+>>>>>>> parent of 574ed81 (Update Home.css)
+=======
 >>>>>>> parent of 574ed81 (Update Home.css)
   flex-wrap: wrap;
 }
@@ -151,6 +187,9 @@
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+<<<<<<< HEAD
+>>>>>>> parent of 574ed81 (Update Home.css)
+=======
 >>>>>>> parent of 574ed81 (Update Home.css)
   border: none;
   cursor: pointer;
@@ -179,14 +218,20 @@
 
 .cta-button.secondary {
 <<<<<<< HEAD
+<<<<<<< HEAD
   color: #F0F0F0;
   background: #181818;
   border: 1px solid #2A2A2A;
 =======
+=======
+>>>>>>> parent of 574ed81 (Update Home.css)
   background: rgba(0,0,0,0.3);
   border: 2px solid white;
   color: white;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+<<<<<<< HEAD
+>>>>>>> parent of 574ed81 (Update Home.css)
+=======
 >>>>>>> parent of 574ed81 (Update Home.css)
 }
 
