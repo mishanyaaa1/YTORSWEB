@@ -11,11 +11,10 @@
   display: flex;
   align-items: center;
   background-image: url('/hero-offroad.jpg');
-  background-size: 90%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  filter: brightness(0.6);
 }
 
 .hero::before {
@@ -25,7 +24,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+  background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
   z-index: 1;
 }
 
@@ -145,7 +144,7 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-  background-size: 90%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -156,7 +155,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,7 +209,7 @@
   }
   
   .hero-background-image {
-    background-size: 90%;
+    background-size: cover;
   }
 }
 
