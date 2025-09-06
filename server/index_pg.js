@@ -1176,17 +1176,28 @@ app.put('/api/brands/:id', requireAdmin, async (req, res) => {
 app.delete('/api/brands/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
+    console.log('🗑️ Deleting brand with ID:', id);
     
-    const result = await run('DELETE FROM brands WHERE id = $1 RETURNING *', [id]);
+    // Конвертируем ID в число для PostgreSQL
+    const brandId = parseInt(id, 10);
+    if (isNaN(brandId)) {
+      console.log('❌ Invalid brand ID:', id);
+      return res.status(400).json({ error: 'Invalid brand ID' });
+    }
+    
+    const result = await run('DELETE FROM brands WHERE id = $1 RETURNING *', [brandId]);
+    console.log('🗑️ Delete result:', result);
     
     if (result.rows.length === 0) {
+      console.log('❌ Brand not found with ID:', brandId);
       return res.status(404).json({ error: 'Brand not found' });
     }
     
-    res.json({ message: 'Brand deleted successfully' });
+    console.log('✅ Brand deleted successfully:', result.rows[0]);
+    res.json({ message: 'Brand deleted successfully', deletedBrand: result.rows[0] });
   } catch (error) {
-    console.error('Error deleting brand:', error);
-    res.status(500).json({ error: 'Failed to delete brand' });
+    console.error('❌ Error deleting brand:', error);
+    res.status(500).json({ error: 'Failed to delete brand', details: error.message });
   }
 });
 

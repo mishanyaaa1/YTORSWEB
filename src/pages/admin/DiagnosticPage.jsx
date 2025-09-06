@@ -93,8 +93,16 @@ function DiagnosticPage() {
         throw new Error(`Create failed: ${createResponse.status} - ${errorMessage}`);
       }
 
-      // Удаление
-      const deleteResponse = await fetch(getApiUrl(`/api/brands/${encodeURIComponent(testBrandName)}`), {
+      // Получаем ID созданного бренда
+      const createdBrand = await createResponse.json();
+      const brandId = createdBrand.id;
+
+      if (!brandId) {
+        throw new Error('Brand ID not returned after creation');
+      }
+
+      // Удаление по ID
+      const deleteResponse = await fetch(getApiUrl(`/api/brands/${brandId}`), {
         method: 'DELETE',
         credentials: 'include'
       });
