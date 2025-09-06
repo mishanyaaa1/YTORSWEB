@@ -39,16 +39,33 @@ const allowedOrigins = new Set([
 
 app.use(
   cors({
-    origin: true, // Разрешаем все домены для отладки
+    origin: function (origin, callback) {
+      // Разрешаем запросы без origin (например, из приложений)
+      if (!origin) return callback(null, true);
+      
+      // Разрешаем все Netlify домены и локальные
+      if (
+        origin.includes('netlify.app') || 
+        origin.includes('localhost') || 
+        origin.includes('127.0.0.1') ||
+        origin.includes('onrender.com')
+      ) {
+        return callback(null, true);
+      }
+      
+      // Разрешаем все остальные домены для отладки
+      return callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    exposedHeaders: ['Set-Cookie'],
   })
 );
 
 // Логирование всех запросов для отладки
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'} - Cookies: ${!!req.cookies?.admin_token}`);
   next();
 });
 
@@ -171,8 +188,8 @@ app.post('/api/admin/login', loginLimiter, async (req, res) => {
     const token = signAdminToken({ id: admin.id, username: admin.username });
     res.cookie('admin_token', token, {
       httpOnly: true,
-      secure: NODE_ENV === 'production',
-      sameSite: NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: true, // Всегда true для HTTPS
+      sameSite: 'none', // Разрешаем cross-origin для Netlify ↔ Render
       path: '/',
       maxAge: 12 * 60 * 60 * 1000,
     });

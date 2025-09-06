@@ -127,6 +127,22 @@ function SimpleAdminDashboard() {
               >
                 🚀 Перейти к полной админке
               </Link>
+              <Link 
+                to="/admin/diagnostic"
+                style={{
+                  background: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  textAlign: 'center',
+                  display: 'block'
+                }}
+              >
+                🔧 Диагностика API
+              </Link>
               <button style={{
                 background: '#2196f3',
                 color: 'white',

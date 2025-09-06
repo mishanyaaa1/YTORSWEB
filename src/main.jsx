@@ -17,6 +17,7 @@ import VehicleDetailPage from './pages/VehicleDetailPage.jsx'
 import SimpleAdminLogin from './pages/admin/SimpleAdminLogin.jsx'
 import SimpleAdminDashboard from './pages/admin/SimpleAdminDashboard.jsx'
 import AdvancedAdminDashboard from './pages/admin/AdvancedAdminDashboard.jsx'
+import DiagnosticPage from './pages/admin/DiagnosticPage.jsx'
 import RequireAdmin from './components/RequireAdmin.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { AdminDataProvider } from './context/AdminDataContext.jsx'
@@ -81,6 +82,14 @@ const router = createBrowserRouter([
     element: (
       <RequireAdmin>
         <AdvancedAdminDashboard />
+      </RequireAdmin>
+    )
+  },
+  {
+    path: "/admin/diagnostic",
+    element: (
+      <RequireAdmin>
+        <DiagnosticPage />
       </RequireAdmin>
     )
   }

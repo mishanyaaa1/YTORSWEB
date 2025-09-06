@@ -457,7 +457,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteCategory = async (categoryName) => {
     try {
-      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(categoryName)}`), { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete category');
       await refreshFromApi();
     } catch (e) {
@@ -474,7 +474,7 @@ export const AdminDataProvider = ({ children }) => {
     if (current.includes(subcategoryName)) return;
     const next = [...current, subcategoryName];
     try {
-      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
+      const res = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -493,7 +493,7 @@ export const AdminDataProvider = ({ children }) => {
     const current = categories[categoryName] || [];
     const next = current.map(s => (s === oldSubName ? newSubName : s));
     try {
-      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
+      const res = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -512,7 +512,7 @@ export const AdminDataProvider = ({ children }) => {
     const current = categories[categoryName] || [];
     const next = current.filter(s => s !== subcategoryName);
     try {
-      const res = await fetch(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`, {
+      const res = await fetch(getApiUrl(`/api/categories/${encodeURIComponent(categoryName)}/subcategories`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -550,7 +550,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteBrand = async (brandName) => {
     try {
-      const res = await fetch(`/api/brands/${encodeURIComponent(brandName)}`, { method: 'DELETE', credentials: 'include' });
+      const res = await fetch(getApiUrl(`/api/brands/${encodeURIComponent(brandName)}`), { method: 'DELETE', credentials: 'include' });
       if (!res.ok) throw new Error('Failed to delete brand');
       await refreshFromApi();
     } catch (e) {
@@ -586,7 +586,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const updatePromocode = async (id, updatedPromocode) => {
     try {
-      const res = await fetch(`/api/promocodes/${id}`, {
+      const res = await fetch(getApiUrl(`/api/promocodes/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -606,7 +606,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deletePromocode = async (id) => {
     try {
-      const res = await fetch(`/api/promocodes/${id}`, { 
+      const res = await fetch(getApiUrl(`/api/promocodes/${id}`), { 
         method: 'DELETE', 
         credentials: 'include' 
       });
@@ -631,7 +631,7 @@ export const AdminDataProvider = ({ children }) => {
         usedCount: (promocode.usedCount || 0) + 1
       };
 
-      const res = await fetch(`/api/promocodes/${id}`, {
+      const res = await fetch(getApiUrl(`/api/promocodes/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -853,7 +853,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteTerrainType = async (typeName) => {
     try {
-      const response = await fetch(`/api/terrain-types/${encodeURIComponent(typeName)}`, {
+      const response = await fetch(getApiUrl(`/api/terrain-types/${encodeURIComponent(typeName)}`), {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -890,7 +890,7 @@ export const AdminDataProvider = ({ children }) => {
 
   const deleteVehicleType = async (typeName) => {
     try {
-      const response = await fetch(`/api/vehicle-types/${encodeURIComponent(typeName)}`, {
+      const response = await fetch(getApiUrl(`/api/vehicle-types/${encodeURIComponent(typeName)}`), {
         method: 'DELETE',
         credentials: 'include'
       });
