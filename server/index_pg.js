@@ -556,8 +556,8 @@ app.get('/api/admin/me', requireAdmin, (req, res) => {
 });
 
 // Тестовый эндпоинт для отладки
-app.get('/api/admin/debug', (req, res) => {
-  res.json({
+app.get('/api/admin/debug', async (req, res) => {
+  const debugInfo = {
     cookies: req.cookies,
     headers: {
       origin: req.headers.origin,
@@ -565,8 +565,82 @@ app.get('/api/admin/debug', (req, res) => {
       cookie: req.headers.cookie
     },
     admin: req.admin || null,
-    jwtSecret: JWT_SECRET ? 'set' : 'not set'
-  });
+    jwtSecret: JWT_SECRET ? 'set' : 'not set',
+    environment: {
+      NODE_ENV: process.env.NODE_ENV,
+      DATABASE_URL: process.env.DATABASE_URL ? 'set' : 'not set'
+    }
+  };
+
+  try {
+    console.log('🔍 Debug endpoint called');
+    
+    // Тест подключения к базе данных
+    console.log('🔌 Testing database connection...');
+    const { pool } = require('./db');
+    const client = await pool.connect();
+    console.log('✅ Database connection successful');
+    
+    // Проверяем таблицы в базе данных
+    console.log('📋 Checking tables...');
+    const tables = await all(`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public'
+      ORDER BY table_name
+    `);
+    console.log('📋 Found tables:', tables.map(t => t.table_name));
+    
+    // Проверяем количество записей в основных таблицах
+    const counts = {};
+    const tablesToCheck = ['brands', 'categories', 'products', 'admins'];
+    
+    for (const table of tablesToCheck) {
+      try {
+        console.log(`📊 Checking count for table: ${table}`);
+        const result = await get(`SELECT COUNT(*) as count FROM ${table}`);
+        counts[table] = result?.count || 0;
+        console.log(`📊 Table ${table}: ${counts[table]} records`);
+      } catch (error) {
+        console.error(`❌ Error checking table ${table}:`, error.message);
+        counts[table] = `Error: ${error.message}`;
+      }
+    }
+    
+    // Проверяем миграции
+    let migrations = [];
+    try {
+      console.log('🔄 Checking migrations...');
+      migrations = await all(`SELECT filename, applied_at FROM migrations ORDER BY applied_at DESC`);
+      console.log('🔄 Applied migrations:', migrations.length);
+    } catch (error) {
+      console.error('❌ Error checking migrations:', error.message);
+      migrations = [{ error: error.message }];
+    }
+    
+    client.release();
+    
+    debugInfo.database = {
+      status: 'connected',
+      tables: tables.map(t => t.table_name),
+      recordCounts: counts,
+      migrations: migrations
+    };
+    
+    console.log('✅ Debug info collected successfully');
+    
+  } catch (error) {
+    console.error('❌ Database debug error:', error);
+    console.error('❌ Error stack:', error.stack);
+    
+    debugInfo.database = {
+      status: 'error',
+      error: error.message,
+      stack: error.stack
+    };
+  }
+  
+  res.json(debugInfo);
 });
 
 // Эндпоинт для сброса пароля админа (только для разработки)
@@ -1008,21 +1082,37 @@ app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) =>
 // --- Brand management routes ---
 app.post('/api/brands', requireAdmin, async (req, res) => {
   try {
+    console.log('🔥 Creating brand:', req.body);
     const { name } = req.body;
     
+    if (!name || typeof name !== 'string' || !name.trim()) {
+      console.log('❌ Invalid brand name:', name);
+      return res.status(400).json({ error: 'Brand name is required' });
+    }
+    
+    const trimmedName = name.trim();
+    console.log('🔍 Checking if brand exists:', trimmedName);
+    
     // Проверяем, существует ли бренд
-    const existing = await get('SELECT * FROM brands WHERE name = $1', [name]);
+    const existing = await get('SELECT * FROM brands WHERE name = $1', [trimmedName]);
     if (existing) {
+      console.log('⚠️ Brand already exists:', trimmedName);
       return res.status(400).json({ error: 'Brand already exists' });
     }
     
     // Создаем бренд
-    const result = await run('INSERT INTO brands (name) VALUES ($1) RETURNING *', [name]);
+    console.log('➕ Creating new brand:', trimmedName);
+    const result = await run('INSERT INTO brands (name) VALUES ($1) RETURNING *', [trimmedName]);
+    console.log('📊 Insert result:', result);
     
-    res.json(result.rows[0]);
+    const newBrand = result.rows[0];
+    console.log('✅ New brand created:', newBrand);
+    
+    res.json(newBrand);
   } catch (error) {
-    console.error('Error creating brand:', error);
-    res.status(500).json({ error: 'Failed to create brand' });
+    console.error('❌ Error creating brand:', error);
+    console.error('❌ Error stack:', error.stack);
+    res.status(500).json({ error: 'Failed to create brand', details: error.message });
   }
 });
 
