@@ -485,16 +485,50 @@ html {
 }
 
 .footer-bottom {
-  text-align: center;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #888888;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .footer-bottom p {
   font-family: 'Russo One', sans-serif;
   font-weight: 400;
   letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.footer-developer {
+  /* Ссылка теперь справа по умолчанию */
+}
+
+.developer-link {
+  color: #cccccc !important;
+  text-decoration: none !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.developer-link:hover {
+  color: #e6a34a !important;
+  opacity: 1;
+  transform: translateY(-1px);
+  background: rgba(230, 163, 74, 0.1);
+  border-color: rgba(230, 163, 74, 0.3);
 }
 
 /* Адаптивность */
@@ -1013,6 +1047,21 @@ html {
   
   .footer-content {
     gap: 1.5rem;
+  }
+  
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .footer-developer {
+    /* На мобильных ссылка будет снизу */
+  }
+  
+  .developer-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
   }
 }
 

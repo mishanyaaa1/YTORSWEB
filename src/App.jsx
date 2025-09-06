@@ -273,7 +273,19 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>{footerData.copyright}</p>
+            <div className="footer-bottom-content">
+              <p>{footerData.copyright}</p>
+              <div className="footer-developer">
+                <a 
+                  href="https://dectitle.ru/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="developer-link"
+                >
+                  Разработка ПО: dectitle.ru
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
