@@ -878,6 +878,36 @@ app.post('/api/terrain-types', requireAdmin, async (req, res) => {
   }
 });
 
+app.put('/api/terrain-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const oldName = req.params.name;
+    const { name: newName } = req.body;
+    console.log('✏️ Updating terrain type:', oldName, 'to', newName);
+    
+    if (!newName || !newName.trim()) {
+      return res.status(400).json({ error: 'New terrain type name is required' });
+    }
+    
+    const trimmedName = newName.trim();
+    const result = await run(`UPDATE terrain_types SET name = $1 WHERE name = $2`, [trimmedName, oldName]);
+    
+    if (result.changes === 0) {
+      console.log('❌ Terrain type not found:', oldName);
+      return res.status(404).json({ error: 'Terrain type not found' });
+    }
+    
+    console.log('✅ Terrain type updated successfully:', oldName, 'to', trimmedName);
+    res.json({ ok: true, name: trimmedName });
+  } catch (error) {
+    console.error('❌ Error updating terrain type:', error);
+    if (error.message && error.message.includes('duplicate key value')) {
+      res.status(409).json({ error: 'Terrain type with this name already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to update terrain type', details: error.message });
+    }
+  }
+});
+
 app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
@@ -928,6 +958,36 @@ app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
       res.status(409).json({ error: 'Vehicle type already exists' });
     } else {
       res.status(500).json({ error: 'Failed to create vehicle type', details: error.message });
+    }
+  }
+});
+
+app.put('/api/vehicle-types/:name', requireAdmin, async (req, res) => {
+  try {
+    const oldName = req.params.name;
+    const { name: newName } = req.body;
+    console.log('✏️ Updating vehicle type:', oldName, 'to', newName);
+    
+    if (!newName || !newName.trim()) {
+      return res.status(400).json({ error: 'New vehicle type name is required' });
+    }
+    
+    const trimmedName = newName.trim();
+    const result = await run(`UPDATE vehicle_types SET name = $1 WHERE name = $2`, [trimmedName, oldName]);
+    
+    if (result.changes === 0) {
+      console.log('❌ Vehicle type not found:', oldName);
+      return res.status(404).json({ error: 'Vehicle type not found' });
+    }
+    
+    console.log('✅ Vehicle type updated successfully:', oldName, 'to', trimmedName);
+    res.json({ ok: true, name: trimmedName });
+  } catch (error) {
+    console.error('❌ Error updating vehicle type:', error);
+    if (error.message && error.message.includes('duplicate key value')) {
+      res.status(409).json({ error: 'Vehicle type with this name already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to update vehicle type', details: error.message });
     }
   }
 });

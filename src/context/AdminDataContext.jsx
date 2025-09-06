@@ -851,6 +851,25 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
+  const updateTerrainType = async (oldName, newName) => {
+    try {
+      const response = await fetch(getApiUrl(`/api/terrain-types/${encodeURIComponent(oldName)}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: newName })
+      });
+      
+      if (response.ok) {
+        setTerrainTypes(prev => prev.map(t => t === oldName ? newName : t));
+      }
+    } catch (error) {
+      console.error('Error updating terrain type:', error);
+      // Fallback на локальное обновление
+      setTerrainTypes(prev => prev.map(t => t === oldName ? newName : t));
+    }
+  };
+
   const deleteTerrainType = async (typeName) => {
     try {
       const response = await fetch(getApiUrl(`/api/terrain-types/${encodeURIComponent(typeName)}`), {
@@ -885,6 +904,25 @@ export const AdminDataProvider = ({ children }) => {
       console.error('Error adding vehicle type:', error);
       // Fallback на локальное добавление
       setVehicleTypes(prev => [...prev, typeName]);
+    }
+  };
+
+  const updateVehicleType = async (oldName, newName) => {
+    try {
+      const response = await fetch(getApiUrl(`/api/vehicle-types/${encodeURIComponent(oldName)}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: newName })
+      });
+      
+      if (response.ok) {
+        setVehicleTypes(prev => prev.map(t => t === oldName ? newName : t));
+      }
+    } catch (error) {
+      console.error('Error updating vehicle type:', error);
+      // Fallback на локальное обновление
+      setVehicleTypes(prev => prev.map(t => t === oldName ? newName : t));
     }
   };
 
@@ -1003,10 +1041,12 @@ export const AdminDataProvider = ({ children }) => {
 
     // Функции для типов местности
     addTerrainType,
+    updateTerrainType,
     deleteTerrainType,
 
     // Функции для типов вездеходов
     addVehicleType,
+    updateVehicleType,
     deleteVehicleType
   };
 
