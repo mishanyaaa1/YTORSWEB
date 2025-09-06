@@ -327,12 +327,23 @@ app.get('/api/brands', async (req, res) => {
 });
 app.post('/api/brands', requireAdmin, async (req, res) => {
   try {
+    console.log('🔥 Creating brand:', req.body);
     const { name } = req.body;
-    await ensureBrandByName(name);
-    res.status(201).json({ ok: true });
+    
+    if (!name || typeof name !== 'string' || !name.trim()) {
+      console.log('❌ Invalid brand name:', name);
+      return res.status(400).json({ error: 'Brand name is required' });
+    }
+    
+    console.log('🔄 Calling ensureBrandByName with:', name.trim());
+    const brandId = await ensureBrandByName(name.trim());
+    console.log('✅ Brand created/found with ID:', brandId);
+    
+    res.status(201).json({ ok: true, id: brandId });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to create brand' });
+    console.error('❌ Error creating brand:', err);
+    console.error('❌ Error stack:', err.stack);
+    res.status(500).json({ error: 'Failed to create brand', details: err.message });
   }
 });
 app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
@@ -395,7 +406,7 @@ app.put('/api/categories/:name', requireAdmin, async (req, res) => {
 app.delete('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    await run( `DELETE FROM categories WHERE name=?`, [name]);
+    await run(`DELETE FROM categories WHERE name=$1`, [name]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -453,7 +464,7 @@ app.post('/api/terrain-types', requireAdmin, async (req, res) => {
 app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    const result = await run( `DELETE FROM terrain_types WHERE name = ?`, [name]);
+    const result = await run(`DELETE FROM terrain_types WHERE name = $1`, [name]);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Terrain type not found' });
@@ -500,7 +511,7 @@ app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
 app.delete('/api/vehicle-types/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    const result = await run( `DELETE FROM vehicle_types WHERE name = ?`, [name]);
+    const result = await run(`DELETE FROM vehicle_types WHERE name = $1`, [name]);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Vehicle type not found' });
@@ -599,11 +610,32 @@ async function ensureSubcategoryByName(categoryId, name) {
 }
 
 async function ensureBrandByName(name) {
-  if (!name) return null;
-  const row = await get(`SELECT id FROM brands WHERE name = $1`, [name]);
-  if (row) return row.id;
-  const r = await run(`INSERT INTO brands (name) VALUES ($1) RETURNING id`, [name]);
-  return r.rows[0]?.id || r.lastID;
+  console.log('🔍 ensureBrandByName called with:', name);
+  if (!name) {
+    console.log('❌ ensureBrandByName: name is empty');
+    return null;
+  }
+  
+  try {
+    console.log('🔍 Checking if brand exists:', name);
+    const row = await get(`SELECT id FROM brands WHERE name = $1`, [name]);
+    if (row) {
+      console.log('✅ Brand exists with ID:', row.id);
+      return row.id;
+    }
+    
+    console.log('➕ Creating new brand:', name);
+    const r = await run(`INSERT INTO brands (name) VALUES ($1) RETURNING id`, [name]);
+    console.log('📊 Insert result:', r);
+    
+    const brandId = r.rows?.[0]?.id || r.lastID;
+    console.log('✅ New brand created with ID:', brandId);
+    return brandId;
+  } catch (error) {
+    console.error('❌ Error in ensureBrandByName:', error);
+    console.error('❌ Error details:', error.message);
+    throw error;
+  }
 }
 
 // Create product
@@ -675,7 +707,7 @@ app.put('/api/products/:id', requireAdmin, async (req, res) => {
 app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
-    await run( `DELETE FROM products WHERE id=?`, [id]);
+    await run(`DELETE FROM products WHERE id=$1`, [id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -747,7 +779,7 @@ app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
 app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
-    await run( `DELETE FROM promotions WHERE id=?`, [id]);
+    await run(`DELETE FROM promotions WHERE id=$1`, [id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);

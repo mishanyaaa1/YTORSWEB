@@ -82,7 +82,15 @@ function DiagnosticPage() {
       });
 
       if (!createResponse.ok) {
-        throw new Error(`Create failed: ${createResponse.status}`);
+        const errorText = await createResponse.text();
+        let errorMessage;
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorMessage = errorJson.details || errorJson.error || errorText;
+        } catch {
+          errorMessage = errorText;
+        }
+        throw new Error(`Create failed: ${createResponse.status} - ${errorMessage}`);
       }
 
       // Удаление
