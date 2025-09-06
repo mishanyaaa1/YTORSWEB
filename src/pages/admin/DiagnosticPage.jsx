@@ -117,6 +117,40 @@ function DiagnosticPage() {
     }
   };
 
+  const fixSequences = async () => {
+    try {
+      setDiagnostics(prev => ({ ...prev, sequenceFix: 'fixing...' }));
+      
+      const response = await fetch(getApiUrl('/api/admin/fix-sequences'), {
+        method: 'POST',
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error(`Fix failed: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      setDiagnostics(prev => ({ 
+        ...prev, 
+        sequenceFix: '✅ Sequences исправлены',
+        sequenceResults: result.results
+      }));
+      
+      // Через секунду попробуем тест сохранения снова
+      setTimeout(() => {
+        testSaveOperation();
+      }, 1000);
+      
+    } catch (error) {
+      setDiagnostics(prev => ({ 
+        ...prev, 
+        sequenceFix: `❌ Ошибка: ${error.message}`
+      }));
+    }
+  };
+
   return (
     <div className="diagnostic-page">
       <h1>🔧 Диагностика API</h1>
@@ -136,7 +170,32 @@ function DiagnosticPage() {
               Запустить тест
             </button>
           )}
+          {diagnostics.testSave && diagnostics.testSave.includes('duplicate key value') && (
+            <button onClick={fixSequences} className="fix-button">
+              🔧 Исправить Sequences
+            </button>
+          )}
         </div>
+        {diagnostics.sequenceFix && (
+          <div className="diagnostic-item">
+            <strong>Исправление Sequences:</strong> {diagnostics.sequenceFix}
+          </div>
+        )}
+        {diagnostics.sequenceResults && (
+          <div className="diagnostic-item">
+            <strong>Результаты исправления:</strong>
+            <ul className="sequence-results">
+              {diagnostics.sequenceResults.map((result, idx) => (
+                <li key={idx}>
+                  {result.table}: {result.error ? 
+                    <span className="error">{result.error}</span> : 
+                    `max_id=${result.maxId} → sequence=${result.newSequenceValue}`
+                  }
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {diagnostics.debugInfo && (

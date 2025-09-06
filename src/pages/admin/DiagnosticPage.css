@@ -86,10 +86,31 @@
   background: #0056b3;
 }
 
-.test-button {
+.test-button,
+.fix-button {
   margin-left: 10px;
   font-size: 12px;
   padding: 4px 8px;
+}
+
+.fix-button {
+  background: #ffc107;
+  color: #000;
+}
+
+.fix-button:hover {
+  background: #e0a800;
+}
+
+.sequence-results {
+  margin: 10px 0;
+  padding-left: 20px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.sequence-results li {
+  margin-bottom: 3px;
 }
 
 .refresh-button {

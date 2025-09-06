@@ -643,6 +643,45 @@ app.get('/api/admin/debug', async (req, res) => {
   res.json(debugInfo);
 });
 
+// Эндпоинт для исправления sequences (автоинкремента)
+app.post('/api/admin/fix-sequences', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔧 Fixing PostgreSQL sequences...');
+    
+    // Список таблиц для исправления
+    const tables = ['brands', 'categories', 'products', 'admins', 'promotions', 'customers', 'vehicles'];
+    const results = [];
+    
+    for (const table of tables) {
+      try {
+        console.log(`🔧 Fixing sequence for table: ${table}`);
+        
+        // Получаем максимальный ID
+        const maxResult = await get(`SELECT MAX(id) as max_id FROM ${table}`);
+        const maxId = maxResult?.max_id || 0;
+        
+        // Устанавливаем sequence на следующее значение
+        const sequenceName = `${table}_id_seq`;
+        await run(`SELECT setval('${sequenceName}', $1, true)`, [maxId + 1]);
+        
+        results.push({ table, maxId, newSequenceValue: maxId + 1 });
+        console.log(`✅ Fixed ${table}: max_id=${maxId}, sequence set to ${maxId + 1}`);
+        
+      } catch (error) {
+        console.error(`❌ Error fixing ${table}:`, error.message);
+        results.push({ table, error: error.message });
+      }
+    }
+    
+    console.log('✅ Sequences fixed successfully');
+    res.json({ success: true, results });
+    
+  } catch (error) {
+    console.error('❌ Error fixing sequences:', error);
+    res.status(500).json({ error: 'Failed to fix sequences', details: error.message });
+  }
+});
+
 // Эндпоинт для сброса пароля админа (только для разработки)
 app.post('/api/admin/reset-password', async (req, res) => {
   try {
