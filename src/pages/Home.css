@@ -41,10 +41,12 @@
 
 .hero-text h1 {
   font-size: 3.5rem;
-  font-weight: bold;
+  font-weight: 900;
   margin-bottom: 1.5rem;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  text-shadow: 
+    1px 1px 3px rgba(0,0,0,0.6),
+    2px 2px 6px rgba(0,0,0,0.4);
   line-height: 1.2;
 }
 
@@ -117,6 +119,10 @@
   
   .hero-text h1 {
     font-size: 2.5rem;
+    font-weight: 900;
+    text-shadow: 
+      1px 1px 3px rgba(0,0,0,0.6),
+      2px 2px 6px rgba(0,0,0,0.4);
   }
   
   .hero-text p {
@@ -180,9 +186,11 @@
 
 .hero-text h1 {
   font-size: 2.5rem;
-  font-weight: bold;
+  font-weight: 900;
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 
+    1px 1px 3px rgba(0,0,0,0.6),
+    2px 2px 6px rgba(0,0,0,0.4);
 }
 
 .hero-text p {
