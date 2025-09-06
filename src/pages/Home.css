@@ -35,8 +35,9 @@
 
 .hero-content {
   max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
+  padding-left: 2rem;
 }
 
 .hero-text h1 {
@@ -59,7 +60,7 @@
 .hero-cta-group {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -115,9 +116,14 @@
     font-size: 1.1rem;
   }
   
+  .hero-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
   .hero-cta-group {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .cta-button {
