@@ -24,7 +24,9 @@ const BotManagement = () => {
   const loadBotSettings = async () => {
     try {
       setLoading(true);
-      const response = await fetch(getApiUrl('/api/admin/bot'));
+      const response = await fetch(getApiUrl('/api/admin/bot'), {
+        credentials: 'include'
+      });
       if (response.ok) {
         const data = await response.json();
         setSettings(data);
@@ -54,6 +56,7 @@ const BotManagement = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(settings),
       });
 
@@ -84,6 +87,7 @@ const BotManagement = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
           bot_token: settings.bot_token
         }),

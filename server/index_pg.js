@@ -93,25 +93,43 @@ function signAdminToken(payload) {
 
 function parseAdminFromCookie(req, res, next) {
   const token = req.cookies && req.cookies.admin_token;
-  console.log('parseAdminFromCookie - token present:', !!token);
-  if (!token) return next();
+  console.log('🔍 parseAdminFromCookie - URL:', req.url);
+  console.log('🔍 parseAdminFromCookie - token present:', !!token);
+  console.log('🔍 parseAdminFromCookie - all cookies:', Object.keys(req.cookies || {}));
+  console.log('🔍 parseAdminFromCookie - origin:', req.headers.origin);
+  
+  if (!token) {
+    console.log('❌ parseAdminFromCookie - no token found');
+    return next();
+  }
+  
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.admin = { id: decoded.id, username: decoded.username };
-    console.log('parseAdminFromCookie - admin set:', req.admin.username);
+    console.log('✅ parseAdminFromCookie - admin set:', req.admin.username);
   } catch (err) {
-    console.log('parseAdminFromCookie - token verification failed:', err.message);
+    console.log('❌ parseAdminFromCookie - token verification failed:', err.message);
     // ignore invalid/expired token
   }
   next();
 }
 
 function requireAdmin(req, res, next) {
-  console.log('requireAdmin - admin present:', !!req.admin);
+  console.log('🔐 requireAdmin - URL:', req.url);
+  console.log('🔐 requireAdmin - admin present:', !!req.admin);
+  console.log('🔐 requireAdmin - cookies received:', Object.keys(req.cookies || {}));
+  
   if (!req.admin) {
-    console.log('requireAdmin - unauthorized, no admin');
-    return res.status(401).json({ error: 'Unauthorized' });
+    console.log('❌ requireAdmin - unauthorized, no admin found');
+    console.log('❌ requireAdmin - this usually means the user needs to login again');
+    return res.status(401).json({ 
+      error: 'Unauthorized', 
+      message: 'Пожалуйста, войдите в систему заново. Возможно, истекла сессия.',
+      action: 'login_required'
+    });
   }
+  
+  console.log('✅ requireAdmin - access granted for:', req.admin.username);
   next();
 }
 
