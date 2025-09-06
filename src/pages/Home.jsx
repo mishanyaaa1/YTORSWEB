@@ -194,18 +194,19 @@ function Home() {
                         }}
                       >
                         <Link
-                          to="/about#contacts"
+                          to={aboutContent?.homeHero?.secondaryCtaLink || '/about#contacts'}
                           className="cta-button secondary"
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate('/about#contacts');
+                            const link = aboutContent?.homeHero?.secondaryCtaLink || '/about#contacts';
+                            navigate(link);
                             setTimeout(() => {
                               const el = document.getElementById('contacts');
                               if (el) el.scrollIntoView({ behavior: 'smooth' });
                             }, 50);
                           }}
                         >
-                          Связаться с менеджером
+                          {aboutContent?.homeHero?.secondaryCtaText || 'Связаться с менеджером'}
                         </Link>
                       </motion.div>
                     </AnimatePresence>

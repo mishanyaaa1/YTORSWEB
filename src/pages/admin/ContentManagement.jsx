@@ -13,6 +13,8 @@ export default function ContentManagement() {
       description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
       ctaText: 'Перейти в каталог',
       ctaLink: '/catalog',
+      secondaryCtaText: 'Связаться с менеджером',
+      secondaryCtaLink: '/about#contacts',
       imageCaption: 'Надёжные запчасти для вашего вездехода',
       heroEffect: 'particles',
       visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
@@ -47,6 +49,8 @@ export default function ContentManagement() {
         description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
         ctaText: 'Перейти в каталог',
         ctaLink: '/catalog',
+        secondaryCtaText: 'Связаться с менеджером',
+        secondaryCtaLink: '/about#contacts',
         imageCaption: 'Надёжные запчасти для вашего вездехода',
         heroEffect: 'particles',
         visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
@@ -377,7 +381,7 @@ export default function ContentManagement() {
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label>Текст кнопки:</label>
+                <label>Текст кнопки (основная):</label>
                 <input
                   type="text"
                   name="ctaText"
@@ -387,13 +391,36 @@ export default function ContentManagement() {
                 />
               </div>
               <div className="form-group">
-                <label>Ссылка кнопки:</label>
+                <label>Ссылка кнопки (основная):</label>
                 <input
                   type="text"
                   name="ctaLink"
                   value={formData.homeHero.ctaLink}
                   onChange={handleHomeHeroChange}
                   placeholder="/catalog"
+                />
+              </div>
+            </div>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label>Текст кнопки (вторичная):</label>
+                <input
+                  type="text"
+                  name="secondaryCtaText"
+                  value={formData.homeHero.secondaryCtaText}
+                  onChange={handleHomeHeroChange}
+                  placeholder="Например: Связаться с менеджером"
+                />
+              </div>
+              <div className="form-group">
+                <label>Ссылка кнопки (вторичная):</label>
+                <input
+                  type="text"
+                  name="secondaryCtaLink"
+                  value={formData.homeHero.secondaryCtaLink}
+                  onChange={handleHomeHeroChange}
+                  placeholder="/about#contacts"
                 />
               </div>
             </div>
