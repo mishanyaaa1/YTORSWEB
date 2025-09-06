@@ -177,21 +177,7 @@
   font-weight: 500;
 }
 
-.product-image {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.product-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+/* Стили для изображений товаров теперь в AdminCommon.css */
 
 .action-buttons {
   display: flex;

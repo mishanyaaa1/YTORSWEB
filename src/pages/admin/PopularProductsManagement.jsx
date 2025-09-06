@@ -68,7 +68,7 @@ export default function PopularProductsManagement() {
                         return <img src={d} alt={product.title} />;
                       }
                       return (
-                        <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span className="product-icon">
                           <BrandMark alt={product.title} style={{ height: 28 }} />
                         </span>
                       );
@@ -127,7 +127,7 @@ export default function PopularProductsManagement() {
                         return <img src={d} alt={product.title} />;
                       }
                       return (
-                        <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span className="product-icon">
                           <BrandMark alt={product.title} style={{ height: 28 }} />
                         </span>
                       );

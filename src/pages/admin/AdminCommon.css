@@ -623,3 +623,38 @@
     box-shadow: none;
   }
 }
+
+/* Общие стили для альтернативных изображений товаров */
+.product-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.product-icon img,
+.product-icon picture {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-icon picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Стили для основных изображений товаров */
+.product-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

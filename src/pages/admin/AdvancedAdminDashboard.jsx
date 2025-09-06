@@ -135,13 +135,13 @@ function AdvancedAdminDashboard() {
                     return <img src={mainImage.data} alt={product.title} className="product-image-small" />;
                   }
                   return (
-                    <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span className="product-icon">
                       <BrandMark alt={product.title} style={{ height: 24 }} />
                     </span>
                   );
                 }
                 return (
-                  <span className="product-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span className="product-icon">
                     <BrandMark alt={product.title} style={{ height: 24 }} />
                   </span>
                 );
