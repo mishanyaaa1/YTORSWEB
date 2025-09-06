@@ -82,8 +82,11 @@
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(230, 163, 74, 0.3);
-  border: none;
+  border: 2px solid transparent; /* Добавляем прозрачный border для единообразия */
   cursor: pointer;
+  /* Фиксированная минимальная высота для единообразия */
+  min-height: 56px;
+  box-sizing: border-box;
 }
 
 .cta-button:hover {
@@ -98,6 +101,8 @@
   border: 2px solid #e6a34a;
   color: #ffffff;
   box-shadow: none;
+  /* Теперь padding и высота одинаковые, так как у обеих кнопок есть border */
+  min-height: 56px;
 }
 
 .cta-button.secondary:hover {
