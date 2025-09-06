@@ -130,7 +130,7 @@ function Home() {
                         ease: "easeOut"
                       }}
                     >
-                      Запчасти<br />для вездеходов
+                      {aboutContent.homeHero?.title || 'Запчасти для вездеходов'}
                     </motion.h1>
                   </AnimatePresence>
                   
@@ -146,7 +146,7 @@ function Home() {
                         ease: "easeOut"
                       }}
                     >
-                      Качественные запчасти для всех типов вездеходов. Быстрая<br />доставка по всей России. Гарантия качества на все товары.
+                      {aboutContent.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}
                     </motion.p>
                   </AnimatePresence>
                   

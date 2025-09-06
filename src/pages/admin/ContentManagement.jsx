@@ -6,7 +6,7 @@ import './ContentManagement.css';
 
 export default function ContentManagement() {
   const { aboutContent, updateAboutContent } = useAdminData();
-  const [activeTab, setActiveTab] = useState('basic');
+  const [activeTab, setActiveTab] = useState('home');
   const [formData, setFormData] = useState({
     homeHero: aboutContent.homeHero || {
       title: 'Запчасти для вездеходов',
@@ -84,13 +84,18 @@ export default function ContentManagement() {
 
   const handleHomeHeroChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      homeHero: {
-        ...prev.homeHero,
-        [name]: value
-      }
-    }));
+    console.log('ContentManagement: Home hero field changed:', name, '=', value);
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        homeHero: {
+          ...prev.homeHero,
+          [name]: value
+        }
+      };
+      console.log('ContentManagement: Updated formData.homeHero:', newData.homeHero);
+      return newData;
+    });
   };
 
 
@@ -299,6 +304,7 @@ export default function ContentManagement() {
 
   const saveContent = () => {
     console.log('ContentManagement: Saving content data:', formData);
+    console.log('ContentManagement: Home hero data being saved:', formData.homeHero);
     console.log('ContentManagement: Current aboutContent before save:', aboutContent);
     console.log('ContentManagement: Team data being saved:', formData.team);
     console.log('ContentManagement: History data being saved:', formData.history);
@@ -307,7 +313,8 @@ export default function ContentManagement() {
     try {
       updateAboutContent(formData);
       console.log('ContentManagement: Content saved successfully');
-      alert('Контент сохранен!');
+      console.log('ContentManagement: Updated aboutContent after save:', aboutContent);
+      alert('Контент сохранен! Проверьте главную страницу.');
     } catch (error) {
       console.error('ContentManagement: Error saving content:', error);
       alert('Ошибка при сохранении контента!');
