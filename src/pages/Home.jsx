@@ -17,6 +17,7 @@ import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers
 import BrandMark from '../components/BrandMark';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 import Reveal from '../components/Reveal';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Home.css';
 
 function Home() {
@@ -24,6 +25,13 @@ function Home() {
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
   const { products, popularProductIds, aboutContent } = useAdminData();
   const { addToCartWithNotification } = useCartActions();
+  
+  // Проверяем настройки пользователя для анимаций
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  // Уникальный ключ для принудительного перезапуска анимаций
+  const animationKey = React.useMemo(() => Date.now(), []);
+  
   
   // wishlist removed
   
@@ -110,27 +118,86 @@ function Home() {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
-                  <h1>Запчасти<br />для вездеходов</h1>
-                  <p>Качественные запчасти для всех типов вездеходов. Быстрая<br />доставка по всей России. Гарантия качества на все товары.</p>
-                  <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button black-text">
-                      {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                      <FaArrowRight />
-                    </Link>
-                    <Link
-                      to="/about#contacts"
-                      className="cta-button secondary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/about#contacts');
-                        setTimeout(() => {
-                          const el = document.getElementById('contacts');
-                          if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
+                  <AnimatePresence mode="wait">
+                    <motion.h1
+                      key={`h1-${animationKey}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -30 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { 
+                        duration: 0.6, 
+                        delay: 0.1,
+                        ease: "easeOut"
                       }}
                     >
-                      Связаться с менеджером
-                    </Link>
+                      Запчасти<br />для вездеходов
+                    </motion.h1>
+                  </AnimatePresence>
+                  
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={`p-${animationKey}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -30 }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { 
+                        duration: 0.6, 
+                        delay: 0.25,
+                        ease: "easeOut"
+                      }}
+                    >
+                      Качественные запчасти для всех типов вездеходов. Быстрая<br />доставка по всей России. Гарантия качества на все товары.
+                    </motion.p>
+                  </AnimatePresence>
+                  
+                  <div className="hero-cta-group">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={`btn1-${animationKey}`}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -30 }}
+                        transition={prefersReducedMotion ? { duration: 0 } : { 
+                          duration: 0.6, 
+                          delay: 0.4,
+                          ease: "easeOut"
+                        }}
+                      >
+                        <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button black-text">
+                          {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
+                          <FaArrowRight />
+                        </Link>
+                      </motion.div>
+                    </AnimatePresence>
+                    
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={`btn2-${animationKey}`}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -30 }}
+                        transition={prefersReducedMotion ? { duration: 0 } : { 
+                          duration: 0.6, 
+                          delay: 0.55,
+                          ease: "easeOut"
+                        }}
+                      >
+                        <Link
+                          to="/about#contacts"
+                          className="cta-button secondary"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/about#contacts');
+                            setTimeout(() => {
+                              const el = document.getElementById('contacts');
+                              if (el) el.scrollIntoView({ behavior: 'smooth' });
+                            }, 50);
+                          }}
+                        >
+                          Связаться с менеджером
+                        </Link>
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
                 </div>
               </div>

@@ -205,6 +205,7 @@
   opacity: 0.8;
 }
 
+
 /* Анимация для шестеренок */
 @keyframes rotate {
   from { transform: rotate(0deg); }
@@ -218,6 +219,7 @@
 .gear-small {
   animation: rotate 15s linear infinite reverse;
 }
+
 
 /* Адаптивность */
 @media (max-width: 768px) {
