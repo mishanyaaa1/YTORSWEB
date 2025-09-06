@@ -107,13 +107,14 @@ function Home() {
       {(() => {
         return (
           <section className="hero">
+            <div className="hero-fog"></div>
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
                   <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
                   <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
                   <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button primary">
                       {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
                       <FaArrowRight />
                     </Link>
