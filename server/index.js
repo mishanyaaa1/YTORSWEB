@@ -210,17 +210,58 @@ app.get('/api/admin/me', requireAdmin, (req, res) => {
 });
 
 // Тестовый эндпоинт для отладки
-app.get('/api/admin/debug', (req, res) => {
-  res.json({
-    cookies: req.cookies,
-    headers: {
-      origin: req.headers.origin,
-      referer: req.headers.referer,
-      cookie: req.headers.cookie
-    },
-    admin: req.admin || null,
-    jwtSecret: JWT_SECRET ? 'set' : 'not set'
-  });
+app.get('/api/admin/debug', async (req, res) => {
+  try {
+    // Проверяем таблицы в базе данных
+    const tables = await all(`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public'
+      ORDER BY table_name
+    `);
+    
+    // Проверяем количество записей в основных таблицах
+    const counts = {};
+    const tablesToCheck = ['brands', 'categories', 'products', 'admins'];
+    
+    for (const table of tablesToCheck) {
+      try {
+        const result = await get(`SELECT COUNT(*) as count FROM ${table}`);
+        counts[table] = result?.count || 0;
+      } catch (error) {
+        counts[table] = `Error: ${error.message}`;
+      }
+    }
+    
+    res.json({
+      cookies: req.cookies,
+      headers: {
+        origin: req.headers.origin,
+        referer: req.headers.referer,
+        cookie: req.headers.cookie
+      },
+      admin: req.admin || null,
+      jwtSecret: JWT_SECRET ? 'set' : 'not set',
+      database: {
+        tables: tables.map(t => t.table_name),
+        recordCounts: counts
+      }
+    });
+  } catch (error) {
+    res.json({
+      cookies: req.cookies,
+      headers: {
+        origin: req.headers.origin,
+        referer: req.headers.referer,
+        cookie: req.headers.cookie
+      },
+      admin: req.admin || null,
+      jwtSecret: JWT_SECRET ? 'set' : 'not set',
+      database: {
+        error: error.message
+      }
+    });
+  }
 });
 
 // Эндпоинт для сброса пароля админа (только для разработки)
@@ -277,7 +318,7 @@ app.post('/api/upload/image', requireAdmin, upload.single('image'), (req, res) =
 // Brands
 app.get('/api/brands', async (req, res) => {
   try {
-    const rows = await all(db, `SELECT id, name FROM brands ORDER BY name ASC`);
+    const rows = await all(`SELECT id, name FROM brands ORDER BY name ASC`);
     res.json(rows.map(r => r.name));
   } catch (err) {
     console.error(err);
@@ -297,7 +338,7 @@ app.post('/api/brands', requireAdmin, async (req, res) => {
 app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
   try {
     const { name } = req.params;
-    await run(db, `DELETE FROM brands WHERE name=?`, [name]);
+    await run(`DELETE FROM brands WHERE name=$1`, [name]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -308,8 +349,8 @@ app.delete('/api/brands/:name', requireAdmin, async (req, res) => {
 // Categories and subcategories as structure
 app.get('/api/categories', async (req, res) => {
   try {
-    const cats = await all(db, `SELECT id, name FROM categories ORDER BY name ASC`);
-    const sub = await all(db, `SELECT id, category_id, name FROM subcategories ORDER BY name ASC`);
+    const cats = await all( `SELECT id, name FROM categories ORDER BY name ASC`);
+    const sub = await all( `SELECT id, category_id, name FROM subcategories ORDER BY name ASC`);
     const idToName = new Map(cats.map(c => [c.id, c.name]));
     const result = {};
     for (const c of cats) {
@@ -344,7 +385,7 @@ app.put('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const oldName = req.params.name;
     const { newName } = req.body;
-    await run(db, `UPDATE categories SET name=? WHERE name=?`, [newName, oldName]);
+    await run( `UPDATE categories SET name=? WHERE name=?`, [newName, oldName]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -354,7 +395,7 @@ app.put('/api/categories/:name', requireAdmin, async (req, res) => {
 app.delete('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    await run(db, `DELETE FROM categories WHERE name=?`, [name]);
+    await run( `DELETE FROM categories WHERE name=?`, [name]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -365,9 +406,9 @@ app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) =>
   try {
     const name = req.params.name;
     const { subcategories = [] } = req.body;
-    const cat = await get(db, `SELECT id FROM categories WHERE name=?`, [name]);
+    const cat = await get( `SELECT id FROM categories WHERE name=?`, [name]);
     if (!cat) return res.status(404).json({ error: 'Category not found' });
-    await run(db, `DELETE FROM subcategories WHERE category_id=?`, [cat.id]);
+    await run( `DELETE FROM subcategories WHERE category_id=?`, [cat.id]);
     for (const s of subcategories) {
       await ensureSubcategoryByName(cat.id, s);
     }
@@ -381,7 +422,7 @@ app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) =>
 // API для типов местности
 app.get('/api/terrain-types', async (req, res) => {
   try {
-    const rows = await all(db, `SELECT id, name FROM terrain_types ORDER BY name ASC`);
+    const rows = await all( `SELECT id, name FROM terrain_types ORDER BY name ASC`);
     res.json(rows.map(r => r.name));
   } catch (err) {
     console.error(err);
@@ -397,7 +438,7 @@ app.post('/api/terrain-types', requireAdmin, async (req, res) => {
     }
     
     const trimmedName = name.trim();
-    await run(db, `INSERT INTO terrain_types (name) VALUES (?)`, [trimmedName]);
+    await run( `INSERT INTO terrain_types (name) VALUES (?)`, [trimmedName]);
     res.status(201).json({ ok: true, name: trimmedName });
   } catch (err) {
     if (err.message && err.message.includes('UNIQUE constraint failed')) {
@@ -412,7 +453,7 @@ app.post('/api/terrain-types', requireAdmin, async (req, res) => {
 app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    const result = await run(db, `DELETE FROM terrain_types WHERE name = ?`, [name]);
+    const result = await run( `DELETE FROM terrain_types WHERE name = ?`, [name]);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Terrain type not found' });
@@ -428,7 +469,7 @@ app.delete('/api/terrain-types/:name', requireAdmin, async (req, res) => {
 // API для типов вездеходов
 app.get('/api/vehicle-types', async (req, res) => {
   try {
-    const rows = await all(db, `SELECT id, name FROM vehicle_types ORDER BY name ASC`);
+    const rows = await all( `SELECT id, name FROM vehicle_types ORDER BY name ASC`);
     res.json(rows.map(r => r.name));
   } catch (err) {
     console.error(err);
@@ -444,7 +485,7 @@ app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
     }
     
     const trimmedName = name.trim();
-    await run(db, `INSERT INTO vehicle_types (name) VALUES (?)`, [trimmedName]);
+    await run( `INSERT INTO vehicle_types (name) VALUES (?)`, [trimmedName]);
     res.status(201).json({ ok: true, name: trimmedName });
   } catch (err) {
     if (err.message && err.message.includes('UNIQUE constraint failed')) {
@@ -459,7 +500,7 @@ app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
 app.delete('/api/vehicle-types/:name', requireAdmin, async (req, res) => {
   try {
     const name = req.params.name;
-    const result = await run(db, `DELETE FROM vehicle_types WHERE name = ?`, [name]);
+    const result = await run( `DELETE FROM vehicle_types WHERE name = ?`, [name]);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Vehicle type not found' });
@@ -544,26 +585,26 @@ app.get('/api/products', async (req, res) => {
 // Helpers to ensure catalog entities
 async function ensureCategoryByName(name) {
   if (!name) return null;
-  const row = await get(db, `SELECT id FROM categories WHERE name = ?`, [name]);
+  const row = await get(`SELECT id FROM categories WHERE name = $1`, [name]);
   if (row) return row.id;
-  const r = await run(db, `INSERT INTO categories (name) VALUES (?)`, [name]);
-  return r.lastID;
+  const r = await run(`INSERT INTO categories (name) VALUES ($1) RETURNING id`, [name]);
+  return r.rows[0]?.id || r.lastID;
 }
 
 async function ensureSubcategoryByName(categoryId, name) {
   if (!name || !categoryId) return null;
-  const row = await get(db, `SELECT id FROM subcategories WHERE category_id = ? AND name = ?`, [categoryId, name]);
+  const row = await get(`SELECT id FROM subcategories WHERE category_id = $1 AND name = $2`, [categoryId, name]);
   if (row) return row.id;
-  const r = await run(db, `INSERT INTO subcategories (category_id, name) VALUES (?, ?)`, [categoryId, name]);
-  return r.lastID;
+  const r = await run(`INSERT INTO subcategories (category_id, name) VALUES ($1, $2) RETURNING id`, [categoryId, name]);
+  return r.rows[0]?.id || r.lastID;
 }
 
 async function ensureBrandByName(name) {
   if (!name) return null;
-  const row = await get(db, `SELECT id FROM brands WHERE name = ?`, [name]);
+  const row = await get(`SELECT id FROM brands WHERE name = $1`, [name]);
   if (row) return row.id;
-  const r = await run(db, `INSERT INTO brands (name) VALUES (?)`, [name]);
-  return r.lastID;
+  const r = await run(`INSERT INTO brands (name) VALUES ($1) RETURNING id`, [name]);
+  return r.rows[0]?.id || r.lastID;
 }
 
 // Create product
@@ -579,16 +620,15 @@ app.post('/api/products', requireAdmin, async (req, res) => {
     const featJson = features ? JSON.stringify(features) : null;
 
     const r = await run(
-      db,
       `INSERT INTO products (title, price, category_id, subcategory_id, brand_id, available, quantity, description, specifications_json, features_json)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
       [title, price, categoryId, subcategoryId, brandId, available ? 1 : 0, quantity, description, specJson, featJson]
     );
 
     const productId = r.lastID;
     if (Array.isArray(images)) {
       for (const img of images) {
-        await run(db, `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [productId, img.data, img.isMain ? 1 : 0]);
+        await run( `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [productId, img.data, img.isMain ? 1 : 0]);
       }
     }
 
@@ -620,9 +660,9 @@ app.put('/api/products/:id', requireAdmin, async (req, res) => {
 
     // replace images
     if (Array.isArray(images)) {
-      await run(db, `DELETE FROM product_images WHERE product_id = ?`, [id]);
+      await run( `DELETE FROM product_images WHERE product_id = ?`, [id]);
       for (const img of images) {
-        await run(db, `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [id, img.data, img.isMain ? 1 : 0]);
+        await run( `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [id, img.data, img.isMain ? 1 : 0]);
       }
     }
 
@@ -637,7 +677,7 @@ app.put('/api/products/:id', requireAdmin, async (req, res) => {
 app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
-    await run(db, `DELETE FROM products WHERE id=?`, [id]);
+    await run( `DELETE FROM products WHERE id=?`, [id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -676,7 +716,7 @@ app.get('/api/promotions', async (req, res) => {
 app.post('/api/promotions', requireAdmin, async (req, res) => {
   try {
     const { title, description, discount, category, validUntil, active = true, featured = false, minPurchase } = req.body;
-    const catId = category ? (await get(db, `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
+    const catId = category ? (await get( `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
     const r = await run(
       db,
       `INSERT INTO promotions (title, description, discount, category_id, valid_until, active, featured, min_purchase)
@@ -694,7 +734,7 @@ app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { title, description, discount, category, validUntil, active, featured, minPurchase } = req.body;
-    const catId = category ? (await get(db, `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
+    const catId = category ? (await get( `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
     await run(
       db,
       `UPDATE promotions SET title=?, description=?, discount=?, category_id=?, valid_until=?, active=?, featured=?, min_purchase=? WHERE id=?`,
@@ -710,7 +750,7 @@ app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
 app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
-    await run(db, `DELETE FROM promotions WHERE id=?`, [id]);
+    await run( `DELETE FROM promotions WHERE id=?`, [id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -721,11 +761,11 @@ app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
 // Orders
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
-    const orders = await all(db, `SELECT * FROM orders ORDER BY created_at DESC`);
+    const orders = await all( `SELECT * FROM orders ORDER BY created_at DESC`);
     const orderIds = orders.map(o => o.id);
     let items = [];
     if (orderIds.length) {
-      items = await all(db, `SELECT * FROM order_items WHERE order_id IN (${orderIds.map(() => '?').join(',')})`, orderIds);
+      items = await all( `SELECT * FROM order_items WHERE order_id IN (${orderIds.map(() => '?').join(',')})`, orderIds);
     }
     const orderIdToItems = new Map();
     for (const it of items) {
@@ -742,7 +782,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
     // notes
     let notes = [];
     if (orderIds.length) {
-      notes = await all(db, `SELECT * FROM order_notes WHERE order_id IN (${orderIds.map(() => '?').join(',')}) ORDER BY timestamp ASC`, orderIds);
+      notes = await all( `SELECT * FROM order_notes WHERE order_id IN (${orderIds.map(() => '?').join(',')}) ORDER BY timestamp ASC`, orderIds);
     }
     const orderIdToNotes = new Map();
     for (const n of notes) {
@@ -757,7 +797,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 
     const result = [];
     for (const o of orders) {
-      const customer = o.customer_id ? await get(db, `SELECT * FROM customers WHERE id = ?`, [o.customer_id]) : null;
+      const customer = o.customer_id ? await get( `SELECT * FROM customers WHERE id = ?`, [o.customer_id]) : null;
       result.push({
         id: o.id,
         orderNumber: o.order_number,
@@ -821,7 +861,7 @@ app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    await run(db, `UPDATE orders SET status=?, updated_at = datetime('now') WHERE id=?`, [status, id]);
+    await run( `UPDATE orders SET status=?, updated_at = datetime('now') WHERE id=?`, [status, id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -834,7 +874,7 @@ app.post('/api/orders/:id/notes', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { text, type = 'note' } = req.body;
-    const r = await run(db, `INSERT INTO order_notes (order_id, text, type) VALUES (?, ?, ?)`, [id, text, type]);
+    const r = await run( `INSERT INTO order_notes (order_id, text, type) VALUES (?, ?, ?)`, [id, text, type]);
     res.status(201).json({ id: r.lastID });
   } catch (err) {
     console.error(err);
@@ -847,9 +887,9 @@ app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     // Удаляем связанные записи явно, чтобы не зависеть от PRAGMA foreign_keys
-    await run(db, `DELETE FROM order_items WHERE order_id = ?`, [id]);
-    await run(db, `DELETE FROM order_notes WHERE order_id = ?`, [id]);
-    await run(db, `DELETE FROM orders WHERE id = ?`, [id]);
+    await run( `DELETE FROM order_items WHERE order_id = ?`, [id]);
+    await run( `DELETE FROM order_notes WHERE order_id = ?`, [id]);
+    await run( `DELETE FROM orders WHERE id = ?`, [id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -860,8 +900,8 @@ app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
 // Admin: normalize product IDs to be sequential starting from 1
 app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
   try {
-    await run(db, 'PRAGMA foreign_keys = OFF');
-    await run(db, 'BEGIN TRANSACTION');
+    await run( 'PRAGMA foreign_keys = OFF');
+    await run( 'BEGIN TRANSACTION');
 
     // Create temp table with same schema as products
     await run(
@@ -886,7 +926,7 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
       )`
     );
 
-    const products = await all(db, `SELECT * FROM products ORDER BY id ASC`);
+    const products = await all( `SELECT * FROM products ORDER BY id ASC`);
     const idMap = new Map();
     for (const p of products) {
       const r = await run(
@@ -912,33 +952,33 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
     }
 
     // Update references in product_images
-    const imgs = await all(db, `SELECT id, product_id FROM product_images`);
+    const imgs = await all( `SELECT id, product_id FROM product_images`);
     for (const img of imgs) {
       const newId = idMap.get(img.product_id);
       if (newId) {
-        await run(db, `UPDATE product_images SET product_id=? WHERE id=?`, [newId, img.id]);
+        await run( `UPDATE product_images SET product_id=? WHERE id=?`, [newId, img.id]);
       }
     }
 
     // Update references in order_items
-    const orderItems = await all(db, `SELECT id, product_id FROM order_items WHERE product_id IS NOT NULL`);
+    const orderItems = await all( `SELECT id, product_id FROM order_items WHERE product_id IS NOT NULL`);
     for (const it of orderItems) {
       const newId = idMap.get(it.product_id);
       if (newId) {
-        await run(db, `UPDATE order_items SET product_id=? WHERE id=?`, [newId, it.id]);
+        await run( `UPDATE order_items SET product_id=? WHERE id=?`, [newId, it.id]);
       }
     }
 
     // Replace products table
-    await run(db, `DROP TABLE products`);
-    await run(db, `ALTER TABLE products_tmp RENAME TO products`);
-    await run(db, 'COMMIT');
-    await run(db, 'PRAGMA foreign_keys = ON');
+    await run( `DROP TABLE products`);
+    await run( `ALTER TABLE products_tmp RENAME TO products`);
+    await run( 'COMMIT');
+    await run( 'PRAGMA foreign_keys = ON');
 
     res.json({ ok: true, remapped: products.length });
   } catch (err) {
-    try { await run(db, 'ROLLBACK'); } catch {}
-    await run(db, 'PRAGMA foreign_keys = ON');
+    try { await run( 'ROLLBACK'); } catch {}
+    await run( 'PRAGMA foreign_keys = ON');
     console.error(err);
     res.status(500).json({ error: 'Failed to normalize product IDs' });
   }
@@ -947,7 +987,7 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
 // Advertising API endpoints
 app.get('/api/admin/advertising', requireAdmin, async (req, res) => {
   try {
-    const rows = await all(db, `SELECT platform, enabled, settings_json FROM advertising_settings ORDER BY platform ASC`);
+    const rows = await all( `SELECT platform, enabled, settings_json FROM advertising_settings ORDER BY platform ASC`);
     const result = {};
     
     for (const row of rows) {
@@ -1005,7 +1045,7 @@ app.post('/api/admin/advertising', requireAdmin, async (req, res) => {
 // Public endpoint for getting advertising scripts (for frontend)
 app.get('/api/advertising/scripts', async (req, res) => {
   try {
-    const rows = await all(db, `SELECT platform, enabled, settings_json FROM advertising_settings WHERE enabled = 1`);
+    const rows = await all( `SELECT platform, enabled, settings_json FROM advertising_settings WHERE enabled = 1`);
     const scripts = {
       head: [],
       body: []
@@ -1147,7 +1187,7 @@ app.get('/api/test', (req, res) => {
 // Bot management endpoints
 app.get('/api/admin/bot', requireAdmin, async (req, res) => {
   try {
-    const settings = await get(db, `SELECT bot_token, chat_id, enabled FROM bot_settings ORDER BY id DESC LIMIT 1`);
+    const settings = await get( `SELECT bot_token, chat_id, enabled FROM bot_settings ORDER BY id DESC LIMIT 1`);
     if (!settings) {
       return res.json({ bot_token: '', chat_id: '', enabled: false });
     }
@@ -1167,7 +1207,7 @@ app.post('/api/admin/bot', requireAdmin, async (req, res) => {
     const { bot_token, enabled } = req.body;
     
     // Проверяем, есть ли уже настройки
-    const existing = await get(db, `SELECT id, chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
+    const existing = await get( `SELECT id, chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
     
     if (existing) {
       // Обновляем существующие настройки, сохраняя текущий chat_id
@@ -1202,7 +1242,7 @@ app.post('/api/admin/bot/test', requireAdmin, async (req, res) => {
     }
     
     // Получаем настройки бота из базы данных
-    const botSettings = await get(db, `SELECT chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
+    const botSettings = await get( `SELECT chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
     
     if (!botSettings || !botSettings.chat_id) {
       return res.status(400).json({ error: 'Chat ID не настроен. Сначала настройте бота через админку.' });
@@ -1268,17 +1308,118 @@ app.get('/api/_debug/routes', requireAdmin, (req, res) => {
 
 
 
-Promise.all([
-  ensureAdminTableAndDefaultUser(),
-  ensureBotSettingsTable()
-])
-  .then(() => {
+// Применяем миграции перед запуском сервера
+async function applyMigrations() {
+  const fs = require('fs');
+  const { pool } = require('./db');
+  
+  const client = await pool.connect();
+  
+  try {
+    console.log('Применяю миграции для PostgreSQL...');
+    
+    // Список миграций в порядке применения
+    const migrations = [
+      '001_init_pg.sql',
+      '002_advertising_pg.sql', 
+      '003_terrain_vehicle_types_pg.sql',
+      '004_bot_settings_pg.sql'
+    ];
+    
+    // Создаем таблицу для отслеживания примененных миграций
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS migrations (
+        id SERIAL PRIMARY KEY,
+        filename VARCHAR(255) NOT NULL UNIQUE,
+        applied_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+      )
+    `);
+    
+    for (const migrationFile of migrations) {
+      // Проверяем, была ли уже применена эта миграция
+      const result = await client.query(
+        'SELECT id FROM migrations WHERE filename = $1',
+        [migrationFile]
+      );
+      
+      if (result.rows.length > 0) {
+        console.log(`Миграция ${migrationFile} уже применена, пропускаем...`);
+        continue;
+      }
+      
+      console.log(`Применяю миграцию: ${migrationFile}`);
+      
+      // Читаем файл миграции
+      const migrationPath = path.join(__dirname, 'migrations', migrationFile);
+      if (!fs.existsSync(migrationPath)) {
+        console.log(`Файл миграции ${migrationFile} не найден, пропускаем...`);
+        continue;
+      }
+      
+      const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
+      
+      // Разбиваем SQL на отдельные команды
+      const statements = migrationSQL
+        .split(';')
+        .map(stmt => stmt.trim())
+        .filter(stmt => stmt.length > 0 && !stmt.startsWith('--'));
+      
+      // Применяем каждую команду в транзакции
+      await client.query('BEGIN');
+      
+      try {
+        for (const statement of statements) {
+          if (statement.trim()) {
+            await client.query(statement);
+          }
+        }
+        
+        // Отмечаем миграцию как примененную
+        await client.query(
+          'INSERT INTO migrations (filename) VALUES ($1)',
+          [migrationFile]
+        );
+        
+        await client.query('COMMIT');
+        console.log(`Миграция ${migrationFile} успешно применена!`);
+        
+      } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+      }
+    }
+    
+    console.log('Все миграции успешно применены!');
+    
+  } catch (error) {
+    console.error('Ошибка при применении миграций:', error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Инициализация и запуск сервера
+async function startServer() {
+  try {
+    // Применяем миграции
+    await applyMigrations();
+    
+    // Инициализируем данные
+    await Promise.all([
+      ensureAdminTableAndDefaultUser(),
+      ensureBotSettingsTable()
+    ]);
+    
+    // Запускаем сервер
     app.listen(PORT, () => {
       console.log(`API server listening on http://localhost:${PORT}`);
     });
-  })
-  .catch((e) => {
-    console.error('Failed to initialize tables', e);
+  } catch (error) {
+    console.error('Failed to start server:', error);
     process.exit(1);
-  });
+  }
+}
+
+startServer();
 

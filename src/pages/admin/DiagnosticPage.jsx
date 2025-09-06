@@ -134,9 +134,32 @@ function DiagnosticPage() {
       {diagnostics.debugInfo && (
         <div className="diagnostic-section">
           <h2>Отладочная информация</h2>
-          <pre className="debug-info">
-            {JSON.stringify(diagnostics.debugInfo, null, 2)}
-          </pre>
+          
+          {diagnostics.debugInfo.database && (
+            <div className="database-info">
+              <h3>📊 База данных</h3>
+              {diagnostics.debugInfo.database.error ? (
+                <div className="error">Ошибка БД: {diagnostics.debugInfo.database.error}</div>
+              ) : (
+                <>
+                  <div><strong>Таблицы:</strong> {diagnostics.debugInfo.database.tables?.join(', ')}</div>
+                  <div><strong>Количество записей:</strong></div>
+                  <ul>
+                    {Object.entries(diagnostics.debugInfo.database.recordCounts || {}).map(([table, count]) => (
+                      <li key={table}>{table}: {count}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+          
+          <details>
+            <summary>🔍 Полная отладочная информация</summary>
+            <pre className="debug-info">
+              {JSON.stringify(diagnostics.debugInfo, null, 2)}
+            </pre>
+          </details>
         </div>
       )}
 
