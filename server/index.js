@@ -385,7 +385,7 @@ app.put('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
     const oldName = req.params.name;
     const { newName } = req.body;
-    await run( `UPDATE categories SET name=? WHERE name=?`, [newName, oldName]);
+    await run(`UPDATE categories SET name=$1 WHERE name=$2`, [newName, oldName]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -406,9 +406,9 @@ app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) =>
   try {
     const name = req.params.name;
     const { subcategories = [] } = req.body;
-    const cat = await get( `SELECT id FROM categories WHERE name=?`, [name]);
+    const cat = await get(`SELECT id FROM categories WHERE name=$1`, [name]);
     if (!cat) return res.status(404).json({ error: 'Category not found' });
-    await run( `DELETE FROM subcategories WHERE category_id=?`, [cat.id]);
+    await run(`DELETE FROM subcategories WHERE category_id=$1`, [cat.id]);
     for (const s of subcategories) {
       await ensureSubcategoryByName(cat.id, s);
     }
@@ -438,7 +438,7 @@ app.post('/api/terrain-types', requireAdmin, async (req, res) => {
     }
     
     const trimmedName = name.trim();
-    await run( `INSERT INTO terrain_types (name) VALUES (?)`, [trimmedName]);
+    await run(`INSERT INTO terrain_types (name) VALUES ($1)`, [trimmedName]);
     res.status(201).json({ ok: true, name: trimmedName });
   } catch (err) {
     if (err.message && err.message.includes('UNIQUE constraint failed')) {
@@ -485,7 +485,7 @@ app.post('/api/vehicle-types', requireAdmin, async (req, res) => {
     }
     
     const trimmedName = name.trim();
-    await run( `INSERT INTO vehicle_types (name) VALUES (?)`, [trimmedName]);
+    await run(`INSERT INTO vehicle_types (name) VALUES ($1)`, [trimmedName]);
     res.status(201).json({ ok: true, name: trimmedName });
   } catch (err) {
     if (err.message && err.message.includes('UNIQUE constraint failed')) {
@@ -536,9 +536,8 @@ app.get('/api/products', async (req, res) => {
     let images = [];
     if (productIds.length > 0) {
       images = await all(
-        db,
-        `SELECT * FROM product_images WHERE product_id IN (${productIds.map(() => '?').join(',')})`,
-        productIds
+        `SELECT * FROM product_images WHERE product_id = ANY($1)`,
+        [productIds]
       );
       console.log('📸 Найдено изображений:', images.length);
     }
@@ -628,7 +627,7 @@ app.post('/api/products', requireAdmin, async (req, res) => {
     const productId = r.lastID;
     if (Array.isArray(images)) {
       for (const img of images) {
-        await run( `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [productId, img.data, img.isMain ? 1 : 0]);
+        await run(`INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3)`, [productId, img.data, img.isMain ? 1 : 0]);
       }
     }
 
@@ -653,16 +652,15 @@ app.put('/api/products/:id', requireAdmin, async (req, res) => {
     const featJson = features ? JSON.stringify(features) : null;
 
     await run(
-      db,
-      `UPDATE products SET title=?, price=?, category_id=?, subcategory_id=?, brand_id=?, available=?, quantity=?, description=?, specifications_json=?, features_json=?, updated_at = datetime('now') WHERE id=?`,
+      `UPDATE products SET title=$1, price=$2, category_id=$3, subcategory_id=$4, brand_id=$5, available=$6, quantity=$7, description=$8, specifications_json=$9, features_json=$10, updated_at=NOW() WHERE id=$11`,
       [title, price, categoryId, subcategoryId, brandId, available ? 1 : 0, quantity, description, specJson, featJson, id]
     );
 
     // replace images
     if (Array.isArray(images)) {
-      await run( `DELETE FROM product_images WHERE product_id = ?`, [id]);
+      await run(`DELETE FROM product_images WHERE product_id = $1`, [id]);
       for (const img of images) {
-        await run( `INSERT INTO product_images (product_id, image_data, is_main) VALUES (?, ?, ?)`, [id, img.data, img.isMain ? 1 : 0]);
+        await run(`INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3)`, [id, img.data, img.isMain ? 1 : 0]);
       }
     }
 
@@ -716,7 +714,7 @@ app.get('/api/promotions', async (req, res) => {
 app.post('/api/promotions', requireAdmin, async (req, res) => {
   try {
     const { title, description, discount, category, validUntil, active = true, featured = false, minPurchase } = req.body;
-    const catId = category ? (await get( `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
+    const catId = category ? (await get(`SELECT id FROM categories WHERE name = $1`, [category]))?.id : null;
     const r = await run(
       db,
       `INSERT INTO promotions (title, description, discount, category_id, valid_until, active, featured, min_purchase)
@@ -734,10 +732,9 @@ app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { title, description, discount, category, validUntil, active, featured, minPurchase } = req.body;
-    const catId = category ? (await get( `SELECT id FROM categories WHERE name = ?`, [category]))?.id : null;
+    const catId = category ? (await get(`SELECT id FROM categories WHERE name = $1`, [category]))?.id : null;
     await run(
-      db,
-      `UPDATE promotions SET title=?, description=?, discount=?, category_id=?, valid_until=?, active=?, featured=?, min_purchase=? WHERE id=?`,
+      `UPDATE promotions SET title=$1, description=$2, discount=$3, category_id=$4, valid_until=$5, active=$6, featured=$7, min_purchase=$8 WHERE id=$9`,
       [title, description ?? null, discount, catId ?? null, validUntil ?? null, active ? 1 : 0, featured ? 1 : 0, minPurchase ?? null, id]
     );
     res.json({ ok: true });
@@ -797,7 +794,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 
     const result = [];
     for (const o of orders) {
-      const customer = o.customer_id ? await get( `SELECT * FROM customers WHERE id = ?`, [o.customer_id]) : null;
+      const customer = o.customer_id ? await get(`SELECT * FROM customers WHERE id = $1`, [o.customer_id]) : null;
       result.push({
         id: o.id,
         orderNumber: o.order_number,
@@ -825,8 +822,7 @@ app.post('/api/orders', async (req, res) => {
     let customerId = null;
     if (orderForm) {
       const r = await run(
-        db,
-        `INSERT INTO customers (name, phone, email, address) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO customers (name, phone, email, address) VALUES ($1, $2, $3, $4)`,
         [orderForm.name, orderForm.phone, orderForm.email ?? null, orderForm.address ?? null]
       );
       customerId = r.lastID;
@@ -834,16 +830,14 @@ app.post('/api/orders', async (req, res) => {
 
     const id = String(orderNumber);
     await run(
-      db,
-      `INSERT INTO orders (id, order_number, customer_id, status, pricing_json) VALUES (?, ?, ?, 'new', ?)` ,
+      `INSERT INTO orders (id, order_number, customer_id, status, pricing_json) VALUES ($1, $2, $3, 'new', $4)`,
       [id, String(orderNumber), customerId, JSON.stringify(priceCalculation)]
     );
 
     if (Array.isArray(cartItems)) {
       for (const it of cartItems) {
         await run(
-          db,
-          `INSERT INTO order_items (order_id, product_id, title, price, quantity) VALUES (?, ?, ?, ?, ?)`,
+          `INSERT INTO order_items (order_id, product_id, title, price, quantity) VALUES ($1, $2, $3, $4, $5)`,
           [id, it.id ?? null, it.title, it.price, it.quantity]
         );
       }
@@ -861,7 +855,7 @@ app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    await run( `UPDATE orders SET status=?, updated_at = datetime('now') WHERE id=?`, [status, id]);
+    await run(`UPDATE orders SET status=$1, updated_at=NOW() WHERE id=$2`, [status, id]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -874,7 +868,7 @@ app.post('/api/orders/:id/notes', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { text, type = 'note' } = req.body;
-    const r = await run( `INSERT INTO order_notes (order_id, text, type) VALUES (?, ?, ?)`, [id, text, type]);
+    const r = await run(`INSERT INTO order_notes (order_id, text, type) VALUES ($1, $2, $3)`, [id, text, type]);
     res.status(201).json({ id: r.lastID });
   } catch (err) {
     console.error(err);
@@ -956,7 +950,7 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
     for (const img of imgs) {
       const newId = idMap.get(img.product_id);
       if (newId) {
-        await run( `UPDATE product_images SET product_id=? WHERE id=?`, [newId, img.id]);
+        await run(`UPDATE product_images SET product_id=$1 WHERE id=$2`, [newId, img.id]);
       }
     }
 
@@ -965,7 +959,7 @@ app.post('/api/_admin/normalize/products', requireAdmin, async (req, res) => {
     for (const it of orderItems) {
       const newId = idMap.get(it.product_id);
       if (newId) {
-        await run( `UPDATE order_items SET product_id=? WHERE id=?`, [newId, it.id]);
+        await run(`UPDATE order_items SET product_id=$1 WHERE id=$2`, [newId, it.id]);
       }
     }
 
@@ -1028,8 +1022,7 @@ app.post('/api/admin/advertising', requireAdmin, async (req, res) => {
         const settingsJson = JSON.stringify(settings);
         
         await run(
-          db,
-          `UPDATE advertising_settings SET enabled = ?, settings_json = ?, updated_at = datetime('now') WHERE platform = ?`,
+          `UPDATE advertising_settings SET enabled = $1, settings_json = $2, updated_at = NOW() WHERE platform = $3`,
           [enabled ? 1 : 0, settingsJson, platform.name]
         );
       }
@@ -1212,15 +1205,13 @@ app.post('/api/admin/bot', requireAdmin, async (req, res) => {
     if (existing) {
       // Обновляем существующие настройки, сохраняя текущий chat_id
       await run(
-        db,
-        `UPDATE bot_settings SET bot_token = ?, enabled = ?, updated_at = datetime('now') WHERE id = ?`,
+        `UPDATE bot_settings SET bot_token = $1, enabled = $2, updated_at = NOW() WHERE id = $3`,
         [bot_token, enabled ? 1 : 0, existing.id]
       );
     } else {
       // Создаем новые настройки с пустым chat_id
       await run(
-        db,
-        `INSERT INTO bot_settings (bot_token, chat_id, enabled) VALUES (?, ?, ?)`,
+        `INSERT INTO bot_settings (bot_token, chat_id, enabled) VALUES ($1, $2, $3)`,
         [bot_token, '', enabled ? 1 : 0]
       );
     }
