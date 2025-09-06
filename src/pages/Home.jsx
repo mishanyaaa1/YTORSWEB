@@ -107,18 +107,15 @@ function Home() {
       {(() => {
         return (
           <section className="hero">
-            <div className="hero-smoke"></div>
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
                   <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
                   <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
                   <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button primary">
+                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
                       {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
-                      <div className="icon-dot">
-                        <FaArrowRight style={{ fontSize: '14px', color: 'white' }} />
-                      </div>
+                      <FaArrowRight />
                     </Link>
                     <Link
                       to="/about#contacts"
@@ -132,9 +129,6 @@ function Home() {
                         }, 50);
                       }}
                     >
-                      <div className="icon-dot">
-                        <FaArrowRight style={{ fontSize: '14px', color: 'white' }} />
-                      </div>
                       Связаться с менеджером
                     </Link>
                   </div>
