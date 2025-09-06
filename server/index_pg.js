@@ -876,7 +876,7 @@ app.post('/api/vehicles', async (req, res) => {
   }
 });
 
-app.put('/api/vehicles/:id', async (req, res) => {
+app.put('/api/vehicles/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, terrain_type, vehicle_type, specifications } = req.body;
@@ -899,7 +899,7 @@ app.put('/api/vehicles/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/vehicles/:id', async (req, res) => {
+app.delete('/api/vehicles/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -933,104 +933,127 @@ app.get('/api/advertising/scripts', async (req, res) => {
   }
 });
 
-// --- Product management routes ---
-app.post('/api/products', async (req, res) => {
+// Helper functions для обеспечения существования записей
+async function ensureCategoryByName(name) {
+  if (!name) return null;
+  const row = await get(`SELECT id FROM categories WHERE name = $1`, [name]);
+  if (row) return row.id;
+  const r = await run(`INSERT INTO categories (name) VALUES ($1) RETURNING id`, [name]);
+  return r.rows[0]?.id || r.lastID;
+}
+
+async function ensureSubcategoryByName(categoryId, name) {
+  if (!name || !categoryId) return null;
+  const row = await get(`SELECT id FROM subcategories WHERE category_id = $1 AND name = $2`, [categoryId, name]);
+  if (row) return row.id;
+  const r = await run(`INSERT INTO subcategories (category_id, name) VALUES ($1, $2) RETURNING id`, [categoryId, name]);
+  return r.rows[0]?.id || r.lastID;
+}
+
+async function ensureBrandByName(name) {
+  console.log('🔍 ensureBrandByName called with:', name);
+  if (!name) {
+    console.log('❌ ensureBrandByName: name is empty');
+    return null;
+  }
+  
   try {
-    console.log('Creating new product:', req.body);
-    const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type, images } = req.body;
-    
-    // Получаем ID категории, подкатегории и бренда
-    let categoryId = null;
-    let subcategoryId = null;
-    let brandId = null;
-    
-    if (category) {
-      const catResult = await get('SELECT id FROM categories WHERE name = $1', [category]);
-      if (catResult) categoryId = catResult.id;
+    console.log('🔍 Checking if brand exists:', name);
+    const row = await get(`SELECT id FROM brands WHERE name = $1`, [name]);
+    if (row) {
+      console.log('✅ Brand exists with ID:', row.id);
+      return row.id;
     }
     
-    if (subcategory && categoryId) {
-      const subResult = await get('SELECT id FROM subcategories WHERE name = $1 AND category_id = $2', [subcategory, categoryId]);
-      if (subResult) subcategoryId = subResult.id;
-    }
+    console.log('➕ Creating new brand:', name);
+    const r = await run(`INSERT INTO brands (name) VALUES ($1) RETURNING id`, [name]);
+    console.log('📊 Insert result:', r);
     
-    if (brand) {
-      const brandResult = await get('SELECT id FROM brands WHERE name = $1', [brand]);
-      if (brandResult) brandId = brandResult.id;
-    }
+    const brandId = r.rows?.[0]?.id || r.lastID;
+    console.log('✅ New brand created with ID:', brandId);
+    return brandId;
+  } catch (error) {
+    console.error('❌ Error in ensureBrandByName:', error);
+    console.error('❌ Error details:', error.message);
+    throw error;
+  }
+}
+
+// --- Product management routes ---
+app.post('/api/products', requireAdmin, async (req, res) => {
+  try {
+    console.log('🔥 Creating new product:', req.body);
+    const { title, price, category, subcategory, brand, available = true, quantity = 0, description = null, specifications, features, images } = req.body;
+
+    const categoryId = await ensureCategoryByName(category);
+    const subcategoryId = await ensureSubcategoryByName(categoryId, subcategory);
+    const brandId = await ensureBrandByName(brand);
+
+    const specJson = specifications ? JSON.stringify(specifications) : null;
+    const featJson = features ? JSON.stringify(features) : null;
+
+    const r = await run(
+      `INSERT INTO products (title, price, category_id, subcategory_id, brand_id, available, quantity, description, specifications_json, features_json)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      [title, price, categoryId, subcategoryId, brandId, available ? 1 : 0, quantity, description, specJson, featJson]
+    );
+
+    const productId = r.rows[0].id;
+    console.log('✅ Product created with ID:', productId);
     
-    const result = await run(`
-      INSERT INTO products (title, description, price, category_id, subcategory_id, brand_id)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-    `, [title, description, price, categoryId, subcategoryId, brandId]);
-    
-    const product = result.rows[0];
-    
-    // Добавляем изображения если есть
-    if (images && Array.isArray(images)) {
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        await run(`
-          INSERT INTO product_images (product_id, image_data, is_main)
-          VALUES ($1, $2, $3)
-        `, [product.id, image.data, i === 0]);
+    if (Array.isArray(images)) {
+      console.log('📸 Adding images:', images.length);
+      for (const img of images) {
+        await run(`INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3)`, [productId, img.data, img.isMain ? 1 : 0]);
       }
     }
-    
-    res.json(product);
+
+    res.status(201).json({ id: productId });
   } catch (error) {
-    console.error('Error creating product:', error);
-    res.status(500).json({ error: 'Failed to create product' });
+    console.error('❌ Error creating product:', error);
+    res.status(500).json({ error: 'Failed to create product', details: error.message });
   }
 });
 
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title, description, price, category, subcategory, brand, terrain_type, vehicle_type } = req.body;
-    
-    // Получаем ID категории, подкатегории и бренда
-    let categoryId = null;
-    let subcategoryId = null;
-    let brandId = null;
-    
-    if (category) {
-      const catResult = await get('SELECT id FROM categories WHERE name = $1', [category]);
-      if (catResult) categoryId = catResult.id;
+    const id = Number(req.params.id);
+    console.log('🔄 Updating product:', id, req.body);
+    const { title, price, category, subcategory, brand, available = true, quantity = 0, description = null, specifications, features, images } = req.body;
+
+    const categoryId = await ensureCategoryByName(category);
+    const subcategoryId = await ensureSubcategoryByName(categoryId, subcategory);
+    const brandId = await ensureBrandByName(brand);
+
+    const specJson = specifications ? JSON.stringify(specifications) : null;
+    const featJson = features ? JSON.stringify(features) : null;
+
+    await run(
+      `UPDATE products SET title=$1, price=$2, category_id=$3, subcategory_id=$4, brand_id=$5, available=$6, quantity=$7, description=$8, specifications_json=$9, features_json=$10, updated_at=NOW() WHERE id=$11`,
+      [title, price, categoryId, subcategoryId, brandId, available ? 1 : 0, quantity, description, specJson, featJson, id]
+    );
+
+    // replace images
+    if (Array.isArray(images)) {
+      console.log('📸 Updating images for product:', id);
+      await run(`DELETE FROM product_images WHERE product_id = $1`, [id]);
+      for (const img of images) {
+        await run(`INSERT INTO product_images (product_id, image_data, is_main) VALUES ($1, $2, $3)`, [id, img.data, img.isMain ? 1 : 0]);
+      }
     }
-    
-    if (subcategory && categoryId) {
-      const subResult = await get('SELECT id FROM subcategories WHERE name = $1 AND category_id = $2', [subcategory, categoryId]);
-      if (subResult) subcategoryId = subResult.id;
-    }
-    
-    if (brand) {
-      const brandResult = await get('SELECT id FROM brands WHERE name = $1', [brand]);
-      if (brandResult) brandId = brandResult.id;
-    }
-    
-    const result = await run(`
-      UPDATE products 
-      SET title = $1, description = $2, price = $3, category_id = $4, subcategory_id = $5, brand_id = $6
-      WHERE id = $7
-      RETURNING *
-    `, [title, description, price, categoryId, subcategoryId, brandId, id]);
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    
-    res.json(result.rows[0]);
+
+    console.log('✅ Product updated successfully:', id);
+    res.json({ ok: true });
   } catch (error) {
-    console.error('Error updating product:', error);
-    res.status(500).json({ error: 'Failed to update product' });
+    console.error('❌ Error updating product:', error);
+    res.status(500).json({ error: 'Failed to update product', details: error.message });
   }
 });
 
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = Number(req.params.id);
+    console.log('🗑️ Deleting product:', id);
     
     // Удаляем изображения товара
     await run('DELETE FROM product_images WHERE product_id = $1', [id]);
@@ -1039,10 +1062,12 @@ app.delete('/api/products/:id', async (req, res) => {
     const result = await run('DELETE FROM products WHERE id = $1 RETURNING *', [id]);
     
     if (result.rows.length === 0) {
+      console.log('❌ Product not found:', id);
       return res.status(404).json({ error: 'Product not found' });
     }
     
-    res.json({ message: 'Product deleted successfully' });
+    console.log('✅ Product deleted successfully:', id);
+    res.json({ ok: true });
   } catch (error) {
     console.error('Error deleting product:', error);
     res.status(500).json({ error: 'Failed to delete product' });
@@ -1052,69 +1077,66 @@ app.delete('/api/products/:id', async (req, res) => {
 // --- Category management routes ---
 app.post('/api/categories', requireAdmin, async (req, res) => {
   try {
-    const { name, subcategories } = req.body;
-    
-    // Проверяем, существует ли категория
-    const existing = await get('SELECT * FROM categories WHERE name = $1', [name]);
-    if (existing) {
-      return res.status(400).json({ error: 'Category already exists' });
+    console.log('🔥 Creating category:', req.body);
+    const { name, subcategories = [] } = req.body;
+    const catId = await ensureCategoryByName(name);
+    for (const s of subcategories) {
+      await ensureSubcategoryByName(catId, s);
     }
-    
-    // Создаем категорию
-    await run('INSERT INTO categories (name) VALUES ($1)', [name]);
-    
-    // Добавляем подкатегории если есть
-    if (subcategories && Array.isArray(subcategories)) {
-      for (const subcategory of subcategories) {
-        await run('INSERT INTO subcategories (name, category_name) VALUES ($1, $2)', [subcategory, name]);
-      }
-    }
-    
-    res.json({ message: 'Category created successfully' });
+    console.log('✅ Category created successfully:', name);
+    res.status(201).json({ ok: true });
   } catch (error) {
-    console.error('Error creating category:', error);
-    res.status(500).json({ error: 'Failed to create category' });
+    console.error('❌ Error creating category:', error);
+    res.status(500).json({ error: 'Failed to create category', details: error.message });
   }
 });
 
 app.put('/api/categories/:name', requireAdmin, async (req, res) => {
   try {
-    const { name } = req.params;
+    const oldName = req.params.name;
     const { newName } = req.body;
-    
-    if (newName && newName !== name) {
-      // Переименовываем категорию
-      await run('UPDATE categories SET name = $1 WHERE name = $2', [newName, name]);
-      await run('UPDATE subcategories SET category_name = $1 WHERE category_name = $2', [newName, name]);
-      await run('UPDATE products SET category = $1 WHERE category = $2', [newName, name]);
-    }
-    
-    res.json({ message: 'Category updated successfully' });
+    console.log('🔄 Renaming category:', oldName, '→', newName);
+    await run(`UPDATE categories SET name=$1 WHERE name=$2`, [newName, oldName]);
+    console.log('✅ Category renamed successfully');
+    res.json({ ok: true });
   } catch (error) {
-    console.error('Error updating category:', error);
-    res.status(500).json({ error: 'Failed to update category' });
+    console.error('❌ Error renaming category:', error);
+    res.status(500).json({ error: 'Failed to rename category', details: error.message });
   }
 });
 
 app.put('/api/categories/:name/subcategories', requireAdmin, async (req, res) => {
   try {
-    const { name } = req.params;
-    const { subcategories } = req.body;
+    const name = req.params.name;
+    const { subcategories = [] } = req.body;
+    console.log('🔄 Updating subcategories for:', name, subcategories);
     
-    // Удаляем старые подкатегории
-    await run('DELETE FROM subcategories WHERE category_name = $1', [name]);
+    const cat = await get(`SELECT id FROM categories WHERE name=$1`, [name]);
+    if (!cat) return res.status(404).json({ error: 'Category not found' });
     
-    // Добавляем новые подкатегории
-    if (subcategories && Array.isArray(subcategories)) {
-      for (const subcategory of subcategories) {
-        await run('INSERT INTO subcategories (name, category_name) VALUES ($1, $2)', [subcategory, name]);
-      }
+    await run(`DELETE FROM subcategories WHERE category_id=$1`, [cat.id]);
+    for (const s of subcategories) {
+      await ensureSubcategoryByName(cat.id, s);
     }
     
-    res.json({ message: 'Subcategories updated successfully' });
+    console.log('✅ Subcategories updated successfully');
+    res.json({ ok: true });
   } catch (error) {
-    console.error('Error updating subcategories:', error);
-    res.status(500).json({ error: 'Failed to update subcategories' });
+    console.error('❌ Error updating subcategories:', error);
+    res.status(500).json({ error: 'Failed to set subcategories', details: error.message });
+  }
+});
+
+app.delete('/api/categories/:name', requireAdmin, async (req, res) => {
+  try {
+    const name = req.params.name;
+    console.log('🗑️ Deleting category:', name);
+    await run(`DELETE FROM categories WHERE name=$1`, [name]);
+    console.log('✅ Category deleted successfully');
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting category:', error);
+    res.status(500).json({ error: 'Failed to delete category', details: error.message });
   }
 });
 
@@ -1204,58 +1226,163 @@ app.delete('/api/brands/:id', requireAdmin, async (req, res) => {
 // --- Promotion management routes ---
 app.post('/api/promotions', requireAdmin, async (req, res) => {
   try {
-    const { title, description, discount_percent, category, start_date, end_date } = req.body;
+    console.log('🔥 Creating promotion:', req.body);
+    const { title, description, discount, category, validUntil, active = true, featured = false, minPurchase } = req.body;
+    const catId = category ? (await get(`SELECT id FROM categories WHERE name = $1`, [category]))?.id : null;
     
-    const result = await run(`
-      INSERT INTO promotions (title, description, discount_percent, category, start_date, end_date)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-    `, [title, description, discount_percent, category, start_date, end_date]);
+    const r = await run(
+      `INSERT INTO promotions (title, description, discount, category_id, valid_until, active, featured, min_purchase)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [title, description ?? null, discount, catId ?? null, validUntil ?? null, active ? true : false, featured ? true : false, minPurchase ?? null]
+    );
     
-    res.json(result.rows[0]);
+    console.log('✅ Promotion created:', r.rows[0]);
+    res.status(201).json({ id: r.rows[0].id });
   } catch (error) {
-    console.error('Error creating promotion:', error);
-    res.status(500).json({ error: 'Failed to create promotion' });
+    console.error('❌ Error creating promotion:', error);
+    res.status(500).json({ error: 'Failed to create promotion', details: error.message });
   }
 });
 
 app.put('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
-    const { title, description, discount_percent, category, start_date, end_date } = req.body;
+    const id = Number(req.params.id);
+    console.log('🔄 Updating promotion:', id, req.body);
+    const { title, description, discount, category, validUntil, active, featured, minPurchase } = req.body;
+    const catId = category ? (await get(`SELECT id FROM categories WHERE name = $1`, [category]))?.id : null;
     
-    const result = await run(`
-      UPDATE promotions 
-      SET title = $1, description = $2, discount_percent = $3, category = $4, start_date = $5, end_date = $6
-      WHERE id = $7
-      RETURNING *
-    `, [title, description, discount_percent, category, start_date, end_date, id]);
+    await run(
+      `UPDATE promotions SET title=$1, description=$2, discount=$3, category_id=$4, valid_until=$5, active=$6, featured=$7, min_purchase=$8 WHERE id=$9`,
+      [title, description ?? null, discount, catId ?? null, validUntil ?? null, active ? true : false, featured ? true : false, minPurchase ?? null, id]
+    );
     
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Promotion not found' });
-    }
-    
-    res.json(result.rows[0]);
+    console.log('✅ Promotion updated successfully:', id);
+    res.json({ ok: true });
   } catch (error) {
-    console.error('Error updating promotion:', error);
-    res.status(500).json({ error: 'Failed to update promotion' });
+    console.error('❌ Error updating promotion:', error);
+    res.status(500).json({ error: 'Failed to update promotion', details: error.message });
   }
 });
 
 app.delete('/api/promotions/:id', requireAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = Number(req.params.id);
+    console.log('🗑️ Deleting promotion:', id);
+    await run(`DELETE FROM promotions WHERE id=$1`, [id]);
+    console.log('✅ Promotion deleted successfully:', id);
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting promotion:', error);
+    res.status(500).json({ error: 'Failed to delete promotion', details: error.message });
+  }
+});
+
+// --- Bot settings management routes ---
+app.get('/api/admin/bot', requireAdmin, async (req, res) => {
+  try {
+    console.log('🤖 Getting bot settings');
+    const settings = await get(`SELECT bot_token, chat_id, enabled FROM bot_settings ORDER BY id DESC LIMIT 1`);
+    if (!settings) {
+      console.log('🤖 No bot settings found, returning defaults');
+      return res.json({ bot_token: '', chat_id: '', enabled: false });
+    }
+    console.log('🤖 Bot settings found:', { enabled: settings.enabled, hasToken: !!settings.bot_token, hasChatId: !!settings.chat_id });
+    res.json({
+      bot_token: settings.bot_token || '',
+      chat_id: settings.chat_id || '',
+      enabled: Boolean(settings.enabled)
+    });
+  } catch (error) {
+    console.error('❌ Failed to fetch bot settings:', error);
+    res.status(500).json({ error: 'Failed to fetch bot settings', details: error.message });
+  }
+});
+
+app.post('/api/admin/bot', requireAdmin, async (req, res) => {
+  try {
+    console.log('🤖 Saving bot settings:', req.body);
+    const { bot_token, enabled } = req.body;
     
-    const result = await run('DELETE FROM promotions WHERE id = $1 RETURNING *', [id]);
+    // Проверяем, есть ли уже настройки
+    const existing = await get(`SELECT id, chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
     
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Promotion not found' });
+    if (existing) {
+      // Обновляем существующие настройки, сохраняя текущий chat_id
+      await run(
+        `UPDATE bot_settings SET bot_token = $1, enabled = $2, updated_at = NOW() WHERE id = $3`,
+        [bot_token, enabled ? true : false, existing.id]
+      );
+      console.log('🤖 Updated existing bot settings');
+    } else {
+      // Создаем новые настройки с пустым chat_id
+      await run(
+        `INSERT INTO bot_settings (bot_token, chat_id, enabled) VALUES ($1, $2, $3)`,
+        [bot_token, '', enabled ? true : false]
+      );
+      console.log('🤖 Created new bot settings');
     }
     
-    res.json({ message: 'Promotion deleted successfully' });
+    console.log('✅ Bot settings saved successfully');
+    res.json({ ok: true });
   } catch (error) {
-    console.error('Error deleting promotion:', error);
-    res.status(500).json({ error: 'Failed to delete promotion' });
+    console.error('❌ Failed to save bot settings:', error);
+    res.status(500).json({ error: 'Failed to save bot settings', details: error.message });
+  }
+});
+
+// Test bot connection
+app.post('/api/admin/bot/test', requireAdmin, async (req, res) => {
+  try {
+    console.log('🤖 Testing bot connection');
+    const { bot_token } = req.body;
+    
+    if (!bot_token) {
+      return res.status(400).json({ error: 'Bot token обязателен для тестирования' });
+    }
+    
+    // Получаем настройки бота из базы данных
+    const botSettings = await get(`SELECT chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
+    
+    if (!botSettings || !botSettings.chat_id) {
+      return res.status(400).json({ error: 'Chat ID не настроен. Сначала настройте бота через админку.' });
+    }
+    
+    const testMessage = `🧪 <b>Тестовое сообщение</b>\n\nЭто тестовое сообщение для проверки настроек бота.\n\n📅 Время: ${new Date().toLocaleString('ru-RU')}\n✅ Бот работает корректно!`;
+    
+    const response = await fetch(`https://api.telegram.org/bot${bot_token}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: botSettings.chat_id,
+        text: testMessage,
+        parse_mode: 'HTML'
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.log('❌ Bot test failed:', result);
+      return res.status(400).json({ 
+        error: `Ошибка Telegram API: ${result.description || 'Неизвестная ошибка'}`,
+        details: result
+      });
+    }
+
+    console.log('✅ Bot test successful');
+    res.json({ 
+      ok: true, 
+      message: 'Тестовое сообщение отправлено успешно!',
+      telegram_response: result
+    });
+  } catch (error) {
+    console.error('❌ Bot test error:', error);
+    res.status(500).json({ 
+      error: 'Ошибка при тестировании бота',
+      details: error.message
+    });
   }
 });
 
@@ -1539,6 +1666,92 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
   } catch (err) {
     console.error('Ошибка при загрузке заказов с сервера:', err);
     res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
+// Create order
+app.post('/api/orders', async (req, res) => {
+  try {
+    console.log('🛒 Creating order:', req.body);
+    const { orderForm, cartItems, priceCalculation, orderNumber } = req.body;
+
+    // customer
+    let customerId = null;
+    if (orderForm) {
+      const r = await run(
+        `INSERT INTO customers (name, phone, email, address) VALUES ($1, $2, $3, $4) RETURNING *`,
+        [orderForm.name, orderForm.phone, orderForm.email ?? null, orderForm.address ?? null]
+      );
+      customerId = r.rows[0].id;
+    }
+
+    const id = String(orderNumber);
+    await run(
+      `INSERT INTO orders (id, order_number, customer_id, status, pricing_json) VALUES ($1, $2, $3, 'new', $4)`,
+      [id, String(orderNumber), customerId, JSON.stringify(priceCalculation)]
+    );
+
+    if (Array.isArray(cartItems)) {
+      for (const it of cartItems) {
+        await run(
+          `INSERT INTO order_items (order_id, product_id, title, price, quantity) VALUES ($1, $2, $3, $4, $5)`,
+          [id, it.id ?? null, it.title, it.price, it.quantity]
+        );
+      }
+    }
+
+    console.log('✅ Order created successfully:', id);
+    res.status(201).json({ ok: true, id, orderNumber });
+  } catch (error) {
+    console.error('❌ Error creating order:', error);
+    res.status(500).json({ error: 'Failed to create order', details: error.message });
+  }
+});
+
+// Orders: update status
+app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log('🔄 Updating order status:', id, '→', status);
+    await run(`UPDATE orders SET status=$1, updated_at=NOW() WHERE id=$2`, [status, id]);
+    console.log('✅ Order status updated successfully');
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error updating order status:', error);
+    res.status(500).json({ error: 'Failed to update status', details: error.message });
+  }
+});
+
+// Orders: add note
+app.post('/api/orders/:id/notes', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text, type = 'note' } = req.body;
+    console.log('📝 Adding note to order:', id, text);
+    const r = await run(`INSERT INTO order_notes (order_id, text, type) VALUES ($1, $2, $3) RETURNING *`, [id, text, type]);
+    console.log('✅ Note added successfully');
+    res.status(201).json({ id: r.rows[0].id });
+  } catch (error) {
+    console.error('❌ Error adding note:', error);
+    res.status(500).json({ error: 'Failed to add note', details: error.message });
+  }
+});
+
+// Orders: hard delete (used for cancelled orders cleanup)
+app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('🗑️ Deleting order:', id);
+    // Удаляем связанные записи явно
+    await run(`DELETE FROM order_items WHERE order_id = $1`, [id]);
+    await run(`DELETE FROM order_notes WHERE order_id = $1`, [id]);
+    await run(`DELETE FROM orders WHERE id = $1`, [id]);
+    console.log('✅ Order deleted successfully');
+    res.json({ ok: true });
+  } catch (error) {
+    console.error('❌ Error deleting order:', error);
+    res.status(500).json({ error: 'Failed to delete order', details: error.message });
   }
 });
 
