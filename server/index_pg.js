@@ -1846,46 +1846,71 @@ app.post('/api/load-sample-images', async (req, res) => {
 
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
+    console.log('🛒 Loading orders from database...');
     const orders = await all(`SELECT * FROM orders ORDER BY created_at DESC`);
+    console.log(`📦 Found ${orders.length} orders`);
     const orderIds = orders.map(o => o.id);
     
     let items = [];
     if (orderIds.length) {
       items = await all(`SELECT * FROM order_items WHERE order_id = ANY($1)`, [orderIds]);
+      console.log(`📋 Found ${items.length} order items`);
     }
     
     let notes = [];
     if (orderIds.length) {
+      // Используем timestamp как в миграции PostgreSQL
       notes = await all(`SELECT * FROM order_notes WHERE order_id = ANY($1) ORDER BY timestamp ASC`, [orderIds]);
+      console.log(`📝 Found ${notes.length} order notes`);
     }
     
-    const itemMap = new Map();
-    items.forEach(item => {
-      if (!itemMap.has(item.order_id)) itemMap.set(item.order_id, []);
-      itemMap.get(item.order_id).push(item);
-    });
-    
-    const noteMap = new Map();
-    notes.forEach(note => {
-      if (!noteMap.has(note.order_id)) noteMap.set(note.order_id, []);
-      noteMap.get(note.order_id).push(note);
-    });
-    
+    const orderIdToItems = new Map();
+    for (const it of items) {
+      if (!orderIdToItems.has(it.order_id)) orderIdToItems.set(it.order_id, []);
+      orderIdToItems.get(it.order_id).push({
+        id: it.id,
+        productId: it.product_id,
+        title: it.title,
+        price: it.price,
+        quantity: it.quantity
+      });
+    }
+
+    // notes
+    const orderIdToNotes = new Map();
+    for (const n of notes) {
+      if (!orderIdToNotes.has(n.order_id)) orderIdToNotes.set(n.order_id, []);
+      orderIdToNotes.get(n.order_id).push({
+        id: n.id,
+        text: n.text,
+        type: n.type,
+        timestamp: n.timestamp // Используем timestamp как в PostgreSQL
+      });
+    }
+
     const result = [];
     for (const o of orders) {
       const customer = o.customer_id ? await get(`SELECT * FROM customers WHERE id = $1`, [o.customer_id]) : null;
+      console.log(`👤 Customer for order ${o.id}:`, customer ? 'found' : 'not found');
+      
       result.push({
-        ...o,
-        customer,
-        items: itemMap.get(o.id) || [],
-        notes: noteMap.get(o.id) || []
+        id: o.id,
+        orderNumber: o.order_number,
+        status: o.status,
+        pricing: JSON.parse(o.pricing_json || '{}'),
+        items: orderIdToItems.get(o.id) || [],
+        customerInfo: customer || { name: '', phone: '', email: null, address: null }, // Используем customerInfo вместо customer
+        notes: orderIdToNotes.get(o.id) || [],
+        createdAt: o.created_at,
+        updatedAt: o.updated_at
       });
     }
     
+    console.log(`✅ Returning ${result.length} formatted orders`);
     res.json(result);
   } catch (err) {
-    console.error('Ошибка при загрузке заказов с сервера:', err);
-    res.status(500).json({ error: 'Failed to fetch orders' });
+    console.error('❌ Ошибка при загрузке заказов с сервера:', err);
+    res.status(500).json({ error: 'Failed to fetch orders', details: err.message });
   }
 });
 
