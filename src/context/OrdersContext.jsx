@@ -82,21 +82,60 @@ export const OrdersProvider = ({ children }) => {
 
   // Обновить статус заказа
   const updateOrderStatus = async (orderId, newStatus, note = '') => {
-    await apiPatch(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/status`, { status: newStatus });
-    if (note) {
-      await apiPost(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/notes`, { text: note, type: 'status_change' });
+    try {
+      console.log('🔄 Updating order status:', orderId, '→', newStatus);
+      const statusResponse = await apiPatch(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/status`, { status: newStatus });
+      
+      if (!statusResponse.ok) {
+        const error = await statusResponse.json();
+        throw new Error(error.error || 'Failed to update status');
+      }
+      
+      if (note) {
+        const noteResponse = await apiPost(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/notes`, { text: note, type: 'status_change' });
+        if (!noteResponse.ok) {
+          console.warn('Failed to add note, but status was updated');
+        }
+      }
+      
+      // Обновляем список заказов только после успешного обновления
+      const listResponse = await apiGet(API_CONFIG.ENDPOINTS.ORDERS);
+      if (listResponse.ok) {
+        const list = await listResponse.json();
+        setOrders(Array.isArray(list) ? list : []);
+        console.log('✅ Order status updated successfully');
+      }
+    } catch (error) {
+      console.error('❌ Error updating order status:', error);
+      // Можно показать toast/уведомление пользователю
+      alert('Ошибка обновления статуса заказа: ' + error.message);
+      throw error; // Пробрасываем ошибку дальше
     }
-    const listResponse = await apiGet(API_CONFIG.ENDPOINTS.ORDERS);
-    const list = await listResponse.json();
-    setOrders(Array.isArray(list) ? list : []);
   };
 
   // Добавить заметку к заказу
   const addOrderNote = async (orderId, noteText) => {
-    await apiPost(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/notes`, { text: noteText, type: 'note' });
-    const listResponse = await apiGet(API_CONFIG.ENDPOINTS.ORDERS);
-    const list = await listResponse.json();
-    setOrders(Array.isArray(list) ? list : []);
+    try {
+      console.log('📝 Adding note to order:', orderId);
+      const noteResponse = await apiPost(`${API_CONFIG.ENDPOINTS.ORDERS}/${orderId}/notes`, { text: noteText, type: 'note' });
+      
+      if (!noteResponse.ok) {
+        const error = await noteResponse.json();
+        throw new Error(error.error || 'Failed to add note');
+      }
+      
+      // Обновляем список заказов только после успешного добавления заметки
+      const listResponse = await apiGet(API_CONFIG.ENDPOINTS.ORDERS);
+      if (listResponse.ok) {
+        const list = await listResponse.json();
+        setOrders(Array.isArray(list) ? list : []);
+        console.log('✅ Note added successfully');
+      }
+    } catch (error) {
+      console.error('❌ Error adding note:', error);
+      alert('Ошибка добавления заметки: ' + error.message);
+      throw error;
+    }
   };
 
   // Получить заказ по ID

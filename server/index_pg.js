@@ -1560,25 +1560,12 @@ app.post('/api/admin/bot/test', requireAdmin, async (req, res) => {
       return res.status(400).json({ error: 'Bot token обязателен для тестирования' });
     }
     
-    // Получаем настройки бота из базы данных
-    const botSettings = await get(`SELECT chat_id FROM bot_settings ORDER BY id DESC LIMIT 1`);
-    
-    if (!botSettings || !botSettings.chat_id) {
-      return res.status(400).json({ error: 'Chat ID не настроен. Сначала настройте бота через админку.' });
-    }
-    
-    const testMessage = `🧪 <b>Тестовое сообщение</b>\n\nЭто тестовое сообщение для проверки настроек бота.\n\n📅 Время: ${new Date().toLocaleString('ru-RU')}\n✅ Бот работает корректно!`;
-    
-    const response = await fetch(`https://api.telegram.org/bot${bot_token}/sendMessage`, {
-      method: 'POST',
+    // Тестируем бота через метод getMe (не требует chat_id)
+    const response = await fetch(`https://api.telegram.org/bot${bot_token}/getMe`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: botSettings.chat_id,
-        text: testMessage,
-        parse_mode: 'HTML'
-      })
+      }
     });
 
     const result = await response.json();
@@ -1586,20 +1573,22 @@ app.post('/api/admin/bot/test', requireAdmin, async (req, res) => {
     if (!response.ok) {
       console.log('❌ Bot test failed:', result);
       return res.status(400).json({ 
+        success: false,
         error: `Ошибка Telegram API: ${result.description || 'Неизвестная ошибка'}`,
         details: result
       });
     }
 
-    console.log('✅ Bot test successful');
+    console.log('✅ Bot test successful:', result);
     res.json({ 
-      ok: true, 
-      message: 'Тестовое сообщение отправлено успешно!',
-      telegram_response: result
+      success: true, 
+      message: `Бот подключен успешно! Имя бота: ${result.result.first_name} (@${result.result.username})`,
+      bot_info: result.result
     });
   } catch (error) {
     console.error('❌ Bot test error:', error);
     res.status(500).json({ 
+      success: false,
       error: 'Ошибка при тестировании бота',
       details: error.message
     });
