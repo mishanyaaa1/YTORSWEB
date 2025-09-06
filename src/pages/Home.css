@@ -89,15 +89,23 @@
 
 .cta-button.secondary {
   background: transparent;
-  border: 2px solid rgba(255,255,255,0.8);
+  border: 2px solid #ff6b35;
   color: white;
   box-shadow: none;
 }
 
 .cta-button.secondary:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: white;
+  background: rgba(255, 107, 53, 0.1);
+  border-color: #ff6b35;
   color: white;
+}
+
+.cta-button.black-text {
+  color: black !important;
+}
+
+.cta-button.black-text:hover {
+  color: black !important;
 }
 
 /* Адаптивность для hero секции */

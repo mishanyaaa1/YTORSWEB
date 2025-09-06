@@ -110,10 +110,10 @@ function Home() {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
-                  <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
-                  <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
+                  <h1>Запчасти<br />для вездеходов</h1>
+                  <p>Качественные запчасти для всех типов вездеходов. Быстрая<br />доставка по всей России. Гарантия качества на все товары.</p>
                   <div className="hero-cta-group">
-                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
+                    <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button black-text">
                       {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
                       <FaArrowRight />
                     </Link>
