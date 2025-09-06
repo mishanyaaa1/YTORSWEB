@@ -20,6 +20,17 @@ import Reveal from '../components/Reveal';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Home.css';
 
+// Функция для обработки переносов строк
+const renderTextWithLineBreaks = (text) => {
+  if (!text) return '';
+  return text.split('\n').map((line, index, array) => (
+    <React.Fragment key={index}>
+      {line}
+      {index < array.length - 1 && <br />}
+    </React.Fragment>
+  ));
+};
+
 function Home() {
   const navigate = useNavigate();
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
@@ -130,7 +141,7 @@ function Home() {
                         ease: "easeOut"
                       }}
                     >
-                      {aboutContent.homeHero?.title || 'Запчасти для вездеходов'}
+                      {renderTextWithLineBreaks(aboutContent.homeHero?.title || 'Запчасти для вездеходов')}
                     </motion.h1>
                   </AnimatePresence>
                   
@@ -146,7 +157,7 @@ function Home() {
                         ease: "easeOut"
                       }}
                     >
-                      {aboutContent.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}
+                      {renderTextWithLineBreaks(aboutContent.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.')}
                     </motion.p>
                   </AnimatePresence>
                   

@@ -357,12 +357,12 @@ export default function ContentManagement() {
             <h3>Главная страница</h3>
             <div className="form-group">
               <label>Заголовок:</label>
-              <input
-                type="text"
+              <textarea
                 name="title"
                 value={formData.homeHero.title}
                 onChange={handleHomeHeroChange}
-                placeholder="Заголовок в Hero"
+                placeholder="Заголовок в Hero (поддерживает переносы строк)"
+                rows={2}
               />
             </div>
             <div className="form-group">
@@ -371,7 +371,7 @@ export default function ContentManagement() {
                 name="description"
                 value={formData.homeHero.description}
                 onChange={handleHomeHeroChange}
-                placeholder="Подзаголовок/описание"
+                placeholder="Подзаголовок/описание (поддерживает переносы строк)"
                 rows={4}
               />
             </div>
