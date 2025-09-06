@@ -35,8 +35,8 @@
 
 .hero-content {
   max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
 }
 
 .hero-text h1 {
@@ -59,7 +59,7 @@
 .hero-cta-group {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -117,13 +117,13 @@
   
   .hero-cta-group {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .cta-button {
     width: 100%;
     max-width: 300px;
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -158,12 +158,13 @@
   background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
+  padding-left: 2rem;
 }
 
 .hero-text {
-  text-align: center;
+  text-align: left;
   color: white;
   z-index: 10;
   margin-bottom: 2rem;
