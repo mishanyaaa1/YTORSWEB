@@ -200,13 +200,15 @@
     }
     </script>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="/src/main.jsx" as="script" />
+    <!-- Preload Critical Resources FIRST -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Russo+One&display=block" as="style" />
+    <link rel="preload" href="/hero-offroad.jpg" as="image" />
     <link rel="preload" href="/src/App.css" as="style" />
     <link rel="preload" href="/src/index.css" as="style" />
+    <link rel="preload" href="/src/main.jsx" as="script" />
+    
+    <!-- Load Fonts with display=block to prevent FOUT -->
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=block" rel="stylesheet">
     
     <style>
       * {
@@ -227,9 +229,24 @@
       
       /* Critical CSS for better performance */
       body {
-        font-family: 'Russo One', sans-serif;
+        font-family: 'Russo One', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         line-height: 1.6;
         color: #333;
+        background-color: #0a0a0a;
+      }
+      
+      /* Prevent layout shift during loading */
+      #root {
+        min-height: 100vh;
+        background-color: #0a0a0a;
+      }
+      
+      /* Critical hero styles to prevent layout shift */
+      .hero {
+        min-height: 100vh;
+        background-color: #0a0a0a;
+        display: flex;
+        align-items: center;
       }
       
       /* Loading state */
@@ -239,11 +256,22 @@
         align-items: center;
         height: 100vh;
         font-size: 1.2rem;
+        color: #ffffff;
+        background-color: #0a0a0a;
+      }
+      
+      /* Prevent FOUT by hiding content until fonts load */
+      .font-loading {
+        visibility: hidden;
+      }
+      
+      .font-loaded {
+        visibility: visible;
       }
     </style>
   </head>
   <body>
-    <div id="root">
+    <div id="root" class="font-loading">
       <!-- Fallback content for SEO -->
       <noscript>
         <div style="padding: 20px; text-align: center;">
@@ -254,7 +282,51 @@
           <p>Email: info@ytors.ru</p>
         </div>
       </noscript>
+      
+      <!-- Loading indicator -->
+      <div id="initial-loader" class="loading">
+        <div>Загрузка...</div>
+      </div>
     </div>
+    
+    <!-- Font loading optimization -->
+    <script>
+      // Font loading detection and FOUT prevention
+      (function() {
+        const root = document.getElementById('root');
+        const loader = document.getElementById('initial-loader');
+        
+        // Show content when font is loaded or after timeout
+        function showContent() {
+          root.classList.remove('font-loading');
+          root.classList.add('font-loaded');
+          if (loader) {
+            loader.style.display = 'none';
+          }
+        }
+        
+        // Check if Russo One font is loaded
+        function checkFont() {
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(showContent);
+          } else {
+            // Fallback timeout
+            setTimeout(showContent, 1000);
+          }
+        }
+        
+        // Start font check when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', checkFont);
+        } else {
+          checkFont();
+        }
+        
+        // Fallback - show content after maximum wait time
+        setTimeout(showContent, 2000);
+      })();
+    </script>
+    
     <script type="module" src="/src/main.jsx"></script>
     
     <!-- Performance and Analytics Scripts -->

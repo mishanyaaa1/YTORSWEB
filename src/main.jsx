@@ -95,6 +95,12 @@ const router = createBrowserRouter([
   }
 ]);
 
+// Hide initial loader when React app starts
+const loader = document.getElementById('initial-loader');
+if (loader) {
+  loader.style.display = 'none';
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AdminDataProvider>

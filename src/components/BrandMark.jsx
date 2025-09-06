@@ -20,6 +20,8 @@ function BrandMark({ alt = 'ЮТОРС', className = '', style = {}, size }) {
         style={computedStyle}
         loading="lazy"
         decoding="async"
+        width="auto"
+        height="auto"
       />
     </picture>
   );
