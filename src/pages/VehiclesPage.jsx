@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
+import { FaTruck, FaCog, FaSnowflake, FaMountain, FaWater, FaRoad, FaFilter, FaTimes, FaCheckCircle, FaTimesCircle, FaShoppingBasket } from 'react-icons/fa';
 import Reveal from '../components/Reveal';
 import { useAdminData } from '../context/AdminDataContext';
 import { useCartActions } from '../hooks/useCartActions';
@@ -216,7 +216,7 @@ function VehiclesPage() {
                         onClick={(e) => handleAddToCart(vehicle, e)}
                         disabled={!vehicle.available}
                       >
-                        <FaShoppingCart /> В корзину
+                        <FaShoppingBasket /> В корзину
                       </button>
                     </div>
                   </div>
