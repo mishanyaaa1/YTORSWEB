@@ -9,7 +9,11 @@ export const useCartActions = () => {
       addToCart(product, quantity);
       const title = product?.title || 'Товар';
       const price = product?.price != null ? ` — ${product.price} ₽` : '';
-      toast.success(`${title} добавлен в корзину${price}`);
+      
+      // Небольшая задержка для корректного отображения уведомления
+      setTimeout(() => {
+        toast.success(`${title} добавлен в корзину${price}`);
+      }, 100);
     } catch (error) {
       console.error('Error adding to cart:', error);
       toast.error('Ошибка при добавлении товара в корзину');

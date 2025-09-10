@@ -273,7 +273,8 @@ function App() {
             color: '#fff',
             borderRadius: '10px',
             boxShadow:
-              '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)'
+              '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)',
+            zIndex: 99999
           },
           success: {
             icon: '🛒'
@@ -281,6 +282,9 @@ function App() {
           error: {
             icon: '⚠️'
           }
+        }}
+        containerStyle={{
+          zIndex: 99999
         }}
       />
 
