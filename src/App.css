@@ -103,7 +103,7 @@ html {
 .hero-text h1 {
   font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #ffffff;
   text-shadow: 
     0 0 20px rgba(0, 0, 0, 0.9),
@@ -116,7 +116,7 @@ html {
 .hero-text p {
   font-size: 1rem;
   color: #f0f0f0;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   line-height: 1.7;
   text-shadow: 
     0 0 15px rgba(0, 0, 0, 0.8),
@@ -129,8 +129,8 @@ html {
   background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
   color: #000000;
   border: none;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
@@ -178,6 +178,7 @@ html {
   display: flex;
   gap: 0.8rem;
   flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 /* Вторичная (менее яркая) кнопка */
@@ -615,8 +616,8 @@ html {
   }
   
   .hero-button {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
   
   .section-title {
@@ -786,8 +787,8 @@ html {
   }
   
   .hero-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
   }
   
   .section-title {
@@ -854,8 +855,8 @@ html {
   }
   
   .hero-button {
-    padding: 0.7rem 1.5rem;
-    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
   
   .section-title {

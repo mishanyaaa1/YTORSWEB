@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
   FaMapMarkerAlt,
@@ -24,21 +24,6 @@ import Reveal from '../components/Reveal';
 
 export default function About() {
   const { aboutContent } = useAdminData();
-
-  // Делаем полосу header прозрачной при загрузке страницы
-  useEffect(() => {
-    const header = document.querySelector('.header');
-    if (header) {
-      header.style.borderBottom = '1px solid transparent';
-    }
-    
-    // Возвращаем полосу при размонтировании компонента
-    return () => {
-      if (header) {
-        header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
-      }
-    };
-  }, []);
 
   // Дефолтные преимущества (если не заданы в админке)
   const defaultAdvantages = [

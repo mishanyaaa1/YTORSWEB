@@ -3,14 +3,13 @@
 
 /* Стили для страницы о компании */
 .about-page {
-  padding-top: 80px;
   background: #0a0a0a;
   color: #ffffff;
 }
 
 /* Hero секция */
 .about-hero {
-  padding: 5rem 0;
+  padding: 6rem 0 5rem 0;
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
   text-align: center;
 }
@@ -605,8 +604,8 @@
 }
 
 @media (max-width: 480px) {
-  .about-page {
-    padding-top: 60px;
+  .about-hero {
+    padding: 5rem 0 3rem 0;
   }
   
   .advantages,
