@@ -340,7 +340,16 @@ function ProductPage() {
 
             <Reveal type="up" delay={0.05}>
               <div className="product-description">
-                <p>{product.description}</p>
+                {(() => {
+                  if (product.description && product.description.includes('\n')) {
+                    return product.description.split('\n').map((line, index) => (
+                      <p key={index} style={{ margin: index > 0 ? '0.05em 0 0 0' : '0' }}>
+                        {line}
+                      </p>
+                    ));
+                  }
+                  return <p>{product.description}</p>;
+                })()}
               </div>
             </Reveal>
 

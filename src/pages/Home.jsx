@@ -139,7 +139,7 @@ function Home() {
                       const description = aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.';
                       if (description.includes('\n')) {
                         return description.split('\n').map((line, index) => (
-                          <p key={index} style={{ margin: index > 0 ? '0.5em 0 0 0' : '0' }}>
+                          <p key={index} style={{ margin: index > 0 ? '0.05em 0 0 0' : '0' }}>
                             {line}
                           </p>
                         ));

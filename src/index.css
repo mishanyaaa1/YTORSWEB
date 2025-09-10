@@ -422,3 +422,16 @@ textarea:focus-visible {
     display: none !important;
   }
 }
+
+/* Утилитарные классы для управления отступами между строками */
+.text-with-line-breaks p:not(:first-child) {
+  margin-top: 0.05em !important;
+}
+
+.text-with-line-breaks-compact p:not(:first-child) {
+  margin-top: 0.02em !important;
+}
+
+.text-with-line-breaks-spaced p:not(:first-child) {
+  margin-top: 0.1em !important;
+}

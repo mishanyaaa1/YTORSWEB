@@ -156,7 +156,7 @@ export default function About() {
                   const description = aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники.";
                   if (description.includes('\n')) {
                     return description.split('\n').map((line, index) => (
-                      <p key={index} style={{ margin: index > 0 ? '0.5em 0 0 0' : '0' }}>
+                      <p key={index} style={{ margin: index > 0 ? '0.05em 0 0 0' : '0' }}>
                         {line}
                       </p>
                     ));
