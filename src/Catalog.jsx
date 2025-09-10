@@ -353,19 +353,21 @@ export default function Catalog() {
                     <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
                   </div>
                   
-                  <div className="catalog-card-meta">
-                    <span className={product.available ? 'in-stock' : 'out-of-stock'}>
-                      {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
-                    </span>
+                  <div className="catalog-card-actions">
+                    <div className="catalog-card-meta">
+                      <span className={product.available ? 'in-stock' : 'out-of-stock'}>
+                        {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
+                      </span>
+                    </div>
+                    
+                    <button 
+                      className="catalog-card-btn"
+                      onClick={(e) => handleAddToCart(product, e)}
+                      disabled={!product.available}
+                    >
+                      <FaShoppingBasket /> В корзину
+                    </button>
                   </div>
-                  
-                  <button 
-                    className="catalog-card-btn"
-                    onClick={(e) => handleAddToCart(product, e)}
-                    disabled={!product.available}
-                  >
-                    <FaShoppingBasket /> В корзину
-                  </button>
                 </div>
               </div>
             ))}
