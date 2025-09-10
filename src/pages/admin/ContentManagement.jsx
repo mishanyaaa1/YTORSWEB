@@ -37,6 +37,7 @@ export default function ContentManagement() {
       aboutSection: { title: '', description: '' },
       contactsSection: { title: '', phone: '', email: '', address: '' },
       informationSection: { title: '', links: { title: 'Полезные ссылки', items: [] } },
+      socialSection: { title: '', links: [] },
       copyright: ''
     }
   });
@@ -73,6 +74,7 @@ export default function ContentManagement() {
         aboutSection: { title: '', description: '' },
         contactsSection: { title: '', phone: '', email: '', address: '' },
         informationSection: { title: '', links: { title: 'Полезные ссылки', items: [] } },
+        socialSection: { title: '', links: [] },
         copyright: ''
       }
     });
@@ -170,6 +172,48 @@ export default function ContentManagement() {
             ...prev.footer.informationSection.links,
             items: (prev.footer.informationSection.links?.items || []).filter((_, i) => i !== index)
           }
+        }
+      }
+    }));
+  };
+
+  // Функции для управления социальными ссылками
+  const handleSocialLinkChange = (index, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        socialSection: {
+          ...prev.footer.socialSection,
+          links: (prev.footer.socialSection?.links || []).map((link, i) => 
+            i === index ? { ...link, [field]: value } : link
+          )
+        }
+      }
+    }));
+  };
+
+  const addSocialLink = () => {
+    setFormData(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        socialSection: {
+          ...prev.footer.socialSection,
+          links: [...(prev.footer.socialSection?.links || []), { platform: '', url: '', icon: '' }]
+        }
+      }
+    }));
+  };
+
+  const removeSocialLink = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        socialSection: {
+          ...prev.footer.socialSection,
+          links: (prev.footer.socialSection?.links || []).filter((_, i) => i !== index)
         }
       }
     }));
@@ -1281,6 +1325,69 @@ export default function ContentManagement() {
                   }))}
                   placeholder="© 2024 ВездеходЗапчасти. Все права защищены."
                 />
+              </div>
+            </div>
+
+            <div className="footer-subsection">
+              <h4>Социальные сети</h4>
+              <div className="form-group">
+                <label>Заголовок секции:</label>
+                <input
+                  type="text"
+                  value={formData.footer.socialSection.title}
+                  onChange={(e) => handleFooterChange('socialSection', 'title', e.target.value)}
+                  placeholder="Мы в социальных сетях"
+                />
+              </div>
+              
+              <div className="links-management">
+                <div className="links-header">
+                  <h5>Социальные ссылки</h5>
+                  <button type="button" onClick={addSocialLink} className="add-link-btn">
+                    <FaPlus /> Добавить ссылку
+                  </button>
+                </div>
+                
+                {(formData.footer?.socialSection?.links || []).map((social, index) => (
+                  <div key={index} className="link-item">
+                    <div className="link-controls">
+                      <button 
+                        type="button" 
+                        onClick={() => removeSocialLink(index)}
+                        className="remove-link-btn"
+                        title="Удалить ссылку"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                    <div className="link-fields">
+                      <div className="form-group">
+                        <label>Платформа:</label>
+                        <select
+                          value={social.platform}
+                          onChange={(e) => handleSocialLinkChange(index, 'platform', e.target.value)}
+                        >
+                          <option value="">Выберите платформу</option>
+                          <option value="vk">ВКонтакте</option>
+                          <option value="instagram">Instagram</option>
+                          <option value="youtube">YouTube</option>
+                          <option value="telegram">Telegram</option>
+                          <option value="facebook">Facebook</option>
+                          <option value="twitter">Twitter</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>URL:</label>
+                        <input
+                          type="url"
+                          value={social.url}
+                          onChange={(e) => handleSocialLinkChange(index, 'url', e.target.value)}
+                          placeholder="https://vk.com/yourpage"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

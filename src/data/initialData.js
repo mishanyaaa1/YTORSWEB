@@ -787,6 +787,14 @@ export const initialAboutContent = {
         { text: 'Политика конфиденциальности', url: '/about' }
       ]
     },
+    socialSection: {
+      title: 'Мы в социальных сетях',
+      links: [
+        { platform: 'vk', url: 'https://vk.com/yutors', icon: 'FaVk' },
+        { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'FaInstagram' },
+        { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'FaYoutube' }
+      ]
+    },
     copyright: '© 2024 ЮТОРС. Все права защищены.'
   }
 };

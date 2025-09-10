@@ -176,6 +176,10 @@ export const AdminDataProvider = ({ children }) => {
               ...((parsedContent.footer && parsedContent.footer.informationSection) || {}),
               links: ((parsedContent.footer && parsedContent.footer.informationSection && parsedContent.footer.informationSection.links) || [])
                 .map(l => (l && l.text && l.text.toLowerCase().includes('доставка') ? { ...l, url: '/about#delivery' } : l))
+            },
+            socialSection: {
+              ...initialAboutContent.footer.socialSection,
+              ...((parsedContent.footer && parsedContent.footer.socialSection) || {})
             }
           },
           team: parsedContent.team || initialAboutContent.team,

@@ -8,7 +8,10 @@ import {
   FaShoppingCart,
   FaSearch,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaVk,
+  FaInstagram,
+  FaYoutube
 } from 'react-icons/fa';
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
@@ -214,6 +217,31 @@ function App() {
             <div className="footer-section">
               <h3>{footerData.aboutSection.title}</h3>
               <p>{footerData.aboutSection.description}</p>
+            </div>
+            <div className="footer-section">
+              <h3>{footerData.socialSection.title}</h3>
+              <div className="social-links">
+                {footerData.socialSection.links.map((social, index) => {
+                  const IconComponent = social.platform === 'vk' ? FaVk : 
+                                       social.platform === 'instagram' ? FaInstagram : 
+                                       social.platform === 'youtube' ? FaYoutube : null;
+                  
+                  return (
+                    <a 
+                      key={index}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="social-link"
+                      title={social.platform === 'vk' ? 'ВКонтакте' : 
+                             social.platform === 'instagram' ? 'Instagram' : 
+                             social.platform === 'youtube' ? 'YouTube' : social.platform}
+                    >
+                      {IconComponent && <IconComponent />}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
             <div className="footer-section">
               <h3>{footerData.contactsSection.title}</h3>
