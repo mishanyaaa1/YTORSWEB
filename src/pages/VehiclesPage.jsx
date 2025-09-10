@@ -19,6 +19,23 @@ function VehiclesPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' или 'list'
+
+  // Автоматическое переключение режимов просмотра
+  useEffect(() => {
+    const updateViewMode = () => {
+      if (window.innerWidth <= 768) {
+        setViewMode('list');
+      } else {
+        setViewMode('grid');
+      }
+    };
+    
+    updateViewMode();
+    window.addEventListener('resize', updateViewMode);
+    
+    return () => window.removeEventListener('resize', updateViewMode);
+  }, []);
 
   const handleVehicleClick = (vehicle) => {
     navigate(`/vehicle/${vehicle.id}`);
@@ -153,12 +170,12 @@ function VehiclesPage() {
           </aside>
 
           <main className="catalog-main">
-            <div className="catalog-grid">
+            <div className={`catalog-container ${viewMode === 'list' ? 'catalog-list' : 'catalog-grid'}`}>
             {paginatedVehicles.length > 0 ? (
               paginatedVehicles.map((vehicle, index) => (
                 <div
                   key={vehicle.id}
-                  className="catalog-card"
+                  className={`catalog-card ${viewMode === 'list' ? 'catalog-card-list' : 'catalog-card-grid'}`}
                   onClick={() => handleVehicleClick(vehicle)}
                   style={{ cursor: 'pointer' }}
                 >
@@ -182,20 +199,26 @@ function VehiclesPage() {
                   </div>
                   
                   <div className="catalog-card-info">
-                    <h3>{vehicle.name}</h3>
-                    <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
-                    <div className="catalog-card-meta">
-                      <span className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
-                        {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
-                      </span>
+                    <div className="catalog-card-header">
+                      <h3>{vehicle.name}</h3>
+                      <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
                     </div>
-                    <button 
-                      className="catalog-card-btn"
-                      onClick={(e) => handleAddToCart(vehicle, e)}
-                      disabled={!vehicle.available}
-                    >
-                      <FaShoppingCart /> В корзину
-                    </button>
+                    
+                    <div className="catalog-card-actions">
+                      <div className="catalog-card-meta">
+                        <span className={vehicle.available ? 'in-stock' : 'out-of-stock'}>
+                          {vehicle.available ? <FaCheckCircle /> : <FaTimesCircle />} {vehicle.available ? 'В наличии' : 'Нет в наличии'}
+                        </span>
+                      </div>
+                      
+                      <button 
+                        className="catalog-card-btn"
+                        onClick={(e) => handleAddToCart(vehicle, e)}
+                        disabled={!vehicle.available}
+                      >
+                        <FaShoppingCart /> В корзину
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
