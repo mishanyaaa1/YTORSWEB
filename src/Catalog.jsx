@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaCheckCircle, FaTimesCircle, FaShoppingCart } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaShoppingBasket } from 'react-icons/fa';
 import { useCartActions } from './hooks/useCartActions';
 import { useAdminData } from './context/AdminDataContext';
 // wishlist removed
@@ -19,7 +19,22 @@ export default function Catalog() {
   const [maxPriceInput, setMaxPriceInput] = useState('');
   const [inStock, setInStock] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' или 'list'
   const { addToCartWithNotification } = useCartActions();
+
+  // Автоматическое переключение на режим списка для мобильных устройств
+  useEffect(() => {
+    const checkMobile = () => {
+      if (window.innerWidth <= 768) {
+        setViewMode('list');
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Обработчик клика по товару
   const handleProductClick = (productId) => {
@@ -253,13 +268,40 @@ export default function Catalog() {
         </div>
       </aside>
       <main className="catalog-main">
-        <h2>Товары</h2>
+        <div className="catalog-header-controls">
+          <h2>Товары</h2>
+          <div className="view-mode-toggle">
+            <button 
+              className={`view-mode-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Сетка"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+              </svg>
+            </button>
+            <button 
+              className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="Список"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="3" y="6" width="18" height="2"/>
+                <rect x="3" y="11" width="18" height="2"/>
+                <rect x="3" y="16" width="18" height="2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
         
-        <div className="catalog-grid">
+        <div className={`catalog-container ${viewMode === 'list' ? 'catalog-list' : 'catalog-grid'}`}>
             {filteredProducts.length === 0 && <div className="no-products">Нет товаров по выбранным фильтрам</div>}
             {currentProducts.map(product => (
               <div 
-                className="catalog-card" 
+                className={`catalog-card ${viewMode === 'list' ? 'catalog-card-list' : 'catalog-card-grid'}`}
                 key={product.id}
                 onClick={() => handleProductClick(product.id)}
                 style={{ cursor: 'pointer' }}
@@ -288,7 +330,7 @@ export default function Catalog() {
                         console.log('🚫 Пропускаем изображение "фотография отсутствует" для товара:', product.title);
                         return (
                           <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={product.title} style={{ height: 64 }} />
+                            <BrandMark alt={product.title} style={{ height: viewMode === 'list' ? 48 : 64 }} />
                           </span>
                         );
                       }
@@ -299,27 +341,30 @@ export default function Catalog() {
                     // Если нет изображения или оно невалидное, показываем иконку бренда
                     return (
                       <span className="catalog-card-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <BrandMark alt={product.title} style={{ height: 64 }} />
+                        <BrandMark alt={product.title} style={{ height: viewMode === 'list' ? 48 : 64 }} />
                       </span>
                     );
                   })()}
                   {/* wishlist button removed */}
                 </div>
                 <div className="catalog-card-info">
-                  <h3>{product.title}</h3>
-                  <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
-
+                  <div className="catalog-card-header">
+                    <h3>{product.title}</h3>
+                    <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
+                  </div>
+                  
                   <div className="catalog-card-meta">
                     <span className={product.available ? 'in-stock' : 'out-of-stock'}>
                       {product.available ? <FaCheckCircle /> : <FaTimesCircle />} {product.available ? 'В наличии' : 'Нет в наличии'}
                     </span>
                   </div>
+                  
                   <button 
                     className="catalog-card-btn"
                     onClick={(e) => handleAddToCart(product, e)}
                     disabled={!product.available}
                   >
-                    <FaShoppingCart /> В корзину
+                    <FaShoppingBasket /> В корзину
                   </button>
                 </div>
               </div>
