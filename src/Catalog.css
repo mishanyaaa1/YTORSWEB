@@ -343,10 +343,6 @@ input[type='number'] {
 }
 
 .catalog-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
   margin-bottom: 0.75rem;
 }
 
@@ -358,7 +354,13 @@ input[type='number'] {
   line-height: 1.4;
   text-align: left;
   letter-spacing: 0.5px;
-  flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.catalog-card-price-section {
+  margin-bottom: 0.75rem;
+  text-align: center;
 }
 
 .catalog-card-list .catalog-card-info h3 {
@@ -383,7 +385,10 @@ input[type='number'] {
   margin: 0;
   text-shadow: none;
   letter-spacing: 1px;
-  white-space: nowrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
 }
 
 .catalog-card-list .catalog-card-price {
@@ -571,11 +576,16 @@ input[type='number'] {
 .catalog-card-list .catalog-card-header {
   flex: 1;
   margin-bottom: 0;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.3rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   height: 100%;
+}
+
+.catalog-card-list .catalog-card-price-section {
+  margin-bottom: 0;
+  text-align: left;
 }
 
 .catalog-card-list .catalog-card-actions {
@@ -707,6 +717,16 @@ input[type='number'] {
   
   .catalog-card-list .catalog-card-price {
     font-size: 1.1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .catalog-card-list .catalog-card-header h3 {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   .catalog-card-list .catalog-card-btn {

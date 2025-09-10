@@ -199,10 +199,22 @@ function VehiclesPage() {
                   </div>
                   
                   <div className="catalog-card-info">
-                    <div className="catalog-card-header">
-                      <h3>{vehicle.name}</h3>
-                      <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
-                    </div>
+                    {viewMode === 'grid' ? (
+                      <>
+                        <div className="catalog-card-header">
+                          <h3>{vehicle.name}</h3>
+                        </div>
+                        
+                        <div className="catalog-card-price-section">
+                          <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="catalog-card-header">
+                        <h3>{vehicle.name}</h3>
+                        <div className="catalog-card-price">{formatPrice(vehicle.price)} ₽</div>
+                      </div>
+                    )}
                     
                     <div className="catalog-card-actions">
                       <div className="catalog-card-meta">

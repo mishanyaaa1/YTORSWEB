@@ -325,10 +325,22 @@ export default function Catalog() {
                   {/* wishlist button removed */}
                 </div>
                 <div className="catalog-card-info">
-                  <div className="catalog-card-header">
-                    <h3>{product.title}</h3>
-                    <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
-                  </div>
+                  {viewMode === 'grid' ? (
+                    <>
+                      <div className="catalog-card-header">
+                        <h3>{product.title}</h3>
+                      </div>
+                      
+                      <div className="catalog-card-price-section">
+                        <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="catalog-card-header">
+                      <h3>{product.title}</h3>
+                      <div className="catalog-card-price">{product.price.toLocaleString()} ₽</div>
+                    </div>
+                  )}
                   
                   <div className="catalog-card-actions">
                     <div className="catalog-card-meta">

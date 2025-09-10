@@ -281,20 +281,28 @@ function Home() {
                         })()}
                       </div>
                       <div className="catalog-card-info">
-                        <h3>{product.title}</h3>
-                        <div className="catalog-card-price">{product.price}</div>
-                        <div className="catalog-card-meta">
-                          <span className={productData?.available ? 'in-stock' : 'out-of-stock'}>
-                            {productData?.available ? <FaCheckCircle /> : <FaTimesCircle />} {productData?.available ? 'В наличии' : 'Нет в наличии'}
-                          </span>
+                        <div className="catalog-card-header">
+                          <h3>{product.title}</h3>
                         </div>
-                        <button 
-                          className="catalog-card-btn"
-                          onClick={(e) => handleAddToCart(productData, e)}
-                          disabled={!productData?.available}
-                        >
-                          <FaShoppingCart /> В корзину
-                        </button>
+                        
+                        <div className="catalog-card-price-section">
+                          <div className="catalog-card-price">{product.price}</div>
+                        </div>
+                        
+                        <div className="catalog-card-actions">
+                          <div className="catalog-card-meta">
+                            <span className={productData?.available ? 'in-stock' : 'out-of-stock'}>
+                              {productData?.available ? <FaCheckCircle /> : <FaTimesCircle />} {productData?.available ? 'В наличии' : 'Нет в наличии'}
+                            </span>
+                          </div>
+                          <button 
+                            className="catalog-card-btn"
+                            onClick={(e) => handleAddToCart(productData, e)}
+                            disabled={!productData?.available}
+                          >
+                            <FaShoppingCart /> В корзину
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </Reveal>
