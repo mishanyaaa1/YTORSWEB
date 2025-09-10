@@ -13,6 +13,8 @@ export default function ContentManagement() {
       description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
       ctaText: 'Перейти в каталог',
       ctaLink: '/catalog',
+      secondaryCtaText: 'Связаться с менеджером',
+      secondaryCtaLink: '/about#contacts',
       imageCaption: 'Надёжные запчасти для вашего вездехода',
       heroEffect: 'particles',
       visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
@@ -20,10 +22,10 @@ export default function ContentManagement() {
     },
     title: aboutContent.title || '',
     description: aboutContent.description || '',
-    advantages: aboutContent.advantages || [],
-    whyChooseUs: aboutContent.whyChooseUs || [],
-    team: aboutContent.team || [],
-    history: aboutContent.history || { title: '', content: '', milestones: [] },
+    advantages: aboutContent.advantages || { title: 'Наши преимущества', items: [] },
+    whyChooseUs: aboutContent.whyChooseUs || { title: 'Почему выбирают нас', items: [] },
+    team: aboutContent.team || { title: 'Наша команда', members: [] },
+    history: aboutContent.history || { title: '', content: '', milestones: { title: 'Основные этапы', items: [] } },
     contacts: aboutContent.contacts || {},
     deliveryAndPayment: aboutContent.deliveryAndPayment || {
       steps: [],
@@ -34,7 +36,7 @@ export default function ContentManagement() {
     footer: aboutContent.footer || {
       aboutSection: { title: '', description: '' },
       contactsSection: { title: '', phone: '', email: '', address: '' },
-      informationSection: { title: '', links: [] },
+      informationSection: { title: '', links: { title: 'Полезные ссылки', items: [] } },
       copyright: ''
     }
   });
@@ -47,6 +49,8 @@ export default function ContentManagement() {
         description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
         ctaText: 'Перейти в каталог',
         ctaLink: '/catalog',
+        secondaryCtaText: 'Связаться с менеджером',
+        secondaryCtaLink: '/about#contacts',
         imageCaption: 'Надёжные запчасти для вашего вездехода',
         heroEffect: 'particles',
         visualButtons: [{ text: 'Подробнее', link: '/catalog' }],
@@ -54,10 +58,10 @@ export default function ContentManagement() {
       },
       title: aboutContent.title || '',
       description: aboutContent.description || '',
-      advantages: aboutContent.advantages || [],
-      whyChooseUs: aboutContent.whyChooseUs || [],
-      team: aboutContent.team || [],
-      history: aboutContent.history || { title: '', content: '', milestones: [] },
+      advantages: aboutContent.advantages || { title: 'Наши преимущества', items: [] },
+      whyChooseUs: aboutContent.whyChooseUs || { title: 'Почему выбирают нас', items: [] },
+      team: aboutContent.team || { title: 'Наша команда', members: [] },
+      history: aboutContent.history || { title: '', content: '', milestones: { title: 'Основные этапы', items: [] } },
       contacts: aboutContent.contacts || {},
       deliveryAndPayment: aboutContent.deliveryAndPayment || {
         steps: [],
@@ -68,7 +72,7 @@ export default function ContentManagement() {
       footer: aboutContent.footer || {
         aboutSection: { title: '', description: '' },
         contactsSection: { title: '', phone: '', email: '', address: '' },
-        informationSection: { title: '', links: [] },
+        informationSection: { title: '', links: { title: 'Полезные ссылки', items: [] } },
         copyright: ''
       }
     });
@@ -128,9 +132,12 @@ export default function ContentManagement() {
         ...prev.footer,
         informationSection: {
           ...prev.footer.informationSection,
-          links: prev.footer.informationSection.links.map((link, i) => 
-            i === index ? { ...link, [field]: value } : link
-          )
+          links: {
+            ...prev.footer.informationSection.links,
+            items: (prev.footer.informationSection.links?.items || []).map((link, i) => 
+              i === index ? { ...link, [field]: value } : link
+            )
+          }
         }
       }
     }));
@@ -143,7 +150,10 @@ export default function ContentManagement() {
         ...prev.footer,
         informationSection: {
           ...prev.footer.informationSection,
-          links: [...prev.footer.informationSection.links, { text: '', url: '' }]
+          links: {
+            ...prev.footer.informationSection.links,
+            items: [...(prev.footer.informationSection.links?.items || []), { text: '', url: '' }]
+          }
         }
       }
     }));
@@ -156,7 +166,10 @@ export default function ContentManagement() {
         ...prev.footer,
         informationSection: {
           ...prev.footer.informationSection,
-          links: prev.footer.informationSection.links.filter((_, i) => i !== index)
+          links: {
+            ...prev.footer.informationSection.links,
+            items: (prev.footer.informationSection.links?.items || []).filter((_, i) => i !== index)
+          }
         }
       }
     }));
@@ -177,23 +190,32 @@ export default function ContentManagement() {
   const addAdvantage = () => {
     setFormData(prev => ({
       ...prev,
-      advantages: [...prev.advantages, { title: '', description: '', icon: '🎯' }]
+      advantages: {
+        ...prev.advantages,
+        items: [...(prev.advantages?.items || []), { title: '', description: '', icon: '🎯' }]
+      }
     }));
   };
 
   const updateAdvantage = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
-      advantages: prev.advantages.map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
+      advantages: {
+        ...prev.advantages,
+        items: (prev.advantages?.items || []).map((item, i) => 
+          i === index ? { ...item, [field]: value } : item
+        )
+      }
     }));
   };
 
   const removeAdvantage = (index) => {
     setFormData(prev => ({
       ...prev,
-      advantages: prev.advantages.filter((_, i) => i !== index)
+      advantages: {
+        ...prev.advantages,
+        items: (prev.advantages?.items || []).filter((_, i) => i !== index)
+      }
     }));
   };
 
@@ -201,23 +223,32 @@ export default function ContentManagement() {
   const addWhyChooseUs = () => {
     setFormData(prev => ({
       ...prev,
-      whyChooseUs: [...prev.whyChooseUs, { title: '', description: '', icon: '⭐' }]
+      whyChooseUs: {
+        ...prev.whyChooseUs,
+        items: [...(prev.whyChooseUs?.items || []), { title: '', description: '', icon: '⭐' }]
+      }
     }));
   };
 
   const updateWhyChooseUs = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
-      whyChooseUs: prev.whyChooseUs.map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
+      whyChooseUs: {
+        ...prev.whyChooseUs,
+        items: (prev.whyChooseUs?.items || []).map((item, i) => 
+          i === index ? { ...item, [field]: value } : item
+        )
+      }
     }));
   };
 
   const removeWhyChooseUs = (index) => {
     setFormData(prev => ({
       ...prev,
-      whyChooseUs: prev.whyChooseUs.filter((_, i) => i !== index)
+      whyChooseUs: {
+        ...prev.whyChooseUs,
+        items: (prev.whyChooseUs?.items || []).filter((_, i) => i !== index)
+      }
     }));
   };
 
@@ -225,29 +256,38 @@ export default function ContentManagement() {
   const addTeamMember = () => {
     setFormData(prev => ({
       ...prev,
-      team: [...prev.team, { 
-        name: '', 
-        position: '', 
-        experience: '', 
-        photo: '', 
-        description: '' 
-      }]
+      team: {
+        ...prev.team,
+        members: [...(prev.team?.members || prev.team?.items || []), { 
+          name: '', 
+          position: '', 
+          experience: '', 
+          photo: '', 
+          description: '' 
+        }]
+      }
     }));
   };
 
   const updateTeamMember = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
-      team: prev.team.map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
+      team: {
+        ...prev.team,
+        members: (prev.team?.members || prev.team?.items || []).map((item, i) => 
+          i === index ? { ...item, [field]: value } : item
+        )
+      }
     }));
   };
 
   const removeTeamMember = (index) => {
     setFormData(prev => ({
       ...prev,
-      team: prev.team.filter((_, i) => i !== index)
+      team: {
+        ...prev.team,
+        members: (prev.team?.members || prev.team?.items || []).filter((_, i) => i !== index)
+      }
     }));
   };
 
@@ -257,11 +297,14 @@ export default function ContentManagement() {
       ...prev,
       history: {
         ...prev.history,
-        milestones: [...prev.history.milestones, {
-          year: new Date().getFullYear().toString(),
-          title: '',
-          description: ''
-        }]
+        milestones: {
+          ...prev.history.milestones,
+          items: [...(prev.history.milestones?.items || []), {
+            year: new Date().getFullYear().toString(),
+            title: '',
+            description: ''
+          }]
+        }
       }
     }));
   };
@@ -271,9 +314,12 @@ export default function ContentManagement() {
       ...prev,
       history: {
         ...prev.history,
-        milestones: prev.history.milestones.map((item, i) => 
-          i === index ? { ...item, [field]: value } : item
-        )
+        milestones: {
+          ...prev.history.milestones,
+          items: (prev.history.milestones?.items || []).map((item, i) => 
+            i === index ? { ...item, [field]: value } : item
+          )
+        }
       }
     }));
   };
@@ -283,7 +329,10 @@ export default function ContentManagement() {
       ...prev,
       history: {
         ...prev.history,
-        milestones: prev.history.milestones.filter((_, i) => i !== index)
+        milestones: {
+          ...prev.history.milestones,
+          items: (prev.history.milestones?.items || []).filter((_, i) => i !== index)
+        }
       }
     }));
   };
@@ -350,13 +399,17 @@ export default function ContentManagement() {
             <h3>Главная страница</h3>
             <div className="form-group">
               <label>Заголовок:</label>
-              <input
-                type="text"
+              <textarea
                 name="title"
                 value={formData.homeHero.title}
                 onChange={handleHomeHeroChange}
-                placeholder="Заголовок в Hero"
+                placeholder="Заголовок в Hero. Для переноса строк используйте Enter."
+                rows={2}
+                style={{ whiteSpace: 'pre-wrap' }}
               />
+              <small style={{ color: '#666', fontSize: '12px' }}>
+                💡 Совет: Нажмите Enter для создания новой строки в заголовке.
+              </small>
             </div>
             <div className="form-group">
               <label>Описание:</label>
@@ -364,9 +417,13 @@ export default function ContentManagement() {
                 name="description"
                 value={formData.homeHero.description}
                 onChange={handleHomeHeroChange}
-                placeholder="Подзаголовок/описание"
+                placeholder="Подзаголовок/описание. Для переноса строк используйте Enter."
                 rows={4}
+                style={{ whiteSpace: 'pre-wrap' }}
               />
+              <small style={{ color: '#666', fontSize: '12px' }}>
+                💡 Совет: Нажмите Enter для создания новой строки. Переносы строк будут отображаться на сайте.
+              </small>
             </div>
             <div className="form-row">
               <div className="form-group">
@@ -390,6 +447,28 @@ export default function ContentManagement() {
                 />
               </div>
             </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Текст второй кнопки:</label>
+                <input
+                  type="text"
+                  name="secondaryCtaText"
+                  value={formData.homeHero.secondaryCtaText}
+                  onChange={handleHomeHeroChange}
+                  placeholder="Например: Связаться с менеджером"
+                />
+              </div>
+              <div className="form-group">
+                <label>Ссылка второй кнопки:</label>
+                <input
+                  type="text"
+                  name="secondaryCtaLink"
+                  value={formData.homeHero.secondaryCtaLink}
+                  onChange={handleHomeHeroChange}
+                  placeholder="/about#contacts"
+                />
+              </div>
+            </div>
 
 
 
@@ -402,13 +481,17 @@ export default function ContentManagement() {
           <h3>Основная информация</h3>
             <div className="form-group">
               <label>Заголовок:</label>
-              <input
-                type="text"
+              <textarea
                 name="title"
                 value={formData.title}
                 onChange={handleBasicChange}
-                placeholder="Название компании"
+                placeholder="Название компании. Для переноса строк используйте Enter."
+                rows={2}
+                style={{ whiteSpace: 'pre-wrap' }}
               />
+              <small style={{ color: '#666', fontSize: '12px' }}>
+                💡 Совет: Нажмите Enter для создания новой строки в заголовке.
+              </small>
             </div>
             <div className="form-group">
               <label>Описание:</label>
@@ -416,9 +499,13 @@ export default function ContentManagement() {
                 name="description"
                 value={formData.description}
                 onChange={handleBasicChange}
-                placeholder="Краткое описание компании"
+                placeholder="Краткое описание компании. Для переноса строк используйте Enter."
                 rows={4}
+                style={{ whiteSpace: 'pre-wrap' }}
               />
+              <small style={{ color: '#666', fontSize: '12px' }}>
+                💡 Совет: Нажмите Enter для создания новой строки. Переносы строк будут отображаться на сайте.
+              </small>
             </div>
           </div>
         )}
@@ -432,7 +519,15 @@ export default function ContentManagement() {
               </button>
             </div>
             
-            {formData.advantages.map((advantage, index) => (
+            {(() => {
+              const advantages = formData.advantages || {};
+              const advantagesList = advantages.items || advantages || [];
+              console.log('advantages:', advantages, 'advantagesList:', advantagesList, 'type:', typeof advantagesList, 'isArray:', Array.isArray(advantagesList));
+              if (!Array.isArray(advantagesList)) {
+                console.error('advantagesList is not an array:', advantagesList);
+                return <div>Ошибка: advantages не является массивом</div>;
+              }
+              return advantagesList.map((advantage, index) => (
               <div key={index} className="advantage-item">
                 <div className="advantage-header">
                   <span>Преимущество #{index + 1}</span>
@@ -451,12 +546,16 @@ export default function ContentManagement() {
                   </div>
                   <div className="form-group">
                     <label>Заголовок:</label>
-                    <input
-                      type="text"
+                    <textarea
                       value={advantage.title}
                       onChange={(e) => updateAdvantage(index, 'title', e.target.value)}
-                      placeholder="Название преимущества"
+                      placeholder="Название преимущества. Для переноса строк используйте Enter."
+                      rows={2}
+                      style={{ whiteSpace: 'pre-wrap' }}
                     />
+                    <small style={{ color: '#666', fontSize: '12px' }}>
+                      💡 Совет: Нажмите Enter для создания новой строки в заголовке.
+                    </small>
                   </div>
                 </div>
                 
@@ -470,7 +569,8 @@ export default function ContentManagement() {
                   />
                 </div>
               </div>
-            ))}
+            ));
+            })()}
           </div>
         )}
 
@@ -483,7 +583,15 @@ export default function ContentManagement() {
               </button>
             </div>
             
-            {formData.whyChooseUs.map((item, index) => (
+            {(() => {
+              const whyChooseUs = formData.whyChooseUs || {};
+              const whyChooseUsList = whyChooseUs.items || whyChooseUs || [];
+              console.log('whyChooseUs:', whyChooseUs, 'whyChooseUsList:', whyChooseUsList, 'type:', typeof whyChooseUsList, 'isArray:', Array.isArray(whyChooseUsList));
+              if (!Array.isArray(whyChooseUsList)) {
+                console.error('whyChooseUsList is not an array:', whyChooseUsList);
+                return <div>Ошибка: whyChooseUs не является массивом</div>;
+              }
+              return whyChooseUsList.map((item, index) => (
               <div key={index} className="why-choose-us-item">
                 <div className="item-header">
                   <span>Причина #{index + 1}</span>
@@ -502,12 +610,16 @@ export default function ContentManagement() {
                   </div>
                   <div className="form-group">
                     <label>Заголовок:</label>
-                    <input
-                      type="text"
+                    <textarea
                       value={item.title}
                       onChange={(e) => updateWhyChooseUs(index, 'title', e.target.value)}
-                      placeholder="Заголовок причины"
+                      placeholder="Заголовок причины. Для переноса строк используйте Enter."
+                      rows={2}
+                      style={{ whiteSpace: 'pre-wrap' }}
                     />
+                    <small style={{ color: '#666', fontSize: '12px' }}>
+                      💡 Совет: Нажмите Enter для создания новой строки в заголовке.
+                    </small>
                   </div>
                 </div>
                 
@@ -521,7 +633,8 @@ export default function ContentManagement() {
                   />
                 </div>
               </div>
-            ))}
+            ));
+            })()}
           </div>
         )}
 
@@ -534,7 +647,15 @@ export default function ContentManagement() {
               </button>
             </div>
             
-            {formData.team.map((member, index) => (
+            {(() => {
+              const team = formData.team || {};
+              const teamList = team.members || team.items || team || [];
+              console.log('team:', team, 'teamList:', teamList, 'type:', typeof teamList, 'isArray:', Array.isArray(teamList));
+              if (!Array.isArray(teamList)) {
+                console.error('teamList is not an array:', teamList);
+                return <div>Ошибка: team не является массивом</div>;
+              }
+              return teamList.map((member, index) => (
               <div key={index} className="team-member-item">
                 <div className="member-header">
                   <span>Сотрудник #{index + 1}</span>
@@ -613,7 +734,8 @@ export default function ContentManagement() {
                   />
                 </div>
               </div>
-            ))}
+            ));
+            })()}
           </div>
         )}
 
@@ -651,7 +773,15 @@ export default function ContentManagement() {
                 </button>
               </div>
               
-              {formData.history.milestones.map((milestone, index) => (
+              {(() => {
+                const milestones = formData.history?.milestones || {};
+                const milestonesList = milestones.items || milestones || [];
+                console.log('milestones:', milestones, 'milestonesList:', milestonesList, 'type:', typeof milestonesList, 'isArray:', Array.isArray(milestonesList));
+                if (!Array.isArray(milestonesList)) {
+                  console.error('milestonesList is not an array:', milestonesList);
+                  return <div>Ошибка: milestones не является массивом</div>;
+                }
+                return milestonesList.map((milestone, index) => (
                 <div key={index} className="milestone-item">
                   <div className="milestone-header">
                     <span>Этап #{index + 1}</span>
@@ -691,7 +821,8 @@ export default function ContentManagement() {
                     />
                   </div>
                 </div>
-              ))}
+              ));
+              })()}
             </div>
           </div>
         )}
@@ -1094,7 +1225,15 @@ export default function ContentManagement() {
                   </button>
                 </div>
                 
-                {formData.footer.informationSection.links.map((link, index) => (
+                {(() => {
+                  const links = formData.footer?.informationSection?.links || {};
+                  const linksList = links.items || links || [];
+                  console.log('links:', links, 'linksList:', linksList, 'type:', typeof linksList, 'isArray:', Array.isArray(linksList));
+                  if (!Array.isArray(linksList)) {
+                    console.error('linksList is not an array:', linksList);
+                    return <div>Ошибка: links не является массивом</div>;
+                  }
+                  return linksList.map((link, index) => (
                   <div key={index} className="link-item">
                     <div className="link-header">
                       <span>Ссылка #{index + 1}</span>
@@ -1124,7 +1263,8 @@ export default function ContentManagement() {
                       </div>
                     </div>
                   </div>
-                ))}
+                ));
+                })()}
               </div>
             </div>
 

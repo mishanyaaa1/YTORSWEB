@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaMapMarkerAlt,
@@ -25,6 +25,21 @@ import Reveal from '../components/Reveal';
 export default function About() {
   const { aboutContent } = useAdminData();
 
+  // Делаем полосу header прозрачной при загрузке страницы
+  useEffect(() => {
+    const header = document.querySelector('.header');
+    if (header) {
+      header.style.borderBottom = '1px solid transparent';
+    }
+    
+    // Возвращаем полосу при размонтировании компонента
+    return () => {
+      if (header) {
+        header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+      }
+    };
+  }, []);
+
   // Дефолтные преимущества (если не заданы в админке)
   const defaultAdvantages = [
     {
@@ -50,8 +65,8 @@ export default function About() {
   ];
 
   // Используем данные команды из админки или дефолтные данные
-  const team = aboutContent.team && aboutContent.team.length > 0 
-    ? aboutContent.team 
+  const team = aboutContent.team && aboutContent.team.members && aboutContent.team.members.length > 0 
+    ? aboutContent.team.members 
     : [
         {
           name: "Алексей Петров",
@@ -138,10 +153,32 @@ export default function About() {
         <div className="container">
           <Reveal type="up">
             <div className="hero-content">
-              <h1>{aboutContent.title || "О компании ВездеходЗапчасти"}</h1>
-              <p>
-                {aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники."}
-              </p>
+              <h1 className="about-title">
+                {(() => {
+                  const title = aboutContent.title || "О компании ВездеходЗапчасти";
+                  if (title.includes('\n')) {
+                    return title.split('\n').map((line, index) => (
+                      <span key={index} style={{ display: 'block' }}>
+                        {line}
+                      </span>
+                    ));
+                  }
+                  return title;
+                })()}
+              </h1>
+              <div className="about-description">
+                {(() => {
+                  const description = aboutContent.description || "Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок. Наша цель — обеспечить вас надежными комплектующими для безопасной и комфортной эксплуатации вашей техники.";
+                  if (description.includes('\n')) {
+                    return description.split('\n').map((line, index) => (
+                      <p key={index} style={{ margin: index > 0 ? '0.5em 0 0 0' : '0' }}>
+                        {line}
+                      </p>
+                    ));
+                  }
+                  return <p>{description}</p>;
+                })()}
+              </div>
             </div>
           </Reveal>
         </div>
@@ -176,7 +213,19 @@ export default function About() {
                     ? getIconForEmoji(advantage.icon)
                     : defaultAdvantages[index]?.icon}
                 </div>
-                <h3>{advantage.title || advantage}</h3>
+                <h3 className="advantage-title">
+                  {(() => {
+                    const title = advantage.title || advantage;
+                    if (title.includes('\n')) {
+                      return title.split('\n').map((line, index) => (
+                        <span key={index} style={{ display: 'block' }}>
+                          {line}
+                        </span>
+                      ));
+                    }
+                    return title;
+                  })()}
+                </h3>
                 <p>{advantage.description || ''}</p>
               </motion.div>
             ))}
@@ -213,7 +262,19 @@ export default function About() {
                     : defaultFeatures[index]?.icon}
                 </div>
                 <div className="feature-content">
-                  <h3>{feature.title}</h3>
+                  <h3 className="feature-title">
+                    {(() => {
+                      const title = feature.title;
+                      if (title.includes('\n')) {
+                        return title.split('\n').map((line, index) => (
+                          <span key={index} style={{ display: 'block' }}>
+                            {line}
+                          </span>
+                        ));
+                      }
+                      return title;
+                    })()}
+                  </h3>
                   <p>{feature.description}</p>
                 </div>
               </motion.div>
@@ -232,7 +293,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Наша команда
+            {aboutContent.team?.title || 'Наша команда'}
           </motion.h2>
           
           <div className="team-grid">
@@ -284,11 +345,11 @@ export default function About() {
                   }
                 </p>
                 
-                {aboutContent.history?.milestones && aboutContent.history.milestones.length > 0 && (
+                {aboutContent.history?.milestones && aboutContent.history.milestones.items && aboutContent.history.milestones.items.length > 0 && (
                   <div className="milestones">
-                    <h3>Основные этапы развития:</h3>
+                    <h3>{aboutContent.history.milestones.title || 'Основные этапы развития:'}</h3>
                     <div className="milestones-list">
-                      {aboutContent.history.milestones.map((milestone, index) => (
+                      {aboutContent.history.milestones.items.map((milestone, index) => (
                         <div key={index} className="milestone-item">
                           <div className="milestone-year">{milestone.year}</div>
                           <div className="milestone-content">

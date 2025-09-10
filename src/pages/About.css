@@ -60,7 +60,10 @@
 .contacts-section::before {
 	content: "";
 	position: absolute;
-	inset: -10%;
+	top: 0;
+	left: -10%;
+	right: -10%;
+	bottom: 0;
 	background:
 		repeating-linear-gradient(-30deg, rgba(230, 163, 74, 0.06) 0 2px, transparent 2px 180px),
 		radial-gradient(circle at 12% 22%, rgba(230, 163, 74, 0.10), transparent 42%),

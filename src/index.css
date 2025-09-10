@@ -94,6 +94,12 @@ textarea:focus-visible {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Делаем полосу header прозрачной на страницах About и Promotions */
+body:has(.about-page) .header,
+body:has(.promotions-page) .header {
+  border-bottom: 1px solid transparent !important;
+}
+
 .header-content {
   display: flex;
   justify-content: space-between;

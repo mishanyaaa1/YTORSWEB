@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGift, 
@@ -18,6 +18,21 @@ import { getIconForEmoji } from '../utils/iconMap.jsx';
 function Promotions() {
   const { promotions: adminPromotions, categories: adminCategories } = useAdminData();
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // Делаем полосу header прозрачной при загрузке страницы
+  useEffect(() => {
+    const header = document.querySelector('.header');
+    if (header) {
+      header.style.borderBottom = '1px solid transparent';
+    }
+    
+    // Возвращаем полосу при размонтировании компонента
+    return () => {
+      if (header) {
+        header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+      }
+    };
+  }, []);
 
   // Фильтруем только активные акции, которые не истекли
   const activePromotions = adminPromotions.filter(promo => {

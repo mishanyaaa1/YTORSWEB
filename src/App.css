@@ -101,7 +101,7 @@ html {
 }
 
 .hero-text h1 {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
   color: #ffffff;
@@ -114,9 +114,9 @@ html {
 }
 
 .hero-text p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #f0f0f0;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   line-height: 1.7;
   text-shadow: 
     0 0 15px rgba(0, 0, 0, 0.8),
@@ -478,7 +478,7 @@ html {
 }
 
 .footer-bottom {
-  text-align: center;
+  text-align: left;
   padding-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #888888;
@@ -514,7 +514,7 @@ html {
   }
   
   .hero-text h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-shadow: 
       0 0 15px rgba(0, 0, 0, 0.9),
       2px 2px 4px rgba(0, 0, 0, 0.8),
@@ -522,7 +522,7 @@ html {
   }
   
   .hero-text p {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     max-width: 100%;
   }
   
@@ -575,11 +575,11 @@ html {
   
   /* Hero секция на маленьких экранах */
   .hero-text h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   .hero-text p {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .hero-buttons {
@@ -936,7 +936,7 @@ html {
   }
   
   .hero-text h1 {
-    font-size: 4rem;
+    font-size: 3rem;
   }
   
   .products-grid {

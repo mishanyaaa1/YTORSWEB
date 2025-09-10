@@ -145,9 +145,7 @@ function App() {
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <Link to="/" className="logo">
-              <BrandLogo />
-            </Link>
+            <BrandLogo to="/" className="logo" />
 
             <nav className="nav">
               <Link to="/" className={isActiveLink('/') ? 'nav-link active' : 'nav-link'}>

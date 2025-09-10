@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
   FaTruck, 
   FaTools, 
@@ -110,28 +111,72 @@ function Home() {
             <div className="container">
               <div className="hero-content">
                 <div className="hero-text">
-                  <h1>{aboutContent?.homeHero?.title || 'Запчасти для вездеходов'}</h1>
-                  <p>{aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.'}</p>
-                  <div className="hero-cta-group">
+                  <motion.h1 
+                    className="hero-title"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  >
+                    {(() => {
+                      const title = aboutContent?.homeHero?.title || 'Запчасти для вездеходов';
+                      if (title.includes('\n')) {
+                        return title.split('\n').map((line, index) => (
+                          <span key={index} style={{ display: 'block' }}>
+                            {line}
+                          </span>
+                        ));
+                      }
+                      return title;
+                    })()}
+                  </motion.h1>
+                  <motion.div 
+                    className="hero-description"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                  >
+                    {(() => {
+                      const description = aboutContent?.homeHero?.description || 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.';
+                      if (description.includes('\n')) {
+                        return description.split('\n').map((line, index) => (
+                          <p key={index} style={{ margin: index > 0 ? '0.5em 0 0 0' : '0' }}>
+                            {line}
+                          </p>
+                        ));
+                      }
+                      return <p>{description}</p>;
+                    })()}
+                  </motion.div>
+                  <motion.div 
+                    className="hero-cta-group"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                  >
                     <Link to={aboutContent?.homeHero?.ctaLink || '/catalog'} className="cta-button">
                       {aboutContent?.homeHero?.ctaText || 'Перейти в каталог'}
                       <FaArrowRight />
                     </Link>
                     <Link
-                      to="/about#contacts"
+                      to={aboutContent?.homeHero?.secondaryCtaLink || "/about#contacts"}
                       className="cta-button secondary"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate('/about#contacts');
-                        setTimeout(() => {
-                          const el = document.getElementById('contacts');
-                          if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
+                        const link = aboutContent?.homeHero?.secondaryCtaLink || "/about#contacts";
+                        if (link.includes('#contacts')) {
+                          navigate('/about#contacts');
+                          setTimeout(() => {
+                            const el = document.getElementById('contacts');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                          }, 50);
+                        } else {
+                          navigate(link);
+                        }
                       }}
                     >
-                      Связаться с менеджером
+                      {aboutContent?.homeHero?.secondaryCtaText || 'Связаться с менеджером'}
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>

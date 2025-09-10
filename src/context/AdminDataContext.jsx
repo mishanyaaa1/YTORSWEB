@@ -730,10 +730,14 @@ export const AdminDataProvider = ({ children }) => {
           ? newContent.homeHero.visualButtons
           : []
       },
-      team: newContent.team || [],
+      team: newContent.team || { title: 'Наша команда', members: [] },
       history: {
         ...initialAboutContent.history,
-        ...(newContent.history || {})
+        ...(newContent.history || {}),
+        milestones: {
+          ...initialAboutContent.history.milestones,
+          ...(newContent.history?.milestones || {})
+        }
       },
       footer: {
         ...initialAboutContent.footer,
