@@ -1103,4 +1103,69 @@ html {
   line-height: 1;
 }
 
+/* Общие стили для уведомлений - не перекрывать шапку */
+[data-sonner-toaster] {
+  top: 30px !important;
+}
+
+/* Альтернативный селектор для react-hot-toast */
+.go3958317564 {
+  top: 30px !important;
+}
+
+/* Компактные стили для уведомлений */
+[data-sonner-toaster] > div {
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+  max-width: 280px !important;
+  border-radius: 8px !important;
+  line-height: 1.4 !important;
+}
+
+.go3958317564 {
+  padding: 8px 12px !important;
+  font-size: 15px !important;
+  max-width: 280px !important;
+  border-radius: 8px !important;
+  line-height: 1.4 !important;
+}
+
+/* Стили для уведомлений на мобильных устройствах */
+@media (max-width: 768px) {
+  /* Убеждаемся, что мобильное меню всегда выше уведомлений */
+  .mobile-menu.open {
+    z-index: 2000 !important;
+  }
+  
+  /* Дополнительная защита от перекрытия */
+  .mobile-menu.open ~ * [data-sonner-toaster] {
+    z-index: 1000 !important;
+  }
+  
+  /* Уведомления не должны перекрывать шапку на мобильных */
+  [data-sonner-toaster] {
+    top: 30px !important;
+  }
+  
+  /* Альтернативный селектор для react-hot-toast на мобильных */
+  .go3958317564 {
+    top: 30px !important;
+  }
+  
+  /* Компактные стили для мобильных уведомлений */
+  [data-sonner-toaster] > div {
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+    max-width: 260px !important;
+    line-height: 1.4 !important;
+  }
+  
+  .go3958317564 {
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+    max-width: 260px !important;
+    line-height: 1.4 !important;
+  }
+}
+
 /* Герой секция */

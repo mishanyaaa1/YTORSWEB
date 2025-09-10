@@ -8,7 +8,8 @@ export const useCartActions = () => {
     try {
       addToCart(product, quantity);
       const title = product?.title || 'Товар';
-      const price = product?.price != null ? ` — ${product.price} ₽` : '';
+      const formattedPrice = product?.price != null ? product.price.toLocaleString('ru-RU') : '';
+      const price = formattedPrice ? ` — ${formattedPrice} ₽` : '';
       
       // Небольшая задержка для корректного отображения уведомления
       setTimeout(() => {

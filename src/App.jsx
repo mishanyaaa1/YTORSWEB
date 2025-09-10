@@ -265,16 +265,20 @@ function App() {
       
       {/* Глобальный контейнер уведомлений */}
       <Toaster
-        position="top-right"
+        position={isMobileMenuOpen ? "top-center" : "top-right"}
         toastOptions={{
           duration: 2500,
           style: {
             background: '#1f2937',
             color: '#fff',
-            borderRadius: '10px',
+            borderRadius: '8px',
             boxShadow:
-              '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)',
-            zIndex: 99999
+              '0 8px 12px -3px rgba(0,0,0,0.1), 0 3px 5px -2px rgba(0,0,0,0.1)',
+            zIndex: isMobileMenuOpen ? 1000 : 1500,
+            marginTop: '30px',
+            padding: '8px 12px',
+            fontSize: '15px',
+            maxWidth: '280px'
           },
           success: {
             icon: '🛒'
@@ -284,7 +288,8 @@ function App() {
           }
         }}
         containerStyle={{
-          zIndex: 99999
+          zIndex: isMobileMenuOpen ? 1000 : 1500,
+          top: '30px'
         }}
       />
 
