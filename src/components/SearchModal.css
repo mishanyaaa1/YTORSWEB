@@ -424,44 +424,46 @@
   min-width: 120px;
 }
 
-.view-btn {
+.search-modal .view-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, rgba(230, 163, 74, 0.4) 0%, rgba(201, 124, 26, 0.4) 100%);
+  background: rgba(255, 255, 255, 0.1) !important;
   color: #ffffff;
   text-decoration: none;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   backdrop-filter: blur(15px);
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.view-btn:hover {
-  transform: translateY(-1px);
+.search-modal .view-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
   box-shadow: 
-    0 4px 12px rgba(230, 163, 74, 0.3),
-    0 0 0 2px rgba(230, 163, 74, 0.3),
-    0 0 15px rgba(230, 163, 74, 0.2);
-  background: linear-gradient(135deg, rgba(242, 182, 90, 0.5) 0%, rgba(216, 138, 42, 0.5) 100%);
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-1px);
 }
 
-.add-to-cart-btn {
+.search-modal .add-to-cart-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(230, 163, 74, 0.4) 0%, rgba(201, 124, 26, 0.4) 100%) !important;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none !important;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -471,20 +473,19 @@
     0 2px 8px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(15px);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
-.add-to-cart-btn:hover {
-  background: rgba(230, 163, 74, 0.2);
+.search-modal .add-to-cart-btn:hover {
+  transform: translateY(-1px);
   box-shadow: 
     0 4px 12px rgba(230, 163, 74, 0.3),
-    0 0 0 2px rgba(230, 163, 74, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  color: #ffffff !important;
-  border-color: rgba(230, 163, 74, 0.6);
-  transform: translateY(-1px);
+    0 0 0 2px rgba(230, 163, 74, 0.3),
+    0 0 15px rgba(230, 163, 74, 0.2);
+  background: linear-gradient(135deg, rgba(242, 182, 90, 0.5) 0%, rgba(216, 138, 42, 0.5) 100%) !important;
 }
 
-.add-to-cart-btn:active {
+.search-modal .add-to-cart-btn:active {
   transform: translateY(0);
 }
 
