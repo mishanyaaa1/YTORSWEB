@@ -7,6 +7,7 @@ import { useCartActions } from '../hooks/useCartActions';
 import { useAdminData } from '../context/AdminDataContext';
 import { migrateProductImages, getAllImages, isImageUrl } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
+import ImageModal from '../components/ImageModal';
 import './ProductPage.css';
 
 // Данные товаров (в реальном приложении будут загружаться с сервера)
@@ -171,6 +172,8 @@ function ProductPage() {
   const { products, categories, brands, filterSettings } = useAdminData();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
   // wishlist removed
 
   const product = products.find(p => p.id === parseInt(id));
@@ -219,6 +222,38 @@ function ProductPage() {
     }
   };
 
+  // Обработчики для модального окна изображений
+  const handleImageClick = () => {
+    if (allImages && allImages.length > 0 && allImages[safeSelectedIndex]) {
+      setModalImageIndex(safeSelectedIndex);
+      setIsImageModalOpen(true);
+    }
+  };
+
+  const handleCloseImageModal = () => {
+    setIsImageModalOpen(false);
+  };
+
+  const handlePreviousImage = () => {
+    setModalImageIndex(modalImageIndex === 0 ? allImages.length - 1 : modalImageIndex - 1);
+  };
+
+  const handleNextImage = () => {
+    setModalImageIndex(modalImageIndex === allImages.length - 1 ? 0 : modalImageIndex + 1);
+  };
+
+  // Обработчик навигации по миниатюрам в модальном окне
+  useEffect(() => {
+    const handleImageModalNavigate = (event) => {
+      setModalImageIndex(event.detail.index);
+    };
+
+    window.addEventListener('imageModalNavigate', handleImageModalNavigate);
+    return () => {
+      window.removeEventListener('imageModalNavigate', handleImageModalNavigate);
+    };
+  }, []);
+
   // Нормализация характеристик: поддержка как объекта, так и массива [{name, value}]
   const specsArray = Array.isArray(product?.specifications)
     ? (product.specifications || []).filter(s => s && (s.name || s.value))
@@ -248,6 +283,8 @@ function ProductPage() {
                 className="image-container"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
+                onClick={handleImageClick}
+                style={{ cursor: 'pointer' }}
               >
                 {allImages && allImages.length > 0 && allImages[safeSelectedIndex] ? (
                   allImages[safeSelectedIndex].data && (
@@ -451,6 +488,17 @@ function ProductPage() {
           </Reveal>
         )}
       </div>
+
+      {/* Модальное окно для полноэкранного просмотра изображений */}
+      <ImageModal
+        isOpen={isImageModalOpen}
+        onClose={handleCloseImageModal}
+        images={allImages}
+        currentIndex={modalImageIndex}
+        onPrevious={handlePreviousImage}
+        onNext={handleNextImage}
+        productTitle={product.title}
+      />
     </motion.div>
   );
 }

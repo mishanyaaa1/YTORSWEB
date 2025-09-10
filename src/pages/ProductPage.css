@@ -171,6 +171,12 @@
   justify-content: center;
   overflow: hidden;
   border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-container:hover {
+  transform: scale(1.02);
 }
 
 .product-main-image {

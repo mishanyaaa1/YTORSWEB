@@ -1,0 +1,294 @@
+/* Модальное окно для полноэкранного просмотра изображений */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Кнопка закрытия */
+.image-modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 10001;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.close-icon {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  transform: translate(1px, -3px);
+  display: block;
+}
+
+.image-modal-close:hover {
+  background: rgba(230, 163, 74, 0.8);
+  color: #000;
+  transform: scale(1.1);
+}
+
+/* Навигационные кнопки */
+.image-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 10001;
+}
+
+.image-modal-prev {
+  left: -70px;
+}
+
+.image-modal-next {
+  right: -70px;
+}
+
+.image-modal-nav:hover {
+  background: rgba(230, 163, 74, 0.8);
+  color: #000;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Контейнер изображения */
+.image-modal-image-container {
+  position: relative;
+  max-width: 100%;
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Счетчик изображений */
+.image-modal-counter {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+}
+
+/* Миниатюры */
+.image-modal-thumbnails {
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  max-width: 90vw;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.image-modal-thumbnail {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-modal-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.image-modal-thumbnail:hover,
+.image-modal-thumbnail.active {
+  border-color: #e6a34a;
+  background: rgba(230, 163, 74, 0.1);
+}
+
+.image-modal-thumbnail.active {
+  border-color: #e6a34a;
+  background: rgba(230, 163, 74, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .image-modal-overlay {
+    padding: 10px;
+  }
+  
+  .image-modal-content {
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  
+  .image-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+  }
+  
+  .close-icon {
+    font-size: 28px;
+    font-weight: 600;
+    transform: translate(1px, -2px);
+  }
+  
+  .image-modal-nav {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .image-modal-prev {
+    left: 10px;
+  }
+  
+  .image-modal-next {
+    right: 10px;
+  }
+  
+  .image-modal-image-container {
+    max-height: 70vh;
+  }
+  
+  .image-modal-counter {
+    bottom: 10px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .image-modal-thumbnails {
+    bottom: 10px;
+    gap: 8px;
+  }
+  
+  .image-modal-thumbnail {
+    min-width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-modal-nav {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .image-modal-thumbnail {
+    min-width: 40px;
+    height: 40px;
+  }
+  
+  .image-modal-thumbnails {
+    gap: 6px;
+  }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-modal-image {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Поддержка темной темы */
+@media (prefers-color-scheme: dark) {
+  .image-modal-overlay {
+    background: rgba(0, 0, 0, 0.98);
+  }
+}
+
+/* Поддержка уменьшенной анимации */
+@media (prefers-reduced-motion: reduce) {
+  .image-modal-image {
+    animation: none;
+  }
+  
+  .image-modal-close,
+  .image-modal-nav,
+  .image-modal-thumbnail {
+    transition: none;
+  }
+}
