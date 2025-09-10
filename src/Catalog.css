@@ -215,44 +215,6 @@ input[type='number'] {
   margin: 0;
 }
 
-.view-mode-toggle {
-  display: flex;
-  background: rgba(24, 24, 24, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 4px;
-  border: 1px solid rgba(230, 163, 74, 0.3);
-  gap: 2px;
-}
-
-.view-mode-btn {
-  background: transparent;
-  border: none;
-  color: #cccccc;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.view-mode-btn:hover {
-  background: rgba(230, 163, 74, 0.1);
-  color: #e6a34a;
-}
-
-.view-mode-btn.active {
-  background: linear-gradient(135deg, #e6a34a 0%, #c97c1a 100%);
-  color: #000000;
-  box-shadow: 0 2px 8px rgba(230, 163, 74, 0.3);
-}
-
-.view-mode-btn svg {
-  width: 20px;
-  height: 20px;
-}
 
 .catalog-container {
   width: 100%;
@@ -718,10 +680,6 @@ input[type='number'] {
     gap: 1rem;
   }
   
-  .view-mode-toggle {
-    align-self: flex-end;
-  }
-  
   .catalog-card-list {
     padding: 0.8rem 1rem;
     min-height: 70px;
@@ -1153,10 +1111,6 @@ input[type='number'] {
     display: none;
   }
   
-  /* Скрываем переключатель режимов на очень маленьких экранах */
-  .view-mode-toggle {
-    display: none;
-  }
   
   .catalog-header-controls h2 {
     font-size: 1.5rem;

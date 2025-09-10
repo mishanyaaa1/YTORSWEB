@@ -22,18 +22,20 @@ export default function Catalog() {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' или 'list'
   const { addToCartWithNotification } = useCartActions();
 
-  // Автоматическое переключение на режим списка для мобильных устройств
+  // Автоматическое переключение режимов просмотра
   useEffect(() => {
-    const checkMobile = () => {
+    const updateViewMode = () => {
       if (window.innerWidth <= 768) {
         setViewMode('list');
+      } else {
+        setViewMode('grid');
       }
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    updateViewMode();
+    window.addEventListener('resize', updateViewMode);
     
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', updateViewMode);
   }, []);
 
   // Обработчик клика по товару
@@ -270,31 +272,6 @@ export default function Catalog() {
       <main className="catalog-main">
         <div className="catalog-header-controls">
           <h2>Товары</h2>
-          <div className="view-mode-toggle">
-            <button 
-              className={`view-mode-btn ${viewMode === 'grid' ? 'active' : ''}`}
-              onClick={() => setViewMode('grid')}
-              title="Сетка"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-              </svg>
-            </button>
-            <button 
-              className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
-              onClick={() => setViewMode('list')}
-              title="Список"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="3" y="6" width="18" height="2"/>
-                <rect x="3" y="11" width="18" height="2"/>
-                <rect x="3" y="16" width="18" height="2"/>
-              </svg>
-            </button>
-          </div>
         </div>
         
         <div className={`catalog-container ${viewMode === 'list' ? 'catalog-list' : 'catalog-grid'}`}>
