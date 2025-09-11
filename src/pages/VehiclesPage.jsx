@@ -181,13 +181,14 @@ function VehiclesPage() {
                 >
                   <div className="catalog-card-image">
                     {(() => {
-                      const migratedVehicle = migrateProductImages(vehicle);
-                      const mainImage = getMainImage(migratedVehicle);
-                      
-                      if (mainImage?.data && 
-                          typeof mainImage.data === 'string' && 
-                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
-                        return <img src={mainImage.data} alt={vehicle.name} className="catalog-product-image" />;
+                      // Для вездеходов используем поле image напрямую
+                      if (vehicle.image && 
+                          typeof vehicle.image === 'string' && 
+                          (vehicle.image.startsWith('data:image') || 
+                           vehicle.image.startsWith('http') || 
+                           vehicle.image.startsWith('/img/vehicles/') ||
+                           vehicle.image.startsWith('/uploads/'))) {
+                        return <img src={vehicle.image} alt={vehicle.name} className="catalog-product-image" />;
                       }
                       return (
                         <div className="vehicle-placeholder">

@@ -267,13 +267,15 @@ export const AdminDataProvider = ({ children }) => {
     const bootstrapFromApi = async () => {
       try {
         console.log('AdminDataContext: Starting API bootstrap...');
-        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes] = await Promise.allSettled([
+        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes, apiVehiclesRes, apiContentRes] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }),
           fetch('/api/categories', { credentials: 'include' }),
           fetch('/api/brands', { credentials: 'include' }),
           fetch('/api/promotions', { credentials: 'include' }),
           fetch('/api/terrain-types', { credentials: 'include' }),
-          fetch('/api/vehicle-types', { credentials: 'include' })
+          fetch('/api/vehicle-types', { credentials: 'include' }),
+          fetch('/api/vehicles', { credentials: 'include' }),
+          fetch('/api/content', { credentials: 'include' })
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
@@ -343,6 +345,28 @@ export const AdminDataProvider = ({ children }) => {
         } else {
           console.warn('AdminDataContext: Failed to load vehicle types from API:', apiVehicleTypesRes.status);
         }
+
+        if (apiVehiclesRes.status === 'fulfilled' && apiVehiclesRes.value.ok) {
+          const apiVehicles = await apiVehiclesRes.value.json();
+          if (Array.isArray(apiVehicles)) {
+            console.log('AdminDataContext: Loaded', apiVehicles.length, 'vehicles from API');
+            setVehicles(apiVehicles);
+            localStorage.setItem('adminVehicles', JSON.stringify(apiVehicles));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load vehicles from API:', apiVehiclesRes.status);
+        }
+
+        if (apiContentRes.status === 'fulfilled' && apiContentRes.value.ok) {
+          const apiContent = await apiContentRes.value.json();
+          if (apiContent && apiContent.about_content) {
+            console.log('AdminDataContext: Loaded content from API');
+            setAboutContent(apiContent.about_content);
+            localStorage.setItem('adminAboutContent', JSON.stringify(apiContent.about_content));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load content from API:', apiContentRes.status);
+        }
       } catch (e) {
         console.error('AdminDataContext: API bootstrap failed:', e);
         console.warn('AdminDataContext: Using local data as fallback');
@@ -402,6 +426,142 @@ export const AdminDataProvider = ({ children }) => {
       const updatedProducts = products.filter(product => product.id !== id);
       setProducts(updatedProducts);
       localStorage.setItem('adminProducts', JSON.stringify(updatedProducts));
+    }
+  };
+
+  // Функции для работы с вездеходами
+  const addVehicle = async (vehicle) => {
+    try {
+      const res = await fetch('/api/vehicles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(vehicle)
+      });
+      if (!res.ok) throw new Error('Failed to create vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      // Fallback локально
+      const newVehicle = {
+        ...vehicle,
+        id: vehicles.length ? Math.max(...vehicles.map(v => v.id)) + 1 : 1
+      };
+      const updatedVehicles = [...vehicles, newVehicle];
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const updateVehicle = async (id, updatedVehicle) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(updatedVehicle)
+      });
+      if (!res.ok) throw new Error('Failed to update vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.map(vehicle => 
+        vehicle.id === id ? { ...vehicle, ...updatedVehicle } : vehicle
+      );
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  const deleteVehicle = async (id) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, { method: 'DELETE', credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to delete vehicle');
+      await refreshFromApi();
+    } catch (e) {
+      const updatedVehicles = vehicles.filter(vehicle => vehicle.id !== id);
+      setVehicles(updatedVehicles);
+      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
+    }
+  };
+
+  // Функции для работы с контентом
+  const updateAboutContent = async (newContent) => {
+    console.log('AdminDataContext: Updating about content:', newContent);
+    console.log('AdminDataContext: Previous about content:', aboutContent);
+    console.log('AdminDataContext: Team data in new content:', newContent.team);
+    console.log('AdminDataContext: History data in new content:', newContent.history);
+    
+    // Убеждаемся, что структура данных полная
+    const completeContent = {
+      ...initialAboutContent,
+      ...newContent,
+      homeHero: {
+        ...initialAboutContent.homeHero,
+        ...(newContent.homeHero || {}),
+        heroEffect: (newContent?.homeHero?.heroEffect) || initialAboutContent.homeHero.heroEffect || 'particles',
+        visualButtons: Array.isArray(newContent?.homeHero?.visualButtons)
+          ? newContent.homeHero.visualButtons
+          : []
+      },
+      team: newContent.team || { title: 'Наша команда', members: [] },
+      history: {
+        ...initialAboutContent.history,
+        ...(newContent.history || {}),
+        milestones: {
+          ...initialAboutContent.history.milestones,
+          ...(newContent.history?.milestones || {})
+        }
+      },
+      footer: {
+        ...initialAboutContent.footer,
+        ...(newContent.footer || {})
+      }
+    };
+
+    // Тонкая настройка: если админ явно задал пустое описание метода доставки,
+    // сохраняем пустую строку (не подменяем дефолтом).
+    if (completeContent?.deliveryAndPayment?.deliveryMethods) {
+      completeContent.deliveryAndPayment.deliveryMethods = completeContent.deliveryAndPayment.deliveryMethods.map(m => {
+        if (!m) return m;
+        return {
+          ...m,
+          description: (m.description !== undefined) ? m.description : undefined,
+          items: Array.isArray(m.items) ? m.items : []
+        };
+      });
+    }
+    
+    try {
+      const res = await fetch('/api/content/about_content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ data: completeContent })
+      });
+      if (!res.ok) throw new Error('Failed to update content');
+      setAboutContent(completeContent);
+      localStorage.setItem('adminAboutContent', JSON.stringify(completeContent));
+    } catch (e) {
+      // Fallback локально
+      setAboutContent(completeContent);
+      localStorage.setItem('adminAboutContent', JSON.stringify(completeContent));
+    }
+    
+    console.log('AdminDataContext: Complete content saved:', completeContent);
+    console.log('AdminDataContext: Saved team:', completeContent.team);
+    console.log('AdminDataContext: Saved history:', completeContent.history);
+  };
+
+  const saveContent = async (key, data) => {
+    try {
+      const res = await fetch('/api/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ key, data })
+      });
+      if (!res.ok) throw new Error('Failed to save content');
+    } catch (e) {
+      console.error('Failed to save content:', e);
     }
   };
 
@@ -715,60 +875,6 @@ export const AdminDataProvider = ({ children }) => {
     }
   };
 
-  // Функция для обновления контента "О компании"
-  const updateAboutContent = (newContent) => {
-    console.log('AdminDataContext: Updating about content:', newContent);
-    console.log('AdminDataContext: Previous about content:', aboutContent);
-    console.log('AdminDataContext: Team data in new content:', newContent.team);
-    console.log('AdminDataContext: History data in new content:', newContent.history);
-    
-    // Убеждаемся, что структура данных полная
-    const completeContent = {
-      ...initialAboutContent,
-      ...newContent,
-      homeHero: {
-        ...initialAboutContent.homeHero,
-        ...(newContent.homeHero || {}),
-        heroEffect: (newContent?.homeHero?.heroEffect) || initialAboutContent.homeHero.heroEffect || 'particles',
-        visualButtons: Array.isArray(newContent?.homeHero?.visualButtons)
-          ? newContent.homeHero.visualButtons
-          : []
-      },
-      team: newContent.team || { title: 'Наша команда', members: [] },
-      history: {
-        ...initialAboutContent.history,
-        ...(newContent.history || {}),
-        milestones: {
-          ...initialAboutContent.history.milestones,
-          ...(newContent.history?.milestones || {})
-        }
-      },
-      footer: {
-        ...initialAboutContent.footer,
-        ...(newContent.footer || {})
-      }
-    };
-
-    // Тонкая настройка: если админ явно задал пустое описание метода доставки,
-    // сохраняем пустую строку (не подменяем дефолтом).
-    if (completeContent?.deliveryAndPayment?.deliveryMethods) {
-      completeContent.deliveryAndPayment.deliveryMethods = completeContent.deliveryAndPayment.deliveryMethods.map(m => {
-        if (!m) return m;
-        return {
-          ...m,
-          description: (m.description !== undefined) ? m.description : undefined,
-          items: Array.isArray(m.items) ? m.items : []
-        };
-      });
-    }
-    
-    setAboutContent(completeContent);
-    localStorage.setItem('adminAboutContent', JSON.stringify(completeContent));
-    
-    console.log('AdminDataContext: Complete content saved:', completeContent);
-    console.log('AdminDataContext: Saved team:', completeContent.team);
-    console.log('AdminDataContext: Saved history:', completeContent.history);
-  };
 
   // Функции для работы с популярными товарами
   const updatePopularProducts = (productIds) => {
@@ -780,60 +886,6 @@ export const AdminDataProvider = ({ children }) => {
   const updateFilterSettings = (newSettings) => {
     setFilterSettings(newSettings);
     localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
-  };
-
-  // Функции для работы с вездеходами
-  const addVehicle = async (vehicle) => {
-    try {
-      const res = await fetch('/api/vehicles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(vehicle)
-      });
-      if (!res.ok) throw new Error('Failed to create vehicle');
-      await refreshFromApi();
-    } catch (e) {
-      // Fallback локально
-      const newVehicle = {
-        ...vehicle,
-        id: vehicles.length ? Math.max(...vehicles.map(v => v.id)) + 1 : 1
-      };
-      const updatedVehicles = [...vehicles, newVehicle];
-      setVehicles(updatedVehicles);
-      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
-    }
-  };
-
-  const updateVehicle = async (id, updatedVehicle) => {
-    try {
-      const res = await fetch(`/api/vehicles/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(updatedVehicle)
-      });
-      if (!res.ok) throw new Error('Failed to update vehicle');
-      await refreshFromApi();
-    } catch (e) {
-      const updatedVehicles = vehicles.map(vehicle => 
-        vehicle.id === id ? { ...vehicle, ...updatedVehicle } : vehicle
-      );
-      setVehicles(updatedVehicles);
-      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
-    }
-  };
-
-  const deleteVehicle = async (id) => {
-    try {
-      const res = await fetch(`/api/vehicles/${id}`, { method: 'DELETE', credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to delete vehicle');
-      await refreshFromApi();
-    } catch (e) {
-      const updatedVehicles = vehicles.filter(vehicle => vehicle.id !== id);
-      setVehicles(updatedVehicles);
-      localStorage.setItem('adminVehicles', JSON.stringify(updatedVehicles));
-    }
   };
 
   // Функции для управления типами местности
@@ -927,21 +979,23 @@ export const AdminDataProvider = ({ children }) => {
     refreshFromApi: async () => {
       try {
         console.log('AdminDataContext: Refreshing data from API...');
-        const [p, cRaw, b, pr, pc, t, v] = await Promise.allSettled([
+        const [p, cRaw, b, pr, pc, t, v, vehicles, content] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
           fetch('/api/categories', { credentials: 'include' }).then(r => r.ok ? r.json() : categoryStructure),
           fetch('/api/brands', { credentials: 'include' }).then(r => r.ok ? r.json() : initialBrands),
           fetch('/api/promotions', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
           fetch('/api/promocodes', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
           fetch('/api/terrain-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Снег', 'Болото', 'Вода', 'Горы', 'Лес', 'Пустыня']),
-          fetch('/api/vehicle-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Гусеничный', 'Колесный', 'Плавающий'])
+          fetch('/api/vehicle-types', { credentials: 'include' }).then(r => r.ok ? r.json() : ['Гусеничный', 'Колесный', 'Плавающий']),
+          fetch('/api/vehicles', { credentials: 'include' }).then(r => r.ok ? r.json() : []),
+          fetch('/api/content', { credentials: 'include' }).then(r => r.ok ? r.json() : {})
         ]);
         
         // Обрабатываем результаты
         const normalized = Array.isArray(p.value) ? p.value.map(migrateProductImages).sort((a, b) => (a.id || 0) - (b.id || 0)) : [];
         const c = normalizeCategories(cRaw.value);
         
-        console.log('AdminDataContext: Refreshed data - products:', normalized.length, 'categories:', Object.keys(c).length);
+        console.log('AdminDataContext: Refreshed data - products:', normalized.length, 'categories:', Object.keys(c).length, 'vehicles:', vehicles.value?.length || 0);
         
         setProducts(normalized);
         setCategories(c);
@@ -950,6 +1004,13 @@ export const AdminDataProvider = ({ children }) => {
         setPromocodes(pc.value);
         setTerrainTypes(t.value);
         setVehicleTypes(v.value);
+        setVehicles(vehicles.value || []);
+        
+        // Обновляем контент
+        if (content.value && content.value.about_content) {
+          setAboutContent(content.value.about_content);
+        }
+        
         localStorage.setItem('adminProducts', JSON.stringify(normalized));
         localStorage.setItem('adminCategories', JSON.stringify(c));
         localStorage.setItem('adminBrands', JSON.stringify(b.value));
@@ -957,6 +1018,10 @@ export const AdminDataProvider = ({ children }) => {
         localStorage.setItem('adminPromocodes', JSON.stringify(pc.value));
         localStorage.setItem('adminTerrainTypes', JSON.stringify(t.value));
         localStorage.setItem('adminVehicleTypes', JSON.stringify(v.value));
+        localStorage.setItem('adminVehicles', JSON.stringify(vehicles.value || []));
+        if (content.value && content.value.about_content) {
+          localStorage.setItem('adminAboutContent', JSON.stringify(content.value.about_content));
+        }
       } catch (error) {
         console.error('AdminDataContext: Error refreshing data:', error);
       } finally {
@@ -1005,6 +1070,9 @@ export const AdminDataProvider = ({ children }) => {
     addVehicle,
     updateVehicle,
     deleteVehicle,
+
+    // Функции для контента
+    saveContent,
 
     // Функции для типов местности
     addTerrainType,

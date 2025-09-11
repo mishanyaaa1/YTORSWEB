@@ -33,13 +33,11 @@ function VehicleDetailPage() {
 
   const handleAddToCart = () => {
     // Создаем объект товара для корзины
-    const migratedVehicle = migrateProductImages(vehicle);
-    const mainImage = getMainImage(migratedVehicle);
     const cartItem = {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: mainImage?.data || null,
+      image: vehicle.image || null,
       type: 'vehicle'
     };
     addToCartWithNotification(cartItem, quantity);
@@ -111,15 +109,16 @@ function VehicleDetailPage() {
                 transition={{ duration: 0.3 }}
               >
                 {(() => {
-                  const migratedVehicle = migrateProductImages(vehicle);
-                  const mainImage = getMainImage(migratedVehicle);
-                  
-                  if (mainImage?.data && 
-                      typeof mainImage.data === 'string' && 
-                      (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
+                  // Для вездеходов используем поле image напрямую
+                  if (vehicle.image && 
+                      typeof vehicle.image === 'string' && 
+                      (vehicle.image.startsWith('data:image') || 
+                       vehicle.image.startsWith('http') || 
+                       vehicle.image.startsWith('/img/vehicles/') ||
+                       vehicle.image.startsWith('/uploads/'))) {
                     return (
                       <img 
-                        src={mainImage.data} 
+                        src={vehicle.image} 
                         alt={vehicle.name} 
                         className="vehicle-detail-image"
                         style={{

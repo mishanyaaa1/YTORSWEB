@@ -37,10 +37,14 @@ function VehiclesManagement() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Берем первое изображение из массива images
+    const mainImage = formData.images && formData.images.length > 0 ? formData.images[0].data : null;
+    
     const vehicleData = {
       ...formData,
       price: parseInt(formData.price),
       quantity: parseInt(formData.quantity),
+      image: mainImage, // Добавляем поле image
       specs: {
         engine: formData.engine,
         weight: formData.weight,
@@ -62,20 +66,23 @@ function VehiclesManagement() {
 
   const handleEdit = (vehicle) => {
     setEditingVehicle(vehicle);
-    const migratedVehicle = migrateProductImages(vehicle);
+    
+    // Для вездеходов создаем массив images из поля image
+    const images = vehicle.image ? [{ data: vehicle.image, isMain: true }] : [];
+    
     setFormData({
       name: vehicle.name,
       type: vehicle.type,
       terrain: vehicle.terrain,
       price: vehicle.price.toString(),
       description: vehicle.description,
-      engine: vehicle.specs.engine,
-      weight: vehicle.specs.weight,
-      capacity: vehicle.specs.capacity,
-      maxSpeed: vehicle.specs.maxSpeed,
+      engine: vehicle.specs?.engine || '',
+      weight: vehicle.specs?.weight || '',
+      capacity: vehicle.specs?.capacity || '',
+      maxSpeed: vehicle.specs?.maxSpeed || '',
       available: vehicle.available,
       quantity: vehicle.quantity,
-      images: migratedVehicle.images || []
+      images: images
     });
     setIsAddingVehicle(true);
   };
@@ -314,13 +321,14 @@ function VehiclesManagement() {
               <div key={vehicle.id} className="vehicle-card">
                 <div className="vehicle-image">
                   {(() => {
-                    const migratedVehicle = migrateProductImages(vehicle);
-                    const mainImage = getMainImage(migratedVehicle);
-                    
-                    if (mainImage?.data && 
-                        typeof mainImage.data === 'string' && 
-                        (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('http') || mainImage.data.startsWith('/uploads'))) {
-                      return <img src={mainImage.data} alt={vehicle.name} className="vehicle-product-image" />;
+                    // Для вездеходов используем поле image напрямую
+                    if (vehicle.image && 
+                        typeof vehicle.image === 'string' && 
+                        (vehicle.image.startsWith('data:image') || 
+                         vehicle.image.startsWith('http') || 
+                         vehicle.image.startsWith('/img/vehicles/') ||
+                         vehicle.image.startsWith('/uploads/'))) {
+                      return <img src={vehicle.image} alt={vehicle.name} className="vehicle-product-image" />;
                     }
                     return (
                       <div className="vehicle-placeholder">

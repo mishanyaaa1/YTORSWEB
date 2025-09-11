@@ -4,10 +4,10 @@ const { db, run } = require('./db');
 
 async function applyMigration() {
   try {
-    console.log('Применяю миграцию для типов местности и вездеходов...');
+    console.log('Применяю миграцию для вездеходов и контента...');
     
     // Читаем файл миграции
-    const migrationPath = path.join(__dirname, 'migrations', '003_terrain_vehicle_types.sql');
+    const migrationPath = path.join(__dirname, 'migrations', '004_vehicles_and_content.sql');
     const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
     
     // Разбиваем SQL на отдельные команды
@@ -27,11 +27,11 @@ async function applyMigration() {
     console.log('Миграция успешно применена!');
     
     // Проверяем, что таблицы созданы
-    const terrainTypes = await db.all("SELECT * FROM terrain_types");
-    const vehicleTypes = await db.all("SELECT * FROM vehicle_types");
+    const vehicles = await db.all("SELECT COUNT(*) as count FROM vehicles");
+    const siteContent = await db.all("SELECT COUNT(*) as count FROM site_content");
     
-    console.log('Типы местности:', terrainTypes.map(t => t.name));
-    console.log('Типы вездеходов:', vehicleTypes.map(v => v.name));
+    console.log('Количество вездеходов:', vehicles[0]?.count || 0);
+    console.log('Количество записей контента:', siteContent[0]?.count || 0);
     
   } catch (error) {
     console.error('Ошибка при применении миграции:', error);

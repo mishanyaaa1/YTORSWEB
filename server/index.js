@@ -233,8 +233,31 @@ app.get('/api/_debug/download', requireAdmin, (req, res) => {
 // Upload image (admin only)
 app.post('/api/upload/image', requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file' });
-  const url = `/uploads/${req.file.filename}`;
-  res.status(201).json({ url });
+  
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    
+    // Создаем папку public/img/vehicles если её нет
+    const publicVehiclesDir = path.join(__dirname, '..', 'public', 'img', 'vehicles');
+    if (!fs.existsSync(publicVehiclesDir)) {
+      fs.mkdirSync(publicVehiclesDir, { recursive: true });
+    }
+    
+    // Копируем файл в public/img/vehicles
+    const sourcePath = req.file.path;
+    const targetPath = path.join(publicVehiclesDir, req.file.filename);
+    fs.copyFileSync(sourcePath, targetPath);
+    
+    // Возвращаем URL для public папки
+    const url = `/img/vehicles/${req.file.filename}`;
+    res.status(201).json({ url });
+  } catch (error) {
+    console.error('Error copying image to public folder:', error);
+    // Fallback на старый URL
+    const url = `/uploads/${req.file.filename}`;
+    res.status(201).json({ url });
+  }
 });
 
 // Brands
@@ -1098,6 +1121,203 @@ window.telegramPixel = {
   }
 });
 
+// Vehicles API endpoints
+console.log('Loading vehicles API endpoints...');
+app.get('/api/vehicles', async (req, res) => {
+  try {
+    const rows = await all(
+      db,
+      `SELECT v.*, vt.name AS vehicle_type_name, tt.name AS terrain_type_name
+       FROM vehicles v
+       LEFT JOIN vehicle_types vt ON v.type = vt.name
+       LEFT JOIN terrain_types tt ON v.terrain = tt.name
+       ORDER BY v.name ASC`
+    );
+    
+    const result = rows.map(r => ({
+      id: r.id,
+      name: r.name,
+      type: r.type,
+      terrain: r.terrain,
+      price: r.price,
+      image: r.image,
+      description: r.description,
+      specs: r.specs_json ? JSON.parse(r.specs_json) : {},
+      available: !!r.available,
+      quantity: r.quantity,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at
+    }));
+    
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch vehicles' });
+  }
+});
+
+app.post('/api/vehicles', requireAdmin, async (req, res) => {
+  try {
+    const { name, type, terrain, price, image, description, specs, available = true, quantity = 0 } = req.body;
+    
+    const specsJson = specs ? JSON.stringify(specs) : null;
+    
+    const r = await run(
+      db,
+      `INSERT INTO vehicles (name, type, terrain, price, image, description, specs_json, available, quantity)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, type, terrain, price, image, description, specsJson, available ? 1 : 0, quantity]
+    );
+    
+    res.status(201).json({ id: r.lastID });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create vehicle' });
+  }
+});
+
+app.put('/api/vehicles/:id', requireAdmin, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { name, type, terrain, price, image, description, specs, available = true, quantity = 0 } = req.body;
+    
+    const specsJson = specs ? JSON.stringify(specs) : null;
+    
+    await run(
+      db,
+      `UPDATE vehicles SET name=?, type=?, terrain=?, price=?, image=?, description=?, specs_json=?, available=?, quantity=?, updated_at = datetime('now') WHERE id=?`,
+      [name, type, terrain, price, image, description, specsJson, available ? 1 : 0, quantity, id]
+    );
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update vehicle' });
+  }
+});
+
+app.delete('/api/vehicles/:id', requireAdmin, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    await run(db, `DELETE FROM vehicles WHERE id=?`, [id]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete vehicle' });
+  }
+});
+
+// Site content API endpoints
+app.get('/api/content', async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT content_key, content_data FROM site_content ORDER BY content_key ASC`);
+    const result = {};
+    
+    for (const row of rows) {
+      try {
+        result[row.content_key] = JSON.parse(row.content_data);
+      } catch (e) {
+        console.error(`Failed to parse content for key ${row.content_key}:`, e);
+        result[row.content_key] = {};
+      }
+    }
+    
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
+
+app.get('/api/content/:key', async (req, res) => {
+  try {
+    const { key } = req.params;
+    const row = await get(db, `SELECT content_data FROM site_content WHERE content_key = ?`, [key]);
+    
+    if (!row) {
+      return res.status(404).json({ error: 'Content not found' });
+    }
+    
+    try {
+      const content = JSON.parse(row.content_data);
+      res.json(content);
+    } catch (e) {
+      console.error(`Failed to parse content for key ${key}:`, e);
+      res.status(500).json({ error: 'Failed to parse content' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
+
+app.post('/api/content', requireAdmin, async (req, res) => {
+  try {
+    const { key, data } = req.body;
+    
+    if (!key || !data) {
+      return res.status(400).json({ error: 'Key and data are required' });
+    }
+    
+    const contentData = JSON.stringify(data);
+    
+    await run(
+      db,
+      `INSERT OR REPLACE INTO site_content (content_key, content_data, updated_at) VALUES (?, ?, datetime('now'))`,
+      [key, contentData]
+    );
+    
+    res.status(201).json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to save content' });
+  }
+});
+
+app.put('/api/content/:key', requireAdmin, async (req, res) => {
+  try {
+    const { key } = req.params;
+    const { data } = req.body;
+    
+    if (!data) {
+      return res.status(400).json({ error: 'Data is required' });
+    }
+    
+    const contentData = JSON.stringify(data);
+    
+    const result = await run(
+      db,
+      `UPDATE site_content SET content_data = ?, updated_at = datetime('now') WHERE content_key = ?`,
+      [contentData, key]
+    );
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Content not found' });
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update content' });
+  }
+});
+
+app.delete('/api/content/:key', requireAdmin, async (req, res) => {
+  try {
+    const { key } = req.params;
+    const result = await run(db, `DELETE FROM site_content WHERE content_key = ?`, [key]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Content not found' });
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete content' });
+  }
+});
+
 // Test endpoint to check if server is working
 app.get('/api/test', (req, res) => {
   res.json({ 
@@ -1242,11 +1462,13 @@ app.get('/api/_debug/routes', requireAdmin, (req, res) => {
 
 
 
+console.log('Starting server initialization...');
 Promise.all([
   ensureAdminTableAndDefaultUser(),
   ensureBotSettingsTable()
 ])
   .then(() => {
+    console.log('Tables initialized successfully');
     app.listen(PORT, () => {
       console.log(`API server listening on http://localhost:${PORT}`);
     });

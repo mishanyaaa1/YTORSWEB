@@ -104,10 +104,18 @@ function App() {
     }
   }, [location.pathname]);
   
-  const footerData = aboutContent.footer || {
+  const footerData = aboutContent?.footer || {
     aboutSection: {
       title: 'О компании',
       description: 'Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок.'
+    },
+    socialSection: {
+      title: 'Мы в соцсетях',
+      links: [
+        { platform: 'vk', url: 'https://vk.com/yutors', icon: 'vk' },
+        { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'instagram' },
+        { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'youtube' }
+      ]
     },
     contactsSection: {
       title: 'Контакты',
@@ -215,13 +223,13 @@ function App() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-section">
-              <h3>{footerData.aboutSection.title}</h3>
-              <p>{footerData.aboutSection.description}</p>
+              <h3>{footerData.aboutSection?.title || 'О компании'}</h3>
+              <p>{footerData.aboutSection?.description || 'Описание компании'}</p>
             </div>
             <div className="footer-section">
-              <h3>{footerData.socialSection.title}</h3>
+              <h3>{footerData.socialSection?.title || 'Мы в соцсетях'}</h3>
               <div className="social-links">
-                {footerData.socialSection.links.map((social, index) => {
+                {(footerData.socialSection?.links || []).map((social, index) => {
                   const IconComponent = social.platform === 'vk' ? FaVk : 
                                        social.platform === 'instagram' ? FaInstagram : 
                                        social.platform === 'youtube' ? FaYoutube : null;
@@ -244,12 +252,12 @@ function App() {
               </div>
             </div>
             <div className="footer-section">
-              <h3>{footerData.contactsSection.title}</h3>
-              <a href={`tel:${footerData.contactsSection.phone.replace(/[^+\d]/g, '')}`}>
-                <FaPhone /> {footerData.contactsSection.phone}
+              <h3>{footerData.contactsSection?.title || 'Контакты'}</h3>
+              <a href={`tel:${(footerData.contactsSection?.phone || '+7 (800) 123-45-67').replace(/[^+\d]/g, '')}`}>
+                <FaPhone /> {footerData.contactsSection?.phone || '+7 (800) 123-45-67'}
               </a>
-              <a href={`mailto:${footerData.contactsSection.email}`}>
-                <FaEnvelope /> {footerData.contactsSection.email}
+              <a href={`mailto:${footerData.contactsSection?.email || 'info@vezdehod-zapchasti.ru'}`}>
+                <FaEnvelope /> {footerData.contactsSection?.email || 'info@vezdehod-zapchasti.ru'}
               </a>
               <a 
                 href="#" 
@@ -259,12 +267,12 @@ function App() {
                 }}
                 style={{ cursor: 'pointer' }}
               >
-                <FaMapMarkerAlt /> {footerData.contactsSection.address}
+                <FaMapMarkerAlt /> {footerData.contactsSection?.address || '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'}
               </a>
             </div>
             <div className="footer-section">
-              <h3>{footerData.informationSection.title}</h3>
-              {footerData.informationSection.links.map((link, index) => (
+              <h3>{footerData.informationSection?.title || 'Информация'}</h3>
+              {(footerData.informationSection?.links || []).map((link, index) => (
                 <Link 
                   key={index} 
                   to={link.url}
@@ -286,7 +294,7 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>{footerData.copyright}</p>
+            <p>{footerData.copyright || '© 2024 ЮТОРС. Все права защищены.'}</p>
           </div>
         </div>
       </footer>
