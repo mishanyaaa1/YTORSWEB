@@ -359,10 +359,10 @@ export const AdminDataProvider = ({ children }) => {
 
         if (apiContentRes.status === 'fulfilled' && apiContentRes.value.ok) {
           const apiContent = await apiContentRes.value.json();
-          if (apiContent && apiContent.about_content) {
+          if (apiContent && apiContent.aboutContent) {
             console.log('AdminDataContext: Loaded content from API');
-            setAboutContent(apiContent.about_content);
-            localStorage.setItem('adminAboutContent', JSON.stringify(apiContent.about_content));
+            setAboutContent(apiContent.aboutContent);
+            localStorage.setItem('adminAboutContent', JSON.stringify(apiContent.aboutContent));
           }
         } else {
           console.warn('AdminDataContext: Failed to load content from API:', apiContentRes.status);
@@ -513,7 +513,21 @@ export const AdminDataProvider = ({ children }) => {
       },
       footer: {
         ...initialAboutContent.footer,
-        ...(newContent.footer || {})
+        ...(newContent.footer || {}),
+        socialSection: {
+          ...initialAboutContent.footer.socialSection,
+          ...(newContent.footer?.socialSection || {}),
+          links: Array.isArray(newContent.footer?.socialSection?.links) 
+            ? newContent.footer.socialSection.links 
+            : initialAboutContent.footer.socialSection.links
+        },
+        informationSection: {
+          ...initialAboutContent.footer.informationSection,
+          ...(newContent.footer?.informationSection || {}),
+          links: Array.isArray(newContent.footer?.informationSection?.links) 
+            ? newContent.footer.informationSection.links 
+            : initialAboutContent.footer.informationSection.links
+        }
       }
     };
 
@@ -531,7 +545,7 @@ export const AdminDataProvider = ({ children }) => {
     }
     
     try {
-      const res = await fetch('/api/content/about_content', {
+      const res = await fetch('/api/content/aboutContent', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

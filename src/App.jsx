@@ -104,36 +104,44 @@ function App() {
     }
   }, [location.pathname]);
   
-  const footerData = aboutContent?.footer || {
-    aboutSection: {
-      title: 'О компании',
-      description: 'Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок.'
-    },
-    socialSection: {
-      title: 'Мы в соцсетях',
-      links: [
-        { platform: 'vk', url: 'https://vk.com/yutors', icon: 'vk' },
-        { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'instagram' },
-        { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'youtube' }
-      ]
-    },
-    contactsSection: {
-      title: 'Контакты',
-      phone: '+7 (800) 123-45-67',
-      email: 'info@vezdehod-zapchasti.ru',
-      address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'
-    },
-    informationSection: {
-      title: 'Информация',
-      links: [
-        { text: 'Доставка и оплата', url: '/about' },
-        { text: 'Гарантия', url: '/about' },
-        { text: 'Возврат товара', url: '/about' },
-        { text: 'Политика конфиденциальности', url: '/about' }
-      ]
-    },
-    copyright: '© 2024 ЮТОРС. Все права защищены.'
-  };
+  // Безопасная инициализация footerData с проверкой структуры
+  const footerData = (() => {
+    const footer = aboutContent?.footer || {};
+    return {
+      aboutSection: {
+        title: 'О компании',
+        description: 'Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок.',
+        ...footer.aboutSection
+      },
+      socialSection: {
+        title: 'Мы в соцсетях',
+        ...footer.socialSection,
+        links: Array.isArray(footer.socialSection?.links) ? footer.socialSection.links : [
+          { platform: 'vk', url: 'https://vk.com/yutors', icon: 'vk' },
+          { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'instagram' },
+          { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'youtube' }
+        ]
+      },
+      contactsSection: {
+        title: 'Контакты',
+        phone: '+7 (800) 123-45-67',
+        email: 'info@vezdehod-zapchasti.ru',
+        address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100',
+        ...footer.contactsSection
+      },
+      informationSection: {
+        title: 'Информация',
+        ...footer.informationSection,
+        links: Array.isArray(footer.informationSection?.links) ? footer.informationSection.links : [
+          { text: 'Доставка и оплата', url: '/about' },
+          { text: 'Гарантия', url: '/about' },
+          { text: 'Возврат товара', url: '/about' },
+          { text: 'Политика конфиденциальности', url: '/about' }
+        ]
+      },
+      copyright: footer.copyright || '© 2024 ЮТОРС. Все права защищены.'
+    };
+  })();
 
   const isActiveLink = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -229,7 +237,7 @@ function App() {
             <div className="footer-section">
               <h3>{footerData.socialSection?.title || 'Мы в соцсетях'}</h3>
               <div className="social-links">
-                {(footerData.socialSection?.links || []).map((social, index) => {
+                {(Array.isArray(footerData.socialSection?.links) ? footerData.socialSection.links : []).map((social, index) => {
                   const IconComponent = social.platform === 'vk' ? FaVk : 
                                        social.platform === 'instagram' ? FaInstagram : 
                                        social.platform === 'youtube' ? FaYoutube : null;
@@ -272,7 +280,7 @@ function App() {
             </div>
             <div className="footer-section">
               <h3>{footerData.informationSection?.title || 'Информация'}</h3>
-              {(footerData.informationSection?.links || []).map((link, index) => (
+              {(Array.isArray(footerData.informationSection?.links) ? footerData.informationSection.links : []).map((link, index) => (
                 <Link 
                   key={index} 
                   to={link.url}

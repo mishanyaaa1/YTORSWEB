@@ -26,7 +26,11 @@ import { OrdersProvider } from './context/OrdersContext.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <AdminDataProvider>
+        <App />
+      </AdminDataProvider>
+    ),
     children: [
       {
         index: true,
@@ -71,31 +75,33 @@ const router = createBrowserRouter([
   {
     path: "/admin/dashboard",
     element: (
-      <RequireAdmin>
-        <SimpleAdminDashboard />
-      </RequireAdmin>
+      <AdminDataProvider>
+        <RequireAdmin>
+          <SimpleAdminDashboard />
+        </RequireAdmin>
+      </AdminDataProvider>
     )
   },
   {
     path: "/admin/advanced",
     element: (
-      <RequireAdmin>
-        <AdvancedAdminDashboard />
-      </RequireAdmin>
+      <AdminDataProvider>
+        <RequireAdmin>
+          <AdvancedAdminDashboard />
+        </RequireAdmin>
+      </AdminDataProvider>
     )
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AdminDataProvider>
-      <OrdersProvider>
-        <CartProvider>
-          <IconContext.Provider value={{ color: '#e6a34a' }}>
-            <RouterProvider router={router} />
-          </IconContext.Provider>
-        </CartProvider>
-      </OrdersProvider>
-    </AdminDataProvider>
+    <OrdersProvider>
+      <CartProvider>
+        <IconContext.Provider value={{ color: '#e6a34a' }}>
+          <RouterProvider router={router} />
+        </IconContext.Provider>
+      </CartProvider>
+    </OrdersProvider>
   </StrictMode>,
 )
