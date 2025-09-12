@@ -84,12 +84,14 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
                     <span className="price-large">{formatPrice(vehicle.price)} ₽</span>
                   </div>
                   
-                  <div className="vehicle-terrain-large">
-                    <span className="terrain-badge-large">
-                      {getTerrainIcon(vehicle.terrain || vehicle.brand)}
-                      {vehicle.terrain || vehicle.brand}
-                    </span>
-                  </div>
+                  {((vehicle.terrain && vehicle.terrain.trim()) || (vehicle.brand && vehicle.brand.trim())) && (
+                    <div className="vehicle-terrain-large">
+                      <span className="terrain-badge-large">
+                        {getTerrainIcon(vehicle.terrain || vehicle.brand)}
+                        {vehicle.terrain || vehicle.brand}
+                      </span>
+                    </div>
+                  )}
                   
                   <div className="vehicle-description-large">
                     {(() => {

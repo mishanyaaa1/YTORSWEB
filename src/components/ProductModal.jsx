@@ -219,7 +219,7 @@ function ProductModal({ product, isOpen, onClose }) {
                   </div>
 
                   <div className="product-meta">
-                    <span className="brand">{product.brand}</span>
+                    {product.brand && product.brand.trim() && <span className="brand">{product.brand}</span>}
                     <span className="category">{product.category || product.type}</span>
                     <span className={`availability ${product.available ? 'in-stock' : 'out-of-stock'}`}>
                       {product.available ? <FaCheckCircle /> : <FaTimesCircle />}

@@ -340,7 +340,7 @@ function OrderManagement() {
                       <div key={index} className="order-item">
                         <div className="item-info">
                           <div className="item-title">{item.title}</div>
-                          {item.brand && <div className="item-brand">{item.brand}</div>}
+                          {item.brand && item.brand.trim() && <div className="item-brand">{item.brand}</div>}
                         </div>
                         <div className="item-quantity">×{item.quantity}</div>
                         <div className="item-price">

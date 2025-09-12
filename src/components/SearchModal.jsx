@@ -327,7 +327,7 @@ export default function SearchModal({ isOpen, onClose }) {
                                 {item.subcategory && (
                                   <span className="result-subcategory"> • {item.subcategory}</span>
                                 )}
-                                {item.brand && (
+                                {item.brand && item.brand.trim() && (
                                   <span className="result-brand"> • {item.brand}</span>
                                 )}
                               </div>

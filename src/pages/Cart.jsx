@@ -422,7 +422,7 @@ function Cart() {
                     style={{ cursor: 'pointer' }}
                   >
                     <h3>{item.title}</h3>
-                    <p className="item-brand">{item.brand}</p>
+                    {item.brand && item.brand.trim() && <p className="item-brand">{item.brand}</p>}
                     <p className="item-price">{item.price.toLocaleString()} ₽</p>
                   </div>
                   
