@@ -46,7 +46,7 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
           >
             {/* Заголовок модального окна */}
             <div className="modal-header">
-              <h2>{vehicle.name}</h2>
+              <h2>{vehicle.name || vehicle.title}</h2>
               <button className="close-btn" onClick={onClose}>
                 <FaTimes />
               </button>
@@ -57,10 +57,26 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
               {/* Изображение и основная информация */}
               <div className="vehicle-main-info">
                 <div className="vehicle-image-large">
-                  <div className="vehicle-placeholder-large">
-                    <FaTruck />
-                  </div>
-                  <div className="vehicle-badge-large">{vehicle.type}</div>
+                  {(() => {
+                    // Пытаемся найти изображение товара
+                    if (vehicle.images && vehicle.images.length > 0) {
+                      const mainImage = vehicle.images.find(img => img.isMain) || vehicle.images[0];
+                      if (mainImage && mainImage.data && 
+                          (mainImage.data.startsWith('data:image') || 
+                           mainImage.data.startsWith('/uploads/') || 
+                           mainImage.data.startsWith('/img/vehicles/') || 
+                           mainImage.data.startsWith('http'))) {
+                        return <img src={mainImage.data} alt={vehicle.name || vehicle.title} className="vehicle-image-img" />;
+                      }
+                    }
+                    // Если нет изображения, показываем иконку
+                    return (
+                      <div className="vehicle-placeholder-large">
+                        <FaTruck />
+                      </div>
+                    );
+                  })()}
+                  <div className="vehicle-badge-large">{vehicle.type || vehicle.category}</div>
                 </div>
                 
                 <div className="vehicle-info-summary">
@@ -70,8 +86,8 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
                   
                   <div className="vehicle-terrain-large">
                     <span className="terrain-badge-large">
-                      {getTerrainIcon(vehicle.terrain)}
-                      {vehicle.terrain}
+                      {getTerrainIcon(vehicle.terrain || vehicle.brand)}
+                      {vehicle.terrain || vehicle.brand}
                     </span>
                   </div>
                   
@@ -91,42 +107,38 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
               </div>
 
               {/* Технические характеристики */}
-              <div className="vehicle-specs-detailed">
-                <h3>Технические характеристики</h3>
-                <div className="specs-grid">
-                  <div className="spec-item-detailed">
-                    <FaCog className="spec-icon" />
-                    <div className="spec-content">
-                      <span className="spec-label">Двигатель</span>
-                      <span className="spec-value">{vehicle.specs.engine}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="spec-item-detailed">
-                    <FaMountain className="spec-icon" />
-                    <div className="spec-content">
-                      <span className="spec-label">Вес</span>
-                      <span className="spec-value">{vehicle.specs.weight}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="spec-item-detailed">
-                    <FaSnowflake className="spec-icon" />
-                    <div className="spec-content">
-                      <span className="spec-label">Вместимость</span>
-                      <span className="spec-value">{vehicle.specs.capacity}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="spec-item-detailed">
-                    <FaRoad className="spec-icon" />
-                    <div className="spec-content">
-                      <span className="spec-label">Максимальная скорость</span>
-                      <span className="spec-value">{vehicle.specs.maxSpeed}</span>
-                    </div>
+              {(vehicle.specs || vehicle.specifications) && (
+                <div className="vehicle-specs-detailed">
+                  <h3>Технические характеристики</h3>
+                  <div className="specs-grid">
+                    {(() => {
+                      const specs = vehicle.specs || vehicle.specifications;
+                      if (Array.isArray(specs)) {
+                        return specs.map((spec, index) => (
+                          <div key={index} className="spec-item-detailed">
+                            <FaCog className="spec-icon" />
+                            <div className="spec-content">
+                              <span className="spec-label">{spec.name}</span>
+                              <span className="spec-value">{spec.value}</span>
+                            </div>
+                          </div>
+                        ));
+                      } else if (typeof specs === 'object') {
+                        return Object.entries(specs).map(([key, value], index) => (
+                          <div key={index} className="spec-item-detailed">
+                            <FaCog className="spec-icon" />
+                            <div className="spec-content">
+                              <span className="spec-label">{key}</span>
+                              <span className="spec-value">{value}</span>
+                            </div>
+                          </div>
+                        ));
+                      }
+                      return null;
+                    })()}
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Дополнительная информация */}
               <div className="vehicle-additional-info">
@@ -137,24 +149,15 @@ function VehicleModal({ vehicle, isOpen, onClose }) {
                   </span>
                 </div>
                 
-                {vehicle.available && (
+                {vehicle.available && (vehicle.quantity || vehicle.inStock) && (
                   <div className="info-item">
                     <span className="info-label">Количество:</span>
-                    <span className="info-value">{vehicle.quantity} шт.</span>
+                    <span className="info-value">{vehicle.quantity || vehicle.inStock} шт.</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Кнопки действий */}
-            <div className="modal-actions">
-              <button className="action-btn primary">
-                Заказать
-              </button>
-              <button className="action-btn secondary">
-                Связаться с менеджером
-              </button>
-            </div>
           </motion.div>
         </motion.div>
       )}

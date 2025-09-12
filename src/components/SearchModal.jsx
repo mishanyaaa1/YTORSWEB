@@ -132,15 +132,21 @@ export default function SearchModal({ isOpen, onClose }) {
     if (searchType === 'products') {
       addToCartWithNotification(item, 1);
     } else {
-      // Для вездеходов создаем специальный объект корзины
+      // Для вездеходов создаем специальный объект корзины с полной информацией
       const cartItem = {
         id: item.id,
         title: item.name,
         price: item.price,
         image: item.image,
+        images: item.images,
         type: 'vehicle',
         brand: item.type,
-        available: item.available
+        available: item.available,
+        category: item.category || 'Вездеходы',
+        subcategory: item.subcategory,
+        description: item.description,
+        specifications: item.specs || item.specifications,
+        features: item.features
       };
       addToCartWithNotification(cartItem, 1);
     }

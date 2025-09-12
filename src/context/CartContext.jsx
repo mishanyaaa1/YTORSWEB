@@ -217,7 +217,7 @@ export const CartProvider = ({ children }) => {
             : item
         );
       } else {
-        // Сохраняем необходимые данные товара, включая изображение
+        // Сохраняем необходимые данные товара, включая изображения
         const cartItem = {
           id: product.id,
           title: product.title,
@@ -226,8 +226,12 @@ export const CartProvider = ({ children }) => {
           subcategory: product.subcategory,
           brand: product.brand,
           available: product.available,
-          image: product.image, // Добавляем изображение
+          image: product.image, // Основное изображение
+          images: product.images, // Массив изображений
           type: product.type, // Добавляем тип (vehicle/product)
+          description: product.description,
+          specifications: product.specifications,
+          features: product.features,
           quantity: quantity
         };
         return [...prevItems, cartItem];

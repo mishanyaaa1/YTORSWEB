@@ -180,6 +180,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.item-image.clickable {
+  cursor: pointer;
 }
 
 .item-icon {
@@ -196,6 +201,11 @@
 
 .item-info {
   flex: 1;
+  transition: all 0.3s ease;
+}
+
+.item-info.clickable {
+  cursor: pointer;
 }
 
 .item-info h3 {

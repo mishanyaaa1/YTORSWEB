@@ -43,14 +43,25 @@ function VehiclesPage() {
 
   const handleAddToCart = (vehicle, e) => {
     e.stopPropagation(); // Предотвращаем всплытие события клика по карточке
+    
+    // Мигрируем изображения вездехода
+    const migratedVehicle = migrateProductImages(vehicle);
+    const mainImage = getMainImage(migratedVehicle);
+    
     const cartItem = {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: vehicle.image || null, // Используем изображение вездехода напрямую
+      image: mainImage?.data || vehicle.image || null, // Основное изображение
+      images: migratedVehicle.images || vehicle.images || null, // Массив изображений
       type: 'vehicle',
       brand: vehicle.type,
-      available: vehicle.available
+      available: vehicle.available,
+      category: vehicle.category || 'Вездеходы',
+      subcategory: vehicle.subcategory,
+      description: vehicle.description,
+      specifications: vehicle.specs || vehicle.specifications,
+      features: vehicle.features
     };
     addToCartWithNotification(cartItem, 1);
   };

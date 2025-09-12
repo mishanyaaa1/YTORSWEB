@@ -8,6 +8,7 @@ import { useOrders } from '../context/OrdersContext';
 import { getMainImage } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import { sendTelegramMessage, formatOrderMessage, generateOrderNumber } from '../utils/telegramService';
+import ProductModal from '../components/ProductModal';
 import './Cart.css';
 
 function Cart() {
@@ -32,6 +33,8 @@ function Cart() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [promocode, setPromocode] = useState('');
   const [appliedPromocode, setAppliedPromocode] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showProductModal, setShowProductModal] = useState(false);
   const [orderForm, setOrderForm] = useState({
     name: '',
     phone: '',
@@ -159,6 +162,60 @@ function Cart() {
 
   const handleRemoveItem = (productId) => {
     removeFromCart(productId);
+  };
+
+  const handleProductClick = (item) => {
+    console.log('Кликнули на товар в корзине:', item);
+    console.log('Тип товара:', item.type, 'Категория:', item.category);
+    
+    // Ищем полную информацию о товаре с учетом типа
+    let fullProduct = null;
+    
+    if (item.type === 'vehicle' || item.category === 'Вездеходы') {
+      // Ищем в вездеходах по ID
+      fullProduct = vehicles.find(v => v.id === item.id);
+      console.log('Ищем в вездеходах по ID, найдено:', fullProduct);
+      
+      // Если не нашли по ID, пробуем найти по названию
+      if (!fullProduct && item.title) {
+        fullProduct = vehicles.find(v => v.name === item.title);
+        console.log('Ищем в вездеходах по названию, найдено:', fullProduct);
+      }
+    } else {
+      // Ищем в товарах по ID
+      fullProduct = products.find(p => p.id === item.id);
+      console.log('Ищем в товарах по ID, найдено:', fullProduct);
+      
+      // Если не нашли по ID, пробуем найти по названию
+      if (!fullProduct && item.title) {
+        fullProduct = products.find(p => p.title === item.title);
+        console.log('Ищем в товарах по названию, найдено:', fullProduct);
+      }
+    }
+    
+    // Если не нашли по типу, пробуем найти в любом массиве
+    if (!fullProduct) {
+      fullProduct = products.find(p => p.id === item.id) || vehicles.find(v => v.id === item.id);
+      console.log('Поиск в любом массиве по ID, найдено:', fullProduct);
+      
+      // Если все еще не нашли, пробуем по названию
+      if (!fullProduct && item.title) {
+        fullProduct = products.find(p => p.title === item.title) || vehicles.find(v => v.name === item.title);
+        console.log('Поиск в любом массиве по названию, найдено:', fullProduct);
+      }
+    }
+    
+    if (fullProduct) {
+      console.log('Открываем модальное окно для товара:', fullProduct);
+      setSelectedProduct(fullProduct);
+      setShowProductModal(true);
+    } else {
+      console.warn('Товар не найден:', item);
+      console.log('Доступные товары:', products.length);
+      console.log('Доступные вездеходы:', vehicles.length);
+      console.log('Первые 3 товара:', products.slice(0, 3));
+      console.log('Первые 3 вездехода:', vehicles.slice(0, 3));
+    }
   };
 
   const handleFormChange = (e) => {
@@ -312,7 +369,11 @@ function Cart() {
                   exit={{ opacity: 0, x: -100 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="item-image">
+                  <div 
+                    className="item-image clickable"
+                    onClick={() => handleProductClick(item)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {(() => {
                       // Сначала проверяем, есть ли изображение в самом элементе корзины
                       if (item.image && 
@@ -355,7 +416,11 @@ function Cart() {
                     })()}
                   </div>
                   
-                  <div className="item-info">
+                  <div 
+                    className="item-info clickable"
+                    onClick={() => handleProductClick(item)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <h3>{item.title}</h3>
                     <p className="item-brand">{item.brand}</p>
                     <p className="item-price">{item.price.toLocaleString()} ₽</p>
@@ -696,6 +761,16 @@ function Cart() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Модальное окно товара */}
+        <ProductModal
+          product={selectedProduct}
+          isOpen={showProductModal}
+          onClose={() => {
+            setShowProductModal(false);
+            setSelectedProduct(null);
+          }}
+        />
       </div>
     </div>
   );
