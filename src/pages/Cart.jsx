@@ -21,7 +21,7 @@ function Cart() {
     isInitialized
   } = useCart();
   
-  const { promotions, promocodes, products, updatePromocodeUsage } = useAdminData();
+  const { promotions, promocodes, products, vehicles, updatePromocodeUsage } = useAdminData();
   const { createOrder } = useOrders();
   const navigate = useNavigate();
   
@@ -314,27 +314,39 @@ function Cart() {
                 >
                   <div className="item-image">
                     {(() => {
-                      const productData = products.find(p => p.id === item.id);
-                      if (!productData) return (
-                        <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <BrandMark alt={item.title} style={{ height: 40 }} />
-                        </span>
-                      );
-                      
-                      const mainImage = getMainImage(productData);
-                      if (mainImage?.data) {
-                        if (
-                          typeof mainImage.data === 'string' &&
-                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('/img/vehicles/') || mainImage.data.startsWith('http'))
-                        ) {
-                          return <img src={mainImage.data} alt={item.title} className="item-image-img" />;
-                        }
-                        return (
-                          <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BrandMark alt={item.title} style={{ height: 40 }} />
-                          </span>
-                        );
+                      // Сначала проверяем, есть ли изображение в самом элементе корзины
+                      if (item.image && 
+                          typeof item.image === 'string' &&
+                          (item.image.startsWith('data:image') || item.image.startsWith('/uploads/') || item.image.startsWith('/img/vehicles/') || item.image.startsWith('http'))) {
+                        return <img src={item.image} alt={item.title} className="item-image-img" />;
                       }
+                      
+                      // Если нет, ищем в товарах
+                      const productData = products.find(p => p.id === item.id);
+                      if (productData) {
+                        const mainImage = getMainImage(productData);
+                        if (mainImage?.data) {
+                          if (
+                            typeof mainImage.data === 'string' &&
+                            (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('/img/vehicles/') || mainImage.data.startsWith('http'))
+                          ) {
+                            return <img src={mainImage.data} alt={item.title} className="item-image-img" />;
+                          }
+                        }
+                      }
+                      
+                      // Если не нашли в товарах, ищем в вездеходах
+                      const vehicleData = vehicles.find(v => v.id === item.id);
+                      if (vehicleData && vehicleData.image) {
+                        if (
+                          typeof vehicleData.image === 'string' &&
+                          (vehicleData.image.startsWith('data:image') || vehicleData.image.startsWith('/uploads/') || vehicleData.image.startsWith('/img/vehicles/') || vehicleData.image.startsWith('http'))
+                        ) {
+                          return <img src={vehicleData.image} alt={item.title} className="item-image-img" />;
+                        }
+                      }
+                      
+                      // Если ничего не нашли, показываем логотип
                       return (
                         <span className="item-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <BrandMark alt={item.title} style={{ height: 40 }} />

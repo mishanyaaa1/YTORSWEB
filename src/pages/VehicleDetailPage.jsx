@@ -37,8 +37,10 @@ function VehicleDetailPage() {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: vehicle.image || null,
-      type: 'vehicle'
+      image: vehicle.image || null, // Используем изображение вездехода напрямую
+      type: 'vehicle',
+      brand: vehicle.type,
+      available: vehicle.available
     };
     addToCartWithNotification(cartItem, quantity);
   };

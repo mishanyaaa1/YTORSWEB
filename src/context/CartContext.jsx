@@ -217,7 +217,7 @@ export const CartProvider = ({ children }) => {
             : item
         );
       } else {
-        // Сохраняем только необходимые данные товара (без изображений)
+        // Сохраняем необходимые данные товара, включая изображение
         const cartItem = {
           id: product.id,
           title: product.title,
@@ -226,6 +226,8 @@ export const CartProvider = ({ children }) => {
           subcategory: product.subcategory,
           brand: product.brand,
           available: product.available,
+          image: product.image, // Добавляем изображение
+          type: product.type, // Добавляем тип (vehicle/product)
           quantity: quantity
         };
         return [...prevItems, cartItem];

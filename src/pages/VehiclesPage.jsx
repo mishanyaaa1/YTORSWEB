@@ -43,13 +43,11 @@ function VehiclesPage() {
 
   const handleAddToCart = (vehicle, e) => {
     e.stopPropagation(); // Предотвращаем всплытие события клика по карточке
-    const migratedVehicle = migrateProductImages(vehicle);
-    const mainImage = getMainImage(migratedVehicle);
     const cartItem = {
       id: vehicle.id,
       title: vehicle.name,
       price: vehicle.price,
-      image: mainImage?.data || null,
+      image: vehicle.image || null, // Используем изображение вездехода напрямую
       type: 'vehicle',
       brand: vehicle.type,
       available: vehicle.available
