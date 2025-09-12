@@ -325,7 +325,7 @@ function Cart() {
                       if (mainImage?.data) {
                         if (
                           typeof mainImage.data === 'string' &&
-                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))
+                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('/img/vehicles/') || mainImage.data.startsWith('http'))
                         ) {
                           return <img src={mainImage.data} alt={item.title} className="item-image-img" />;
                         }

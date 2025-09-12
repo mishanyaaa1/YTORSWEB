@@ -365,7 +365,7 @@ export default function SearchModal({ isOpen, onClose }) {
                             transition={{ duration: 0.3 }}
                           >
                             <div className="result-image">
-                              {item.image && (item.image.startsWith('data:image') || item.image.startsWith('/uploads/') || item.image.startsWith('http')) ? (
+                              {item.image && (item.image.startsWith('data:image') || item.image.startsWith('/uploads/') || item.image.startsWith('/img/vehicles/') || item.image.startsWith('http')) ? (
                                 <img src={item.image} alt={item.name} />
                               ) : (
                                 <span className="result-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
