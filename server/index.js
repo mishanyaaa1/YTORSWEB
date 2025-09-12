@@ -1,8 +1,11 @@
 /* eslint-disable */
+// Загружаем переменные окружения
+require('./load_env');
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { db, run, get, all } = require('./db');
+const { db, run, get, all, dbType } = require('./db_switch');
 const fs = require('fs');
 const multer = require('multer');
 const helmet = require('helmet');
@@ -1646,6 +1649,7 @@ Promise.all([
     console.log('Tables initialized successfully');
     app.listen(PORT, () => {
       console.log(`API server listening on http://localhost:${PORT}`);
+      console.log(`Database type: ${dbType}`);
     });
   })
   .catch((e) => {
