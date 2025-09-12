@@ -16,8 +16,6 @@ import {
 import { useCart } from './context/CartContext';
 import { useAdminData } from './context/AdminDataContext';
 import SearchModal from './components/SearchModal';
-import telegramSetup from './utils/telegramSetup';
-import debugOrders from './utils/debugOrders';
 import './App.css';
 import './index.css';
 import './global-input-styles.css';

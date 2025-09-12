@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaRobot, FaSave, FaFlask, FaInfoCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaRobot, FaSave, FaInfoCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import './BotManagement.css';
 
 const BotManagement = () => {
@@ -10,11 +10,9 @@ const BotManagement = () => {
   
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [testing, setTesting] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const [showToken, setShowToken] = useState(false);
-  const [testResult, setTestResult] = useState(null);
 
   useEffect(() => {
     loadBotSettings();
@@ -58,7 +56,6 @@ const BotManagement = () => {
 
       if (response.ok) {
         setMessage('Настройки бота успешно сохранены!', 'success');
-        setTestResult(null);
       } else {
         const error = await response.json();
         setMessage('Ошибка сохранения: ' + (error.error || 'Неизвестная ошибка'), 'error');
@@ -70,40 +67,6 @@ const BotManagement = () => {
     }
   };
 
-  const handleTest = async () => {
-    if (!settings.bot_token) {
-      setMessage('Для тестирования необходимо указать токен бота', 'error');
-      return;
-    }
-
-    try {
-      setTesting(true);
-      const response = await fetch('/api/admin/bot/test', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          bot_token: settings.bot_token
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (result.success) {
-        setTestResult({ success: true, message: result.message });
-        setMessage('Тест успешно выполнен!', 'success');
-      } else {
-        setTestResult({ success: false, error: result.error });
-        setMessage('Ошибка тестирования: ' + result.error, 'error');
-      }
-    } catch (error) {
-      setTestResult({ success: false, error: error.message });
-      setMessage('Ошибка тестирования: ' + error.message, 'error');
-    } finally {
-      setTesting(false);
-    }
-  };
 
   const clearMessage = () => {
     setMessage('');
@@ -228,28 +191,7 @@ const BotManagement = () => {
             {saving ? <div className="loading"></div> : <FaSave />}
             {saving ? 'Сохранение...' : 'Сохранить настройки'}
           </button>
-
-          <button
-            type="button"
-            className="btn btn-success test-btn"
-            onClick={handleTest}
-            disabled={testing || !settings.bot_token}
-          >
-            {testing ? <div className="loading"></div> : <FaFlask />}
-            {testing ? 'Тестирование...' : 'Тестировать бота'}
-          </button>
         </div>
-
-        {testResult && (
-          <div className={`test-result ${testResult.success ? 'success' : 'error'}`}>
-            <h4>Результат тестирования:</h4>
-            {testResult.success ? (
-              <p>{testResult.message}</p>
-            ) : (
-              <p>Ошибка: {testResult.error}</p>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
