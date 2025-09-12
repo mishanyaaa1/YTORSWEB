@@ -1318,6 +1318,90 @@ app.delete('/api/content/:key', requireAdmin, async (req, res) => {
   }
 });
 
+// Промокоды API
+app.get('/api/promocodes', async (req, res) => {
+  try {
+    const promocodes = await all(db, `SELECT * FROM promocodes ORDER BY created_at DESC`);
+    res.json(promocodes);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch promocodes' });
+  }
+});
+
+app.post('/api/promocodes', requireAdmin, async (req, res) => {
+  try {
+    const { code, description, discount_type, discount_value, min_purchase, max_uses, valid_from, valid_until, active } = req.body;
+    
+    const result = await run(db, `
+      INSERT INTO promocodes (code, description, discount_type, discount_value, min_purchase, max_uses, valid_from, valid_until, active)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [code, description, discount_type || 'percentage', discount_value, min_purchase || 0, max_uses, valid_from, valid_until, active !== undefined ? active : 1]);
+    
+    const newPromocode = await get(db, `SELECT * FROM promocodes WHERE id = ?`, [result.lastID]);
+    res.status(201).json(newPromocode);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create promocode' });
+  }
+});
+
+app.put('/api/promocodes/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { code, description, discount_type, discount_value, min_purchase, max_uses, valid_from, valid_until, active } = req.body;
+    
+    const result = await run(db, `
+      UPDATE promocodes 
+      SET code = ?, description = ?, discount_type = ?, discount_value = ?, min_purchase = ?, max_uses = ?, valid_from = ?, valid_until = ?, active = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `, [code, description, discount_type, discount_value, min_purchase, max_uses, valid_from, valid_until, active, id]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Promocode not found' });
+    }
+    
+    const updatedPromocode = await get(db, `SELECT * FROM promocodes WHERE id = ?`, [id]);
+    res.json(updatedPromocode);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update promocode' });
+  }
+});
+
+app.delete('/api/promocodes/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await run(db, `DELETE FROM promocodes WHERE id = ?`, [id]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Promocode not found' });
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete promocode' });
+  }
+});
+
+app.post('/api/promocodes/:id/toggle', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await run(db, `UPDATE promocodes SET active = NOT active, updated_at = datetime('now') WHERE id = ?`, [id]);
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Promocode not found' });
+    }
+    
+    const updatedPromocode = await get(db, `SELECT * FROM promocodes WHERE id = ?`, [id]);
+    res.json(updatedPromocode);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to toggle promocode' });
+  }
+});
+
 // Test endpoint to check if server is working
 app.get('/api/test', (req, res) => {
   res.json({ 
