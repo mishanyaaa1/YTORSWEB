@@ -363,9 +363,9 @@ export default function ProductManagement() {
                         const migratedProduct = migrateProductImages(product);
                         const mainImage = getMainImage(migratedProduct);
                         
-                                              if (mainImage?.data && 
+                        if (mainImage?.data && 
                           typeof mainImage.data === 'string' && 
-                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('http'))) {
+                          (mainImage.data.startsWith('data:image') || mainImage.data.startsWith('/uploads/') || mainImage.data.startsWith('/img/vehicles/') || mainImage.data.startsWith('http'))) {
                         
                         // Проверяем, что это НЕ изображение "фотография отсутствует"
                         const imageData = mainImage.data.toLowerCase();

@@ -73,6 +73,11 @@ export const isImageUrl = (data) => {
     return true;
   }
   
+  // Проверка на локальные img/vehicles (для товаров)
+  if (data.startsWith('/img/vehicles/')) {
+    return true;
+  }
+  
   return false;
 };
 
@@ -87,6 +92,11 @@ export const resolveImageSrc = (data) => {
   
   // Проверка на локальные uploads
   if (data.startsWith('/uploads/')) {
+    return data;
+  }
+  
+  // Проверка на локальные img/vehicles (для товаров)
+  if (data.startsWith('/img/vehicles/')) {
     return data;
   }
   
