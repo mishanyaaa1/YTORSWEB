@@ -22,7 +22,7 @@ import BrandLogo from '../../components/BrandLogo';
 
 function AdvancedAdminDashboard() {
   const navigate = useNavigate();
-  const { products, promotions, promocodes, vehicles } = useAdminData();
+  const { products, promotions, promocodes, vehicles, popularProductIds } = useAdminData();
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
@@ -108,6 +108,14 @@ function AdvancedAdminDashboard() {
         </div>
         
         <div className="stat-card">
+          <div className="stat-icon">⭐</div>
+          <div className="stat-content">
+            <div className="stat-number">{popularProductIds.length}</div>
+            <div className="stat-label">Популярных товаров</div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
           <div className="stat-icon">💰</div>
           <div className="stat-content">
             <div className="stat-number">{Math.round(products.reduce((sum, p) => sum + (p.price * (p.quantity || 0)), 0) / 1000)}К</div>
@@ -119,7 +127,14 @@ function AdvancedAdminDashboard() {
       <div className="recent-section">
         <h3>Популярные товары</h3>
         <div className="product-list">
-          {products && products.length > 0 ? products.slice(0, 5).map(product => (
+          {(() => {
+            // Получаем товары по ID из популярных
+            const popularProducts = popularProductIds
+              .map(id => products.find(p => p.id === id))
+              .filter(Boolean) // Убираем undefined если товар не найден
+              .slice(0, 5); // Показываем максимум 5 товаров
+            
+            return popularProducts.length > 0 ? popularProducts.map(product => (
             <div key={product.id} className="product-item">
               {(() => {
                 const migratedProduct = migrateProductImages(product);
@@ -153,11 +168,12 @@ function AdvancedAdminDashboard() {
                 {product.available ? 'В наличии' : 'Нет в наличии'}
               </div>
             </div>
-          )) : (
-            <div className="no-products">
-              <p>Товары не найдены. <Link to="#" onClick={() => setActiveSection('products')}>Добавить товары</Link></p>
-            </div>
-          )}
+            )) : (
+              <div className="no-products">
+                <p>Популярные товары не настроены. <Link to="#" onClick={() => setActiveSection('popular')}>Настроить популярные товары</Link></p>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>

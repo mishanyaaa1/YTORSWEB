@@ -1513,6 +1513,97 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
+// Popular products API endpoints
+app.get('/api/admin/popular-products', requireAdmin, async (req, res) => {
+  try {
+    const rows = await all(db, `
+      SELECT pp.*, p.title, p.price, p.category, p.brand, p.available, p.quantity
+      FROM popular_products pp
+      LEFT JOIN products p ON pp.product_id = p.id
+      ORDER BY pp.sort_order ASC
+    `);
+    
+    const popularProducts = rows.map(row => ({
+      id: row.product_id,
+      title: row.title,
+      price: row.price,
+      category: row.category,
+      brand: row.brand,
+      available: Boolean(row.available),
+      quantity: row.quantity,
+      sortOrder: row.sort_order
+    }));
+    
+    res.json(popularProducts);
+  } catch (err) {
+    console.error('Failed to fetch popular products:', err);
+    res.status(500).json({ error: 'Failed to fetch popular products' });
+  }
+});
+
+app.post('/api/admin/popular-products', requireAdmin, async (req, res) => {
+  try {
+    const { productIds } = req.body;
+    
+    if (!Array.isArray(productIds)) {
+      return res.status(400).json({ error: 'productIds must be an array' });
+    }
+    
+    // Удаляем все существующие популярные товары
+    await run(db, `DELETE FROM popular_products`);
+    
+    // Добавляем новые популярные товары с порядком сортировки
+    for (let i = 0; i < productIds.length; i++) {
+      const productId = productIds[i];
+      await run(db, `
+        INSERT INTO popular_products (product_id, sort_order) 
+        VALUES (?, ?)
+      `, [productId, i]);
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Failed to update popular products:', err);
+    res.status(500).json({ error: 'Failed to update popular products' });
+  }
+});
+
+// Filter settings API endpoints
+app.get('/api/admin/filter-settings', requireAdmin, async (req, res) => {
+  try {
+    const rows = await all(db, `SELECT setting_key, setting_value FROM filter_settings`);
+    
+    const settings = {};
+    rows.forEach(row => {
+      settings[row.setting_key] = Boolean(row.setting_value);
+    });
+    
+    res.json(settings);
+  } catch (err) {
+    console.error('Failed to fetch filter settings:', err);
+    res.status(500).json({ error: 'Failed to fetch filter settings' });
+  }
+});
+
+app.post('/api/admin/filter-settings', requireAdmin, async (req, res) => {
+  try {
+    const settings = req.body;
+    
+    for (const [key, value] of Object.entries(settings)) {
+      await run(db, `
+        UPDATE filter_settings 
+        SET setting_value = ?, updated_at = datetime('now') 
+        WHERE setting_key = ?
+      `, [value ? 1 : 0, key]);
+    }
+    
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Failed to update filter settings:', err);
+    res.status(500).json({ error: 'Failed to update filter settings' });
+  }
+});
+
 // Debug: list registered routes (admin only)
 app.get('/api/_debug/routes', requireAdmin, (req, res) => {
   try {

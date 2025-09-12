@@ -36,9 +36,14 @@ export default function PopularProductsManagement() {
     }
   };
 
-  const handleSave = () => {
-    updatePopularProducts(selectedIds);
-    alert('Популярные товары обновлены!');
+  const handleSave = async () => {
+    try {
+      await updatePopularProducts(selectedIds);
+      alert('Популярные товары обновлены!');
+    } catch (error) {
+      console.error('Error updating popular products:', error);
+      alert('Ошибка при обновлении популярных товаров!');
+    }
   };
 
   const getProductById = (id) => products.find(p => p.id === id);

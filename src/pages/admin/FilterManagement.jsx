@@ -33,9 +33,9 @@ export default function FilterManagement() {
     }));
   };
 
-  const saveFilterSettings = () => {
+  const saveFilterSettings = async () => {
     try {
-      updateFilterSettings(filterFormData);
+      await updateFilterSettings(filterFormData);
       alert('Настройки фильтров сохранены!');
     } catch (error) {
       console.error('FilterManagement: Error saving filter settings:', error);

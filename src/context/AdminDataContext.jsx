@@ -267,7 +267,7 @@ export const AdminDataProvider = ({ children }) => {
     const bootstrapFromApi = async () => {
       try {
         console.log('AdminDataContext: Starting API bootstrap...');
-        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes, apiVehiclesRes, apiContentRes] = await Promise.allSettled([
+        const [apiProductsRes, apiCategoriesRes, apiBrandsRes, apiPromosRes, apiTerrainTypesRes, apiVehicleTypesRes, apiVehiclesRes, apiContentRes, apiPopularProductsRes, apiFilterSettingsRes] = await Promise.allSettled([
           fetch('/api/products', { credentials: 'include' }),
           fetch('/api/categories', { credentials: 'include' }),
           fetch('/api/brands', { credentials: 'include' }),
@@ -275,7 +275,9 @@ export const AdminDataProvider = ({ children }) => {
           fetch('/api/terrain-types', { credentials: 'include' }),
           fetch('/api/vehicle-types', { credentials: 'include' }),
           fetch('/api/vehicles', { credentials: 'include' }),
-          fetch('/api/content', { credentials: 'include' })
+          fetch('/api/content', { credentials: 'include' }),
+          fetch('/api/admin/popular-products', { credentials: 'include' }),
+          fetch('/api/admin/filter-settings', { credentials: 'include' })
         ]);
 
         if (apiProductsRes.status === 'fulfilled' && apiProductsRes.value.ok) {
@@ -366,6 +368,29 @@ export const AdminDataProvider = ({ children }) => {
           }
         } else {
           console.warn('AdminDataContext: Failed to load content from API:', apiContentRes.status);
+        }
+
+        if (apiPopularProductsRes.status === 'fulfilled' && apiPopularProductsRes.value.ok) {
+          const apiPopularProducts = await apiPopularProductsRes.value.json();
+          if (Array.isArray(apiPopularProducts)) {
+            const productIds = apiPopularProducts.map(p => p.id).filter(id => id);
+            console.log('AdminDataContext: Loaded', productIds.length, 'popular products from API');
+            setPopularProductIds(productIds);
+            localStorage.setItem('adminPopularProducts', JSON.stringify(productIds));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load popular products from API:', apiPopularProductsRes.status);
+        }
+
+        if (apiFilterSettingsRes.status === 'fulfilled' && apiFilterSettingsRes.value.ok) {
+          const apiFilterSettings = await apiFilterSettingsRes.value.json();
+          if (apiFilterSettings && typeof apiFilterSettings === 'object') {
+            console.log('AdminDataContext: Loaded filter settings from API');
+            setFilterSettings(apiFilterSettings);
+            localStorage.setItem('adminFilterSettings', JSON.stringify(apiFilterSettings));
+          }
+        } else {
+          console.warn('AdminDataContext: Failed to load filter settings from API:', apiFilterSettingsRes.status);
         }
       } catch (e) {
         console.error('AdminDataContext: API bootstrap failed:', e);
@@ -891,15 +916,45 @@ export const AdminDataProvider = ({ children }) => {
 
 
   // Функции для работы с популярными товарами
-  const updatePopularProducts = (productIds) => {
-    setPopularProductIds(productIds);
-    localStorage.setItem('adminPopularProducts', JSON.stringify(productIds));
+  const updatePopularProducts = async (productIds) => {
+    try {
+      const res = await fetch('/api/admin/popular-products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ productIds })
+      });
+      if (!res.ok) throw new Error('Failed to update popular products');
+      
+      setPopularProductIds(productIds);
+      localStorage.setItem('adminPopularProducts', JSON.stringify(productIds));
+    } catch (e) {
+      console.error('Failed to update popular products in DB:', e);
+      // Fallback локально
+      setPopularProductIds(productIds);
+      localStorage.setItem('adminPopularProducts', JSON.stringify(productIds));
+    }
   };
 
   // Функция для обновления настроек фильтров
-  const updateFilterSettings = (newSettings) => {
-    setFilterSettings(newSettings);
-    localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
+  const updateFilterSettings = async (newSettings) => {
+    try {
+      const res = await fetch('/api/admin/filter-settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(newSettings)
+      });
+      if (!res.ok) throw new Error('Failed to update filter settings');
+      
+      setFilterSettings(newSettings);
+      localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
+    } catch (e) {
+      console.error('Failed to update filter settings in DB:', e);
+      // Fallback локально
+      setFilterSettings(newSettings);
+      localStorage.setItem('adminFilterSettings', JSON.stringify(newSettings));
+    }
   };
 
   // Функции для управления типами местности
