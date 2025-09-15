@@ -13,4 +13,4 @@ start "Client" cmd /k "npm run dev"
 echo All services started!
 echo Server: http://localhost:3001
 echo Client: http://localhost:5174
-pause
+pause.
