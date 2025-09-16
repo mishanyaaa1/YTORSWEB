@@ -4,7 +4,6 @@ import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLef
 import { motion } from 'framer-motion';
 import Reveal from '../components/Reveal';
 import { useCartActions } from '../hooks/useCartActions';
-import { useAdminData } from '../context/AdminDataContext';
 import { migrateProductImages, getAllImages, isImageUrl } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import ImageModal from '../components/ImageModal';
@@ -22,7 +21,7 @@ const productsData = {
     available: true,
     inStock: 12,
     icon: '🔗',
-    images: ['/api/placeholder/600/400', '/api/placeholder/600/400', '/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png', '/img/vehicles/1757658286691-822575460.jpg', '/img/vehicles/1757699189101-187791637.png'],
     description: 'Высококачественные гусеницы для вездеходов различных марок. Изготовлены из прочной резины с металлическими вставками. Обеспечивают отличное сцепление на любой поверхности.',
     specifications: {
       'Ширина': '400 мм',
@@ -47,7 +46,7 @@ const productsData = {
     available: true,
     inStock: 3,
     icon: '⚙️',
-    images: ['/api/placeholder/600/400', '/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png', '/img/vehicles/1757658286691-822575460.jpg'],
     description: 'Мощный и надежный двигатель объемом 2.0 литра для вездеходов. Отличается высокой топливной экономичностью и долговечностью.',
     specifications: {
       'Объем': '2.0 л',
@@ -72,7 +71,7 @@ const productsData = {
     available: false,
     inStock: 0,
     icon: '🔧',
-    images: ['/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png'],
     description: 'Надежная трансмиссия для вездеходов различных марок. Обеспечивает плавное переключение передач и долгий срок службы.',
     specifications: {
       'Тип': 'Механическая',
@@ -97,7 +96,7 @@ const productsData = {
     available: true,
     inStock: 8,
     icon: '🛠️',
-    images: ['/api/placeholder/600/400', '/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png', '/img/vehicles/1757658286691-822575460.jpg'],
     description: 'Усиленная подвеска для экстремальных условий эксплуатации. Повышает проходимость и комфорт езды.',
     specifications: {
       'Тип': 'Независимая',
@@ -122,7 +121,7 @@ const productsData = {
     available: true,
     inStock: 25,
     icon: '🌀',
-    images: ['/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png'],
     description: 'Высококачественный воздушный фильтр для защиты двигателя от пыли и грязи.',
     specifications: {
       'Тип': 'Панельный',
@@ -147,7 +146,7 @@ const productsData = {
     available: true,
     inStock: 15,
     icon: '⛓️',
-    images: ['/api/placeholder/600/400'],
+    images: ['/img/vehicles/1757657975220-561708050.png'],
     description: 'Прочный приводной ремень для надежной передачи мощности от двигателя к трансмиссии.',
     specifications: {
       'Длина': '1200 мм',
@@ -169,14 +168,12 @@ function ProductPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCartWithNotification } = useCartActions();
-  const { products, categories, brands, filterSettings } = useAdminData();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [modalImageIndex, setModalImageIndex] = useState(0);
-  // wishlist removed
 
-  const product = products.find(p => p.id === parseInt(id));
+  const product = productsData[id];
 
   if (!product) {
     return (

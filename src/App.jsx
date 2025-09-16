@@ -14,20 +14,17 @@ import {
   FaYoutube
 } from 'react-icons/fa';
 import { useCart } from './context/CartContext';
-import { useAdminData } from './context/AdminDataContext';
 import SearchModal from './components/SearchModal';
 import './App.css';
 import './index.css';
 import './global-input-styles.css';
 import BrandLogo from './components/BrandLogo';
-import AdvertisingScripts from './components/AdvertisingScripts';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const { getCartItemsCount, isInitialized, storageAvailable } = useCart();
-  const { aboutContent } = useAdminData();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [contactsActive, setContactsActive] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -102,44 +99,37 @@ function App() {
     }
   }, [location.pathname]);
   
-  // Безопасная инициализация footerData с проверкой структуры
-  const footerData = (() => {
-    const footer = aboutContent?.footer || {};
-    return {
-      aboutSection: {
-        title: 'О компании',
-        description: 'Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок.',
-        ...footer.aboutSection
-      },
-      socialSection: {
-        title: 'Мы в соцсетях',
-        ...footer.socialSection,
-        links: Array.isArray(footer.socialSection?.links) ? footer.socialSection.links : [
-          { platform: 'vk', url: 'https://vk.com/yutors', icon: 'vk' },
-          { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'instagram' },
-          { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'youtube' }
-        ]
-      },
-      contactsSection: {
-        title: 'Контакты',
-        phone: '+7 (800) 123-45-67',
-        email: 'info@vezdehod-zapchasti.ru',
-        address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100',
-        ...footer.contactsSection
-      },
-      informationSection: {
-        title: 'Информация',
-        ...footer.informationSection,
-        links: Array.isArray(footer.informationSection?.links) ? footer.informationSection.links : [
-          { text: 'Доставка и оплата', url: '/about' },
-          { text: 'Гарантия', url: '/about' },
-          { text: 'Возврат товара', url: '/about' },
-          { text: 'Политика конфиденциальности', url: '/about' }
-        ]
-      },
-      copyright: footer.copyright || '© 2024 ЮТОРС. Все права защищены.'
-    };
-  })();
+  // Статичные данные для футера
+  const footerData = {
+    aboutSection: {
+      title: 'О компании',
+      description: 'Мы специализируемся на поставке качественных запчастей для вездеходов всех типов и марок.'
+    },
+    socialSection: {
+      title: 'Мы в соцсетях',
+      links: [
+        { platform: 'vk', url: 'https://vk.com/yutors', icon: 'vk' },
+        { platform: 'instagram', url: 'https://instagram.com/yutors', icon: 'instagram' },
+        { platform: 'youtube', url: 'https://youtube.com/@yutors', icon: 'youtube' }
+      ]
+    },
+    contactsSection: {
+      title: 'Контакты',
+      phone: '+7 (800) 123-45-67',
+      email: 'info@vezdehod-zapchasti.ru',
+      address: '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'
+    },
+    informationSection: {
+      title: 'Информация',
+      links: [
+        { text: 'Доставка и оплата', url: '/about' },
+        { text: 'Гарантия', url: '/about' },
+        { text: 'Возврат товара', url: '/about' },
+        { text: 'Политика конфиденциальности', url: '/about' }
+      ]
+    },
+    copyright: '© 2024 ЮТОРС. Все права защищены.'
+  };
 
   const isActiveLink = (path) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -158,7 +148,6 @@ function App() {
 
   return (
     <div className="app">
-      <AdvertisingScripts />
       <header className="header">
         <div className="container">
           <div className="header-content">
@@ -229,13 +218,13 @@ function App() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-section">
-              <h3>{footerData.aboutSection?.title || 'О компании'}</h3>
-              <p>{footerData.aboutSection?.description || 'Описание компании'}</p>
+              <h3>{footerData.aboutSection.title}</h3>
+              <p>{footerData.aboutSection.description}</p>
             </div>
             <div className="footer-section">
-              <h3>{footerData.socialSection?.title || 'Мы в соцсетях'}</h3>
+              <h3>{footerData.socialSection.title}</h3>
               <div className="social-links">
-                {(Array.isArray(footerData.socialSection?.links) ? footerData.socialSection.links : []).map((social, index) => {
+                {footerData.socialSection.links.map((social, index) => {
                   const IconComponent = social.platform === 'vk' ? FaVk : 
                                        social.platform === 'instagram' ? FaInstagram : 
                                        social.platform === 'youtube' ? FaYoutube : null;
@@ -258,12 +247,12 @@ function App() {
               </div>
             </div>
             <div className="footer-section">
-              <h3>{footerData.contactsSection?.title || 'Контакты'}</h3>
-              <a href={`tel:${(footerData.contactsSection?.phone || '+7 (800) 123-45-67').replace(/[^+\d]/g, '')}`}>
-                <FaPhone /> {footerData.contactsSection?.phone || '+7 (800) 123-45-67'}
+              <h3>{footerData.contactsSection.title}</h3>
+              <a href={`tel:${footerData.contactsSection.phone.replace(/[^+\d]/g, '')}`}>
+                <FaPhone /> {footerData.contactsSection.phone}
               </a>
-              <a href={`mailto:${footerData.contactsSection?.email || 'info@vezdehod-zapchasti.ru'}`}>
-                <FaEnvelope /> {footerData.contactsSection?.email || 'info@vezdehod-zapchasti.ru'}
+              <a href={`mailto:${footerData.contactsSection.email}`}>
+                <FaEnvelope /> {footerData.contactsSection.email}
               </a>
               <a 
                 href="#" 
@@ -273,12 +262,12 @@ function App() {
                 }}
                 style={{ cursor: 'pointer' }}
               >
-                <FaMapMarkerAlt /> {footerData.contactsSection?.address || '40-летия Победы, 16а, Курчатовский район, Челябинск, 454100'}
+                <FaMapMarkerAlt /> {footerData.contactsSection.address}
               </a>
             </div>
             <div className="footer-section">
-              <h3>{footerData.informationSection?.title || 'Информация'}</h3>
-              {(Array.isArray(footerData.informationSection?.links) ? footerData.informationSection.links : []).map((link, index) => (
+              <h3>{footerData.informationSection.title}</h3>
+              {footerData.informationSection.links.map((link, index) => (
                 <Link 
                   key={index} 
                   to={link.url}
@@ -300,7 +289,7 @@ function App() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>{footerData.copyright || '© 2024 ЮТОРС. Все права защищены.'}</p>
+            <p>{footerData.copyright}</p>
           </div>
         </div>
       </footer>

@@ -3,11 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTrash, FaMinus, FaPlus, FaShoppingCart, FaArrowLeft, FaPercent, FaTags, FaTag } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
-import { useAdminData } from '../context/AdminDataContext';
-import { useOrders } from '../context/OrdersContext';
 import { getMainImage } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
-import { sendTelegramMessage, formatOrderMessage, generateOrderNumber } from '../utils/telegramService';
+// Убрана ссылка на telegramService
 import ProductModal from '../components/ProductModal';
 import './Cart.css';
 
@@ -22,8 +20,14 @@ function Cart() {
     isInitialized
   } = useCart();
   
-  const { promotions, promocodes, products, vehicles, updatePromocodeUsage } = useAdminData();
-  const { createOrder } = useOrders();
+  // Статичные данные для корзины
+  const promotions = [];
+  const promocodes = [];
+  const products = [];
+  const vehicles = [];
+  
+  const updatePromocodeUsage = () => {};
+  const createOrder = () => {};
   const navigate = useNavigate();
   
   // Логирование для диагностики
@@ -287,7 +291,7 @@ function Cart() {
     
     try {
       // Генерируем номер заказа
-      const orderNumber = generateOrderNumber();
+      const orderNumber = `ORD-${Date.now()}`;
       
       // Подготавливаем данные для отправки
       const orderData = {
@@ -302,11 +306,11 @@ function Cart() {
       console.log('Заказ сохранен в системе:', savedOrder);
       
       // Форматируем сообщение для Telegram
-      const message = formatOrderMessage(orderData);
+      const message = `Новый заказ #${orderNumber}\nКлиент: ${orderForm.name}\nТелефон: ${orderForm.phone}\nEmail: ${orderForm.email}\nАдрес: ${orderForm.address}\nКомментарий: ${orderForm.comment}\n\nТовары:\n${cartItems.map(item => `- ${item.title} x${item.quantity} = ${item.price * item.quantity}₽`).join('\n')}\n\nИтого: ${getCartTotal()}₽`;
       
-      // Отправляем в Telegram
-      console.log('Отправляем заказ в Telegram...');
-      const result = await sendTelegramMessage(message);
+      // Имитация отправки сообщения
+      console.log('Заказ отправлен:', message);
+      const result = { success: true };
       
       if (result.success) {
         alert(`Заказ #${orderNumber} успешно оформлен! Мы свяжемся с вами в ближайшее время.`);

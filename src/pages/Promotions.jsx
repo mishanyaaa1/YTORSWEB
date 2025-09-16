@@ -11,12 +11,40 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Reveal from '../components/Reveal';
-import { useAdminData } from '../context/AdminDataContext';
 import './Promotions.css';
 import { getIconForEmoji } from '../utils/iconMap.jsx';
 
 function Promotions() {
-  const { promotions: adminPromotions, categories: adminCategories } = useAdminData();
+  // Статичные данные для акций
+  const adminPromotions = [
+    {
+      id: 1,
+      title: 'Скидка 20% на все запчасти',
+      description: 'Специальное предложение на все запчасти для вездеходов',
+      discount: 20,
+      validUntil: '2024-12-31',
+      active: true,
+      category: 'all',
+      image: '/img/vehicles/1757657975220-561708050.png'
+    },
+    {
+      id: 2,
+      title: 'Бесплатная доставка',
+      description: 'Бесплатная доставка при заказе от 50 000 рублей',
+      discount: 0,
+      validUntil: '2024-12-31',
+      active: true,
+      category: 'delivery',
+      image: '/img/vehicles/1757658286691-822575460.jpg'
+    }
+  ];
+  
+  const adminCategories = [
+    { name: 'all', title: 'Все акции' },
+    { name: 'delivery', title: 'Доставка' },
+    { name: 'parts', title: 'Запчасти' }
+  ];
+  
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Фильтруем только активные акции, которые не истекли

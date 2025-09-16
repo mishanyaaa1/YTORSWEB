@@ -14,22 +14,12 @@ import About from './pages/About.jsx'
 import Promotions from './pages/Promotions.jsx'
 import VehiclesPage from './pages/VehiclesPage.jsx'
 import VehicleDetailPage from './pages/VehicleDetailPage.jsx'
-import SimpleLogin from './pages/admin/SimpleLogin.jsx'
-import SimpleAdmin from './pages/admin/SimpleAdmin.jsx'
-import AdminGuard from './components/AdminGuard.jsx'
 import { CartProvider } from './context/CartContext.jsx'
-import { AdminDataProvider } from './context/AdminDataContext.jsx'
-// Removed WishlistProvider
-import { OrdersProvider } from './context/OrdersContext.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <AdminDataProvider>
-        <App />
-      </AdminDataProvider>
-    ),
+    element: <App />,
     children: [
       {
         index: true,
@@ -47,8 +37,6 @@ const router = createBrowserRouter([
         path: "cart",
         element: <Cart />
       },
-      // Removed cart-test route
-      // Removed wishlist route
       {
         path: "about",
         element: <About />
@@ -66,29 +54,15 @@ const router = createBrowserRouter([
         element: <VehicleDetailPage />
       }
     ]
-  },
-  {
-    path: "/admin",
-    element: <SimpleLogin />
-  },
-  {
-    path: "/admin/dashboard",
-    element: (
-      <AdminGuard>
-        <SimpleAdmin />
-      </AdminGuard>
-    )
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <OrdersProvider>
-      <CartProvider>
-        <IconContext.Provider value={{ color: '#e6a34a' }}>
-          <RouterProvider router={router} />
-        </IconContext.Provider>
-      </CartProvider>
-    </OrdersProvider>
+    <CartProvider>
+      <IconContext.Provider value={{ color: '#e6a34a' }}>
+        <RouterProvider router={router} />
+      </IconContext.Provider>
+    </CartProvider>
   </StrictMode>,
 )

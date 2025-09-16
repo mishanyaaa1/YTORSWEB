@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaSearch, FaTimes, FaShoppingCart, FaTruck, FaBox } from 'react-icons/fa';
-import { useAdminData } from '../context/AdminDataContext';
 import { getMainImage } from '../utils/imageHelpers';
 import BrandMark from './BrandMark';
 import { useCartActions } from '../hooks/useCartActions';
@@ -14,7 +13,97 @@ export default function SearchModal({ isOpen, onClose }) {
   const [searchType, setSearchType] = useState('products'); // 'products' или 'vehicles'
   const [selectedVehicleType, setSelectedVehicleType] = useState('all');
   const [selectedTerrain, setSelectedTerrain] = useState('all');
-  const { products, categories, vehicles, vehicleTypes, terrainTypes } = useAdminData();
+  // Статичные данные для поиска
+  const products = [
+    {
+      id: 1,
+      title: 'Гусеницы для вездехода',
+      price: 45000,
+      category: 'Ходовая',
+      brand: 'Вездеход-Мастер',
+      available: true,
+      inStock: 12,
+      icon: '🔗',
+      images: ['/img/vehicles/1757657975220-561708050.png'],
+      description: 'Высококачественные гусеницы для вездеходов различных марок.'
+    },
+    {
+      id: 2,
+      title: 'Двигатель 2.0L',
+      price: 180000,
+      category: 'Двигатель',
+      brand: 'ТехноМотор',
+      available: true,
+      inStock: 3,
+      icon: '⚙️',
+      images: ['/img/vehicles/1757658286691-822575460.jpg'],
+      description: 'Мощный и надежный двигатель для вездеходов.'
+    },
+    {
+      id: 3,
+      title: 'Трансмиссия 4WD',
+      price: 95000,
+      category: 'Трансмиссия',
+      brand: 'ТрансМастер',
+      available: true,
+      inStock: 5,
+      icon: '⚙️',
+      images: ['/img/vehicles/1757699189101-187791637.png'],
+      description: 'Полноприводная трансмиссия для вездеходов.'
+    }
+  ];
+  
+  const categories = [
+    { name: 'all', title: 'Все категории' },
+    { name: 'Ходовая', title: 'Ходовая часть' },
+    { name: 'Двигатель', title: 'Двигатель' },
+    { name: 'Трансмиссия', title: 'Трансмиссия' }
+  ];
+  
+  const vehicles = [
+    {
+      id: 1,
+      name: 'Вездеход "Буран"',
+      type: 'Гусеничный',
+      terrain: 'Снег',
+      price: 2500000,
+      description: 'Мощный гусеничный вездеход для работы в условиях глубокого снега',
+      images: ['/img/vehicles/1757657975220-561708050.png']
+    },
+    {
+      id: 2,
+      name: 'Вездеход "Амфибия"',
+      type: 'Плавающий',
+      terrain: 'Вода',
+      price: 1800000,
+      description: 'Универсальный вездеход для работы на воде и суше',
+      images: ['/img/vehicles/1757658286691-822575460.jpg']
+    },
+    {
+      id: 3,
+      name: 'Вездеход "Горный"',
+      type: 'Колесный',
+      terrain: 'Горы',
+      price: 2200000,
+      description: 'Специализированный вездеход для работы в горной местности',
+      images: ['/img/vehicles/1757699189101-187791637.png']
+    }
+  ];
+  
+  const vehicleTypes = [
+    { name: 'all', title: 'Все типы' },
+    { name: 'Гусеничный', title: 'Гусеничный' },
+    { name: 'Колесный', title: 'Колесный' },
+    { name: 'Плавающий', title: 'Плавающий' }
+  ];
+  
+  const terrainTypes = [
+    { name: 'all', title: 'Все типы местности' },
+    { name: 'Снег', title: 'Снег' },
+    { name: 'Вода', title: 'Вода' },
+    { name: 'Горы', title: 'Горы' },
+    { name: 'Болото', title: 'Болото' }
+  ];
   const { addToCartWithNotification } = useCartActions();
 
   // Очищаем поиск при закрытии модального окна

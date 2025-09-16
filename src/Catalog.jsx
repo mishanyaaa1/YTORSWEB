@@ -2,14 +2,95 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaTimesCircle, FaShoppingBasket } from 'react-icons/fa';
 import { useCartActions } from './hooks/useCartActions';
-import { useAdminData } from './context/AdminDataContext';
 // wishlist removed
 import { migrateProductImages, getMainImage, isImageUrl } from './utils/imageHelpers';
 import BrandMark from './components/BrandMark';
 import './Catalog.css';
 
 export default function Catalog() {
-  const { products, categories, brands, filterSettings } = useAdminData();
+  // Статичные данные для каталога
+  const products = [
+    {
+      id: 1,
+      title: 'Гусеницы для вездехода',
+      price: 45000,
+      originalPrice: 50000,
+      category: 'Ходовая',
+      subcategory: 'Гусеницы',
+      brand: 'Вездеход-Мастер',
+      available: true,
+      inStock: 12,
+      icon: '🔗',
+      images: ['/img/vehicles/1757657975220-561708050.png'],
+      description: 'Высококачественные гусеницы для вездеходов различных марок.',
+      specifications: {
+        'Ширина': '400 мм',
+        'Длина': '2500 мм',
+        'Материал': 'Резина с металлокордом',
+        'Совместимость': 'Универсальная',
+        'Гарантия': '12 месяцев'
+      }
+    },
+    {
+      id: 2,
+      title: 'Двигатель 2.0L',
+      price: 180000,
+      category: 'Двигатель',
+      subcategory: 'Бензиновые',
+      brand: 'ТехноМотор',
+      available: true,
+      inStock: 3,
+      icon: '⚙️',
+      images: ['/img/vehicles/1757658286691-822575460.jpg'],
+      description: 'Мощный и надежный двигатель для вездеходов.',
+      specifications: {
+        'Объем': '2.0 л',
+        'Мощность': '150 л.с.',
+        'Топливо': 'Бензин',
+        'Совместимость': 'Универсальная',
+        'Гарантия': '24 месяца'
+      }
+    },
+    {
+      id: 3,
+      title: 'Трансмиссия 4WD',
+      price: 95000,
+      category: 'Трансмиссия',
+      subcategory: 'Полноприводные',
+      brand: 'ТрансМастер',
+      available: true,
+      inStock: 5,
+      icon: '⚙️',
+      images: ['/img/vehicles/1757699189101-187791637.png'],
+      description: 'Полноприводная трансмиссия для вездеходов.',
+      specifications: {
+        'Тип': '4WD',
+        'Передачи': '5+1',
+        'Материал': 'Сталь',
+        'Совместимость': 'Универсальная',
+        'Гарантия': '18 месяцев'
+      }
+    }
+  ];
+  
+  const categories = [
+    { name: 'Все', subcategories: [] },
+    { name: 'Ходовая', subcategories: ['Гусеницы', 'Колеса', 'Подвеска'] },
+    { name: 'Двигатель', subcategories: ['Бензиновые', 'Дизельные', 'Электрические'] },
+    { name: 'Трансмиссия', subcategories: ['Полноприводные', 'Заднеприводные', 'Переднеприводные'] }
+  ];
+  
+  const brands = [
+    { name: 'Все' },
+    { name: 'Вездеход-Мастер' },
+    { name: 'ТехноМотор' },
+    { name: 'ТрансМастер' }
+  ];
+  
+  const filterSettings = {
+    priceRange: { min: 0, max: 500000 },
+    showInStockOnly: false
+  };
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Все');

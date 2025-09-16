@@ -4,7 +4,6 @@ import { FaArrowLeft, FaShoppingCart, FaCheckCircle, FaTimesCircle, FaChevronLef
 import { motion } from 'framer-motion';
 import Reveal from '../components/Reveal';
 import { useCartActions } from '../hooks/useCartActions';
-import { useAdminData } from '../context/AdminDataContext';
 import { migrateProductImages, getMainImage } from '../utils/imageHelpers';
 import BrandMark from '../components/BrandMark';
 import './VehicleDetailPage.css';
@@ -12,7 +11,56 @@ import './VehicleDetailPage.css';
 function VehicleDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { vehicles } = useAdminData();
+  
+  // Статичные данные для вездеходов
+  const vehicles = [
+    {
+      id: 1,
+      name: 'Вездеход "Буран"',
+      type: 'Гусеничный',
+      terrain: 'Снег',
+      price: 2500000,
+      description: 'Мощный гусеничный вездеход для работы в условиях глубокого снега',
+      images: ['/img/vehicles/1757657975220-561708050.png'],
+      specifications: {
+        'Двигатель': '2.0L, 150 л.с.',
+        'Трансмиссия': '4WD',
+        'Грузоподъемность': '500 кг',
+        'Скорость': 'до 60 км/ч'
+      }
+    },
+    {
+      id: 2,
+      name: 'Вездеход "Амфибия"',
+      type: 'Плавающий',
+      terrain: 'Вода',
+      price: 1800000,
+      description: 'Универсальный вездеход для работы на воде и суше',
+      images: ['/img/vehicles/1757658286691-822575460.jpg'],
+      specifications: {
+        'Двигатель': '1.8L, 120 л.с.',
+        'Трансмиссия': '4WD',
+        'Грузоподъемность': '400 кг',
+        'Скорость': 'до 45 км/ч'
+      }
+    },
+    {
+      id: 3,
+      name: 'Вездеход "Горный"',
+      type: 'Колесный',
+      terrain: 'Горы',
+      price: 2200000,
+      description: 'Специализированный вездеход для работы в горной местности',
+      images: ['/img/vehicles/1757699189101-187791637.png'],
+      specifications: {
+        'Двигатель': '2.2L, 180 л.с.',
+        'Трансмиссия': '4WD',
+        'Грузоподъемность': '600 кг',
+        'Скорость': 'до 70 км/ч'
+      }
+    }
+  ];
+  
   const { addToCartWithNotification } = useCartActions();
   
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);

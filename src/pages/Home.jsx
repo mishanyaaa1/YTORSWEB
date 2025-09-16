@@ -11,7 +11,6 @@ import {
   FaTimesCircle,
   FaShoppingCart
 } from 'react-icons/fa';
-import { useAdminData } from '../context/AdminDataContext';
 import { useCartActions } from '../hooks/useCartActions';
 // wishlist removed
 import { getMainImage, isImageUrl, resolveImageSrc } from '../utils/imageHelpers';
@@ -20,10 +19,84 @@ import { getIconForEmoji } from '../utils/iconMap.jsx';
 import Reveal from '../components/Reveal';
 import './Home.css';
 
+// Статичные данные для главной страницы
+const staticProducts = [
+  {
+    id: 1,
+    title: 'Гусеницы для вездехода',
+    price: 45000,
+    originalPrice: 50000,
+    category: 'Ходовая',
+    brand: 'Вездеход-Мастер',
+    available: true,
+    inStock: 12,
+    icon: '🔗',
+    images: ['/img/vehicles/1757657975220-561708050.png'],
+    description: 'Высококачественные гусеницы для вездеходов различных марок.',
+    specifications: {
+      'Ширина': '400 мм',
+      'Длина': '2500 мм',
+      'Материал': 'Резина с металлокордом',
+      'Совместимость': 'Универсальная',
+      'Гарантия': '12 месяцев'
+    }
+  },
+  {
+    id: 2,
+    title: 'Двигатель 2.0L',
+    price: 180000,
+    category: 'Двигатель',
+    brand: 'ТехноМотор',
+    available: true,
+    inStock: 3,
+    icon: '⚙️',
+    images: ['/img/vehicles/1757658286691-822575460.jpg'],
+    description: 'Мощный и надежный двигатель для вездеходов.',
+    specifications: {
+      'Объем': '2.0 л',
+      'Мощность': '150 л.с.',
+      'Топливо': 'Бензин',
+      'Совместимость': 'Универсальная',
+      'Гарантия': '24 месяца'
+    }
+  },
+  {
+    id: 3,
+    title: 'Трансмиссия 4WD',
+    price: 95000,
+    category: 'Трансмиссия',
+    brand: 'ТрансМастер',
+    available: true,
+    inStock: 5,
+    icon: '⚙️',
+    images: ['/img/vehicles/1757699189101-187791637.png'],
+    description: 'Полноприводная трансмиссия для вездеходов.',
+    specifications: {
+      'Тип': '4WD',
+      'Передачи': '5+1',
+      'Материал': 'Сталь',
+      'Совместимость': 'Универсальная',
+      'Гарантия': '18 месяцев'
+    }
+  }
+];
+
+const popularProductIds = [1, 2, 3];
+
+const aboutContent = {
+  homeHero: {
+    title: 'Запчасти для вездеходов',
+    description: 'Качественные запчасти для всех типов вездеходов. Быстрая доставка по всей России. Гарантия качества на все товары.',
+    ctaText: 'Перейти в каталог',
+    ctaLink: '/catalog',
+    secondaryCtaText: 'Связаться с менеджером',
+    secondaryCtaLink: '/about#contacts'
+  }
+};
+
 function Home() {
   const navigate = useNavigate();
   const HERO_IMAGE_URL = 'https://images.pexels.com/photos/162553/engine-displacement-piston-162553.jpeg?auto=compress&cs=tinysrgb&w=1600';
-  const { products, popularProductIds, aboutContent } = useAdminData();
   const { addToCartWithNotification } = useCartActions();
   
   // wishlist removed
@@ -54,7 +127,7 @@ function Home() {
 
   // Получаем популярные товары из контекста по ID
   const popularProducts = popularProductIds
-    .map(id => products.find(product => product.id === id))
+    .map(id => staticProducts.find(product => product.id === id))
     .filter(product => product) // Убираем undefined если товар не найден
     .map(product => ({
       id: product.id,
@@ -242,7 +315,7 @@ function Home() {
           ) : (
             <div className="catalog-grid">
               {popularProducts.map((product, i) => {
-                const productData = products.find(p => p.id === product.id);
+                const productData = staticProducts.find(p => p.id === product.id);
                 return (
                   <Reveal key={product.id} type="up" delay={i * 0.05}>
                     <div 
